@@ -55,10 +55,10 @@ if (SQFB_showHUD) then {
 		{
 			private _unit = _x select 0;
 			private _crewPos = _x select 1;
-			if (_crewPos == "driver") then {_crewPos = "Dr"};
-			if (_crewPos == "commander") then {_crewPos = "Co"};
-			if (_crewPos == "gunner") then {_crewPos = "Gu"};
-			if (_crewPos == "turret") then {_crewPos = "Tu"};
+			if (_crewPos == "driver") then {_crewPos = "D"};
+			if (_crewPos == "commander") then {_crewPos = "C"};
+			if (_crewPos == "gunner") then {_crewPos = "G"};
+			if (_crewPos == "turret") then {_crewPos = "T"};
 			if (_crewPos == "cargo") then {_crewPos = ""};
 			if (isNull _unit) then {
 				//_crewStr = format ["%1(E)%2%3",_crewStr,_crewPos,if (_i < _count-1) then{","} else {""}];

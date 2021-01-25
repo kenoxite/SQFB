@@ -298,7 +298,7 @@ Parameters:
 [
     "SQFB_opt_ShowCrew", 
     "CHECKBOX",
-    ["Show Crew", "Display the indexes of all the crew of the group vehicles and their roles as crew (Dr for driver, Co for commander, Gu for gunner, Tu for turret)."],
+    ["Show Crew", "Display the indexes of all the crew of the group vehicles and their roles as crew (D for driver, C for commander, G for gunner, T for turret)."],
     ["Squad Feedback", "4 - HUD Display - Advanced"],
     [true],
     nil,
