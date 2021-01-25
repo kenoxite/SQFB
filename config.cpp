@@ -2,16 +2,16 @@ class CfgPatches
 {
 	class Squad_Feedback
 	{
-		name = "Squad Feedback";
+        name = "Squad Feedback";
         author = "kenoxite";
         authors[] = {"kenoxite"};
         version = "1.0";
-		//url = "";
+        //url = "";
 
-		requiredVersion = 1.60; 
-		requiredAddons[] = { "A3_Functions_F", "CBA_Main", "cba_settings", "Extended_Eventhandlers" };
-		units[] = {};
-		weapons[] = {};
+        requiredVersion = 1.60; 
+        requiredAddons[] = { "A3_Functions_F", "CBA_Main", "cba_settings", "Extended_Eventhandlers" };
+        units[] = {};
+        weapons[] = {};
 	};
 };
 
