@@ -114,16 +114,16 @@ _unit setVariable ["SQFB_displayName",_displayName];
 
 private _unitTraits = getAllUnitTraits _unit;   
 private _indexes = [_unitTraits, "Medic"] call BIS_fnc_findNestedElement;   
-private  _isMedic = _unitTraits select (_indexes select 0) select 1;  
+private  _isMedic = if (alive _unit) then { _unitTraits select (_indexes select 0) select 1 } else { false };  
 
 _indexes = [_unitTraits, "Engineer"] call BIS_fnc_findNestedElement;   
-private _isEngi = _unitTraits select (_indexes select 0) select 1; 
+private _isEngi = if (alive _unit) then {_unitTraits select (_indexes select 0) select 1 } else { false }; 
 
 _indexes = [_unitTraits, "ExplosiveSpecialist"] call BIS_fnc_findNestedElement;   
-private _isDemo = _unitTraits select (_indexes select 0) select 1; 
+private _isDemo = if (alive _unit) then {_unitTraits select (_indexes select 0) select 1 } else { false }; 
 
 _indexes = [_unitTraits, "UavHacker"] call BIS_fnc_findNestedElement;   
-private _isHacker = _unitTraits select (_indexes select 0) select 1; 
+private _isHacker = if (alive _unit) then {_unitTraits select (_indexes select 0) select 1 } else { false }; 
 
 // Medic
 if (_isMedic && {"Medikit" in _items}) then {_medic = true;  _roles pushBack "Medic"} else { _medic = false; };
