@@ -40,7 +40,7 @@ class CfgFunctions
 
 			class initGroup {};
 			class showHUD_init {};
-			class hideHUD {};
+			// class hideHUD {};
 			class updateHUD {};
 			class checkGroupChange {};
 			class getUnitPositionId {};
@@ -57,7 +57,7 @@ class CfgFunctions
 			class teamColor {};
 
 			// Vehicles
-			class updateVehicle {};
+			// class updateVehicle {};
 			class HUDtextVeh {};
 			class statusIconVeh {};
 		};
