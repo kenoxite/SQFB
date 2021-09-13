@@ -201,7 +201,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
                     private _enemyTaggerIndex = [SQFB_enemyTagObjArr, _unit] call BIS_fnc_findNestedElement;
                     if (count _enemyTaggerIndex > 0) then { _enemyTagger = (SQFB_enemyTagObjArr select (_enemyTaggerIndex select 0)) select 0 };
                     private _enemy = objNull;
-                    if (_canSee >= 0.2 && (player knowsAbout _unit) >= 3) then {
+                    if (_canSee >= 0.2) then {
                         _enemy = _unit;
                         // Move enemy tagger to last known position
                         if (!isNull _enemyTagger) then { _enemyTagger setPos _unitPos };
