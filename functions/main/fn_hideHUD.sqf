@@ -15,5 +15,9 @@
 
 */
 
-params [];
-// Nothing so far
+if (!SQFB_showHUD) then 
+{
+    // Reset timers
+    SQFB_showDeadMinTime = 0;
+    SQFB_showEnemiesMinTime = 0;
+};

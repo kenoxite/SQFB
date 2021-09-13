@@ -23,53 +23,54 @@ class Extended_PreInit_EventHandlers {
 
 class CfgFunctions
 {
-	class SQFB
-	{
-		class Init
-		{
-			class SQFBinit
-			{
-				postInit = 1;
-				file = "SQFB\functions\init.sqf";
-			};
-		};
+    class SQFB
+    {
+        class Init
+        {
+            class SQFBinit
+            {
+                postInit = 1;
+                file = "SQFB\functions\init.sqf";
+            };
+        };
 
-		class Main
-		{
-			file = "SQFB\functions\main";
+        class Main
+        {
+            file = "SQFB\functions\main";
 
-			class initGroup {};
-			class showHUD_init {};
-			// class hideHUD {};
-			class updateHUD {};
-			class checkGroupChange {};
-			class getUnitPositionId {};
-			class addUnits {};
-			class updateAllUnits {};
-			class trueZoom {};
+            class initGroup {};
+            class showHUD_init {};
+            class hideHUD {};
+            class updateHUD {};
+            class checkGroupChange {};
+            class getUnitPositionId {};
+            class addUnits {};
+            class updateAllUnits {};
+            class trueZoom {};
+            class changeProfile {};
 
-			// Infantry
-			class resetUnit {};
-			class updateUnit {};
-			class HUDtext {};
-			class statusIcon {};
-			class setAlpha {};
-			class teamColor {};
+            // Infantry
+            class resetUnit {};
+            class updateUnit {};
+            class HUDtext {};
+            class HUDIcon {};
+            class HUDAlpha {};
+            class HUDColor {};
 
-			// Vehicles
-			// class updateVehicle {};
-			class HUDtextVeh {};
-			class statusIconVeh {};
-		};
+            // Vehicles
+            // class updateVehicle {};
+            class HUDtextVeh {};
+            class HUDIconVeh {};
+        };
 
-		class CBA
-		{
-			file = "SQFB\functions\cba";
+        class CBA
+        {
+            file = "SQFB\functions\cba";
 
-			// CBA keys
-			class showHUD_key_CBA {};
-			class hideHUD_key_CBA {};
-			class showHUD_key_T_CBA {};
-		};
-	};
+            // CBA keys
+            class showHUD_key_CBA {};
+            class hideHUD_key_CBA {};
+            class showHUD_key_T_CBA {};
+        };
+    };
 };

@@ -67,6 +67,16 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
+    "SQFB_opt_profile", 
+    "LIST",
+    ["Profile (applies after closing this window)", "Choosing a profile will change the activation status of the following settings:\n  - Show Icon\n  - Show Text\n  - Show Team Color\n  - Show Index\n  - Show Class\n  - Show Roles\n  - Show Distance\n  - Display Arrows and Text\n  - Always Show Index\n  - Show Crew\n  - Show Dead Units\n  - Always Display Critical\nf you change the profile any further changes to those settings won't be applied after you close this window."],
+    "Squad Feedback",
+    [["default", "all", "min", "crit", "custom"],["Default", "All on", "Minimalist", "Only critical", "Custom"], 0],
+    nil,
+    { call SQFB_fnc_changeProfile; } 
+] call CBA_fnc_addSetting;
+
+[
     "SQFB_opt_maxDist", 
     "SLIDER",
     ["Maximum Distance", "How close a unit has to be from the player (when the player is at ground level) to be able to view its HUD elements, in meters."], 
@@ -103,7 +113,7 @@ Parameters:
     ["Squad Feedback", "1 - HUD Display"],
     [true],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
@@ -113,7 +123,7 @@ Parameters:
     ["Squad Feedback", "1 - HUD Display"],
     [true],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
@@ -123,7 +133,7 @@ Parameters:
     ["Squad Feedback", "1 - HUD Display"],
     [true],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
@@ -256,6 +266,26 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
+    "SQFB_opt_showEnemies", 
+    "CHECKBOX",
+    ["Show Enemies", "Display the location of the squad's known enemies or that of their last known position."],
+    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showEnemiesMinTime", 
+    "SLIDER",
+    ["Show Enemies Min Time", "Minimum time the HUD must be shown in order to display enemy units, in seconds."], 
+    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    [0, 59, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
     "SQFB_opt_Arrows", 
     "CHECKBOX",
     ["Display Arrows and Text", "Display arrows and text at the edge of the screen indicating the unit's relative position when it's not in view of the player."],
@@ -290,7 +320,7 @@ Parameters:
     "CHECKBOX",
     ["Scale Text", "Scale text with distance. The further away the unit, the smaller the text. When too far away the text won't be displayed."],
     ["Squad Feedback", "4 - HUD Display - Advanced"],
-    [false],
+    [true],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -321,6 +351,16 @@ Parameters:
     ["Show Dead Units", "Display the HUD over dead units which were part of the player's group."],
     ["Squad Feedback", "4 - HUD Display - Advanced"],
     [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showDeadMinTime", 
+    "SLIDER",
+    ["Show Dead Min Time", "Minimum time the HUD must be shown in order to display dead units, in seconds."], 
+    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    [0, 59, 3, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -381,6 +421,16 @@ Parameters:
     ["Yellow Team color", "Color used for units assigned to the yellow player's team.\nThis option won't have any effect if colors are deactivated."],
     ["Squad Feedback", "5 - Colors"],
     [0.95,0.9,0.3],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_colorEnemy", 
+    "COLOR",
+    ["Enemy color", "Color used for enemy units.\nThis option won't have any effect if colors are deactivated."], 
+    ["Squad Feedback", "5 - Colors"],
+    [0.64,0.13,0.08],
     nil,
     {} 
 ] call CBA_fnc_addSetting;

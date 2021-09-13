@@ -113,7 +113,7 @@ _unit setVariable ["SQFB_displayName",_displayName];
 
 
 private _unitTraits = getAllUnitTraits _unit;   
-private _indexes = [_unitTraits, "Medic"] call BIS_fnc_findNestedElement;   
+private _indexes = [_unitTraits, "Medic"] call BIS_fnc_findNestedElement;
 private  _isMedic = if (alive _unit) then { _unitTraits select (_indexes select 0) select 1 } else { false };  
 
 _indexes = [_unitTraits, "Engineer"] call BIS_fnc_findNestedElement;   

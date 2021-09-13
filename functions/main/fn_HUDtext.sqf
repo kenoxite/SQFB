@@ -16,8 +16,11 @@
 
 */
 
-params ["_unit",["_showIndex", true],["_showClass", false],["_showRoles", true],["_showDist", true]];
+params ["_unit"];
+
 private _return = "";
+
+if (!SQFB_opt_showText) exitwith { _return };
 
 // Exclude players
 if (isPlayer _unit) exitWith {_return};
@@ -26,11 +29,11 @@ private _alive = alive _unit;
 private _index = -1;
 private _vehPlayer = vehicle player;
 private _veh = vehicle _unit;
-if (_alive && _showIndex) then { _index = _unit getVariable "SQFB_grpIndex"; };
+if (_alive && SQFB_opt_showIndex) then { _index = _unit getVariable "SQFB_grpIndex"; };
 // Default text when requested by player
 if (SQFB_showHUD) then {
-	if (_alive || (!_alive && (_veh == _unit))) then {
-		if (_alive && _showIndex && _index >= 0) then { _return = format ["%1%2 ", _return, _index] };
+	if (_alive || (!_alive && (_veh == _unit) && time >= SQFB_showDeadMinTime)) then {
+		if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2 ", _return, _index] };
 		if (_alive) then {
 			private _lifeState = lifeState _unit;
 			if (_lifeState != "HEALTHY") then {
@@ -41,7 +44,7 @@ if (SQFB_showHUD) then {
 				};
 			};
 		} else {
-			if (SQFB_opt_showDead) then {
+			if (SQFB_opt_showDead && time >= SQFB_showDeadMinTime) then {
 				_return = format ["%1[DEAD] ",_return];
 			};
 		};
@@ -56,15 +59,15 @@ if (SQFB_showHUD) then {
 				};
 			};
 		};
-		if (_showClass || !(alive _unit)) then {
+		if ((SQFB_opt_showClass && _alive)  || (SQFB_opt_showClass && !_alive && time >= SQFB_showDeadMinTime)) then {
 			_return = format ["%1%2 ",_return, _unit getVariable "SQFB_displayName"];
 		};
-		if (_showRoles) then {
+		if (SQFB_opt_profile != "crit" && SQFB_opt_showRoles) then {
 			if ((_unit getVariable "SQFB_roles") != "") then {
 				_return = format ["%1[%2] ",_return, _unit getVariable "SQFB_roles"];
 			};
 		};
-		if (_showDist && _veh != _vehPlayer) then {
+		if (SQFB_opt_profile != "crit" && SQFB_opt_showDist && _veh != _vehPlayer && (_alive || (!_alive && time >= SQFB_showDeadMinTime))) then {
 			_return = format ["%1(%2m)",_return, round (_veh distance _vehPlayer)];
 		};
 	};
@@ -109,7 +112,7 @@ if (SQFB_showHUD) then {
 				//if (SQFB_opt_showDead) then { _return = format ["%1[DEAD] ",_return]; };
 			};
 			if (_critical || SQFB_opt_outFOVindex) then {
-				if (_showIndex && _index >= 0) then { _return = format ["%1 %2 ", _index, _return] };
+				if (SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1 %2 ", _index, _return] };
 			};
 		};
 	};

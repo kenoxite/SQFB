@@ -18,6 +18,9 @@
 
 params ["_veh", "_grp"];
 private _return = "";
+
+if (!SQFB_opt_showIcon) exitwith { _return };
+    
 private _crew = crew _veh;
 
 // Default
