@@ -12,6 +12,9 @@ SQFB_showEnemiesMinTime = 0;
 SQFB_opt_profile_old = SQFB_opt_profile;
 SQFB_enemyTagObjArr = [];
 
+// 3rd party global vars
+if (isNil "Vile_HUD_HIDDEN") then { Vile_HUD_HIDDEN = false };
+
 waitUntil {!isNull player};
 
 // Init player group
@@ -29,7 +32,7 @@ SQFB_EH_refresh = [{ if (SQFB_opt_on) then { [] call SQFB_fnc_updateHUD }; }, SQ
 SQFB_draw3D_EH = addMissionEventHandler [
 "Draw3D",
 {
-    if (count SQFB_units > 0 && SQFB_opt_on) then {
+    if (count SQFB_units > 0 && SQFB_opt_on && !Vile_HUD_HIDDEN) then {
         // Squad
         {
             if ((typeName _x)!="STRING") then {
@@ -199,17 +202,30 @@ SQFB_draw3D_EH = addMissionEventHandler [
                     // Retrieve tagger object or create it if it isn't found
                     private _enemyTagger = objNull;
                     private _enemyTaggerIndex = [SQFB_enemyTagObjArr, _unit] call BIS_fnc_findNestedElement;
-                    if (count _enemyTaggerIndex > 0) then { _enemyTagger = (SQFB_enemyTagObjArr select (_enemyTaggerIndex select 0)) select 0 };
+                    private _enemyTaggerArr = [];
+                    private _enTagFirstTime = false;
+                    if (count _enemyTaggerIndex > 0) then {
+                        _enemyTaggerArr = SQFB_enemyTagObjArr select (_enemyTaggerIndex select 0);
+                        _enemyTagger = _enemyTaggerArr select 0;
+                        _enTagFirstTime = _enemyTaggerArr select 2;
+                    };
                     private _enemy = objNull;
                     if (_canSee >= 0.2) then {
                         _enemy = _unit;
-                        // Move enemy tagger to last known position
-                        if (!isNull _enemyTagger) then { _enemyTagger setPos _unitPos };
                     } else {
                         if (!isNull _enemyTagger) then {
                             _enemy = _enemyTagger
                         } else {
                             _enemy = _unit;
+                        };
+                    };
+
+                    // Move enemy tagger to last known position
+                    if (_enemy == _unit || (!isNull _enemyTagger && (_enemy == _enemyTagger && _enTagFirstTime))) then {
+                        _enemyTagger setPos _unitPos;
+                        if (_enTagFirstTime) then {
+                            _enTagFirstTime = false;
+                            _enemyTaggerArr set [2, false];
                         };
                     };
 

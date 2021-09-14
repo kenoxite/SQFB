@@ -48,6 +48,7 @@ class CfgFunctions
             class updateAllUnits {};
             class trueZoom {};
             class changeProfile {};
+            class enemyTargets {};
 
             // Infantry
             class resetUnit {};

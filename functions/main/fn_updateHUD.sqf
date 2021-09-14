@@ -27,20 +27,17 @@ if (!SQFB_showHUD) then {
 };
 
 if (SQFB_opt_showEnemies) then {
-    SQFB_knownEnemies = player call BIS_fnc_enemyTargets;
-
+    SQFB_knownEnemies = [player, SQFB_opt_showEnemiesMaxRange] call SQFB_fnc_enemyTargets;
     // Create enemy taggers
     {
-        private _enemyTaggerIndex = [SQFB_enemyTagObjArr, _x] call BIS_fnc_findNestedElement;
-        private _enemyTagger = objNull;
-        if (count _enemyTaggerIndex == 0) then {
-            diag_log format ["SQFB: updateHUD - enemyTagger not found for unit: %1. Creating a new one...", _x];
-            private _unitPos = position (vehicle _x);
+        private _enemy = _x;
+        private _enemyTaggerFound = SQFB_enemyTagObjArr select { (_x select 1) == _enemy };
+        if (count _enemyTaggerFound == 0) then {
+            diag_log format ["SQFB: updateHUD - enemyTagger not found for unit: %1. Creating a new one...", _enemy];
+            private _unitPos = position _enemy;
             private _enemyTagger = createVehicle ["FlagPole_F", [0,0,0], [], 0, "CAN_COLLIDE"];
             _enemyTagger hideObject true;
-            // private _enemyTagger = format ["|%1|%2|%3|%4|%5|%6|%7|%8|%9|%10", format["mrkr_enemyTagger_%1", floor(random 99999)], _unitPos, "mil_dot", "ICON", [3, 3], 0, "Solid", "ColorEAST", 0, ""] call BIS_fnc_stringToMarker;
-            SQFB_enemyTagObjArr pushBack [_enemyTagger, _x];
-            // _enemyTagger setMarkerPos _unitPos;
+            SQFB_enemyTagObjArr pushBack [_enemyTagger, _enemy, true];
         };
     } forEach SQFB_knownEnemies;
 

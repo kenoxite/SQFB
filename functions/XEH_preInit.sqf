@@ -286,6 +286,16 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
+    "SQFB_opt_showEnemiesMaxRange", 
+    "SLIDER",
+    ["Show Enemies Max Range", "Maximum distance at which enemies will be searched for."], 
+    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    [100, 10000, 1000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
     "SQFB_opt_Arrows", 
     "CHECKBOX",
     ["Display Arrows and Text", "Display arrows and text at the edge of the screen indicating the unit's relative position when it's not in view of the player."],
