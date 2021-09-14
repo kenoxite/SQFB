@@ -1,6 +1,6 @@
 # Squad Feedback
-[![Version](https://img.shields.io/badge/Version-0.2-green)](https://github.com/kenoxite/DAKKA/releases/latest)
-[![License](https://img.shields.io/badge/License-APL--SA-lightgrey)](https://github.com/kenoxite/DAKKA/blob/master/LICENSE)
+[![Version](https://img.shields.io/badge/Version-0.2-green)](https://github.com/kenoxite/SQFB/releases/latest)
+[![License](https://img.shields.io/badge/License-APL--SA-lightgrey)](https://github.com/kenoxite/SQFB/blob/master/LICENSE)
 
 ### Info
 
