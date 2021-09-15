@@ -29,15 +29,22 @@ private _oldGrp = _oldGrpArr select 0;
 if (_currentUnitCount == 1) exitWith { [_grp] call SQFB_fnc_initGroup; _currentUnits };
 
 // Exit if it's a new group
-if ((_oldGrp != _currentGrp)) exitWith { 
+if ((_oldGrp != _currentGrp)) exitWith {
+        diag_log format ["SQFB: Group has changed. Old group: %1. New group: %2", _oldGrp, _grp];
 		[_grp] call SQFB_fnc_initGroup;
 		private _tmp = [];
-		{
-			if ((_x in _currentUnits)) then {
-				_tmp pushBack _x;
-			};
-		} forEach SQFB_units;
-		SQFB_units = _tmp;
+        for "_i" from 0 to (count SQFB_units) -1 do {
+            private _x = SQFB_units select _i;
+            if ((_x in _currentUnits)) then {
+                _tmp pushBack _x;
+            };
+        };
+		SQFB_units = +_tmp;
+        
+        // Player traits
+        private _unitTraits = getAllUnitTraits player;
+        player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];
+
 		_currentUnits
 	 };
 

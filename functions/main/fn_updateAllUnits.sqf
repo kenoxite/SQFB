@@ -17,4 +17,4 @@
 */
 
 // Add units to global array
-{_x call SQFB_fnc_updateUnit} forEach SQFB_units;
+for "_i" from 0 to (count SQFB_units) -1 do { (SQFB_units select _i) call SQFB_fnc_updateUnit};

@@ -72,6 +72,9 @@ class CfgFunctions
             class showHUD_key_CBA {};
             class hideHUD_key_CBA {};
             class showHUD_key_T_CBA {};
+            class showEnemyHUD_key_CBA {};
+            class hideEnemyHUD_key_CBA {};
+            class showEnemyHUD_key_T_CBA {};
         };
     };
 };

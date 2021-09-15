@@ -21,7 +21,7 @@ _unit setVariable ["SQFB_noAmmoPrim",false];
 _unit setVariable ["SQFB_noAmmoSec",false];
 _unit setVariable ["SQFB_noAmmo",false];
 //_unit setVariable ["SQFB_grpIndex",-1];
-_unit setVariable ["SQFB_displayName",""];
+// _unit setVariable ["SQFB_displayName",""];
 _unit setVariable ["SQFB_medic",false];
 _unit setVariable ["SQFB_demo",false];
 _unit setVariable ["SQFB_engi",false];

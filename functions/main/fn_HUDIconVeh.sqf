@@ -28,7 +28,7 @@ if (SQFB_showHUD) then {
 	//_return = format["%1", getText (configfile >> "CfgVehicles" >> typeOf _veh >> "picture")];
 };
 
-if ((SQFB_opt_showCritical && !SQFB_showHUD) || !SQFB_opt_showText) then {
+if ((SQFB_opt_AlwaysShowCritical && !SQFB_showHUD) || !SQFB_opt_showText) then {
 	// Vehicle status
 	if ((fuel _veh) == 0) then {
 		_return = "a3\ui_f\data\igui\cfg\actions\refuel_ca.paa";

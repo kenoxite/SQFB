@@ -19,8 +19,10 @@
 params ["_units"];
 // Add units to array and assign EH
 if (count _units > 0) then {
+    for "_i" from 0 to (count _units) -1 do
 	{
-		if ((typeName _x) != "STRING") then {
+        private _x = _units select _i;
+        if !(_x isEqualType "") then {
 			if !(_x in SQFB_units) then {
 				// Add EH
 				_x addEventHandler ["Take", {(_this select 0) spawn SQFB_fnc_updateUnit}];
@@ -29,12 +31,11 @@ if (count _units > 0) then {
 				_x addEventHandler ["InventoryOpened", {(_this select 0) spawn SQFB_fnc_updateUnit}];
 				_x addEventHandler ["Killed", {(_this select 0) spawn SQFB_fnc_updateUnit}];
 				_x addEventHandler ["Deleted", {SQFB_units = SQFB_units - [_this select 0]}];
+                // Add unit to global array
+                SQFB_units pushBackUnique _x;
 			};
 		};
-	} forEach _units;
-	
-	// Add units to global array
-	{SQFB_units pushBackUnique _x} forEach _units;
+	};
 };
 // Update all
 [] call SQFB_fnc_updateAllUnits;

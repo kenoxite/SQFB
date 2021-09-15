@@ -35,6 +35,9 @@ if (SQFB_showHUD) then {
 	if (_alive || (!_alive && (_veh == _unit) && time >= SQFB_showDeadMinTime)) then {
 		if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2 ", _return, _index] };
 		if (_alive) then {
+            if (leader (group _unit) == _unit) then {
+                _return = format ["^%1",_return];
+            };
 			private _lifeState = lifeState _unit;
 			if (_lifeState != "HEALTHY") then {
 				if (isBleeding _unit && _lifeState != "INCAPACITATED") then {
@@ -44,9 +47,10 @@ if (SQFB_showHUD) then {
 				};
 			};
 		} else {
-			if (SQFB_opt_showDead && time >= SQFB_showDeadMinTime) then {
-				_return = format ["%1[DEAD] ",_return];
-			};
+            if (SQFB_opt_showDead) then {
+                // _return = format ["%1%2 ",_return, _unit getVariable "SQFB_displayName"];
+                // _return = format ["[DEAD]%1 ",_return];
+            };
 		};
 		if (_unit getVariable "SQFB_noAmmo") then {
 			if (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec") then {
@@ -59,7 +63,7 @@ if (SQFB_showHUD) then {
 				};
 			};
 		};
-		if ((SQFB_opt_showClass && _alive)  || (SQFB_opt_showClass && !_alive && time >= SQFB_showDeadMinTime)) then {
+		if (SQFB_opt_showClass) then {
 			_return = format ["%1%2 ",_return, _unit getVariable "SQFB_displayName"];
 		};
 		if (SQFB_opt_profile != "crit" && SQFB_opt_showRoles) then {
@@ -67,12 +71,12 @@ if (SQFB_showHUD) then {
 				_return = format ["%1[%2] ",_return, _unit getVariable "SQFB_roles"];
 			};
 		};
-		if (SQFB_opt_profile != "crit" && SQFB_opt_showDist && _veh != _vehPlayer && (_alive || (!_alive && time >= SQFB_showDeadMinTime))) then {
+		if (SQFB_opt_profile != "crit" && SQFB_opt_showDist && _veh != _vehPlayer) then {
 			_return = format ["%1(%2m)",_return, round (_veh distance _vehPlayer)];
 		};
 	};
 } else {
-	if (SQFB_opt_showCritical) then {
+	if (SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (leader _unit == player))) then {
 		private _FOV = [] call CBA_fnc_getFov select 0;
 		private _inView = [ position _vehPlayer, (positionCameraToWorld [0,0,0]) getdir (positionCameraToWorld [0,0,1]), ceil(_FOV*100), position _veh ] call BIS_fnc_inAngleSector;
 		if (!_inView) then {
@@ -108,8 +112,6 @@ if (SQFB_showHUD) then {
 					_return = format ["%1[MEDIC] ",_return];
 					_critical = true;
 				};
-			} else {
-				//if (SQFB_opt_showDead) then { _return = format ["%1[DEAD] ",_return]; };
 			};
 			if (_critical || SQFB_opt_outFOVindex) then {
 				if (SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1 %2 ", _index, _return] };

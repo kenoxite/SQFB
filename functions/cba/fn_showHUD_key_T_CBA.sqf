@@ -2,7 +2,7 @@
 	Author: kenoxite
 
 	Description:
-	Actions to perform when the hide HUD (toggle) key is pressed
+	Actions to perform when the show HUD (toggle) key is pressed
 
 
 	Parameter (s):

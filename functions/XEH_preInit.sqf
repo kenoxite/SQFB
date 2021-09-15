@@ -24,24 +24,44 @@ Returns:
  Returns the current keybind for the action [Array]
 */
 
-[
-    ["Squad Feedback", "HUD Display"],
-	"SQFB_opt_showHUD_key",
-	["Display HUD", "Displays the Squad Feedback HUD as long as this key is pressed."],
-	{ _this call SQFB_fnc_showHUD_key_CBA },
-	{ _this call SQFB_fnc_hideHUD_key_CBA },
-	[ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]] 
-	true
-] call CBA_fnc_addKeybind;
+// [
+//     ["Squad Feedback", "2 - HUD Display - Squad"],
+// 	"SQFB_opt_showHUD_key",
+// 	["Display Squad HUD", "Displays the squad HUD as long as this key is pressed."],
+// 	{ _this call SQFB_fnc_showHUD_key_CBA },
+// 	{ _this call SQFB_fnc_hideHUD_key_CBA },
+// 	[ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]] 
+// 	true
+// ] call CBA_fnc_addKeybind;
 
 [
     ["Squad Feedback", "HUD Display"],
 	"SQFB_opt_showHUD_T_key",
-	["Display HUD (Toggle)", "Toggles the display of the Squad Feedback HUD."],
+	["Display Squad HUD (Toggle)", "Toggles the display of the HUD for your squad."],
 	{ _this call SQFB_fnc_showHUD_key_T_CBA },
 	{},
-	[ DIK_TAB, [false, true, false] ], // [DIK, [shift, ctrl, alt]] 
+	[ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]] 
 	false
+] call CBA_fnc_addKeybind;
+
+// [
+//     ["Squad Feedback", "1- HUD Display - Enemy"],
+//     "SQFB_opt_showEnemyHUD_key",
+//     ["Display Known Enemy Locations", "Displays the HUD for enemies as long as this key is pressed."],
+//     { _this call SQFB_fnc_showEnemyHUD_key_CBA },
+//     { _this call SQFB_fnc_hideEnemyHUD_key_CBA },
+//     [ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]] 
+//     true
+// ] call CBA_fnc_addKeybind;
+
+[
+    ["Squad Feedback", "HUD Display"],
+    "SQFB_opt_showEnemyHUD_T_key",
+    ["Display Known Enemies (Toggle)", "Toggles the display of the HUD for enemies."],
+    { _this call SQFB_fnc_showEnemyHUD_key_T_CBA },
+    {},
+    [ DIK_TAB, [false, true, false] ], // [DIK, [shift, ctrl, alt]] 
+    false
 ] call CBA_fnc_addKeybind;
 
 /*
@@ -69,39 +89,49 @@ Parameters:
 [
     "SQFB_opt_profile", 
     "LIST",
-    ["Profile (applies after closing this window)", "Choosing a profile will change the activation status of the following settings:\n  - Show Icon\n  - Show Text\n  - Show Team Color\n  - Show Index\n  - Show Class\n  - Show Roles\n  - Show Distance\n  - Display Arrows and Text\n  - Always Show Index\n  - Show Crew\n  - Show Dead Units\n  - Always Display Critical\nf you change the profile any further changes to those settings won't be applied after you close this window."],
+    ["Profile (applies after closing this window)", "Choosing a profile will change the activation status of the following settings:\n  - Show Squad HUD\n  - Show Known Enemies\n  - Show Icon\n  - Show Text\n  - Show Team Color\n  - Show Index\n  - Show Class\n  - Show Roles\n  - Show Distance\n  - Display Arrows and Text\n  - Always Show Index\n  - Show Crew\n  - Show Dead Units\n  - Always Display Critical\nf you change the profile any further changes to those settings won't be applied after you close this window."],
     "Squad Feedback",
-    [["default", "all", "min", "crit", "custom"],["Default", "All on", "Minimalist", "Only critical", "Custom"], 0],
+    [["custom", "default", "all", "min", "crit", "onlyenemies"],["Custom", "Default", "All on", "Minimalist", "Only critical", "Only enemies"], 1],
     nil,
     { call SQFB_fnc_changeProfile; } 
 ] call CBA_fnc_addSetting;
 
 [
-    "SQFB_opt_maxDist", 
-    "SLIDER",
-    ["Maximum Distance", "How close a unit has to be from the player (when the player is at ground level) to be able to view its HUD elements, in meters."], 
+    "SQFB_opt_showSquad", 
+    "CHECKBOX",
+    ["Show Squad HUD", "Toggles the activation of your squad's feeback HUD."],
     ["Squad Feedback", "0 - General"],
-    [10, 5000, 500, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [true],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showEnemies", 
+    "CHECKBOX",
+    ["Show Known Enemies", "Display your squad's known enemy location."],
+    ["Squad Feedback", "0 - General"],
+    [true],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_updateDelay", 
+    "SLIDER",
+    ["Update Delay", "Waiting time between group status checks, in seconds.\nSet this value higher if the game performance is badly affected."], 
+    ["Squad Feedback", "0 - General"],
+    [0.1, 30, 5, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
 
 [
-    "SQFB_opt_maxDist_air", 
+    "SQFB_opt_HUDrefresh", 
     "SLIDER",
-    ["Maximum Distance (air)", "How close a unit has to be from the player's vehicle when the player is flying to be able to view its HUD elements, in meters."], 
+    ["HUD Refresh Rate", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
     ["Squad Feedback", "0 - General"],
-    [10, 5000, 1500, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_refreshRate", 
-    "SLIDER",
-    ["Refresh Rate", "Waiting time between every automatic group check, in seconds."], 
-    ["Squad Feedback", "0 - General"],
-    [1, 60, 5, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [0, 0.05, 0.01, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -110,7 +140,7 @@ Parameters:
     "SQFB_opt_showIcon", 
     "CHECKBOX",
     ["Show Icon", "Display an icon indicating the AI unit's role and its health and ammo status, etc."],
-    ["Squad Feedback", "1 - HUD Display"],
+    ["Squad Feedback", "1 - HUD Display - General"],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -120,7 +150,7 @@ Parameters:
     "SQFB_opt_showText", 
     "CHECKBOX",
     ["Show Text", "Display descriptive text below the icon. The kind of text shown is controlled by the other text related options.\nNo text will be shown at all if this setting is deactivated, regardless of the other settings."],
-    ["Squad Feedback", "1 - HUD Display"],
+    ["Squad Feedback", "1 - HUD Display - General"],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -130,48 +160,108 @@ Parameters:
     "SQFB_opt_showColor", 
     "CHECKBOX",
     ["Show Team Color", "Automatically change the color of the icon and text to match that of the unit's assigned team."],
-    ["Squad Feedback", "1 - HUD Display"],
+    ["Squad Feedback", "1 - HUD Display - General"],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
+    "SQFB_opt_maxRange", 
+    "SLIDER",
+    ["Maximum Range", "Maximum distance a unit has to be for its HUD info to show up, in meters."], 
+    ["Squad Feedback", "2 - HUD Display - Squad"],
+    [10, 5000, 500, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_maxRange_air", 
+    "SLIDER",
+    ["Maximum Range (air)", "Maximum distance a unit has to be for its HUD info to show up when the player is flying, in meters."], 
+    ["Squad Feedback", "2 - HUD Display - Squad"],
+    [10, 5000, 1500, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showEnemiesMinTime", 
+    "SLIDER",
+    ["Show Enemies Delay", "Time that must pass while the HUD is shown to display enemy units, in seconds."], 
+    ["Squad Feedback", "3 - HUD Display - Enemies"],
+    [0, 59, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showEnemiesMaxRange", 
+    "SLIDER",
+    ["Show Enemies Max Range", "Maximum distance at which enemies will be searched for, in meters."], 
+    ["Squad Feedback", "3 - HUD Display - Enemies"],
+    [100, 10000, 800, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showEnemiesMaxRangeAir", 
+    "SLIDER",
+    ["Show Enemies Max Range (Air)", "Maximum distance at which enemies will be searched for when the player is in an air vehicle, in meters."], 
+    ["Squad Feedback", "3 - HUD Display - Enemies"],
+    [1000, 10000, 2000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
     "SQFB_opt_showIndex", 
     "CHECKBOX",
     ["Show Index", "Display the index of the unit in the player's group.\n\nThis option will have no effect if Show Text is disabled."],
-    ["Squad Feedback", "2 - HUD Display - Text Options"],
+    ["Squad Feedback", "4 - HUD Display - Text Options"],
     [true],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_showClass", 
     "CHECKBOX",
     ["Show Class", "Display the unit's class name as seen in the Eden editor.\n\nThis option will have no effect if Show Text is disabled."],
-    ["Squad Feedback", "2 - HUD Display - Text Options"],
+    ["Squad Feedback", "4 - HUD Display - Text Options"],
     [false],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_showRoles", 
     "CHECKBOX",
     ["Show Roles", "Display the unit's role(s), which might be different from its original class.\nSome of the roles shown can be:\n* Medic: The unit can heal and has a medikit.\n* AT: The unit has a launcher weapon.\n* Demo: The unit can use explosives and has some in its inventory.\nThese are just some examples. There are many more roles and each unit can have more than one role depending on its weapon, ammo, gear and attributes.\n\nThis option will have no effect if Show Text is disabled."],
-    ["Squad Feedback", "2 - HUD Display - Text Options"],
+    ["Squad Feedback", "4 - HUD Display - Text Options"],
     [true],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_showDist", 
     "CHECKBOX",
-    ["Show Distance", "Display the distance of the unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
-    ["Squad Feedback", "2 - HUD Display - Text Options"],
+    ["Show Distance (friendlies)", "Display the distance of the squad unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
+    ["Squad Feedback", "4 - HUD Display - Text Options"],
     [true],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showDistEnemy", 
+    "CHECKBOX",
+    ["Show Distance (enemies)", "Display the distance of the enemy unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
+    ["Squad Feedback", "4 - HUD Display - Text Options"],
+    [false],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -180,7 +270,7 @@ Parameters:
     "SQFB_opt_iconSize", 
     "SLIDER",
     ["Icon Size", "Relative size of the icons."], 
-    ["Squad Feedback", "3 - HUD Customization"],
+    ["Squad Feedback", "5 - HUD Customization"],
     [0.1, 2, 1, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -190,7 +280,7 @@ Parameters:
     "SQFB_opt_iconHeight", 
     "SLIDER",
     ["Icon Height", "Height of the icons for infantry units, relative to the default height."], 
-    ["Squad Feedback", "3 - HUD Customization"],
+    ["Squad Feedback", "5 - HUD Customization"],
     [-2, 2, 0, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -200,7 +290,7 @@ Parameters:
     "SQFB_opt_iconHor", 
     "SLIDER",
     ["Icon Horizontal", "Horizontal position of the icons for infantry units, relative to the default horizontal position."], 
-    ["Squad Feedback", "3 - HUD Customization"],
+    ["Squad Feedback", "5 - HUD Customization"],
     [-2, 2, 0, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -210,7 +300,7 @@ Parameters:
     "SQFB_opt_iconHeightVeh", 
     "SLIDER",
     ["Icon Height (vehicles)", "Height of the icons for vehicles, relative to the default height."], 
-    ["Squad Feedback", "3 - HUD Customization"],
+    ["Squad Feedback", "5 - HUD Customization"],
     [-3, 3, 0, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -220,7 +310,7 @@ Parameters:
     "SQFB_opt_iconHorVeh", 
     "SLIDER",
     ["Icon Horizontal (vehicles)", "Horizontal position of the icons for vehicles, relative to the default horizontal position."], 
-    ["Squad Feedback", "3 - HUD Customization"],
+    ["Squad Feedback", "5 - HUD Customization"],
     [-5, 5, 0, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -230,7 +320,7 @@ Parameters:
     "SQFB_opt_textSize", 
     "SLIDER",
     ["Text Size", "Relative size of the texts."], 
-    ["Squad Feedback", "3 - HUD Customization"],
+    ["Squad Feedback", "5 - HUD Customization"],
     [0.1, 2, 1, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -249,7 +339,7 @@ Parameters:
     "SQFB_opt_textFont", 
     "LIST",
     ["Text Font", "Font used in all the texts."], 
-    ["Squad Feedback", "3 - HUD Customization"],
+    ["Squad Feedback", "5 - HUD Customization"],
     [["EtelkaMonospacePro","EtelkaMonospaceProBold","EtelkaNarrowMediumPro","LucidaConsoleB","PuristaBold","PuristaLight","PuristaMedium","PuristaSemiBold","RobotoCondensed","RobotoCondensedBold","RobotoCondensedLight","TahomaB"], ["EtelkaMonospacePro","EtelkaMonospaceProBold","EtelkaNarrowMediumPro","LucidaConsoleB","PuristaBold","PuristaLight","PuristaMedium","PuristaSemiBold","RobotoCondensed","RobotoCondensedBold","RobotoCondensedLight","TahomaB"],9],
     nil,
     {} 
@@ -259,38 +349,8 @@ Parameters:
     "SQFB_opt_maxAlpha", 
     "SLIDER",
     ["Maximum Alpha", "Maximum opaqueness for all the elements of the HUD."], 
-    ["Squad Feedback", "3 - HUD Customization"],
+    ["Squad Feedback", "5 - HUD Customization"],
     [0.1, 1, 0.9, 2], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_showEnemies", 
-    "CHECKBOX",
-    ["Show Enemies", "Display the location of the squad's known enemies or that of their last known position."],
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
-    [true],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_showEnemiesMinTime", 
-    "SLIDER",
-    ["Show Enemies Min Time", "Minimum time the HUD must be shown in order to display enemy units, in seconds."], 
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
-    [0, 59, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_showEnemiesMaxRange", 
-    "SLIDER",
-    ["Show Enemies Max Range", "Maximum distance at which enemies will be searched for."], 
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
-    [100, 10000, 1000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -299,27 +359,27 @@ Parameters:
     "SQFB_opt_Arrows", 
     "CHECKBOX",
     ["Display Arrows and Text", "Display arrows and text at the edge of the screen indicating the unit's relative position when it's not in view of the player."],
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
     [true],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_outFOVindex", 
     "CHECKBOX",
     ["Alway Show Index", "Always display the indexes of your units when not in view."],
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
     [true],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_checkVisibility", 
     "CHECKBOX",
-    ["Check Visibility", "Only display HUD elements on units not hidden by obstacles or terrain."],
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    ["Check Visibility", "Only display HUD elements on units not hidden by obstacles or terrain.\nThis option only affects your squad units. Enemies are always checked for visibility."],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
     [false],
     nil,
     {} 
@@ -328,9 +388,9 @@ Parameters:
 [
     "SQFB_opt_scaleText", 
     "CHECKBOX",
-    ["Scale Text", "Scale text with distance. The further away the unit, the smaller the text. When too far away the text won't be displayed."],
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
-    [true],
+    ["Scale Text", "Scale text with distance. The further away the unit, the smaller the text. When too far away the text won't be displayed.\nThis option only affects your squad units."],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
+    [false],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -339,17 +399,17 @@ Parameters:
     "SQFB_opt_ShowCrew", 
     "CHECKBOX",
     ["Show Crew", "Display the indexes of all the crew of the group vehicles and their roles as crew (D for driver, C for commander, G for gunner, T for turret)."],
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
     [true],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_GroupCrew", 
     "CHECKBOX",
     ["Group Units in Vehicles", "If enabled, when units are inside a vehicle only a HUD element will be displayed over such vehicle (instead of over every crew member), with information about its crew and cargo.\nIf disabled, every unit inside a vehicle will display a HUD element over their heads (same behaviour as if they weren't in a vehicle)."],
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
     [true],
     nil,
     {} 
@@ -359,28 +419,38 @@ Parameters:
     "SQFB_opt_showDead", 
     "CHECKBOX",
     ["Show Dead Units", "Display the HUD over dead units which were part of the player's group."],
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
     [true],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_showDeadMinTime", 
     "SLIDER",
-    ["Show Dead Min Time", "Minimum time the HUD must be shown in order to display dead units, in seconds."], 
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    ["Show Dead Delay", "Time that must pass while the HUD is shown to display dead units, in seconds."], 
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
     [0, 59, 3, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
 
 [
-    "SQFB_opt_showCritical", 
+    "SQFB_opt_AlwaysShowCritical", 
     "CHECKBOX",
-    ["Always Display Critical", "Always display information about injured, unconscious, units without ammo, etc. even when the Squad Feedback key isn't pressed."],
-    ["Squad Feedback", "4 - HUD Display - Advanced"],
+    ["Always Display Critical", "If player is medic or the squad leader, always display information about injured, unconscious, units without ammo, etc. even when the Squad Feedback key isn't pressed."],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
     [true],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_AlwaysShowEnemies", 
+    "CHECKBOX",
+    ["Always Display Enemies", "Always display known enemy locations even when the key isn't pressed."],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
+    [false],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -389,7 +459,7 @@ Parameters:
     "SQFB_opt_colorDefault", 
     "COLOR",
     ["Default color", "Default color used for all the elements of the HUD."], 
-    ["Squad Feedback", "5 - Colors"],
+    ["Squad Feedback", "7 - Colors"],
     [1,1,1],
     nil,
     {} 
@@ -399,7 +469,7 @@ Parameters:
     "SQFB_opt_colorRed", 
     "COLOR",
     ["Red Team color", "Color used for units assigned to the red player's team.\nThis option won't have any effect if colors are deactivated."], 
-    ["Squad Feedback", "5 - Colors"],
+    ["Squad Feedback", "7 - Colors"],
     [0.95,0.33,0.5],
     nil,
     {} 
@@ -409,7 +479,7 @@ Parameters:
     "SQFB_opt_colorGreen", 
     "COLOR",
     ["Green Team color", "Color used for units assigned to the green player's team.\nThis option won't have any effect if colors are deactivated."], 
-    ["Squad Feedback", "5 - Colors"],
+    ["Squad Feedback", "7 - Colors"],
     [0.36,0.95,0.33],
     nil,
     {} 
@@ -419,7 +489,7 @@ Parameters:
     "SQFB_opt_colorBlue", 
     "COLOR",
     ["Blue Team color", "Color used for units assigned to the blue player's team.\nThis option won't have any effect if colors are deactivated."], 
-    ["Squad Feedback", "5 - Colors"],
+    ["Squad Feedback", "7 - Colors"],
     [0.33,0.65,0.9],
     nil,
     {} 
@@ -429,7 +499,7 @@ Parameters:
     "SQFB_opt_colorYellow", 
     "COLOR",
     ["Yellow Team color", "Color used for units assigned to the yellow player's team.\nThis option won't have any effect if colors are deactivated."],
-    ["Squad Feedback", "5 - Colors"],
+    ["Squad Feedback", "7 - Colors"],
     [0.95,0.9,0.3],
     nil,
     {} 
@@ -439,8 +509,8 @@ Parameters:
     "SQFB_opt_colorEnemy", 
     "COLOR",
     ["Enemy color", "Color used for enemy units.\nThis option won't have any effect if colors are deactivated."], 
-    ["Squad Feedback", "5 - Colors"],
-    [0.64,0.13,0.08],
+    ["Squad Feedback", "7 - Colors"],
+    [0.9,0.21,0.3],
     nil,
     {} 
 ] call CBA_fnc_addSetting;

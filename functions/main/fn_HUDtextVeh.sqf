@@ -51,8 +51,10 @@ if (SQFB_showHUD) then {
 		private _crewStr = "";
 		private _count = count crew _veh;
 		private _e = 0;
-		private _i = 0;
+		private _j = 0;
+        for "_i" from 0 to (count _crew) -1 do
 		{
+            private _x = _crew select _i;
 			private _unit = _x select 0;
 			private _crewPos = _x select 1;
 			if (_crewPos == "driver") then {_crewPos = "D"};
@@ -61,7 +63,6 @@ if (SQFB_showHUD) then {
 			if (_crewPos == "turret") then {_crewPos = "T"};
 			if (_crewPos == "cargo") then {_crewPos = ""};
 			if (isNull _unit) then {
-				//_crewStr = format ["%1(E)%2%3",_crewStr,_crewPos,if (_i < _count-1) then{","} else {""}];
 				_e = _e + 1;
 			} else {
 				if (_unit in units player) then {
@@ -71,19 +72,19 @@ if (SQFB_showHUD) then {
 						_crewPos,
 						_unit getVariable "SQFB_grpIndex",
 						if(!alive _unit)then{"D"}else{if(lifeState _unit != "HEALTHY") then {"W"}else{""}},
-						if (_i < _count-1) then{","} else {""}
+						if (_j < _count-1) then{","} else {""}
 						];
 				};
-				_i = _i + 1;
+				_j = _j + 1;
 			};
-		} forEach _crew;
+		};
 		_return = format ["%1%2]%3 ", _return,_crewStr, if(_e>0)then{format[" E:%1",_e]}else{""}];
 	};
 	if (_showDist && _veh != _vehPlayer) then {
 		_return = format ["%1(%2m) ",_return, round (_veh distance _vehPlayer)];
 	};
 } else {
-	if (SQFB_opt_showCritical) then {
+	if (SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (leader _unit == player))) then {
 		private _FOV = [] call CBA_fnc_getFov select 0;
 		private _inView = [ position _vehPlayer, (positionCameraToWorld [0,0,0]) getdir (positionCameraToWorld [0,0,1]), ceil(_FOV*100), position _veh ] call BIS_fnc_inAngleSector;
 		if (!_inView) then {

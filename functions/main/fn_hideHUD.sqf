@@ -15,7 +15,11 @@
 
 */
 
+params [["_type", "friendly"]];
 
-// Reset timers
-SQFB_showDeadMinTime = 0;
-SQFB_showEnemiesMinTime = 0;
+if (_type == "friendly") then {
+    // Reset timers
+    SQFB_showDeadMinTime = 0;
+} else {
+    SQFB_showEnemiesMinTime = 0;
+};
