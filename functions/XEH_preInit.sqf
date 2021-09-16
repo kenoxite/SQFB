@@ -35,7 +35,7 @@ Returns:
 // ] call CBA_fnc_addKeybind;
 
 [
-    ["Squad Feedback", "HUD Display"],
+    ["Squad Feedback", ""],
 	"SQFB_opt_showHUD_T_key",
 	["Display Squad HUD (Toggle)", "Toggles the display of the HUD for your squad."],
 	{ _this call SQFB_fnc_showHUD_key_T_CBA },
@@ -55,7 +55,7 @@ Returns:
 // ] call CBA_fnc_addKeybind;
 
 [
-    ["Squad Feedback", "HUD Display"],
+    ["Squad Feedback", ""],
     "SQFB_opt_showEnemyHUD_T_key",
     ["Display Known Enemies (Toggle)", "Toggles the display of the HUD for enemies."],
     { _this call SQFB_fnc_showEnemyHUD_key_T_CBA },
@@ -89,9 +89,9 @@ Parameters:
 [
     "SQFB_opt_profile", 
     "LIST",
-    ["Profile (applies after closing this window)", "Choosing a profile will change the activation status of the following settings:\n  - Show Squad HUD\n  - Show Known Enemies\n  - Show Icon\n  - Show Text\n  - Show Team Color\n  - Show Index\n  - Show Class\n  - Show Roles\n  - Show Distance\n  - Display Arrows and Text\n  - Always Show Index\n  - Show Crew\n  - Show Dead Units\n  - Always Display Critical\nf you change the profile any further changes to those settings won't be applied after you close this window."],
+    ["Profile (applies after closing this window)", "Choosing a profile will change the activation status of the following settings:\n  - Show Squad HUD\n  - Show Known Enemies\n  - Show Icon\n  - Show Text\n  - Show Team Color\n  - Show Index\n  - Show Class\n  - Show Roles\n  - Show Distance\n  - Display Arrows and Text\n  - Always Show Index\n  - Show Crew\n  - Show Dead Units\n  - Always Display Critical\n  - Always Display Enemies\nIf you change the profile any further changes to those settings won't be applied after you close this window."],
     "Squad Feedback",
-    [["custom", "default", "all", "min", "crit", "onlyenemies"],["Custom", "Default", "All on", "Minimalist", "Only critical", "Only enemies"], 1],
+    [["custom", "default", "all", "min", "crit", "vanillalike", "onlyalwaysenemies"],["Custom", "Default", "All On", "Minimalist", "Only Critical", "Vanilla-like", "Only Always Enemies"], 1],
     nil,
     { call SQFB_fnc_changeProfile; } 
 ] call CBA_fnc_addSetting;
@@ -117,21 +117,21 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "SQFB_opt_updateDelay", 
-    "SLIDER",
-    ["Update Delay", "Waiting time between group status checks, in seconds.\nSet this value higher if the game performance is badly affected."], 
-    ["Squad Feedback", "0 - General"],
-    [0.1, 30, 5, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
     "SQFB_opt_HUDrefresh", 
     "SLIDER",
     ["HUD Refresh Rate", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
     ["Squad Feedback", "0 - General"],
     [0, 0.05, 0.01, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_updateDelay", 
+    "SLIDER",
+    ["Update Delay", "Waiting time between squad status and known enemies checks, in seconds.\nSetting this value lower will keep the HUDs more up to date, but the game performance can be affected."], 
+    ["Squad Feedback", "0 - General"],
+    [0.1, 30, 5, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -263,7 +263,7 @@ Parameters:
     ["Squad Feedback", "4 - HUD Display - Text Options"],
     [false],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
@@ -390,7 +390,7 @@ Parameters:
     "CHECKBOX",
     ["Scale Text", "Scale text with distance. The further away the unit, the smaller the text. When too far away the text won't be displayed.\nThis option only affects your squad units."],
     ["Squad Feedback", "6 - HUD Display - Advanced"],
-    [false],
+    [true],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -448,11 +448,11 @@ Parameters:
 [
     "SQFB_opt_AlwaysShowEnemies", 
     "CHECKBOX",
-    ["Always Display Enemies", "Always display known enemy locations even when the key isn't pressed."],
+    ["Always Display Enemies", "Always display known enemy locations even when the key isn't pressed.\nThis option will only have any effect if 'Show Known Enemies' is active."],
     ["Squad Feedback", "6 - HUD Display - Advanced"],
     [false],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
@@ -460,7 +460,7 @@ Parameters:
     "COLOR",
     ["Default color", "Default color used for all the elements of the HUD."], 
     ["Squad Feedback", "7 - Colors"],
-    [1,1,1],
+    [0.63,0.83,0.26],
     nil,
     {} 
 ] call CBA_fnc_addSetting;

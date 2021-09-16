@@ -21,7 +21,9 @@ private _return = "";
 private _vehName = "";
 private _index = -1;
 private _vehPlayer = vehicle player;
-if (_showClass) then {_vehName = toUpper (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"));};
+if (_showClass) then {
+    _vehName = toUpperANSI (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"));
+};
 if (_showIndex) then {
 	private _vehLeader = objNull;
 	if (isNull _vehLeader) then {_vehLeader = effectiveCommander _veh};
@@ -32,8 +34,10 @@ if (_showIndex) then {
 };
 // Default text when requested by player
 if (SQFB_showHUD) then {
-	if (_showIndex && _index >= 0) then { _return = format ["%1%2 ", _return,_index]; };
-	if (_showClass) then {_return = format ["%1%2 ", _return, _vehName]};
+	if (_showIndex && _index >= 0) then { _return = format ["%1%2: ", _return,_index]; };
+	if (_showClass) then {
+        _return = format ["%1%2 ", _return, _vehName];
+    };
 	// Vehicle status
 	if ((fuel _veh) == 0) then {
 		_return = format ["%1[NO FUEL] ", _return];
@@ -44,10 +48,14 @@ if (SQFB_showHUD) then {
 	if (!(canMove _veh) && (fuel _veh) > 0) then {
 		_return = format ["%1[CAN'T MOVE] ", _return];
 	};
-	if (_showRoles) then { _return = format ["%1[%2: ", _return, (_veh call BIS_fnc_objectType) select 1] } else { _return = format ["%1[", _return] };
+	if (_showRoles) then {
+        _return = format ["%1[%2: ", _return, (_veh call BIS_fnc_objectType) select 1];
+    } else {
+        _return = format ["%1[", _return];
+    };
 	// Crew
 	if (_showCrew) then {
-		private _crew = fullCrew [_veh,"",true];
+		private _crew = fullCrew [vehicle _veh,"",true];
 		private _crewStr = "";
 		private _count = count crew _veh;
 		private _e = 0;
@@ -78,7 +86,7 @@ if (SQFB_showHUD) then {
 				_j = _j + 1;
 			};
 		};
-		_return = format ["%1%2]%3 ", _return,_crewStr, if(_e>0)then{format[" E:%1",_e]}else{""}];
+	  _return = format ["%1%2]%3 ", _return,_crewStr, if (_e > 0) then { format[" E:%1",_e] } else { "" }];
 	};
 	if (_showDist && _veh != _vehPlayer) then {
 		_return = format ["%1(%2m) ",_return, round (_veh distance _vehPlayer)];
@@ -119,7 +127,7 @@ if (SQFB_showHUD) then {
 				};
 			};
 			if (_critical || SQFB_opt_outFOVindex) then {
-				if (_showIndex && _index >= 0) then { _return = format ["%1 %2 ", _index, _return] };
+				if (_showIndex && _index >= 0) then { _return = format ["%1: %2 ", _index, _return] };
 			};
 		};
 	};

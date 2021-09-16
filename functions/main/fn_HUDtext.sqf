@@ -33,7 +33,7 @@ if (_alive && SQFB_opt_showIndex) then { _index = _unit getVariable "SQFB_grpInd
 // Default text when requested by player
 if (SQFB_showHUD) then {
 	if (_alive || (!_alive && (_veh == _unit) && time >= SQFB_showDeadMinTime)) then {
-		if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2 ", _return, _index] };
+		if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2: ", _return, _index] };
 		if (_alive) then {
             if (leader (group _unit) == _unit) then {
                 _return = format ["^%1",_return];
@@ -114,7 +114,7 @@ if (SQFB_showHUD) then {
 				};
 			};
 			if (_critical || SQFB_opt_outFOVindex) then {
-				if (SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1 %2 ", _index, _return] };
+				if (SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1: %2 ", _index, _return] };
 			};
 		};
 	};

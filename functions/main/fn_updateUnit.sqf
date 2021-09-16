@@ -179,15 +179,15 @@ if (_alive) then {
     // Crew type
     private _veh = vehicle _unit;
     _unit setVariable ["SQFB_veh", _veh];
-    if (_veh != _unit) then {
-    	private _crewPos = "";
-    	private _crew = fullCrew [_veh,"",true];
-    	private _crewIndx = _crew findIf { (_x select 0) == _unit; };
-    	if (_crewIndx != -1) then {
-    		_crewPos = (_crew select _crewIndx) select 1;
-    		if (_crewPos == "cargo") then {_crewPos = ""};
-    	};
-    	_roles pushBack _crewPos;
+    if !(isNull objectParent _unit) then {
+        private _crewPos = "";
+        private _crew = fullCrew [_veh,"",true];
+        private _crewIndx = _crew findIf { (_x select 0) == _unit; };
+        if (_crewIndx != -1) then {
+            _crewPos = (_crew select _crewIndx) select 1;
+            if (_crewPos == "cargo") then {_crewPos = ""};
+        };
+        _roles pushBack format ["- %1",_crewPos];
     };
 
     _rolesStr = _roles joinString " ";
