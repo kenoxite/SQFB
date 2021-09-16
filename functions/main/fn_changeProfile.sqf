@@ -118,7 +118,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showIndex = false;
         SQFB_opt_showClass = false;
         SQFB_opt_showRoles = false;
-        SQFB_opt_showDist = true;
+        SQFB_opt_showDist = false;
         SQFB_opt_showDistEnemy = true;
 
         SQFB_opt_Arrows = false;
@@ -139,7 +139,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showIndex = true;
         SQFB_opt_showClass = false;
         SQFB_opt_showRoles = true;
-        SQFB_opt_showDist = true;
+        SQFB_opt_showDist = false;
         SQFB_opt_showDistEnemy = false;
 
         SQFB_opt_Arrows = true;

@@ -251,7 +251,7 @@ Parameters:
     "CHECKBOX",
     ["Show Distance (friendlies)", "Display the distance of the squad unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
     ["Squad Feedback", "4 - HUD Display - Text Options"],
-    [true],
+    [false],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;

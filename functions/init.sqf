@@ -92,37 +92,58 @@ SQFB_draw3D_EH = addMissionEventHandler [
 
                             if ((_SQFB_showHUD || (!_SQFB_showHUD && _SQFB_opt_AlwaysShowCritical)) && _canSee >= 0.2) then {
                                 if (_alive || (!_alive && _SQFB_opt_showDead && (_unit getVariable "SQFB_veh") == _unit)) then {
-                                    private _zoom = 0;
                                     private _iconSize = 0;
                                     private _text_size = 0;
-                            
-                                    // Adjust sizes to distance
-                                    if (_SQFB_opt_scaleText) then {
-                                        _zoom = call SQFB_fnc_trueZoom;
-                                        if (_isPlayerAir) then {
-                                            if (_isOnFoot) then {
-                                                _iconSize = (linearConversion[ 0, 20, _dist2D, 2.2, 1.5, true ]) * _zoom;
-                                            } else {
-                                                _iconSize = (linearConversion[ 0, 20, _dist2D, 2.5, 1.8, true ]) * _zoom;
-                                            };
-                                            _text_size = 0.025;
-                                        } else {
-                                            if (_isOnFoot) then {
-                                                _iconSize = (linearConversion[ 0, 20, _dist2D, 3, 1.5, true ]) * _zoom;
+                                    private _zoom = call SQFB_fnc_trueZoom;
 
-                                            } else {
-                                                _iconSize = (linearConversion[ 0, 20, _dist2D, 3.5, 2, true ]) * _zoom;
-                                            };
-                                            _text_size = 0.082 * _zoom;
+                                    // Icon size
+                                    if (_isPlayerAir) then {
+                                        if (_isOnFoot) then {
+                                            // _iconSize = (linearConversion[ 0, 100, _dist2D, 1.3, 0.5, true ]);
+                                            _iconSize = ((linearConversion[ 0, SQFB_opt_maxRange_air min 100, _dist2D, (1.8 * 2) * _zoom, 0.1, true ])) min 1.8;
+
+                                        } else {
+                                            // _iconSize = (linearConversion[ 0, 100, _dist2D, 2.5, 1, true ]);
+                                            _iconSize = ((linearConversion[ 0, SQFB_opt_maxRange_air min 100, _dist2D, (2 * 2) * _zoom, 0.3, true ])) min 2;
                                         };
                                     } else {
                                         if (_isOnFoot) then {
-                                            _iconSize = 1;
+                                            // _iconSize = (linearConversion[ 0, 10, _dist2D, 1.5, 0.5, true ]);
+                                            // _iconSize = ((linearConversion[ 0, 75, _dist2D, 2, 0.5, true ]) * _zoom) min 2;
+                                            // _iconSize = ((linearConversion[ 0, SQFB_opt_maxRange, _dist2D, 3 * _zoom, 0.1, true ])) min 2;
+                                            _iconSize = ((linearConversion[ 0, SQFB_opt_maxRange min 200, _dist2D, (1.8 * 2) * _zoom, 0.1, true ])) min 1.8;
 
                                         } else {
-                                            _iconSize = 1.2;
-                                        }; 
-                                        _text_size = 0.025;
+                                            // _iconSize = (linearConversion[ 0, 75, _dist2D, 2.5, 1, true ]);
+                                            _iconSize = ((linearConversion[ 0, SQFB_opt_maxRange min 200, _dist2D, (1.8 * 2) * _zoom, 0.3, true ])) min 1.8;
+                                        };
+                                    };
+                            
+                                    // Text size
+                                    if (_SQFB_opt_scaleText) then {
+                                        if (_isPlayerAir) then {
+                                            _text_size = 0.03;
+                                        } else {
+                                            if (_isOnFoot) then {
+                                                // _text_size = 0.082 * _zoom;
+                                                // _text_size = 0.03;
+                                                // _text_size = (linearConversion[ 0, 75, _dist2D, 0.03, 0.02, true ]);
+                                                // _text_size = ((linearConversion[ 0, 75, _dist2D, 0.04, 0.03, true ]) * _zoom) min 0.04;
+                                                // _text_size = ((linearConversion[ 0, SQFB_opt_maxRange min 100, _dist2D, 0.08 * _zoom, 0, true ])) min 0.04;
+                                                _text_size = ((linearConversion[ 0, SQFB_opt_maxRange min 200, _dist2D, (0.04 * 2) * _zoom, 0, true ])) min 0.04;
+
+                                            } else {
+                                                _text_size = ((linearConversion[ 0, SQFB_opt_maxRange min 200, _dist2D, (0.052 * 2) * _zoom, 0, true ])) min 0.052;
+                                            };
+                                        };
+                                    } else {
+                                        // if (_isOnFoot) then {
+                                        //     _iconSize = 1;
+
+                                        // } else {
+                                        //     _iconSize = 1.5;
+                                        // }; 
+                                        _text_size = 0.03;
                                     };
 
                                     _iconSize = _iconSize * _SQFB_opt_iconSize;
@@ -213,7 +234,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
                             private _veh = vehicle _unit;
                             private _vehPlayer = vehicle player;
                             private _crew = crew _veh;
-                            private _isOnFoot = isNull objectParent _unit;
+                            private _isOnFoot = (typeOf _veh isKindOf "Man");
                             private _isPlayerAir = if ((typeOf _vehPlayer) isKindOf "Air") then { true } else { false };
                             private _canSee = 1;
                             private _visThreshold = if (_isPlayerAir) then { 0.1 } else { 0.2 };
@@ -223,34 +244,38 @@ SQFB_draw3D_EH = addMissionEventHandler [
                             private _distStr = format ["%1m", round _dist2D];
                             if (true) then { _canSee = if (!_isOnFoot) then { [objNull, "VIEW"] checkVisibility [eyePos player, AtlToAsl(_unit modeltoworld [0,0,0])] } else { [objNull, "VIEW"] checkVisibility [eyePos player, eyePos _unit] }; };
 
-                            private _zoom = call SQFB_fnc_trueZoom;
+                            // private _zoom = call SQFB_fnc_trueZoom;
                             private _iconSize = 0;
                             private _text_size = 0;
-                            private _texture = "";
-                            private _textureImg = "";
+                            private _zoom = call SQFB_fnc_trueZoom;
                             
                             // Adjust sizes to distance
                             if (_isPlayerAir) then {
                                 if (_isOnFoot) then {
-                                    _iconSize = (linearConversion[ 0, 20, _dist2D, 2.5, 1.5, true ]) * _zoom;
+                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRangeAir min 100, _dist2D, (0.6 * 2) * _zoom, 0.1, true ])) min 0.6;
 
                                 } else {
-                                    _iconSize = (linearConversion[ 0, 20, _dist2D, 3.5, 2, true ]) * _zoom;
+                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRangeAir min 100, _dist2D, (1 * 2) * _zoom, 0.1, true ])) min 1;
                                 };
-                                _text_size = 0.08 * _zoom;
+                                // _text_size = 0.08 * _zoom;
+                                _text_size = ((0.03 * 2) * _zoom) min 0.03;
                             } else {
                                 if (_isOnFoot) then {
-                                    _iconSize = (linearConversion[ 0, 20, _dist2D, 2, 1.2, true ]) * _zoom;
+                                    // _iconSize = (linearConversion[ 0, 50, _dist2D, 0.5, 0.1, true ]);
+                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRange min 100, _dist2D, (0.6 * 2) * _zoom, 0.1, true ])) min 0.6;
 
                                 } else {
-                                    _iconSize = (linearConversion[ 0, 20, _dist2D, 3.5, 2, true ]) * _zoom;
+                                    // _iconSize = (linearConversion[ 0, 50, _dist2D, 1, 0.3, true ]);
+                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRange min 100, _dist2D, (1 * 2) * _zoom, 0.1, true ])) min 1;
                                 };
-                                _text_size = 0.08 * _zoom;
-                                _text_size = (linearConversion[ 0, 20, _dist2D, 0.1, 0.02, true ]) * _zoom;
+                                // _text_size = 0.08 * _zoom;
+                                // _text_size = (linearConversion[ 0, 500, _dist2D, 0.1, 0.025, true ]);
+                                // _text_size = ((0.03 * 2) * _zoom);
+                                _text_size = 0.03;
                             };
 
-                            _iconSize = _iconSize * _SQFB_opt_iconSize;
-                            _text_size = _text_size * _SQFB_opt_textSize;
+                            _iconSize = (_iconSize * _SQFB_opt_iconSize) max 0.01;
+                            _text_size = (_text_size * _SQFB_opt_textSize) max 0.02;
 
                             // Retrieve tagger object or create it if it isn't found
                             private _enemyTagger = objNull;
@@ -274,7 +299,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
                             };
 
                             // Choose texture image
-                            _texture = if (_enemy == _unit) then {
+                            private _texture = if (_enemy == _unit) then {
                                             "a3\ui_f\data\map\markers\nato\o_unknown.paa"
                                         } else {
                                             "a3\ui_f\data\map\markers\military\unknown_ca.paa"
@@ -291,13 +316,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
 
                             private _color = [_SQFB_opt_colorEnemy select 0,_SQFB_opt_colorEnemy select 1,_SQFB_opt_colorEnemy select 2, ([_enemy] call SQFB_fnc_HUDAlpha) max 0.5]; // Red
 
-                            private _iconHeightMod = 0.8;
-                            private _adjIconHeight = ((_vehPlayer distance _veh) / 1000) max 0;
-                            if (_isOnFoot) then {
-                                _iconHeightMod = 0.8;
-                            } else {
-                                _iconHeightMod = 1.5;
-                            };
+                            private _iconHeightMod = if (_isOnFoot) then { 0.8 } else { 1 };
                             private _enemyPos = if (_enemy == _unit) then { (_enemy selectionPosition "head") } else { _enemy selectionPosition "camo2" };
                             private _position = if (_isOnFoot) then {
                                                     if (_enemy == _unit) then {
