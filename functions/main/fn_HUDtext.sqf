@@ -33,11 +33,8 @@ if (_alive && SQFB_opt_showIndex) then { _index = _unit getVariable "SQFB_grpInd
 // Default text when requested by player
 if (SQFB_showHUD) then {
 	if (_alive || (!_alive && (_veh == _unit) && time >= SQFB_showDeadMinTime)) then {
-		if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2: ", _return, _index] };
+		if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5: ", _return, if (leader (group _unit) == _unit) then {"<"} else {""}, _index, if (leader (group _unit) == _unit) then {">"} else {""}, if (formationLeader player == _unit) then {"^"} else {""}] };
 		if (_alive) then {
-            if (leader (group _unit) == _unit) then {
-                _return = format ["^%1",_return];
-            };
 			private _lifeState = lifeState _unit;
 			if (_lifeState != "HEALTHY") then {
 				if (isBleeding _unit && _lifeState != "INCAPACITATED") then {
@@ -76,7 +73,7 @@ if (SQFB_showHUD) then {
 		};
 	};
 } else {
-	if (SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (leader _unit == player))) then {
+	if (SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (leader _unit == player)) || SQFB_opt_outFOVindex) then {
 		private _FOV = [] call CBA_fnc_getFov select 0;
 		private _inView = [ position _vehPlayer, (positionCameraToWorld [0,0,0]) getdir (positionCameraToWorld [0,0,1]), ceil(_FOV*100), position _veh ] call BIS_fnc_inAngleSector;
 		if (!_inView) then {
@@ -114,7 +111,7 @@ if (SQFB_showHUD) then {
 				};
 			};
 			if (_critical || SQFB_opt_outFOVindex) then {
-				if (SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1: %2 ", _index, _return] };
+				if (SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5 %6 ", if (leader (group _unit) == _unit) then { "<" } else { "" }, _index, if (leader (group _unit) == _unit) then { ">" } else { "" }, if (_return != "") then { ":" } else { "" }, if (formationLeader player == _unit) then {"^"} else {""}, _return] };
 			};
 		};
 	};

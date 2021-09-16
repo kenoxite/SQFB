@@ -130,10 +130,10 @@ SQFB_draw3D_EH = addMissionEventHandler [
                                                 // _text_size = (linearConversion[ 0, 75, _dist2D, 0.03, 0.02, true ]);
                                                 // _text_size = ((linearConversion[ 0, 75, _dist2D, 0.04, 0.03, true ]) * _zoom) min 0.04;
                                                 // _text_size = ((linearConversion[ 0, SQFB_opt_maxRange min 100, _dist2D, 0.08 * _zoom, 0, true ])) min 0.04;
-                                                _text_size = ((linearConversion[ 0, SQFB_opt_maxRange min 200, _dist2D, (0.04 * 2) * _zoom, 0, true ])) min 0.04;
+                                                _text_size = ((linearConversion[ 0, SQFB_opt_maxRange min 200, _dist2D, (0.04 * 2) * _zoom, 0.02, true ])) min 0.04;
 
                                             } else {
-                                                _text_size = ((linearConversion[ 0, SQFB_opt_maxRange min 200, _dist2D, (0.052 * 2) * _zoom, 0, true ])) min 0.052;
+                                                _text_size = ((linearConversion[ 0, SQFB_opt_maxRange min 200, _dist2D, (0.052 * 2) * _zoom, 0.02, true ])) min 0.052;
                                             };
                                         };
                                     } else {
@@ -157,7 +157,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
                                         private _ownCrewFirstIdx = _crew findIf { _x in units group _unit && _x == _unit };
                                         if (_ownCrewFirstIdx != -1) then { _isFirstCrew = (_crew select _ownCrewFirstIdx) == _unit };  
                                     };
-                                    private _iconHeightMod = if (!_alive) then { 0.6 } else { if (_isOnFoot) then { 2 } else { 1.05 } };
+                                    private _iconHeightMod = if (_isOnFoot) then { 0.5 } else { 1.05 };
                                     private _selectionPos = _unit selectionPosition "head";
                                     private _position = if ((_inVehDif && _isFirstCrew)) then {
                                                             _veh modelToWorldVisual [
@@ -169,7 +169,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
                                                             _unit modelToWorldVisual [
                                                                 (_selectionPos select 0) + _SQFB_opt_iconHor,
                                                                 _selectionPos select 1,
-                                                                _iconHeightMod + _SQFB_opt_iconHeight
+                                                                (_selectionPos select 2) + _iconHeightMod + _SQFB_opt_iconHeight
                                                             ];
                                                         };
 
@@ -317,19 +317,19 @@ SQFB_draw3D_EH = addMissionEventHandler [
                             private _color = [_SQFB_opt_colorEnemy select 0,_SQFB_opt_colorEnemy select 1,_SQFB_opt_colorEnemy select 2, ([_enemy] call SQFB_fnc_HUDAlpha) max 0.5]; // Red
 
                             private _iconHeightMod = if (_isOnFoot) then { 0.8 } else { 1 };
-                            private _enemyPos = if (_enemy == _unit) then { (_enemy selectionPosition "head") } else { _enemy selectionPosition "camo2" };
+                            private _enemyPos = if (_enemy == _unit) then { _enemy selectionPosition "head" } else { position _enemy };
                             private _position = if (_isOnFoot) then {
                                                     if (_enemy == _unit) then {
                                                         _enemy modelToWorldVisual [
                                                             (_enemyPos select 0) + _SQFB_opt_iconHor,
                                                             _enemyPos select 1,
-                                                            2.2 + _SQFB_opt_iconHeight
+                                                            (_enemyPos select 2) + _iconHeightMod + _SQFB_opt_iconHeight
                                                         ];
                                                     } else {
                                                         _enemy modelToWorldVisual [
-                                                            (_enemyPos select 0),
-                                                            _enemyPos select 1,
-                                                            -1.5
+                                                            _SQFB_opt_iconHor,
+                                                            0,
+                                                            1.3 + _SQFB_opt_iconHeight
                                                         ];
                                                     };
                                                 } else {
@@ -343,7 +343,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
                                                         _enemy modelToWorldVisual [
                                                             _SQFB_opt_iconHorVeh,
                                                             0,
-                                                            -0.5
+                                                            2.5 + _SQFB_opt_iconHeightVeh
                                                         ];
                                                     };
                                                 };
