@@ -252,21 +252,21 @@ SQFB_draw3D_EH = addMissionEventHandler [
                             // Adjust sizes to distance
                             if (_isPlayerAir) then {
                                 if (_isOnFoot) then {
-                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRangeAir min 100, _dist2D, (0.6 * 2) * _zoom, 0.1, true ])) min 0.6;
+                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRangeAir min 100, _dist2D, (0.6 * 2) * _zoom, 0.3, true ])) min 0.6;
 
                                 } else {
-                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRangeAir min 100, _dist2D, (1 * 2) * _zoom, 0.1, true ])) min 1;
+                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRangeAir min 100, _dist2D, (1 * 2) * _zoom, 0.5, true ])) min 1;
                                 };
                                 // _text_size = 0.08 * _zoom;
                                 _text_size = ((0.03 * 2) * _zoom) min 0.03;
                             } else {
                                 if (_isOnFoot) then {
                                     // _iconSize = (linearConversion[ 0, 50, _dist2D, 0.5, 0.1, true ]);
-                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRange min 100, _dist2D, (0.6 * 2) * _zoom, 0.1, true ])) min 0.6;
+                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRange min 100, _dist2D, (0.6 * 2) * _zoom, 0.3, true ])) min 0.6;
 
                                 } else {
                                     // _iconSize = (linearConversion[ 0, 50, _dist2D, 1, 0.3, true ]);
-                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRange min 100, _dist2D, (1 * 2) * _zoom, 0.1, true ])) min 1;
+                                    _iconSize = ((linearConversion[ 0, SQFB_opt_showEnemiesMaxRange min 100, _dist2D, (1 * 2) * _zoom, 0.5, true ])) min 1;
                                 };
                                 // _text_size = 0.08 * _zoom;
                                 // _text_size = (linearConversion[ 0, 500, _dist2D, 0.1, 0.025, true ]);
