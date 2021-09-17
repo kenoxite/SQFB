@@ -21,7 +21,7 @@ private _distance = (vehicle _unit) distance (vehicle player);
 private _alpha = SQFB_opt_maxAlpha;
 private _maxDist = SQFB_opt_maxRange;
 private _veh = vehicle player;
-if ((getPosASL _veh select 2) > 5 && !(isNull objectParent player)) then { _maxDist = SQFB_opt_maxRange_air };
+if ((getPosASL _veh select 2) > 5 && !(isNull objectParent player)) then { _maxDist = SQFB_opt_maxRangeAir };
 if (_distance > _maxDist/8 && _distance <= _maxDist/6) then {_alpha = _alpha - 0.2};
 if (_distance > _maxDist/6 && _distance <= _maxDist/4) then {_alpha = _alpha - 0.4};
 if (_distance > _maxDist/4 && _distance <= _maxDist/2) then {_alpha = _alpha - 0.6};

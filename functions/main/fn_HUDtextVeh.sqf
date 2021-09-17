@@ -18,23 +18,33 @@
 
 params ["_veh",["_showIndex", true],["_showClass", false],["_showRoles", false],["_showCrew", true],["_showDist", true]];
 private _return = "";
-private _vehName = "";
 private _index = -1;
-private _vehPlayer = vehicle player;
-if (_showClass) then {
-    _vehName = toUpperANSI (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"));
-};
+private _crew = fullCrew [vehicle _veh,"",true];
+private _vehLeader = objNull;
 if (_showIndex) then {
-	private _vehLeader = objNull;
 	if (isNull _vehLeader) then {_vehLeader = effectiveCommander _veh};
 	if (isNull _vehLeader) then {_vehLeader = driver _veh};
 	if (isNull _vehLeader) then {_vehLeader = gunner _veh};
 	if (isNull _vehLeader) then {_vehLeader = _crew select 0};
+
 	if (!isNull _vehLeader) then {_index = _vehLeader getVariable "SQFB_grpIndex";};
 };
+if (isNil "_vehLeader") exitWith { _return };
+if (isNull _vehLeader) exitWith { _return };
+
+private _vehName = "";
+private _vehPlayer = vehicle player;
+if (_showClass) then {
+    _vehName = toUpperANSI (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"));
+};
+
+private _grp = group player;
 // Default text when requested by player
 if (SQFB_showHUD) then {
-	if (_showIndex && _index >= 0) then { _return = format ["%1%2: ", _return,_index]; };
+    private _alive = alive _veh || damage _veh < 1;
+    if (SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5: ", _return, if (leader _grp == _vehLeader) then {"<"} else {""}, _index, if (leader _grp == _vehLeader) then {">"} else {""}, if (formationLeader _vehPlayer == _vehLeader) then {"^"} else {""}] };
+
+	// if (_showIndex && _index >= 0) then { _return = format ["%1%2: ", _return,_index]; };
 	if (_showClass) then {
         _return = format ["%1%2 ", _return, _vehName];
     };
@@ -55,7 +65,6 @@ if (SQFB_showHUD) then {
     };
 	// Crew
 	if (_showCrew) then {
-		private _crew = fullCrew [vehicle _veh,"",true];
 		private _crewStr = "";
 		private _count = count crew _veh;
 		private _e = 0;
@@ -92,7 +101,8 @@ if (SQFB_showHUD) then {
 		_return = format ["%1(%2m) ",_return, round (_veh distance _vehPlayer)];
 	};
 } else {
-	if (SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (leader _unit == player))) then {
+    // Text when always show critical is enabled
+	if (SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (leader _unit == player)) || SQFB_opt_outFOVindex) then {
 		private _FOV = [] call CBA_fnc_getFov select 0;
 		private _inView = [ position _vehPlayer, (positionCameraToWorld [0,0,0]) getdir (positionCameraToWorld [0,0,1]), ceil(_FOV*100), position _veh ] call BIS_fnc_inAngleSector;
 		if (!_inView) then {
@@ -126,9 +136,9 @@ if (SQFB_showHUD) then {
 					_critical = true;
 				};
 			};
-			if (_critical || SQFB_opt_outFOVindex) then {
-				if (_showIndex && _index >= 0) then { _return = format ["%1: %2 ", _index, _return] };
-			};
+            if (_critical || SQFB_opt_outFOVindex) then {
+                if (_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5 %6 ", if (leader _grp == _vehLeader) then {"<"} else {""}, _index, if (leader _grp == _vehLeader) then {">"} else {""}, if (formationLeader _vehPlayer == _vehLeader) then {"^"} else {""}] };
+            };
 		};
 	};
 };

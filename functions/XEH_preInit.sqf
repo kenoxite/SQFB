@@ -121,7 +121,7 @@ Parameters:
     "SLIDER",
     ["HUD Refresh Rate", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
     ["Squad Feedback", "0 - General"],
-    [0, 0.05, 0.01, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [0, 0.05, 0.012, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -166,6 +166,16 @@ Parameters:
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
+// [
+//     "SQFB_opt_minRange", 
+//     "SLIDER",
+//     ["Minimum Range", "Distance above which a unit has to be for its HUD info to show up, in meters.\nSet to zero to always show regardless of range."], 
+//     ["Squad Feedback", "2 - HUD Display - Squad"],
+//     [0, 1000, 5, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
+
 [
     "SQFB_opt_maxRange", 
     "SLIDER",
@@ -176,8 +186,18 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
+// [
+//     "SQFB_opt_minRangeAir", 
+//     "SLIDER",
+//     ["Minimum Range (air)", "Distance above which a unit has to be for its HUD info to show up when the player is flying, in meters.\nSet to zero to always show regardless of range."], 
+//     ["Squad Feedback", "2 - HUD Display - Squad"],
+//     [0, 5000, 50, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
+
 [
-    "SQFB_opt_maxRange_air", 
+    "SQFB_opt_maxRangeAir", 
     "SLIDER",
     ["Maximum Range (air)", "Maximum distance a unit has to be for its HUD info to show up when the player is flying, in meters."], 
     ["Squad Feedback", "2 - HUD Display - Squad"],
@@ -189,9 +209,19 @@ Parameters:
 [
     "SQFB_opt_showEnemiesMinTime", 
     "SLIDER",
-    ["Show Enemies Delay", "Time that must pass while the HUD is shown to display enemy units, in seconds."], 
-    ["Squad Feedback", "3 - HUD Display - Enemies"],
-    [0, 59, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    ["Show Known Enemies Delay", "Time that must pass while the HUD is shown to display known enemy units, in seconds."], 
+    ["Squad Feedback", "3 - HUD Display - Known Enemies"],
+    [0, 60, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showEnemiesMinRange", 
+    "SLIDER",
+    ["Show Known Enemies Min Range", "No HUD elements will be shown for enemies below this distance, in meters.\nSet to zero to always show regardless of range."], 
+    ["Squad Feedback", "3 - HUD Display - Known Enemies"],
+    [0, 1000, 50, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -199,9 +229,19 @@ Parameters:
 [
     "SQFB_opt_showEnemiesMaxRange", 
     "SLIDER",
-    ["Show Enemies Max Range", "Maximum distance at which enemies will be searched for, in meters."], 
-    ["Squad Feedback", "3 - HUD Display - Enemies"],
-    [100, 10000, 800, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    ["Show Known Enemies Max Range", "Maximum distance to look for enemies and display their HUD elements, in meters."], 
+    ["Squad Feedback", "3 - HUD Display - Known Enemies"],
+    [100, 5000, 800, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showEnemiesMinRangeAir", 
+    "SLIDER",
+    ["Show Known Enemies Min Range (Air)", "No HUD elements will be shown for enemies below this distance when the player is in an air vehicle, in meters.\nSet to zero to always show regardless of range."], 
+    ["Squad Feedback", "3 - HUD Display - Known Enemies"],
+    [0, 5000, 300, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -209,9 +249,9 @@ Parameters:
 [
     "SQFB_opt_showEnemiesMaxRangeAir", 
     "SLIDER",
-    ["Show Enemies Max Range (Air)", "Maximum distance at which enemies will be searched for when the player is in an air vehicle, in meters."], 
-    ["Squad Feedback", "3 - HUD Display - Enemies"],
-    [1000, 10000, 2000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    ["Show Known Enemies Max Range (Air)", "Maximum distance to look for enemies and display their HUD elements when the player is in an air vehicle, in meters."], 
+    ["Squad Feedback", "3 - HUD Display - Known Enemies"],
+    [100, 10000, 2000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -249,7 +289,7 @@ Parameters:
 [
     "SQFB_opt_showDist", 
     "CHECKBOX",
-    ["Show Distance (friendlies)", "Display the distance of the squad unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
+    ["Show Distance (squad)", "Display the distance of the squad unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
     ["Squad Feedback", "4 - HUD Display - Text Options"],
     [false],
     nil,
@@ -340,7 +380,7 @@ Parameters:
     "LIST",
     ["Text Font", "Font used in all the texts."], 
     ["Squad Feedback", "5 - HUD Customization"],
-    [["EtelkaMonospacePro","EtelkaMonospaceProBold","EtelkaNarrowMediumPro","LucidaConsoleB","PuristaBold","PuristaLight","PuristaMedium","PuristaSemiBold","RobotoCondensed","RobotoCondensedBold","RobotoCondensedLight","TahomaB"], ["EtelkaMonospacePro","EtelkaMonospaceProBold","EtelkaNarrowMediumPro","LucidaConsoleB","PuristaBold","PuristaLight","PuristaMedium","PuristaSemiBold","RobotoCondensed","RobotoCondensedBold","RobotoCondensedLight","TahomaB"],9],
+    [["EtelkaMonospacePro","EtelkaMonospaceProBold","EtelkaNarrowMediumPro","LucidaConsoleB","PuristaBold","PuristaLight","PuristaMedium","PuristaSemiBold","RobotoCondensed","RobotoCondensedBold","RobotoCondensedLight","TahomaB"], ["EtelkaMonospacePro","EtelkaMonospaceProBold","EtelkaNarrowMediumPro","LucidaConsoleB","PuristaBold","PuristaLight","PuristaMedium","PuristaSemiBold","RobotoCondensed","RobotoCondensedBold","RobotoCondensedLight","TahomaB"],5],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -430,7 +470,7 @@ Parameters:
     "SLIDER",
     ["Show Dead Delay", "Time that must pass while the HUD is shown to display dead units, in seconds."], 
     ["Squad Feedback", "6 - HUD Display - Advanced"],
-    [0, 59, 3, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [0, 60, 3, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -448,7 +488,7 @@ Parameters:
 [
     "SQFB_opt_AlwaysShowEnemies", 
     "CHECKBOX",
-    ["Always Display Enemies", "Always display known enemy locations even when the key isn't pressed.\nThis option will only have any effect if 'Show Known Enemies' is active."],
+    ["Always Display Known Enemies", "Always display known enemy locations even when the key isn't pressed.\nThis option will only have any effect if 'Show Known Enemies' is active."],
     ["Squad Feedback", "6 - HUD Display - Advanced"],
     [false],
     nil,
