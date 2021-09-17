@@ -89,6 +89,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
                             private _isOnFoot = isNull objectParent _unit;
                             private _unitPos = position _veh;
                             private _crew = crew _veh;
+                            private _isFirstCrew = false;
                             private _inVehDif = _SQFB_opt_GroupCrew && !_isOnFoot && (_veh != _vehPlayer || cameraView != "INTERNAL");
                             private _canSee = 1;
                             if (_SQFB_opt_checkVisibility) then { _canSee = if (_inVehDif) then { [objNull, "VIEW"] checkVisibility [eyePos player, AtlToAsl(_veh modeltoworld [0,0,0])] } else { [objNull, "VIEW"] checkVisibility [eyePos player, eyePos _unit] } };
@@ -143,9 +144,16 @@ SQFB_draw3D_EH = addMissionEventHandler [
                                     private _texture = "";
                                     private _color = _unit call SQFB_fnc_HUDColor;
 
-                                    private _iconHeightMod = if (_isOnFoot) then { 0.5 } else { 1.05 };
+                                    if (_inVehDif) then {
+                                        // Check if unit is the first in the vehicle's crew
+                                        private _ownCrewFirstIdx = _crew findIf { _x in units group _unit && _x == _unit };
+                                        if (_ownCrewFirstIdx != -1) then { _isFirstCrew = (_crew select _ownCrewFirstIdx) == _unit };  
+                                    };
+
+                                    private _isMan = (typeOf _unit) isKindOf "Man";
+                                    private _iconHeightMod = if (_isOnFoot) then { 0.5 } else { 0.4 };
                                     private _selectionPos = _unit selectionPosition "head";
-                                    private _position = if ((_inVehDif)) then {
+                                    private _position = if (_inVehDif && _isFirstCrew) then {
                                                             _veh modelToWorldVisual [
                                                                 _SQFB_opt_iconHorVeh,
                                                                 0,
@@ -166,7 +174,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
                                     private _text_align = "center";
                                     private _arrows = _SQFB_opt_Arrows;
 
-                                    if (_inVehDif) then {
+                                    if (_inVehDif && _isFirstCrew) then {
                                         if (_SQFB_opt_showIcon || _text_size <= 0.02) then { _texture =  [_veh, _grp] call SQFB_fnc_HUDIconVeh };
                                         if (_SQFB_opt_showText && _text_size > 0.02) then { _text = [_veh, _SQFB_opt_showIndex, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_ShowCrew, _SQFB_opt_showDist] call SQFB_fnc_HUDtextVeh };
                                     } else {

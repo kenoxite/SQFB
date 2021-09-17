@@ -187,7 +187,7 @@ if (_alive) then {
             _crewPos = (_crew select _crewIndx) select 1;
             if (_crewPos == "cargo") then {_crewPos = ""};
         };
-        _roles pushBack format ["- %1",_crewPos];
+        if (_crewPos != "") then { _roles pushBack format ["- %1",_crewPos] };
     };
 
     _rolesStr = _roles joinString " ";
