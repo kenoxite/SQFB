@@ -298,7 +298,17 @@ Parameters:
 [
     "SQFB_opt_showRoles", 
     "CHECKBOX",
-    ["Display Roles", "Display the unit's role(s), which might be different from its original class.\nSome of the roles shown can be:\n* Medic: The unit can heal and has a medikit.\n* AT: The unit has a launcher weapon.\n* Demo: The unit can use explosives and has some in its inventory.\nThese are just some examples. There are many more roles and each unit can have more than one role depending on its weapon, ammo, gear and attributes.\n\nThis option will have no effect if Display Text is disabled."],
+    ["Display Roles Text", "Display the unit's role(s) text, which might be different from its original class.\nSome of the roles shown can be:\n* Medic: The unit can heal and has a medikit.\n* AT: The unit has a launcher weapon.\n* Demo: The unit can use explosives and has some in its inventory.\nThese are just some examples. There are many more roles and each unit can have more than one role depending on its weapon, ammo, gear and attributes.\n\nThis option will have no effect if Display Text is disabled."],
+    ["Squad Feedback", "4 - HUD Display - Text Options"],
+    [true],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showRolesIcon", 
+    "CHECKBOX",
+    ["Display Roles Icon", "Display the unit's role(s) icon, which might be different from its original class.\nSome of the roles shown can be:\n* Medic: The unit can heal and has a medikit.\n* AT: The unit has a launcher weapon.\n* Demo: The unit can use explosives and has some in its inventory.\nThese are just some examples. There are many more roles and each unit can have more than one role depending on its weapon, ammo, gear and attributes.\n\nThis option will have no effect if Display Text is disabled."],
     ["Squad Feedback", "4 - HUD Display - Text Options"],
     [true],
     nil,

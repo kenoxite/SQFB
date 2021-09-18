@@ -51,6 +51,8 @@ class CfgFunctions
             class enemyTargets {};
             class trackingGearAdd {};
             class trackingGearCheck {};
+            class drawHUDsquad {};
+            class drawHUDenemies {};
 
             // Infantry
             class resetUnit {};

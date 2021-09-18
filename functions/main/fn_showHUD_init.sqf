@@ -20,8 +20,6 @@ params [["_type", "friendly"]];
 
 if (!SQFB_opt_on) exitWith {true};
 
-
-
 if (_type == "friendly") then {
     SQFB_showHUD = true;
     if (SQFB_showDeadMinTime == 0) then {
