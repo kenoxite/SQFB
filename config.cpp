@@ -49,6 +49,8 @@ class CfgFunctions
             class trueZoom {};
             class changeProfile {};
             class enemyTargets {};
+            class trackingGearAdd {};
+            class trackingGearCheck {};
 
             // Infantry
             class resetUnit {};

@@ -26,7 +26,7 @@ switch (SQFB_opt_profile) do {
 
     case "all": {
         SQFB_opt_showSquad = true;
-        SQFB_opt_showEnemies = true;
+        SQFB_opt_showEnemies = "keypressed";
 
         SQFB_opt_showIcon = true;
         SQFB_opt_showText = true;
@@ -42,12 +42,11 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showCrew = true;
         SQFB_opt_showDead = true;
         SQFB_opt_AlwaysShowCritical = true;
-        SQFB_opt_AlwaysShowEnemies = false;
     };
 
     case "min": {
         SQFB_opt_showSquad = true;
-        SQFB_opt_showEnemies = true;
+        SQFB_opt_showEnemies = "keypressed";
         
         SQFB_opt_showIcon = true;
         SQFB_opt_showText = false;
@@ -63,12 +62,11 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showCrew = true;
         SQFB_opt_showDead = true;
         SQFB_opt_AlwaysShowCritical = true;
-        SQFB_opt_AlwaysShowEnemies = false;
     };
 
     case "crit": {
         SQFB_opt_showSquad = true;
-        SQFB_opt_showEnemies = true;
+        SQFB_opt_showEnemies = "keypressed";
         
         SQFB_opt_showIcon = true;
         SQFB_opt_showText = true;
@@ -84,12 +82,11 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showCrew = false;
         SQFB_opt_showDead = true;
         SQFB_opt_AlwaysShowCritical = true;
-        SQFB_opt_AlwaysShowEnemies = false;
     };
 
     case "vanillalike": {
         SQFB_opt_showSquad = true;
-        SQFB_opt_showEnemies = true;
+        SQFB_opt_showEnemies = "keypressed";
         
         SQFB_opt_showIcon = false;
         SQFB_opt_showText = true;
@@ -105,12 +102,11 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showCrew = true;
         SQFB_opt_showDead = false;
         SQFB_opt_AlwaysShowCritical = true;
-        SQFB_opt_AlwaysShowEnemies = false;
     };
 
     case "onlyalwaysenemies": {
         SQFB_opt_showSquad = false;
-        SQFB_opt_showEnemies = true;
+        SQFB_opt_showEnemies = "always";
         
         SQFB_opt_showIcon = true;
         SQFB_opt_showText = true;
@@ -126,12 +122,11 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showCrew = false;
         SQFB_opt_showDead = false;
         SQFB_opt_AlwaysShowCritical = false;
-        SQFB_opt_AlwaysShowEnemies = true;
     };
 
     default {
         SQFB_opt_showSquad = true;
-        SQFB_opt_showEnemies = true;
+        SQFB_opt_showEnemies = "keypressed";
         
         SQFB_opt_showIcon = true;
         SQFB_opt_showText = true;
@@ -147,7 +142,6 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showCrew = true;
         SQFB_opt_showDead = true;
         SQFB_opt_AlwaysShowCritical = true;
-        SQFB_opt_AlwaysShowEnemies = false;
     };   
 };
 
@@ -168,7 +162,6 @@ switch (SQFB_opt_profile) do {
     ["SQFB_opt_showCrew", SQFB_opt_showCrew, 0, "server", true] call CBA_settings_fnc_set;
     ["SQFB_opt_showDead", SQFB_opt_showDead, 0, "server", true] call CBA_settings_fnc_set;
     ["SQFB_opt_AlwaysShowCritical", SQFB_opt_AlwaysShowCritical, 0, "server", true] call CBA_settings_fnc_set;
-    ["SQFB_opt_AlwaysShowEnemies", SQFB_opt_AlwaysShowEnemies, 0, "server", true] call CBA_settings_fnc_set;
 // };
 
 

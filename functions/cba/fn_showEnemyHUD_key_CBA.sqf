@@ -18,6 +18,5 @@
 
 if (!SQFB_showEnemyHUD) then 
 {
-    SQFB_showEnemyHUD = true;
 	["enemy"] call SQFB_fnc_showHUD_init;
 };
