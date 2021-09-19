@@ -207,25 +207,6 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "SQFB_opt_showEnemiesIfTrackingGear", 
-    "CHECKBOX",
-    ["Allow Enemy Tracking Devices", "Enemy locations will ALWAYS be displayed as long as the player has an Enemy Tracking device equipped.\nThe pre-defined devices are:
-    - Combat Goggles (any version, including balaclavas)
-    - Tactical Glasses (any version)
-    - VR Goggles
-    - Assassin Helmet (any version)
-    - Defender Helmet (any version)
-    - Fighter Pilot Helmet (any version)
-    - Special Purpose Helmet (any version)
-    \nYou can still use the corresponding key to display enemy locations even with this option active.
-    "],
-    ["Squad Feedback", "3 - HUD Display - Known Enemies"],
-    [true],
-    nil,
-    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
-] call CBA_fnc_addSetting;
-
-[
     "SQFB_opt_showEnemiesMinTime", 
     "SLIDER",
     ["Initial Delay", "Time that must pass while the HUD is shown to display known enemy units when the key is pressed, in seconds."], 
@@ -271,6 +252,25 @@ Parameters:
     ["Maximum Range (Air)", "Maximum distance to look for enemies and display their HUD elements when the player is in an air vehicle, in meters."], 
     ["Squad Feedback", "3 - HUD Display - Known Enemies"],
     [100, 10000, 2000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showEnemiesIfTrackingGear", 
+    "CHECKBOX",
+    ["Allow Enemy Tracking Devices", "Enemy locations will ALWAYS be displayed as long as the player has an Enemy Tracking device equipped.\nThe pre-defined devices are:
+    - Combat Goggles (any version, including balaclavas)
+    - Tactical Glasses (any version)
+    - VR Goggles
+    - Assassin Helmet (any version)
+    - Defender Helmet (any version)
+    - Fighter Pilot Helmet (any version)
+    - Special Purpose Helmet (any version)
+    \nYou can still use the corresponding key to display enemy locations even with this option active.
+    "],
+    ["Squad Feedback", "3 - HUD Display - Known Enemies"],
+    [true],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
