@@ -1,5 +1,5 @@
 # Squad Feedback
-[![Version](https://img.shields.io/badge/Version-0.2-green)](https://github.com/kenoxite/SQFB/releases/latest)
+[![Version](https://img.shields.io/badge/Version-1.0-green)](https://github.com/kenoxite/SQFB/releases/latest)
 [![License](https://img.shields.io/badge/License-APL--SA-lightgrey)](https://github.com/kenoxite/SQFB/blob/master/LICENSE)
 
 ### Info
