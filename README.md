@@ -8,5 +8,6 @@
 Mod for Arma 3 that provides enhanced visual feedback from your AI team.
 
 ### License
+![APL-SA](https://i.imgur.com/VgZW2Qa.png)
 
 This project is licensed under the **Arma Public License Share Alike** ([APL-SA](../master/LICENSE)).
