@@ -7,6 +7,8 @@
 
 Mod for Arma 3 that provides enhanced visual feedback from your AI team.
 
+You can check the already compiled version by visiting this mod's [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2605644817) page.
+
 ### License
 ![APL-SA](https://i.imgur.com/VgZW2Qa.png)
 
