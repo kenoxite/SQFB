@@ -16,7 +16,7 @@
 
 */
 
-params ["_veh",["_showIndex", true],["_showClass", false],["_showRoles", false],["_showCrew", true],["_showDist", true]];
+params ["_veh", "_unitVisible", ["_showIndex", true],["_showClass", false],["_showRoles", false],["_showCrew", true],["_showDist", true]];
 private _return = "";
 private _index = -1;
 private _crew = fullCrew [vehicle _veh,"",true];
@@ -38,11 +38,13 @@ if (_showClass) then {
     _vehName = toUpperANSI (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"));
 };
 
-private _grp = group player;
+private _grpLeader = leader (group _veh);
+private _formLeader = formationLeader _vehPlayer;
+
 // Default text when requested by player
 if (SQFB_showHUD) then {
     private _alive = alive _veh || damage _veh < 1;
-    if (SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5: ", _return, if (leader _grp == _vehLeader) then {"<"} else {""}, _index, if (leader _grp == _vehLeader) then {">"} else {""}, if (formationLeader _vehPlayer == _vehLeader) then {"^"} else {""}] };
+    if (SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5: ", _return, if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}] };
 
 	// if (_showIndex && _index >= 0) then { _return = format ["%1%2: ", _return,_index]; };
 	if (_showClass) then {
@@ -102,10 +104,8 @@ if (SQFB_showHUD) then {
 	};
 } else {
     // Text when always show critical is enabled
-	if (SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (leader _unit == player)) || SQFB_opt_outFOVindex) then {
-		private _FOV = [] call CBA_fnc_getFov select 0;
-		private _inView = [ position _vehPlayer, (positionCameraToWorld [0,0,0]) getdir (positionCameraToWorld [0,0,1]), ceil(_FOV*100), position _veh ] call BIS_fnc_inAngleSector;
-		if (!_inView) then {
+	if (SQFB_opt_outFOVindex || {SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (_grpLeader == player))}) then {
+		if (!_unitVisible) then {
 			private _critical = false;
 			//if (_showClass) then {_return = format ["%1%2 ", _return,_vehName]};
 			// Vehicle status
@@ -137,7 +137,7 @@ if (SQFB_showHUD) then {
 				};
 			};
             if (_critical || SQFB_opt_outFOVindex) then {
-                if (_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5 %6 ", if (leader _grp == _vehLeader) then {"<"} else {""}, _index, if (leader _grp == _vehLeader) then {">"} else {""}, if (formationLeader _vehPlayer == _vehLeader) then {"^"} else {""}] };
+                if (_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5 %6 ", if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}] };
             };
 		};
 	};

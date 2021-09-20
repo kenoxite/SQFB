@@ -62,6 +62,8 @@ SQFB_enemyTrackingHMD = [];
 // Player traits
 private _unitTraits = getAllUnitTraits player;
 player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];
+// Set player position
+player setVariable ["SQFB_pos", getPosWorld vehicle player];
 
 waitUntil {!isNull player};
 
@@ -86,10 +88,11 @@ SQFB_draw3D_EH = addMissionEventHandler [
         if (_screenPosition isEqualTo []) exitWith {};
 
         if (count SQFB_units > 0) then {
+            private _playerPos = getPosWorld vehicle player;
             // Squad
             if (time > SQFB_squadTimeLastCheck + SQFB_opt_HUDrefresh) then {
                 if (SQFB_opt_showSquad) then {
-                    call SQFB_fnc_drawHUDsquad;
+                    [_playerPos] call SQFB_fnc_drawHUDsquad;
                 };
                 SQFB_squadTimeLastCheck = time;
             };
@@ -97,10 +100,12 @@ SQFB_draw3D_EH = addMissionEventHandler [
             // Enemies
             if (time > SQFB_enemiesTimeLastCheck + SQFB_opt_HUDrefresh) then {
                 if (SQFB_showEnemies && SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck || {SQFB_showEnemies && !SQFB_opt_showEnemiesIfTrackingGear || {time >= SQFB_showEnemiesMinTime && SQFB_showEnemyHUD}}) then {
-                    call SQFB_fnc_drawHUDenemies;
+                    [_playerPos] call SQFB_fnc_drawHUDenemies;
                 };
                 SQFB_enemiesTimeLastCheck = time;
             };
+            // Update player position
+            player setVariable ["SQFB_pos", _playerPos];
         };
     };
 }];

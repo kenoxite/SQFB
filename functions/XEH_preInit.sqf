@@ -121,7 +121,7 @@ Parameters:
     "SLIDER",
     ["HUD Refresh Rate", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
     ["Squad Feedback", "0 - General"],
-    [0, 0.05, 0.012, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [0, 0.05, 0.011, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;

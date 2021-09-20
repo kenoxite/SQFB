@@ -16,7 +16,7 @@
 
 */
 
-params ["_unit"];
+params ["_unit", "_unitVisible"];
 
 private _return = "";
 
@@ -30,35 +30,30 @@ private _index = -1;
 private _vehPlayer = vehicle player;
 private _veh = vehicle _unit;
 if (_alive && SQFB_opt_showIndex) then { _index = _unit getVariable "SQFB_grpIndex"; };
+private _grpLeader = leader (group _unit);
+private _formLeader = formationLeader _vehPlayer;
+
 // Default text when requested by player
 if (SQFB_showHUD) then {
 	if (_alive || (!_alive && (_veh == _unit) && time >= SQFB_showDeadMinTime)) then {
-		if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5: ", _return, if (leader (group _unit) == _unit) then {"<"} else {""}, _index, if (leader (group _unit) == _unit) then {">"} else {""}, if (formationLeader player == _unit) then {"^"} else {""}] };
+		if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5: ", _return, if (_grpLeader == _unit) then {"<"} else {""}, _index, if (_grpLeader == _unit) then {">"} else {""}, if (_formLeader == _unit) then {"^"} else {""}] };
 		if (_alive) then {
 			private _lifeState = lifeState _unit;
 			if (_lifeState != "HEALTHY") then {
-				if (isBleeding _unit && _lifeState != "INCAPACITATED") then {
-					_return = format ["%1[BLEEDING] ",_return];
-				} else {
-					_return = format ["%1[%2] ",_return,_lifeState];
-				};
+                _return = [
+                            format ["%1[%2] ",_return, _lifeState],
+                            format ["%1[BLEEDING] ",_return]
+                            ] select (isBleeding _unit && _lifeState != "INCAPACITATED");
 			};
-		} else {
-            if (SQFB_opt_showDead) then {
-                // _return = format ["%1%2 ",_return, _unit getVariable "SQFB_displayName"];
-                // _return = format ["[DEAD]%1 ",_return];
-            };
 		};
 		if (_unit getVariable "SQFB_noAmmo") then {
-			if (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec") then {
-				_return = format ["%1[NO AMMO] ",_return];
-			} else {
-				if (_unit getVariable "SQFB_noAmmoPrim") then {
-					_return = format ["%1[NO AMMO PRIM] ",_return];
-				} else {
-					_return = format ["%1[NO AMMO SEC] ",_return];
-				};
-			};
+            _return = [
+                            [
+                                format ["%1[NO AMMO SEC] ",_return],
+                                format ["%1[NO AMMO PRIM] ",_return]
+                            ] select (_unit getVariable "SQFB_noAmmoPrim"),
+                            format ["%1[NO AMMO] ",_return]
+                        ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec");
 		};
 		if (SQFB_opt_showClass) then {
 			_return = format ["%1%2 ",_return, _unit getVariable "SQFB_displayName"];
@@ -73,46 +68,41 @@ if (SQFB_showHUD) then {
 		};
 	};
 } else {
-	if (SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (leader _unit == player)) || SQFB_opt_outFOVindex) then {
-		private _FOV = [] call CBA_fnc_getFov select 0;
-		private _inView = [ position _vehPlayer, (positionCameraToWorld [0,0,0]) getdir (positionCameraToWorld [0,0,1]), ceil(_FOV*100), position _veh ] call BIS_fnc_inAngleSector;
-		if (!_inView) then {
-			// Text shown when not requested by player
-			private _critical = false;
+    // Text shown when not requested by player
+    if (SQFB_opt_outFOVindex || {SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (_grpLeader == player))}) then {
+		if (!_unitVisible) then {
+            private _critical = false;
 			if (_alive) then { 
 				private _lifeState = lifeState _unit;
 				if (_lifeState != "HEALTHY") then {
+                    _critical = true;
 					if (isBleeding _unit && _lifeState != "INCAPACITATED") then {
-						_return = format ["%1[BLEEDING] ",_return];
-						_critical = true;
+						_return = format ["%1[BLEEDING] ", _return];
 					} else {
-						_return = format ["%1[%2] ",_return,_lifeState];
-						_critical = true;
+						_return = format ["%1[%2] ", _return, _lifeState];
 					};
 				} else {
 					if (_unit getVariable "SQFB_noAmmo") then {
+                        _critical = true;
 						if (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec") then {
-							_return = format ["%1[NO AMMO] ",_return];
-							_critical = true;
+							_return = format ["%1[NO AMMO] ", _return];
 						} else {
 							if (_unit getVariable "SQFB_noAmmoPrim") then {
-								_return = format ["%1[NO AMMO PRIM] ",_return];
-								_critical = true;
+								_return = format ["%1[NO AMMO PRIM] ", _return];
 							} else {
-								_return = format ["%1[NO AMMO SEC] ",_return];
-								_critical = true;
+								_return = format ["%1[NO AMMO SEC] ", _return];
 							};
 						};
 					};
 				};
 				if ((_unit getVariable "SQFB_medic") && ((group _unit) getVariable "SQFB_wounded")) then {
-					_return = format ["%1[MEDIC] ",_return];
-					_critical = true;
+					_return = format ["%1[MEDIC] ", _return];
+                    _critical = true;
 				};
 			};
-			if (_critical || SQFB_opt_outFOVindex) then {
-				if (SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5 %6 ", if (leader (group _unit) == _unit) then { "<" } else { "" }, _index, if (leader (group _unit) == _unit) then { ">" } else { "" }, if (_return != "") then { ":" } else { "" }, if (formationLeader player == _unit) then {"^"} else {""}, _return] };
-			};
+			if ((SQFB_opt_outFOVindex || _critical) && SQFB_opt_showIndex && _index >= 0) then {
+                _return = format ["%1%2%3%4%5 %6 ", if (_grpLeader == _unit) then { "<" } else { "" }, _index, if (_grpLeader == _unit) then { ">" } else { "" }, if (_return != "") then { ":" } else { "" }, if (_formLeader == _unit) then {"^"} else {""}, _return];
+            };
 		};
 	};
 };
