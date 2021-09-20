@@ -15,10 +15,11 @@
 	Examples:
 
 */
-
-if (!SQFB_showEnemyHUD) then 
-{
-    ["enemy"] call SQFB_fnc_showHUD_init;
-} else {
-	["enemy"] call SQFB_fnc_hideHUD;
+if !(SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck) then {
+    if (!SQFB_showEnemyHUD) then 
+    {
+        ["enemy"] call SQFB_fnc_showHUD_init;
+    } else {
+    	["enemy"] call SQFB_fnc_hideHUD;
+    };
 };

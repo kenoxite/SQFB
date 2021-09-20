@@ -41,10 +41,13 @@ if (_showClass) then {
 private _grpLeader = leader (group _veh);
 private _formLeader = formationLeader _vehPlayer;
 
+// Always show leader index
+private _alive = alive _veh || damage _veh < 1;
+if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0 && (_grpLeader == _unit || _formLeader == _unit)) then { _return = format ["%1%2%3%4%5%6 ", _return, if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}, if (_return != "") then { ":" } else { "" }] };
+
 // Default text when requested by player
 if (SQFB_showHUD) then {
-    private _alive = alive _veh || damage _veh < 1;
-    if (SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5: ", _return, if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}] };
+    if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0 && _grpLeader != _unit && _formLeader != _unit) then { _return = format ["%1%2%3%4%5: ", _return, if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}] };
 
 	// if (_showIndex && _index >= 0) then { _return = format ["%1%2: ", _return,_index]; };
 	if (_showClass) then {
@@ -136,7 +139,7 @@ if (SQFB_showHUD) then {
 					_critical = true;
 				};
 			};
-            if (_critical || SQFB_opt_outFOVindex) then {
+            if (_critical || SQFB_opt_outFOVindex  && _grpLeader != _unit && _formLeader != _unit) then {
                 if (_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5 %6 ", if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}] };
             };
 		};

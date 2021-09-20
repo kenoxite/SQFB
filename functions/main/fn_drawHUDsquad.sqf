@@ -110,27 +110,6 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                 };
                 private _displayAsVehicle = _isInVeh && _isFirstCrew;
 
-                private _iconHeightMod = [0.4, 0.5] select (_isOnFoot);
-                private _selectionPos = _unit selectionPosition "head";
-                private _position = [
-                                        _unit modelToWorldVisual [
-                                            (_selectionPos select 0) + _SQFB_opt_iconHor,
-                                            _selectionPos select 1,
-                                            (_selectionPos select 2) + _iconHeightMod + _SQFB_opt_iconHeight
-                                        ],
-                                        _veh modelToWorldVisual [
-                                            _SQFB_opt_iconHorVeh,
-                                            0,
-                                            1 + _SQFB_opt_iconHeightVeh
-                                        ]
-                                    ] select _displayAsVehicle;
-
-                private _angle = 0;
-                private _shadow = true;
-                private _font = _SQFB_opt_textFont;
-                private _textAlign = "center";
-                private _arrows = _SQFB_opt_Arrows;
-
                 private _texture = [
                                         [
                                             "",
@@ -154,6 +133,30 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                         [_veh, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_ShowCrew, _SQFB_opt_showDist] call SQFB_fnc_HUDtextVeh
                                     ] select (_SQFB_opt_showText && _textSize > 0.02)
                                 ] select _displayAsVehicle;
+
+                private _iconHeightMod = [
+                                            [0.1, 0] select (_text == ""),
+                                            [0.3, 0.1] select (_text == "")
+                                        ] select (_isOnFoot);
+                private _selectionPos = _unit selectionPosition ["head", "HitPoints"];
+                // private _selectionPos = selectionPosition [_unit, "head", 12, true];
+                private _position = [
+                                        _unit modelToWorldVisual [
+                                            (_selectionPos select 0) + _SQFB_opt_iconHor,
+                                            _selectionPos select 1,
+                                            (_selectionPos select 2) + _iconHeightMod + _SQFB_opt_iconHeight
+                                        ],
+                                        _veh modelToWorldVisual [
+                                            _SQFB_opt_iconHorVeh,
+                                            0,
+                                            1 + _SQFB_opt_iconHeightVeh
+                                        ]
+                                    ] select _displayAsVehicle;
+                private _angle = 0;
+                private _shadow = true;
+                private _font = _SQFB_opt_textFont;
+                private _textAlign = "center";
+                private _arrows = _SQFB_opt_Arrows;
 
                 if (_text != "" || _texture != "") then {
                     drawIcon3D 

@@ -33,10 +33,13 @@ if (_alive && SQFB_opt_showIndex) then { _index = _unit getVariable "SQFB_grpInd
 private _grpLeader = leader (group _unit);
 private _formLeader = formationLeader _vehPlayer;
 
+// Always show leader index
+if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0 && (_grpLeader == _unit || _formLeader == _unit)) then { _return = format ["%1%2%3%4%5%6 ", _return, if (_grpLeader == _unit) then {"<"} else {""}, _index, if (_grpLeader == _unit) then {">"} else {""}, if (_formLeader == _unit) then {"^"} else {""}, if (_return != "") then { ":" } else { "" }] };
+
 // Default text when requested by player
 if (SQFB_showHUD) then {
 	if (_alive || (!_alive && (_veh == _unit) && time >= SQFB_showDeadMinTime)) then {
-		if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5: ", _return, if (_grpLeader == _unit) then {"<"} else {""}, _index, if (_grpLeader == _unit) then {">"} else {""}, if (_formLeader == _unit) then {"^"} else {""}] };
+        if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0 && _grpLeader != _unit && _formLeader != _unit) then { _return = format ["%1%2%3%4%5%6 ", _return, if (_grpLeader == _unit) then {"<"} else {""}, _index, if (_grpLeader == _unit) then {">"} else {""}, if (_formLeader == _unit) then {"^"} else {""}, if (_return != "") then { ":" } else { "" }] };
 		if (_alive) then {
 			private _lifeState = lifeState _unit;
 			if (_lifeState != "HEALTHY") then {
@@ -100,7 +103,7 @@ if (SQFB_showHUD) then {
                     _critical = true;
 				};
 			};
-			if ((SQFB_opt_outFOVindex || _critical) && SQFB_opt_showIndex && _index >= 0) then {
+			if ((SQFB_opt_outFOVindex || _critical) && SQFB_opt_showIndex && _index >= 0 && _grpLeader != _unit && _formLeader != _unit) then {
                 _return = format ["%1%2%3%4%5 %6 ", if (_grpLeader == _unit) then { "<" } else { "" }, _index, if (_grpLeader == _unit) then { ">" } else { "" }, if (_return != "") then { ":" } else { "" }, if (_formLeader == _unit) then {"^"} else {""}, _return];
             };
 		};

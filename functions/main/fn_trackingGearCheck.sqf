@@ -15,10 +15,8 @@
 
 */
 
-private _return = false;
+if ((goggles player) in SQFB_enemyTrackingGoggles) exitWith { true };
+if ((headgear player) in SQFB_enemyTrackingHeadgear) exitWith { true };
+if ((hmd player) in SQFB_enemyTrackingHMD) exitWith { true };
 
-if (!_return && {(goggles player) in SQFB_enemyTrackingGoggles}) then { _return = true };
-if (!_return && {(headgear player) in SQFB_enemyTrackingHeadgear}) then { _return = true };
-if (!_return && {(hmd player) in SQFB_enemyTrackingHMD}) then { _return = true };
-
-_return
+false

@@ -162,8 +162,27 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
 
             _color = [_SQFB_opt_colorEnemy select 0,_SQFB_opt_colorEnemy select 1,_SQFB_opt_colorEnemy select 2, ([_enemy] call SQFB_fnc_HUDAlpha) max 0.7];
 
-            private _iconHeightMod = [1, 0.8] select (_isOnFoot);
-            private _selectionPos = [_perceivedPos, _enemy selectionPosition "head"] select _isRealPos;
+            _text = [
+                        "",
+                        [
+                            "",
+                            format ["%1m", round _distPerceived]
+                        ] select (_SQFB_opt_showDistEnemy)
+                    ] select (!_isPlayerAir && _SQFB_opt_showText && _textSize > 0.02);
+
+
+            private _enemyType = [typeOf _unit] call SQFB_fnc_classType;
+            _texture = [
+                            "a3\ui_f\data\map\markers\military\unknown_ca.paa", 
+                            format ["a3\ui_f\data\map\markers\nato\o_%1.paa", _enemyType]
+                        ] select _isRealPos;
+
+            private _iconHeightMod = [
+                                        [1.7, 0.8] select (_text == ""),
+                                        [0.8, 0.5] select (_text == "")
+                                    ] select (_isOnFoot);
+            private _selectionPos = [getPosVisual _enemy, _enemy selectionPosition ["head", "HitPoints"]] select _isRealPos;
+            // private _selectionPos = [getPosVisual _enemy, selectionPosition [_enemy, "head", 12, true]] select _isRealPos;
             _position = [
                             [
                                 _enemy modelToWorldVisual [
@@ -191,16 +210,6 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                                 ]
                             ] select _isRealPos
                         ] select _isOnFoot;
-
-            _text = [
-                        "",
-                        [
-                            "",
-                            format ["%1m", round _distPerceived]
-                        ] select (_SQFB_opt_showDistEnemy)
-                    ] select (!_isPlayerAir && _SQFB_opt_showText && _textSize > 0.02);
-
-            _texture = ["a3\ui_f\data\map\markers\military\unknown_ca.paa", "a3\ui_f\data\map\markers\nato\o_unknown.paa"] select _isRealPos;
 
             if (_noEnemyData || {!_sameEnemyPos && !_noEnemyData}) then {
                 // Create ememy vars

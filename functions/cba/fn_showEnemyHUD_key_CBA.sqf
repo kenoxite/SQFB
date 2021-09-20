@@ -16,7 +16,7 @@
 
 */
 
-if (!SQFB_showEnemyHUD) then 
+if (!SQFB_showEnemyHUD && !(SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck)) then 
 {
 	["enemy"] call SQFB_fnc_showHUD_init;
 };

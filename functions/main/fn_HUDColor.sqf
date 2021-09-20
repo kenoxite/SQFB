@@ -21,7 +21,7 @@ params ["_unit"];
 private _return = [];
 
 private _alpha = [_unit] call SQFB_fnc_HUDAlpha;
-if (!SQFB_showHUD && _alpha > 0) then {
+if (!SQFB_showHUD && _alpha > 0 && leader group _unit != _unit && formationLeader _unit != _unit) then {
 	_alpha = _alpha /1.5;
 };
 
