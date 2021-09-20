@@ -28,7 +28,7 @@ SQFB_enemyTrackingGoggles_default = [
     "G_Tactical_Black",
     "G_Goggles_VR"
 ];
-SQFB_enemyTrackingGoggles = [];
+SQFB_enemyTrackingGoggles = +SQFB_enemyTrackingGoggles_default;
 
 SQFB_enemyTrackingHeadgear_default = [
     "H_HelmetSpecoO_blk",
@@ -46,7 +46,7 @@ SQFB_enemyTrackingHeadgear_default = [
 
     // "H_Hat_Tinfoil_F"
 ];
-SQFB_enemyTrackingHeadgear = [];
+SQFB_enemyTrackingHeadgear = +SQFB_enemyTrackingHeadgear_default;
 
 SQFB_enemyTrackingHMD_default = [
     // "O_NVGoggles_ghex_F",
@@ -57,7 +57,7 @@ SQFB_enemyTrackingHMD_default = [
     // "O_NVGogglesB_grn_F",
     // "O_NVGogglesB_gry_F"
 ];
-SQFB_enemyTrackingHMD = [];
+SQFB_enemyTrackingHMD = +SQFB_enemyTrackingHMD_default;
 
 // Player traits
 private _unitTraits = getAllUnitTraits player;
