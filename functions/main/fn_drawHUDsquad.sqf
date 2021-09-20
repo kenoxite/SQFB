@@ -51,21 +51,19 @@ for "_i" from 0 to (count _SQFB_units) -1 do
         private _isPlayerAir = ((getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent player));
         private _dist = _vehPlayer distance _veh;
         private _maxRange = [SQFB_opt_maxRange, SQFB_opt_maxRangeAir] select (_isPlayerAir);
+
         // Skip units outside the max
         if (_dist > _maxRange) then { continue };
         
         private _isOnFoot = isNull objectParent _unit;
         private _unitPos = getPosWorld _veh;
-        private _crew = crew _veh;
-        private _isFirstCrew = false;
-        private _isInVeh = _SQFB_opt_GroupCrew && !_isOnFoot && (_veh != _vehPlayer || cameraView != "INTERNAL");
         private _unitVisibility = [
-                                1,
-                                [
-                                    [objNull, "VIEW"] checkVisibility [eyePos player, eyePos _unit],
-                                    [objNull, "VIEW"] checkVisibility [eyePos player, AtlToAsl(_veh modeltoworld [0,0,0])]
-                                ] select (_isInVeh)
-                            ] select (_SQFB_opt_checkVisibility);
+                                        1,
+                                        [
+                                            [objNull, "VIEW"] checkVisibility [eyePos player, eyePos _unit],
+                                            [objNull, "VIEW"] checkVisibility [eyePos player, AtlToAsl(_veh modeltoworld [0,0,0])]
+                                        ] select (_isOnFoot)
+                                    ] select (_SQFB_opt_checkVisibility);
         private _unitOccluded = _unitVisibility < 0.2;
         private _unitVisible = [ getPosWorld _vehPlayer, [0,0,0] getdir getCameraViewDirection player, (getObjectFOV _vehPlayer) * 120, _unitPos ] call BIS_fnc_inAngleSector;
         if (_unitVisible && !_unitOccluded && (_SQFB_showHUD || (!_SQFB_showHUD && _SQFB_opt_AlwaysShowCritical)) || (!_unitVisible && SQFB_opt_outFOVindex)) then {
@@ -102,18 +100,18 @@ for "_i" from 0 to (count _SQFB_units) -1 do
 
                 private _color = _unit call SQFB_fnc_HUDColor;
 
-                // Check if unit is the first in the vehicle's crew
+                // Check wether info should be displayed as a vehicle or as separate units
+                private _isFirstCrew = false;
+                private _isInVeh = _SQFB_opt_GroupCrew && !_isOnFoot && (_veh != _vehPlayer || cameraView != "INTERNAL");
                 if (_isInVeh) then {
+                    // Check if unit is the first from this group in the vehicle's crew
+                    private _crew = crew _veh;
                     private _ownCrewFirstIdx = _crew findIf { _x in units group _unit && _x == _unit };
-                    if (_ownCrewFirstIdx != -1) then { _isFirstCrew = (_crew select _ownCrewFirstIdx) == _unit };  
+                    if (_ownCrewFirstIdx > -1 && !_isFirstCrew) then { _isFirstCrew = (_crew select _ownCrewFirstIdx) == _unit };  
                 };
+                private _displayAsVehicle = _isInVeh && _isFirstCrew;
 
-                private _isMan = (typeOf _unit) isKindOf "Man";
-                // private _iconHeightMod = [0.4, 0.5] select (_isOnFoot);
-                private _iconHeightMod = [
-                                    ((linearConversion[ 0, _maxRange min 200, _dist, (0.4 * _adjSize) * _zoom, 1, true ])) min 0.4,
-                                    ((linearConversion[ 0, _maxRange min 200, _dist, (0.7 * _adjSize) * _zoom, 0.8, true ])) min 0.7
-                                ] select (_isOnFoot);
+                private _iconHeightMod = [0.4, 0.5] select (_isOnFoot);
                 private _selectionPos = _unit selectionPosition "head";
                 private _position = [
                                         _unit modelToWorldVisual [
@@ -126,7 +124,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                             0,
                                             1 + _SQFB_opt_iconHeightVeh
                                         ]
-                                    ] select (_isInVeh && _isFirstCrew);
+                                    ] select _displayAsVehicle;
 
                 private _angle = 0;
                 private _shadow = true;
@@ -144,7 +142,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                             "",
                                             [_veh, _grp] call SQFB_fnc_HUDIconVeh
                                         ] select (!_unitOccluded && (_SQFB_opt_showIcon || _text_size <= 0.02))
-                                    ] select (_isInVeh && _isFirstCrew);
+                                    ] select _displayAsVehicle;
 
                 private _text = [
                                     [
@@ -156,7 +154,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                         "",
                                         [_veh, _SQFB_opt_showIndex, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_ShowCrew, _SQFB_opt_showDist] call SQFB_fnc_HUDtextVeh
                                     ] select (_SQFB_opt_showText && _text_size > 0.02)
-                                ] select (_isInVeh && _isFirstCrew);
+                                ] select _displayAsVehicle;
 
                 if (_text != "" || _texture != "") then {
                     drawIcon3D 

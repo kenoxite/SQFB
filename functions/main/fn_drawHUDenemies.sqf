@@ -45,22 +45,25 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         private _veh = vehicle _unit;
         private _vehPlayer = vehicle player;
         private _isPlayerAir = ((getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent player));
-        private _dist = _vehPlayer distance _unit;
 
         // Skip units outside the max range
+        private _realPos = getPosWorld _unit;
+        private _dist = _vehPlayer distance _realPos;
         private _maxRange = [_SQFB_opt_showEnemiesMaxRange, _SQFB_opt_showEnemiesMaxRangeAir] select (_isPlayerAir);
         if (_dist > _maxRange) then { continue };
 
         // Retrieve tagger object
+        private _lastKnownPos = _unit getVariable "SQFB_lastKnownPos";
         private _enemyTagger = objNull;
         private _enemyTaggerIndex = [_SQFB_enemyTagObjArr, _unit] call BIS_fnc_findNestedElement;
         private _enemyTaggerArr = [];
         if (count _enemyTaggerIndex > 0) then {
             _enemyTaggerArr = _SQFB_enemyTagObjArr select (_enemyTaggerIndex select 0);
             _enemyTagger = _enemyTaggerArr select 0;
-            if (_enemyTaggerArr select 2) then {
-                _enemyTagger setPosWorld (getPosWorld _veh);
-                _enemyTaggerArr set [2, false];
+            if (isNil "_lastKnownPos") then {
+                _enemyTagger setPosWorld _realPos;
+                _unit setVariable ["SQFB_lastKnownPos", _realPos];
+                _lastKnownPos = _realPos;
             };
         };
 
@@ -71,14 +74,18 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                             ] select (_isOnFoot);
         private _visThreshold = [0.2, 0.1] select (_isPlayerAir);
         private _enemyOccluded = _unitVisibility < _visThreshold;
+
         // Move enemy tagger to last known position
-        if (!_enemyOccluded) then { _enemyTagger setPosWorld (getPosWorld _veh) };
+        if (!_enemyOccluded) then {
+            _enemyTagger setPosWorld (getPosWorld _veh);
+            _unit setVariable ["SQFB_lastKnownPos", _realPos];
+        };
         private _enemy = [
                             _unit,
                             [_unit, _enemyTagger] select (!isNull _enemyTagger)
                         ] select _enemyOccluded;
-        private _unitPos = getPosWorld _enemy;
-        private _enemyVisible = [ getPosWorld _vehPlayer, [0,0,0] getdir getCameraViewDirection player, (getObjectFOV _vehPlayer) * 120, _unitPos ] call BIS_fnc_inAngleSector;
+
+        private _enemyVisible = [ getPosWorld _vehPlayer, [0,0,0] getdir getCameraViewDirection player, (getObjectFOV _vehPlayer) * 120, _realPos ] call BIS_fnc_inAngleSector;
 
         // Skip if enemy not in FOV of the player
         if (!_enemyVisible) then { continue };
@@ -90,22 +97,24 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         // Adjust sizes to distance
         private _zoom = call SQFB_fnc_trueZoom;
         private _adjSize = 2; // TBH no idea why this is needed, but it's needed
+        private _perceivedPos = [_lastKnownPos, _realPos] select (_enemy == _unit);
+        private _distPerceived = _vehPlayer distance _perceivedPos;
 
         private _iconSize = [
                         [
-                        ((linearConversion[ 0, _maxRange min 100, _dist, (1 * _adjSize) * _zoom, 0.5, true ])) min 1,
-                        ((linearConversion[ 0, _maxRange min 100, _dist, (0.6 * _adjSize) * _zoom, 0.3, true ])) min 0.6
+                        ((linearConversion[ 0, _maxRange min 100, _distPerceived, (1 * _adjSize) * _zoom, 0.5, true ])) min 1,
+                        ((linearConversion[ 0, _maxRange min 100, _distPerceived, (0.6 * _adjSize) * _zoom, 0.3, true ])) min 0.6
                         ] select (_isOnFoot),
 
                         [
-                        ((linearConversion[ 0, _maxRange min 100, _dist, (1 * _adjSize) * _zoom, 0.5, true ])) min 1,
-                        ((linearConversion[ 0, _maxRange min 100, _dist, (1 * _adjSize) * _zoom, 0.5, true ])) min 1
+                        ((linearConversion[ 0, _maxRange min 100, _distPerceived, (1 * _adjSize) * _zoom, 0.5, true ])) min 1,
+                        ((linearConversion[ 0, _maxRange min 100, _distPerceived, (1 * _adjSize) * _zoom, 0.5, true ])) min 1
                         ] select (_isOnFoot)
                     ] select (_isPlayerAir);
 
         private _text_size = [
-                        ((linearConversion[ 0, _maxRange min 200, _dist, (0.04 * _adjSize) * _zoom, 0.03, true ])) min 0.04,
-                        ((linearConversion[ 0, _maxRange min 200, _dist, (0.04 * _adjSize) * _zoom, 0.03, true ])) min 0.04
+                        ((linearConversion[ 0, _maxRange min 200, _distPerceived, (0.04 * _adjSize) * _zoom, 0.03, true ])) min 0.04,
+                        ((linearConversion[ 0, _maxRange min 200, _distPerceived, (0.04 * _adjSize) * _zoom, 0.03, true ])) min 0.04
                     ] select (_isPlayerAir);
 
         _iconSize = (_iconSize * _SQFB_opt_iconSize) max 0.01;
@@ -113,11 +122,8 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
 
         private _color = [_SQFB_opt_colorEnemy select 0,_SQFB_opt_colorEnemy select 1,_SQFB_opt_colorEnemy select 2, ([_enemy] call SQFB_fnc_HUDAlpha) max 0.7]; // Red
 
-        private _iconHeightMod = [
-                                    ((linearConversion[ 0, _maxRange min 200, _dist, (1 * _adjSize) * _zoom, 1, true ])) min 1,
-                                    ((linearConversion[ 0, _maxRange min 200, _dist, (0.8 * _adjSize) * _zoom, 0.8, true ])) min 0.8
-                                ] select (_isOnFoot);
-        private _enemyPos = [getPosWorld _enemy, _enemy selectionPosition "head"] select (_enemy == _unit);
+        private _iconHeightMod = [1, 0.8] select (_isOnFoot);
+        private _selectionPos = [[], _enemy selectionPosition "head"] select (_enemy == _unit);
         private _position = [
                                 [
                                     _enemy modelToWorldVisual [
@@ -139,9 +145,9 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                                         1.3
                                     ],
                                     _enemy modelToWorldVisual [
-                                        (_enemyPos select 0) + _SQFB_opt_iconHor,
-                                        _enemyPos select 1,
-                                        (_enemyPos select 2) + _iconHeightMod + _SQFB_opt_iconHeight
+                                        (_selectionPos select 0) + _SQFB_opt_iconHor,
+                                        _selectionPos select 1,
+                                        (_selectionPos select 2) + _iconHeightMod + _SQFB_opt_iconHeight
                                     ]
                                 ] select (_enemy == _unit)
                             ] select (_isOnFoot);

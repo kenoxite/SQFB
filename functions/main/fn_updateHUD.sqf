@@ -47,7 +47,7 @@ if (SQFB_opt_showEnemies != "never") then {
                 if (SQFB_debug) then { diag_log format ["SQFB: updateHUD - enemyTagger not found for unit: %1. Creating a new one...", _enemy] };
                 private _enemyTagger = createSimpleObject ["RoadCone_F", [0,0,0]];
                 _enemyTagger hideObject true;
-                SQFB_enemyTagObjArr pushBack [_enemyTagger, _enemy, true];
+                SQFB_enemyTagObjArr pushBack [_enemyTagger, _enemy];
             };
         };
     };
