@@ -107,8 +107,11 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             _texture = _dataTexture;
         } else {
             private _isOnFoot = (typeOf _veh isKindOf "Man");
+            //private _unitVisibility = [
+                                            // [objNull, "VIEW"] checkVisibility [eyePos player, AtlToAsl(_unit modeltoworld [0,0,0])],
+                                            // [objNull, "VIEW"] checkVisibility [eyePos player, eyePos _unit]
             private _unitVisibility = [
-                                            [objNull, "VIEW"] checkVisibility [eyePos player, AtlToAsl(_unit modeltoworld [0,0,0])],
+                                            [player, _unit, SQFB_opt_enemyPreciseVisCheck] call SQFB_fnc_checkVisibility,
                                             [objNull, "VIEW"] checkVisibility [eyePos player, eyePos _unit]
                                         ] select (_isOnFoot);
             private _visThreshold = [0.2, 0.1] select _isPlayerAir;

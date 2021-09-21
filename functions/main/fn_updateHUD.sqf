@@ -31,7 +31,12 @@ if (SQFB_opt_showSquad) then {
 if (SQFB_opt_showEnemies != "never") then {
     // SQFB_showEnemies = if (SQFB_opt_showEnemies != "never" && {SQFB_opt_showEnemies == "always" || _hasTrackingGear}) then { true } else { false };
     private _trackingDeviceEnabled = SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck;
-    SQFB_showEnemies = [false, true] select (SQFB_opt_showEnemies != "never" && {SQFB_opt_showEnemies == "always" || {_trackingDeviceEnabled}});
+    private _grpCount = count (units group player);
+    SQFB_showEnemies = [false, true] select (SQFB_opt_showEnemies != "never"
+                                            && SQFB_opt_showEnemies == "always"
+                                                || { _trackingDeviceEnabled
+                                                || {!SQFB_opt_enemyCheckSolo && _grpCount > 1}
+                                                });
     // Toggle show enemy HUD off when auto tracking is enabled so the HUD state doesn't get sticky when the auto tracking is off
     if (_trackingDeviceEnabled) then { ["enemy"] call SQFB_fnc_hideHUD };
 

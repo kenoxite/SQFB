@@ -5,7 +5,7 @@ class CfgPatches
         name = "Squad Feedback";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0";
+        version = "1.02";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -54,6 +54,7 @@ class CfgFunctions
             class drawHUDsquad {};
             class drawHUDenemies {};
             class classType {};
+            class checkVisibility {};
 
             // Infantry
             class resetUnit {};

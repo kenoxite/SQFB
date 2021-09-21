@@ -513,6 +513,26 @@ Parameters:
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_enemyCheckSolo", 
+    "CHECKBOX",
+    ["Check for enemies when alone", "If enabled, you will always track known enemy units, even when you're not in a group.\nThe known enemies will be those that the unit you are controlling perceives.\nEven if disabled, known enemies will still be shown if you have 'Allow Enemy Tracking Devices' enabled and one of those devices equipped."],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_enemyPreciseVisCheck", 
+    "CHECKBOX",
+    ["Precise Visibilty Check for Enemies", "More precise visibility checks for enemy vehicles.\nThis will check all the corners of their bounding box instead of a single point, so it will severily affect performance."],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
+    [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 [
     "SQFB_opt_EnemyTrackingGearGoggles", 
     "EDITBOX",
