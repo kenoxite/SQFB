@@ -1,6 +1,6 @@
 ![Squad Feedback](https://i.imgur.com/xlKmw4s.png)
 #### Enhanced Visual Feedback
-[![Version](https://img.shields.io/badge/Version-1.0-green)](https://github.com/kenoxite/SQFB/releases/latest)
+[![Version](https://img.shields.io/badge/Version-1.02-green)](https://github.com/kenoxite/SQFB/releases/latest)
 [![License](https://img.shields.io/badge/License-APL--SA-lightgrey)](https://github.com/kenoxite/SQFB/blob/master/LICENSE)
 
 ### Info
