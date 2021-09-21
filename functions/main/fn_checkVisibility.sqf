@@ -7,8 +7,8 @@
 
 
   Parameter (s):
-  _this select 0: observer
-  _this select 1: observed
+  _this select 0: observed
+  _this select 1: observer
   _this select 2: precise
  
 
@@ -19,23 +19,18 @@
 
 */
 
-params ["_observer", "_observed", "_precise"];
+params ["_observed", ["_observer", player], ["_precise", false]];
 
 private _isObject = typeName _observed == "OBJECT";
 private _observerPos = [_observer, eyepos _observer] select _isObject;
 private _vis = 0;
 
-private _bboxCoords = [];
 if (_isObject) then {
     if (_precise) then {
         private _bbr = boundingBox _observed;
         // private _bbr = boundingBoxReal _observed;
         // private _bbr = 0 boundingBoxReal _observed;
-        // [
-        //     [-3.53909,-6.02507,-2.62616], // [xmin, ymin, zmin]
-        //     [3.53909,6.02507,2.62616], // [xmax, ymax, zmax]
-        //     9.76007 // boundingSphereDiameter
-        // ] 
+
         private _p1 = _bbr select 0;
         private _p2 = _bbr select 1;
 
@@ -60,10 +55,7 @@ if (_isObject) then {
         private _bottomLeftBack = _observed modelToWorldVisualWorld [_x1 * _adj, _y1 + _dy * _adj, _z1 + _dz * _adj];
         private _bottomRightBack = _observed modelToWorldVisualWorld [_x1 + _dx * _adj, _y1 + _dy * _adj, _z1 + _dz * _adj];
 
-        _bbrCoords = [_topLeftFront, _topRightFront, _bottomLeftFront, _bottomRightFront, _topLeftBack, _topRightBack, _topRightBack, _bottomRightBack];
-        // {
-        //     diag_log format ["SQFB: checkVisibility - _bbrCoords: %1: %2", _forEachIndex, _x];
-        // } forEach _bbrCoords;
+        private _bbrCoords = [_topLeftFront, _topRightFront, _bottomLeftFront, _bottomRightFront, _topLeftBack, _topRightBack, _topRightBack, _bottomRightBack];
 
         private _visArr = [];
         {
@@ -71,12 +63,11 @@ if (_isObject) then {
             _visArr pushBack _visCheck;
         } forEach _bbrCoords;
         _vis = _visArr call BIS_fnc_arithmeticMean;
-        // diag_log format ["SQFB: checkVisibility - _vis: %1, objPos: %2, _visArr: %3", _vis, getPosASL _observed, _visArr];
 
     } else {
         _vis = [
-                [objNull, "VIEW"] checkVisibility [_observerPos, AtlToAsl (_unit modeltoworld [0,0,0])],
-                [objNull, "VIEW"] checkVisibility [_observerPos, eyepos _observed]
+                    [objNull, "VIEW"] checkVisibility [_observerPos, AtlToAsl (_unit modeltoworld [0,0,0])],
+                    [objNull, "VIEW"] checkVisibility [_observerPos, eyepos _observed]
                 ] select (_observed isKindOf "Man");
     };
 } else {

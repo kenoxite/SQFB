@@ -39,11 +39,6 @@ if ((_oldGrp != _currentGrp)) exitWith {
                 _tmp pushBack _x;
             };
         };
-		SQFB_units = +_tmp;
-        
-        // Player traits
-        private _unitTraits = getAllUnitTraits player;
-        player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];
 
 		_currentUnits
 	 };

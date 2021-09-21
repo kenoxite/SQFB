@@ -517,7 +517,7 @@ Parameters:
 [
     "SQFB_opt_enemyCheckSolo", 
     "CHECKBOX",
-    ["Check for enemies when alone", "If enabled, you will always track known enemy units, even when you're not in a group.\nThe known enemies will be those that the unit you are controlling perceives.\nEven if disabled, known enemies will still be shown if you have 'Allow Enemy Tracking Devices' enabled and one of those devices equipped."],
+    ["Check for enemies when alone", "If enabled, you will always track known enemy units, even when you're not in a group. The known enemies will be those that the unit you are controlling perceives.\nEven if disabled, known enemies will still be shown if you have 'Allow Enemy Tracking Devices' enabled and one of those devices equipped."],
     ["Squad Feedback", "6 - HUD Display - Advanced"],
     [true],
     nil,

@@ -55,6 +55,7 @@ class CfgFunctions
             class drawHUDenemies {};
             class classType {};
             class checkVisibility {};
+            class cleanEnemyTaggers {};
 
             // Infantry
             class resetUnit {};
