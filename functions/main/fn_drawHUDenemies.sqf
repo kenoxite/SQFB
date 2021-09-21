@@ -130,7 +130,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
 
             private _isRealPos = _enemy == _unit;
             private _perceivedPos = [_lastKnownPos, _realPos] select _isRealPos;
-            private _enemyVisible = [ _playerPos, [0,0,0] getdir getCameraViewDirection player, ceil((call CBA_fnc_getFov select 0)*100), _perceivedPos] call BIS_fnc_inAngleSector;
+            private _enemyVisible = [ _playerPos, (positionCameraToWorld [0,0,0]) getdir (positionCameraToWorld [0,0,1]), ceil((call CBA_fnc_getFov select 0)*100), _perceivedPos] call BIS_fnc_inAngleSector;
 
             // Skip if enemy not in FOV of the player
             if (!_enemyVisible) then { continue };
