@@ -66,7 +66,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                         ] select (_isOnFoot)
                                     ] select (_SQFB_opt_checkVisibility);
         private _unitOccluded = _unitVisibility < 0.2;
-        private _unitVisible = [ getPosWorld _vehPlayer, (positionCameraToWorld [0,0,0]) getdir (positionCameraToWorld [0,0,1]), ceil((call CBA_fnc_getFov select 0)*100), _unitPos] call BIS_fnc_inAngleSector;
+        private _unitVisible = [ getPosWorld _vehPlayer, [0,0,0] getdir getCameraViewDirection player, ceil((call CBA_fnc_getFov select 0)*100), _unitPos] call BIS_fnc_inAngleSector;
         if (!_unitOccluded && (_SQFB_showHUD || (!_SQFB_showHUD && _SQFB_opt_AlwaysShowCritical)) || (!_unitVisible && SQFB_opt_outFOVindex)) then {
             if (_alive || (!_alive && _SQFB_opt_showDead && (_unit getVariable "SQFB_veh") == _unit)) then {
                 private _zoom = call SQFB_fnc_trueZoom;
