@@ -181,7 +181,7 @@ Parameters:
     "SLIDER",
     ["Maximum Range", "Maximum distance a unit has to be for its HUD info to show up, in meters."], 
     ["Squad Feedback", "2 - HUD Display - Squad"],
-    [10, 5000, 500, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [10, 5000, 800, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -201,7 +201,7 @@ Parameters:
     "SLIDER",
     ["Maximum Range (air)", "Maximum distance a unit has to be for its HUD info to show up when the player is flying, in meters."], 
     ["Squad Feedback", "2 - HUD Display - Squad"],
-    [10, 5000, 1500, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [10, 5000, 2000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
