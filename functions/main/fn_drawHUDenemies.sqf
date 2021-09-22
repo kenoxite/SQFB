@@ -74,7 +74,6 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         if (_dist > _maxRange) then { continue };
 
         // Retrieve tagger object
-        private _sameEnemyPos = [false, true] select (!_noEnemyData && {(_dataRealPos distance getPosWorld _veh) <= 0});
         private _realPos = [_dataRealPos, getPosWorld _veh] select (_noEnemyData || !_sameEnemyPos);
         private _lastKnownPos = [_dataLastKnownPos, _realPos] select (_noEnemyData || !_sameEnemyPos);
         private _enemyTagger = [_dataEnemyTagger, objNull] select _noEnemyData;
@@ -88,11 +87,12 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             };
         };
 
-        private ["_iconSize", "_textSize", "_position", "_color", "_text", "_texture"];
+        // Skip calculations if positions of both enemy and player haven't changed
+        private _sameEnemyPos = [false, true] select (!_noEnemyData && {(_dataRealPos distance getPosWorld _veh) <= 0});
         private _sameEnemyStance = [stance _unit == _dataStance, false] select _noEnemyData;
         private _zoom = call SQFB_fnc_trueZoom;
         private _sameZoom = [_zoom == _dataZoom, false] select _noEnemyData;
-        // Skip calculations if positions of both enemy and player haven't changed
+        private ["_iconSize", "_textSize", "_position", "_color", "_text", "_texture"];
         if ((_playerPos distance (player getVariable "SQFB_pos")) <= 0 && _sameEnemyPos && _sameEnemyStance && _sameZoom) then {
             // Skip if enemy not in FOV of the player
             if (!_dataIsVisible) then { continue };
@@ -121,7 +121,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             // Move enemy tagger to last known position
             if (!_enemyOccluded) then {
                 _enemyTagger setPosWorld _realPos;
-                _unit setVariable ["SQFB_lastKnownPos", _realPos];
+                _lastKnownPos = _realPos;
             };
             private _enemy = [
                                 _unit,
