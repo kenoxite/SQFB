@@ -18,8 +18,10 @@
 if !(SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck) then {
     if (!SQFB_showEnemyHUD) then 
     {
+        SQFB_showEnemyHUD = true;
         ["enemy"] call SQFB_fnc_showHUD_init;
     } else {
+        SQFB_showEnemyHUD = false;
     	["enemy"] call SQFB_fnc_hideHUD;
     };
 };

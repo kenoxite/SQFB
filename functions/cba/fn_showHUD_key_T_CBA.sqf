@@ -18,7 +18,9 @@
 
 if (!SQFB_showHUD) then 
 {
+    SQFB_showHUD = true;
 	[] call SQFB_fnc_showHUD_init;
 } else {
+    SQFB_showHUD = false;
 	[] call SQFB_fnc_hideHUD;
 };
