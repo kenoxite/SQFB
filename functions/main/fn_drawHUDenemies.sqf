@@ -74,8 +74,8 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         if (_dist > _maxRange) then { continue };
 
         // Retrieve tagger object
+        private _sameEnemyPos = [false, true] select (!_noEnemyData && {(_dataRealPos distance getPosWorld _veh) <= 0});
         private _realPos = [_dataRealPos, getPosWorld _veh] select (_noEnemyData || !_sameEnemyPos);
-        private _lastKnownPos = [_dataLastKnownPos, _realPos] select (_noEnemyData || !_sameEnemyPos);
         private _enemyTagger = [_dataEnemyTagger, objNull] select _noEnemyData;
         if (_noEnemyData) then {
             private _enemyTaggerIndex = [_SQFB_enemyTagObjArr, _unit] call BIS_fnc_findNestedElement;
@@ -88,7 +88,6 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         };
 
         // Skip calculations if positions of both enemy and player haven't changed
-        private _sameEnemyPos = [false, true] select (!_noEnemyData && {(_dataRealPos distance getPosWorld _veh) <= 0});
         private _sameEnemyStance = [stance _unit == _dataStance, false] select _noEnemyData;
         private _zoom = call SQFB_fnc_trueZoom;
         private _sameZoom = [_zoom == _dataZoom, false] select _noEnemyData;
@@ -119,6 +118,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             private _enemyOccluded = _unitVisibility < _visThreshold;
 
             // Move enemy tagger to last known position
+            private _lastKnownPos = [_dataLastKnownPos, _realPos] select _noEnemyData;
             if (!_enemyOccluded) then {
                 _enemyTagger setPosWorld _realPos;
                 _lastKnownPos = _realPos;
@@ -214,11 +214,9 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                                 ]
                             ] select _isRealPos
                         ] select _isOnFoot;
-
-            if (_noEnemyData || {!_sameEnemyPos && !_noEnemyData}) then {
-                // Create ememy vars
-                _unit setVariable ["SQFB_enemyData", [_realPos, _enemyTagger, _lastKnownPos, _iconSize, _texture, _text, _textSize, _position, _color, _enemyVisible, _tooClose, stance _unit, _zoom]];                
-            };
+                        
+            // Create ememy vars
+            _unit setVariable ["SQFB_enemyData", [_realPos, _enemyTagger, _lastKnownPos, _iconSize, _texture, _text, _textSize, _position, _color, _enemyVisible, _tooClose, stance _unit, _zoom]]; 
         };
 
         private _angle = 0;

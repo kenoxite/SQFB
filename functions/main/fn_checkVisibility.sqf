@@ -61,8 +61,10 @@ if (_isObject) then {
         {
             private _visCheck = [objNull, "VIEW"] checkVisibility [_observerPos, _bbrCoords select _forEachIndex];
             _visArr pushBack _visCheck;
+            if (_visCheck == 1) exitWith { true };
         } forEach _bbrCoords;
-        _vis = _visArr call BIS_fnc_arithmeticMean;
+        _visArr sort false;
+        _vis = _visArr select 0;
 
     } else {
         _vis = [
