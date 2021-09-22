@@ -32,13 +32,11 @@ if (SQFB_opt_showEnemies != "never") then {
     private _grpCount = count (units group player);
     private _showSolo = SQFB_opt_enemyCheckSolo || (!SQFB_opt_enemyCheckSolo && _grpCount > 1);
     SQFB_showEnemies = [false, true] select (SQFB_opt_showEnemies != "never"
-                                            && SQFB_opt_showEnemies == "always"
+                                            || SQFB_opt_showEnemies == "always"
                                                 || (SQFB_showEnemyHUD && _showSolo)
                                                 || { _trackingDeviceEnabled
                                                 || {_showSolo}
                                                 });
-    // Toggle show enemy HUD off when auto tracking is enabled or no solo tracking is allowed, so the HUD state doesn't get sticky when the auto tracking is off
-    if (_trackingDeviceEnabled || !_showSolo) then { ["enemy"] call SQFB_fnc_hideHUD };
 
     if (SQFB_showEnemies) then {
         private _vehPlayer = vehicle player;

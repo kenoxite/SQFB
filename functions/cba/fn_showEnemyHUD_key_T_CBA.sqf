@@ -15,7 +15,9 @@
 	Examples:
 
 */
-if !(SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck) then {
+
+private _trackingDeviceEnabled = SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck;
+if (!_trackingDeviceEnabled) then {
     if (!SQFB_showEnemyHUD) then 
     {
         SQFB_showEnemyHUD = true;
