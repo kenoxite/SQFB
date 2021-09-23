@@ -122,7 +122,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                         [
                                             "",
                                             _unit call SQFB_fnc_HUDIcon
-                                        ] select (!_unitOccluded && (_SQFB_opt_showIcon || _textSize <= 0.02)),
+                                        ] select (!_unitOccluded && (_SQFB_opt_showIcon || _textSize <= 0.02) && (_isOnFoot || (!_isOnFoot && _veh == _vehPlayer && cameraView == "INTERNAL"))),
 
                                         [
                                             "",
@@ -134,7 +134,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                     [
                                         "",
                                         [_unit, _unitVisible] call SQFB_fnc_HUDtext
-                                    ] select (_SQFB_opt_showText && _textSize > 0.02 && (_isOnFoot || (_veh == _vehPlayer && cameraView == "INTERNAL"))),
+                                    ] select (_SQFB_opt_showText && _textSize > 0.02 && (_isOnFoot || (!_isOnFoot && _veh == _vehPlayer && cameraView == "INTERNAL"))),
                                     
                                     [
                                         "",

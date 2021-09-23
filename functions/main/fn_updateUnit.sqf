@@ -54,61 +54,52 @@ if (_alive) then {
     private _GL = false;
 
     private _primWep = toLowerAnsi (primaryWeapon _unit);
+    private _hasPrimWep = _primWep != "";
     private _secWep = toLowerAnsi (secondaryWeapon _unit);
+    private _hasSecWep = _secWep != "";
     private _primWepType = (_primWep call BIS_fnc_itemType) select 1;
-    private _secWepType = if (_secWep != "") then { (_secWep call BIS_fnc_itemType) select 1 } else {""}; 
+    private _secWepType = ["", (_secWep call BIS_fnc_itemType) select 1] select _hasSecWep;
     private _primWepMags = primaryWeaponMagazine _unit;
-    private _secWepMags = if (_secWep != "") then { secondaryWeaponMagazine _unit } else {""}; 
-    private _secWepMagName = if (_secWep != "") then { if (count _secWepMags > 0) then { _secWepMags select 0 } else {""} } else {""}; 
+    private _secWepMags = ["", secondaryWeaponMagazine _unit] select _hasSecWep;
+    private _secWepMagName = if (_hasSecWep) then { ["", _secWepMags select 0] select (count _secWepMags > 0) } else { "" };
     private _mags = magazines _unit;
     _mags append [currentMagazine _unit];
     private _mag = "";
     private _compatPrimMags = [_primWep] call BIS_fnc_compatibleMagazines;
     private _primMagCount = { _mag = _x; _compatPrimMags findIf { _x == _mag } != -1} count _mags;
-    private _compatSecMags = if (_secWep != "") then { [_secWep] call BIS_fnc_compatibleMagazines } else {[]};
-    private _secMagCount = if (_secWep != "") then { { _mag = _x; _compatSecMags findIf { _x == _mag } != -1} count _mags } else {0};
+    private _compatSecMags = [[], [_secWep] call BIS_fnc_compatibleMagazines] select _hasSecWep;
+    private _secMagCount = [
+                            0,
+                            { _mag = _x; _compatSecMags findIf { _x == _mag } != -1} count _mags
+                            ] select _hasSecWep;
+
     private _items = items _unit;
-    private _hasMines = if (_mags findIf { ((_x call BIS_fnc_itemType) select 0) == "Mine"} != -1) then { true } else { false };
-    private _noAmmo = false;
-    private _noAmmoPrim = false;
-    private _noAmmoSec = false;
+    private _hasMines = [false, true] select (_mags findIf { ((_x call BIS_fnc_itemType) select 0) == "Mine"} != -1);
     private _primWepDes = toLowerAnsi (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
     private _handgun = handgunWeapon _unit;
 
     // Ammo check - primary
-    if (_primWep != "") then {
-        if (count _primWepMags > 0) then {
-            if (_primMagCount > 0) then {
-                _noAmmoPrim = false;
-            } else {
-                _noAmmoPrim = true;
-            };
-        } else {
-            _noAmmoPrim = true;
-        };
-    } else {
-        _noAmmoPrim = false;
-    };
+    private _noAmmoPrim = [
+                            false,
+                            [
+                                true,
+                                [true, false] select (_primMagCount > 0)
+                            ] select (count _primWepMags > 0)
+                        ] select _hasPrimWep;
     _unit setVariable ["SQFB_noAmmoPrim",_noAmmoPrim];
 
-    // Ammo check - secondary
-    if (_secWep != "") then {
-        if (count _secWepMags > 0) then {
-            if (_secMagCount > 0 || (_unit ammo _secWep) > 0) then {
-                _noAmmoSec = false;
-            } else {
-                _noAmmoSec = true;
-            };
-        } else {
-            _noAmmoSec = true;
-        };
-    } else {
-        _noAmmoSec = false;
-    };
+    // Ammo check - secondary    
+    private _noAmmoSec = [
+                            false,
+                            [
+                                true,
+                                [true, false] select (_secMagCount > 0 || (_unit ammo _secWep) > 0)
+                            ] select (count _secWepMags > 0)
+                        ] select _hasSecWep;
     _unit setVariable ["SQFB_noAmmoSec",_noAmmoSec];
 
     // Ammo check - global
-    if (_noAmmoPrim || _noAmmoSec) then { _noAmmo = true } else {_noAmmo = false  };
+    private _noAmmo = [false, true] select (_noAmmoPrim || _noAmmoSec);
     _unit setVariable ["SQFB_noAmmo",_noAmmo];
 
     // Group index
