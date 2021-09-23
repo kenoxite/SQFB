@@ -24,40 +24,36 @@ Returns:
  Returns the current keybind for the action [Array]
 */
 
-// [
-//     ["Squad Feedback", "2 - HUD Display - Squad"],
-// 	"SQFB_opt_showHUD_key",
-// 	["Display Squad HUD", "Displays the squad HUD as long as this key is pressed."],
-// 	{ _this call SQFB_fnc_showHUD_key_CBA },
-// 	{ _this call SQFB_fnc_hideHUD_key_CBA },
-// 	[ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]] 
-// 	true
-// ] call CBA_fnc_addKeybind;
+[
+    ["Squad Feedback", ""],
+	"SQFB_opt_showHUD_key",
+	["Squad HUD", "Displays the squad HUD as long as this key is pressed."],
+	{ _this call SQFB_fnc_showHUD_key_CBA },
+	{ _this call SQFB_fnc_hideHUD_key_CBA }
+] call CBA_fnc_addKeybind;
 
 [
     ["Squad Feedback", ""],
 	"SQFB_opt_showHUD_T_key",
-	["Display Squad HUD (Toggle)", "Toggles the display of the HUD for your squad."],
+	["Squad HUD (Toggle)", "Toggles the display of the HUD for your squad."],
 	{ _this call SQFB_fnc_showHUD_key_T_CBA },
 	{},
 	[ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]] 
 	false
 ] call CBA_fnc_addKeybind;
 
-// [
-//     ["Squad Feedback", "1- HUD Display - Enemy"],
-//     "SQFB_opt_showEnemyHUD_key",
-//     ["Display Known Enemy Locations", "Displays the HUD for enemies as long as this key is pressed."],
-//     { _this call SQFB_fnc_showEnemyHUD_key_CBA },
-//     { _this call SQFB_fnc_hideEnemyHUD_key_CBA },
-//     [ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]] 
-//     true
-// ] call CBA_fnc_addKeybind;
+[
+    ["Squad Feedback", ""],
+    "SQFB_opt_showEnemyHUD_key",
+    ["Known Enemies HUD", "Displays the HUD for enemies as long as this key is pressed."],
+    { _this call SQFB_fnc_showEnemyHUD_key_CBA },
+    { _this call SQFB_fnc_hideEnemyHUD_key_CBA }
+] call CBA_fnc_addKeybind;
 
 [
     ["Squad Feedback", ""],
     "SQFB_opt_showEnemyHUD_T_key",
-    ["Display Known Enemies (Toggle)", "Toggles the display of the HUD for enemies."],
+    ["Known Enemies HUD (Toggle)", "Toggles the display of the HUD for enemies."],
     { _this call SQFB_fnc_showEnemyHUD_key_T_CBA },
     {},
     [ DIK_TAB, [false, true, false] ], // [DIK, [shift, ctrl, alt]] 
