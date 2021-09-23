@@ -77,33 +77,33 @@ if (_alive) then {
 
     // Ammo check - primary
     if (_primWep != "") then {
-    	if (count _primWepMags > 0) then {
-    		if (_primMagCount > 0) then {
-    			_noAmmoPrim = false;
-    		} else {
-    			_noAmmoPrim = true;
-    		};
-    	} else {
-    		_noAmmoPrim = true;
-    	};
+        if (count _primWepMags > 0) then {
+            if (_primMagCount > 0) then {
+                _noAmmoPrim = false;
+            } else {
+                _noAmmoPrim = true;
+            };
+        } else {
+            _noAmmoPrim = true;
+        };
     } else {
-    	_noAmmoPrim = false;
+        _noAmmoPrim = false;
     };
     _unit setVariable ["SQFB_noAmmoPrim",_noAmmoPrim];
 
     // Ammo check - secondary
     if (_secWep != "") then {
-    	if (count _secWepMags > 0) then {
-    		if (_secMagCount > 0 || (_unit ammo _secWep) > 0) then {
-    			_noAmmoSec = false;
-    		} else {
-    			_noAmmoSec = true;
-    		};
-    	} else {
-    		_noAmmoSec = true;
-    	};
+        if (count _secWepMags > 0) then {
+            if (_secMagCount > 0 || (_unit ammo _secWep) > 0) then {
+                _noAmmoSec = false;
+            } else {
+                _noAmmoSec = true;
+            };
+        } else {
+            _noAmmoSec = true;
+        };
     } else {
-    	_noAmmoSec = false;
+        _noAmmoSec = false;
     };
     _unit setVariable ["SQFB_noAmmoSec",_noAmmoSec];
 
@@ -162,16 +162,28 @@ if (_alive) then {
     _unit setVariable ["SQFB_sniper",_sniper];
 
     // SMG
-    if (_primWepType == "SubmachineGun") then { _roles pushBack "SMG" };
+    if (_primWepType == "SubmachineGun" || "submachine" in _primWepDes || "smg" in _primWepDes) then {
+        _roles pushBack "SMG";
+        _unit setVariable ["SQFB_smg",true];
+    };
 
     // Shotgun
-    if (_primWepType == "Shotgun") then { _roles pushBack "Shotgun" };
+    if (_primWepType == "Shotgun") then {
+        _roles pushBack "Shotgun";
+        _unit setVariable ["SQFB_shotgun",true];
+    };
 
     // Handgun
-    if (_primWepType == "Handgun" || (_primWepType == "" && _handgun != "")) then { _roles pushBack "Handgun" };
+    if (_primWepType == "Handgun" || (_primWepType == "" && _handgun != "")) then {
+        _roles pushBack "Handgun";
+        _unit setVariable ["SQFB_handgun",true];
+    };
 
     // Rifle
-    if (count _roles == 0 && _primWepType == "AssaultRifle") then { _roles pushBack "Rifle" };
+    if (count _roles == 0 && _primWepType == "AssaultRifle") then {
+        _roles pushBack "Rifle";
+        _unit setVariable ["SQFB_rifle",true];
+    };
 
     // Other
     if (count _roles == 0) then { _roles pushBack _primWepType };
@@ -188,8 +200,10 @@ if (_alive) then {
             if (_crewPos == "cargo") then {_crewPos = ""};
         };
         if (_crewPos != "") then { _roles pushBack format ["- %1",_crewPos] };
+        diag_log format ["SQFB: updateUnit - _crewPos: %1", _crewPos];
     };
 
     _rolesStr = _roles joinString " ";
     _unit setVariable ["SQFB_roles",_rolesStr];
+        diag_log format ["SQFB: updateUnit - SQFB_roles: %1", _rolesStr];
 };

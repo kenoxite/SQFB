@@ -47,7 +47,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         private _unit = _SQFB_knownEnemies select _i;
         private _enemyData = _unit getVariable "SQFB_enemyData";
 
-        private ["_dataRealPos", "_dataDist", "_dataEnemyTagger", "_dataLastKnownPos", "_dataIconSize", "_dataTexture", "_dataText", "_dataTextSize", "_dataPosition", "_dataColor", "_dataIsVisible", "_dataTooClose", "_dataStance", "_dataZoom"];
+        private ["_dataRealPos", "_dataDist", "_dataEnemyTagger", "_dataLastKnownPos", "_dataIconSize", "_dataTexture", "_dataText", "_dataTextSize", "_dataPosition", "_dataColor", "_dataIsVisible", "_dataTooClose", "_dataStance", "_dataZoom", "_dataCamDir"];
         private _noEnemyData = [false, true] select (isNil "_enemyData");
         if (!_noEnemyData) then {
             _dataRealPos = _enemyData select 0;
@@ -63,6 +63,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             _dataTooClose = _enemyData select 10;
             _dataStance = _enemyData select 11;
             _dataZoom = _enemyData select 12;
+            _dataCamDir = _enemyData select 13;
         };
         private _veh = vehicle _unit;
         private _vehPlayer = vehicle player;
@@ -87,12 +88,14 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             };
         };
 
-        // Skip calculations if positions of both enemy and player haven't changed
+        // Skip calculations if positions of both enemy and player haven't changed and player and enemy still have the same key attributes since last check
+        private _camDir = [0,0,0] getdir getCameraViewDirection player;
+        private _sameCamDir = [_dataCamDir == _camDir, false] select _noEnemyData;
         private _sameEnemyStance = [stance _unit == _dataStance, false] select _noEnemyData;
         private _zoom = call SQFB_fnc_trueZoom;
         private _sameZoom = [_zoom == _dataZoom, false] select _noEnemyData;
         private ["_iconSize", "_textSize", "_position", "_color", "_text", "_texture"];
-        if ((_playerPos distance (player getVariable "SQFB_pos")) <= 0 && _sameEnemyPos && _sameEnemyStance && _sameZoom) then {
+        if ((_playerPos distance (player getVariable "SQFB_pos")) <= 0 && _sameEnemyPos && _sameEnemyStance && _sameZoom && _sameCamDir) then {
             // Skip if enemy not in FOV of the player
             if (!_dataIsVisible) then { continue };
 
@@ -130,7 +133,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
 
             private _isRealPos = _enemy == _unit;
             private _perceivedPos = [_lastKnownPos, _realPos] select _isRealPos;
-            private _enemyVisible = [ _playerPos, [0,0,0] getdir getCameraViewDirection player, ceil((call CBA_fnc_getFov select 0)*100), _perceivedPos] call BIS_fnc_inAngleSector;
+            private _enemyVisible = [ _playerPos, _camDir, ceil((call CBA_fnc_getFov select 0)*100), _perceivedPos] call BIS_fnc_inAngleSector;
 
             // Skip if enemy not in FOV of the player
             if (!_enemyVisible) then { continue };
@@ -216,7 +219,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                         ] select _isOnFoot;
                         
             // Create ememy vars
-            _unit setVariable ["SQFB_enemyData", [_realPos, _enemyTagger, _lastKnownPos, _iconSize, _texture, _text, _textSize, _position, _color, _enemyVisible, _tooClose, stance _unit, _zoom]]; 
+            _unit setVariable ["SQFB_enemyData", [_realPos, _enemyTagger, _lastKnownPos, _iconSize, _texture, _text, _textSize, _position, _color, _enemyVisible, _tooClose, stance _unit, _zoom, _camDir]]; 
         };
 
         private _angle = 0;

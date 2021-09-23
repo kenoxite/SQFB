@@ -41,6 +41,8 @@ private _SQFB_opt_showClass = SQFB_opt_showClass;
 private _SQFB_opt_showRoles = SQFB_opt_showRoles;
 private _SQFB_opt_ShowCrew = SQFB_opt_ShowCrew;
 private _SQFB_opt_showDist = SQFB_opt_showDist;
+
+private _vehData = [];
 for "_i" from 0 to (count _SQFB_units) -1 do
 {
     if ((typeName (_SQFB_units select _i))!="STRING") then {
@@ -67,7 +69,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                     ] select (_SQFB_opt_checkVisibility);
         private _unitOccluded = _unitVisibility < 0.2;
         private _unitVisible = [ getPosWorld _vehPlayer, [0,0,0] getdir getCameraViewDirection player, ceil((call CBA_fnc_getFov select 0)*100), _unitPos] call BIS_fnc_inAngleSector;
-        if (!_unitOccluded && (_SQFB_showHUD || (!_SQFB_showHUD && _SQFB_opt_AlwaysShowCritical)) || (!_unitVisible && SQFB_opt_outFOVindex)) then {
+        if (!_unitOccluded && (_SQFB_showHUD || {(!_SQFB_showHUD && _SQFB_opt_AlwaysShowCritical) || {!_unitVisible && SQFB_opt_outFOVindex}})) then {
             if (_alive || (!_alive && _SQFB_opt_showDead && (_unit getVariable "SQFB_veh") == _unit)) then {
                 private _zoom = call SQFB_fnc_trueZoom;
                 private _adjSize = 2; // TBH no idea why this is needed, but it's needed
@@ -102,13 +104,19 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                 private _color = _unit call SQFB_fnc_HUDColor;
 
                 // Check wether info should be displayed as a vehicle or as separate units
+                private _displayIndividualCrew = _SQFB_opt_GroupCrew && !_isOnFoot && (_veh != _vehPlayer || (_veh == _vehPlayer && cameraView != "INTERNAL"));
                 private _isFirstCrew = false;
-                private _isInVeh = _SQFB_opt_GroupCrew && !_isOnFoot && (_veh != _vehPlayer || cameraView != "INTERNAL");
-                if (_isInVeh) then {
+                if (_displayIndividualCrew) then {
                     // Check if unit is the first from this group in the vehicle's crew
-                    if (((crew _veh) findIf { _x in units group _unit && _x == _unit }) > -1) then { _isFirstCrew = true };
+                    private _inVehData = [_vehData, _veh] call BIS_fnc_findNestedElement;
+                    if (count _inVehData > 0) then {
+                        _isFirstCrew = ((_vehData select (_inVehData select 0)) select 1) == _unit;
+                    } else {
+                        _vehData pushBackUnique [_veh, _unit];
+                        _isFirstCrew = true;
+                    };
                 };
-                private _displayAsVehicle = _isInVeh && _isFirstCrew;
+                private _displayAsVehicle = _displayIndividualCrew && _isFirstCrew;
 
                 private _texture = [
                                         [
@@ -126,7 +134,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                     [
                                         "",
                                         [_unit, _unitVisible] call SQFB_fnc_HUDtext
-                                    ] select (_SQFB_opt_showText && _textSize > 0.02),
+                                    ] select (_SQFB_opt_showText && _textSize > 0.02 && (_isOnFoot || (_veh == _vehPlayer && cameraView == "INTERNAL"))),
                                     
                                     [
                                         "",

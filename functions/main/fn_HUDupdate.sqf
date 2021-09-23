@@ -19,7 +19,7 @@ if (SQFB_opt_showSquad) then {
     private _grp = group player;
     private _count = count units player;
     if (_count != SQFB_unitCount || SQFB_showHUD) then {
-    	[] call SQFB_fnc_showHUD_init;
+    	[] call SQFB_fnc_HUDshow;
     };
     if (!SQFB_showHUD) then {
     	// Check for wounded units
@@ -31,22 +31,15 @@ if (SQFB_opt_showEnemies != "never") then {
     private _trackingDeviceEnabled = SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck;
     private _grpCount = count (units group player);
     private _showSolo = SQFB_opt_enemyCheckSolo || (!SQFB_opt_enemyCheckSolo && _grpCount > 1);
-    SQFB_showEnemies = [false, true] select (SQFB_opt_showEnemies != "never"
-                                            || SQFB_opt_showEnemies == "always"
-                                                || (SQFB_showEnemyHUD && _showSolo)
-                                                || { _trackingDeviceEnabled
-                                                || {_showSolo}
-                                                });
+    SQFB_showEnemies = [false, true] select (SQFB_opt_showEnemies != "never" && (SQFB_opt_showEnemies == "always" || (SQFB_showEnemyHUD && _showSolo) ||  _trackingDeviceEnabled));
 
     if (SQFB_showEnemies) then {
-        private _vehPlayer = vehicle player;
-        private _range = if ((getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent player)) then { SQFB_opt_showEnemiesMaxRangeAir } else { SQFB_opt_showEnemiesMaxRange };
-        // SQFB_knownEnemies = [player, _range] call SQFB_fnc_enemyTargets;
+        private _range = if (((getPosASL vehicle player) select 2) > 5 && !(isNull objectParent player)) then { SQFB_opt_showEnemiesMaxRangeAir } else { SQFB_opt_showEnemiesMaxRange };
         // Only alive enemies on foot and vehicles with crew
         SQFB_knownEnemies = ([player, _range] call SQFB_fnc_enemyTargets) select { alive _x && {({ alive _x } count (crew _x)) > 0} };
         // Clean enemy taggers
         call SQFB_fnc_cleanEnemyTaggers;
-        // Create enemy taggers
+        // Create enemy taggers, used to display last known position of enemy units
         for "_i" from 0 to (count SQFB_knownEnemies) -1 do
         {
             private _enemy = SQFB_knownEnemies select _i;

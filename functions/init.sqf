@@ -59,13 +59,13 @@ SQFB_enemyTrackingHMD_default = [
 ];
 SQFB_enemyTrackingHMD = +SQFB_enemyTrackingHMD_default;
 
+waitUntil { !isNull player };
+
 // Player traits
 private _unitTraits = getAllUnitTraits player;
 player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];
 // Set player position
 player setVariable ["SQFB_pos", getPosWorld vehicle player];
-
-waitUntil {!isNull player};
 
 // Init player group
 private _grp = group player;
@@ -75,8 +75,10 @@ SQFB_unitCount = count _units;
 // Add units to the global array
 [_units] call SQFB_fnc_addUnits;
 
+waitUntil { !isNull findDisplay 46 };
+
 // Keep track of group status
-SQFB_EH_update = [{ if (SQFB_opt_on) then { [] call SQFB_fnc_updateHUD }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
+SQFB_EH_update = [{ if (SQFB_opt_on) then { [] call SQFB_fnc_HUDupdate }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
 
 // HUD display
 SQFB_draw3D_EH = addMissionEventHandler [
@@ -92,7 +94,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
             // Squad
             if (time > SQFB_squadTimeLastCheck + SQFB_opt_HUDrefresh) then {
                 if (SQFB_opt_showSquad) then {
-                    [_playerPos] call SQFB_fnc_drawHUDsquad;
+                    [_playerPos] call SQFB_fnc_HUDdrawSquad;
                 };
                 SQFB_squadTimeLastCheck = time;
             };
@@ -100,7 +102,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
             // Enemies
             if (time > SQFB_enemiesTimeLastCheck + SQFB_opt_HUDrefresh) then {
                 if (SQFB_showEnemies && SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck || {SQFB_showEnemies && !SQFB_opt_showEnemiesIfTrackingGear || {time >= SQFB_showEnemiesMinTime && SQFB_showEnemyHUD}}) then {
-                    [_playerPos] call SQFB_fnc_drawHUDenemies;
+                    [_playerPos] call SQFB_fnc_HUDdrawEnemies;
                 };
                 SQFB_enemiesTimeLastCheck = time;
             };

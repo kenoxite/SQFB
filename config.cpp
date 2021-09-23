@@ -39,36 +39,34 @@ class CfgFunctions
             file = "SQFB\functions\main";
 
             class initGroup {};
-            class showHUD_init {};
-            class hideHUD {};
-            class updateHUD {};
             class checkGroupChange {};
             class getUnitPositionId {};
             class addUnits {};
             class updateAllUnits {};
-            class trueZoom {};
-            class changeProfile {};
-            class enemyTargets {};
-            class trackingGearAdd {};
-            class trackingGearCheck {};
-            class drawHUDsquad {};
-            class drawHUDenemies {};
-            class classType {};
-            class checkVisibility {};
-            class cleanEnemyTaggers {};
-
-            // Infantry
             class resetUnit {};
             class updateUnit {};
+
+            class HUDshow {};
+            class HUDhide {};
+            class HUDupdate {};
+            class HUDdrawSquad {};
+            class HUDdrawEnemies {};
             class HUDtext {};
             class HUDIcon {};
             class HUDAlpha {};
             class HUDColor {};
-
-            // Vehicles
-            // class updateVehicle {};
             class HUDtextVeh {};
             class HUDIconVeh {};
+
+            class changeProfile {};
+            class trackingGearAdd {};
+            class trackingGearCheck {};
+
+            class trueZoom {};
+            class enemyTargets {};
+            class checkVisibility {};
+            class cleanEnemyTaggers {};
+            class classType {};
         };
 
         class CBA
