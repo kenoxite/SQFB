@@ -43,7 +43,7 @@ private _isFormLeader = formationLeader _vehPlayer == _unit;
 
 // Always show leader index
 private _alive = alive _veh || damage _veh < 1;
-if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0 && (_isGrpLeader || _isFormLeader)) then { _return = format ["%1%2%3%4%5%6 ", _return, if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}, if (_return != "") then { ":" } else { "" }] };
+if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0 && (_isGrpLeader || _isFormLeader)) then { _return = format ["%1%2%3%4%5%6 ", _return, if (_isGrpLeader) then {"<"} else {""}, _index, if (_isGrpLeader) then {">"} else {""}, if (_isFormLeader) then {"^"} else {""}, if (_return != "") then { ":" } else { "" }] };
 
 // Default text when requested by player
 if (SQFB_showHUD) then {
