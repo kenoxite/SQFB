@@ -59,16 +59,44 @@ SQFB_enemyTrackingHMD_default = [
 ];
 SQFB_enemyTrackingHMD = +SQFB_enemyTrackingHMD_default;
 
+SQFB_oneShotLaunchers_default = [
+    // RHS
+    "rhs_weap_m72a7",
+    "rhs_weap_M136",
+    "rhs_weap_M136_hedp",
+    "rhs_weap_M136_hp",
+    "rhs_weap_rpg26",
+    "rhs_weap_rpg18",
+    "rhs_weap_rshg2",
+
+    // CUP
+    "CUP_launch_M136",
+    "CUP_launch_M72A6",
+    "CUP_launch_M72A6_Special",
+    "CUP_launch_RPG26",
+    "CUP_launch_RPG18",
+    "CUP_launch_RShG2",
+
+    // CWR3
+    "cwr3_launch_at4",
+    "cwr3_launch_m72a3",
+    "cwr3_launch_rpg75",
+    "cwr3_launch_rpg75"
+];
+SQFB_oneShotLaunchers = +SQFB_oneShotLaunchers_default;
+
 waitUntil { !isNull player };
 
+SQFB_player = call SQFB_fnc_playerUnit;
+
 // Player traits
-private _unitTraits = getAllUnitTraits player;
+private _unitTraits = getAllUnitTraits SQFB_player;
 player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];
 // Set player position
-player setVariable ["SQFB_pos", getPosWorld vehicle player];
+player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
 
 // Init player group
-private _grp = group player;
+private _grp = group SQFB_player;
 private _units = units _grp;
 SQFB_unitCount = count _units;
 [_grp] call SQFB_fnc_initGroup;
@@ -90,7 +118,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
         if (_screenPosition isEqualTo []) exitWith {};
 
         if (count SQFB_units > 0) then {
-            private _playerPos = getPosWorld vehicle player;
+            private _playerPos = getPosWorld vehicle SQFB_player;
             // Squad
             if (time > SQFB_squadTimeLastCheck + SQFB_opt_HUDrefresh) then {
                 if (SQFB_opt_showSquad) then {

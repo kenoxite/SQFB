@@ -66,8 +66,8 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             _dataCamDir = _enemyData select 13;
         };
         private _veh = vehicle _unit;
-        private _vehPlayer = vehicle player;
-        private _isPlayerAir = ((getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent player));
+        private _vehPlayer = vehicle SQFB_player;
+        private _isPlayerAir = ((getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent SQFB_player));
 
         // Skip units outside the max range
         private _dist = _vehPlayer distance _unit;
@@ -89,7 +89,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         };
 
         // Skip calculations if positions of both enemy and player haven't changed and player and enemy still have the same key attributes since last check
-        private _camDir = [0,0,0] getdir getCameraViewDirection player;
+        private _camDir = [0,0,0] getdir getCameraViewDirection SQFB_player;
         private _sameCamDir = [_dataCamDir == _camDir, false] select _noEnemyData;
         private _sameEnemyStance = [stance _unit == _dataStance, false] select _noEnemyData;
         private _zoom = call SQFB_fnc_trueZoom;
@@ -112,10 +112,10 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             private _isOnFoot = (typeOf _veh isKindOf "Man");
             private _unitVisibility = [
                                             [
-                                                [objNull, "VIEW"] checkVisibility [eyePos player, AtlToAsl(_unit modeltoworld [0,0,0])],
-                                                [_unit, player, true] call SQFB_fnc_checkVisibility
+                                                [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, AtlToAsl(_unit modeltoworld [0,0,0])],
+                                                [_unit, SQFB_player, true] call SQFB_fnc_checkVisibility
                                             ] select _SQFB_opt_enemyPreciseVisCheck,
-                                            [objNull, "VIEW"] checkVisibility [eyePos player, eyePos _unit]
+                                            [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, eyePos _unit]
                                         ] select (_isOnFoot);
             private _visThreshold = [0.2, 0.1] select _isPlayerAir;
             private _enemyOccluded = _unitVisibility < _visThreshold;

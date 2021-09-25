@@ -19,7 +19,7 @@
 
 */
 
-params ["_observed", ["_observer", player], ["_precise", false]];
+params ["_observed", ["_observer", SQFB_player], ["_precise", false]];
 
 private _isObject = typeName _observed == "OBJECT";
 private _observerPos = [_observer, eyepos _observer] select _isObject;

@@ -2,7 +2,7 @@
   Author: kenoxite
 
   Description:
-  Update all units
+  Reset unit
 
 
   Parameter (s):
@@ -30,5 +30,9 @@ _unit setVariable ["SQFB_AT",false];
 _unit setVariable ["SQFB_GL",false];
 _unit setVariable ["SQFB_MG",false];
 _unit setVariable ["SQFB_sniper",false];
+_unit setVariable ["SQFB_smg",false];
+_unit setVariable ["SQFB_shotgun",false];
+_unit setVariable ["SQFB_handgun",false];
+_unit setVariable ["SQFB_rifle",false];
 _unit setVariable ["SQFB_veh",_unit];
 _unit setVariable ["SQFB_roles",""];

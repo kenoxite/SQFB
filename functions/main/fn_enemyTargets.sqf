@@ -15,7 +15,7 @@
 
 */
 
-params [["_unit", player, [objNull]], ["_distance", 1000, [123]]];
+params [["_unit", SQFB_player, [objNull]], ["_distance", 1000, [123]]];
 private _targets = if (_distance == -1) then
 {
     ((_unit targetsQuery [objNull, sideUnknown, "", [], 0]) select {(_x select 3) > 0}) apply {_x select 1};

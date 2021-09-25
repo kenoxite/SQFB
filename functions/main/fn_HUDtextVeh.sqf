@@ -33,23 +33,22 @@ if (isNil "_vehLeader") exitWith { _return };
 if (isNull _vehLeader) exitWith { _return };
 
 private _vehName = "";
-private _vehPlayer = vehicle player;
+private _vehPlayer = vehicle SQFB_player;
 if (_showClass) then {
     _vehName = toUpperANSI (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"));
 };
 
-private _grpLeader = leader (group _veh);
-private _formLeader = formationLeader _vehPlayer;
+private _isGrpLeader = leader (group _veh) == _unit;
+private _isFormLeader = formationLeader _vehPlayer == _unit;
 
 // Always show leader index
 private _alive = alive _veh || damage _veh < 1;
-if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0 && (_grpLeader == _unit || _formLeader == _unit)) then { _return = format ["%1%2%3%4%5%6 ", _return, if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}, if (_return != "") then { ":" } else { "" }] };
+if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0 && (_isGrpLeader || _isFormLeader)) then { _return = format ["%1%2%3%4%5%6 ", _return, if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}, if (_return != "") then { ":" } else { "" }] };
 
 // Default text when requested by player
 if (SQFB_showHUD) then {
-    if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0 && _grpLeader != _unit && _formLeader != _unit) then { _return = format ["%1%2%3%4%5: ", _return, if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}] };
+    if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0 && !_isGrpLeader && !_isFormLeader) then { _return = format ["%1%2: ", _return, _index] };
 
-	// if (_showIndex && _index >= 0) then { _return = format ["%1%2: ", _return,_index]; };
 	if (_showClass) then {
         _return = format ["%1%2 ", _return, _vehName];
     };
@@ -87,7 +86,7 @@ if (SQFB_showHUD) then {
 			if (isNull _unit) then {
 				_e = _e + 1;
 			} else {
-				if (_unit in units player) then {
+				if (_unit in units SQFB_player) then {
 					_crewStr = format [
 						"%1%2%3%4%5",
 						_crewStr,
@@ -107,7 +106,7 @@ if (SQFB_showHUD) then {
 	};
 } else {
     // Text when always show critical is enabled
-	if (SQFB_opt_outFOVindex || {SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (_grpLeader == player))}) then {
+	if (SQFB_opt_outFOVindex || {SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (_grpLeader == SQFB_player))}) then {
 		if (!_unitVisible) then {
 			private _critical = false;
 			//if (_showClass) then {_return = format ["%1%2 ", _return,_vehName]};
@@ -139,8 +138,8 @@ if (SQFB_showHUD) then {
 					_critical = true;
 				};
 			};
-            if (_critical || SQFB_opt_outFOVindex  && _grpLeader != _unit && _formLeader != _unit) then {
-                if (_showIndex && _index >= 0) then { _return = format ["%1%2%3%4%5 %6 ", if (_grpLeader == _vehLeader) then {"<"} else {""}, _index, if (_grpLeader == _vehLeader) then {">"} else {""}, if (_formLeader == _vehLeader) then {"^"} else {""}] };
+            if (_critical || SQFB_opt_outFOVindex  && !_isGrpLeader && !_isFormLeader) then {
+                if (_showIndex && _index >= 0) then { _return = format ["%1%2 %3 ", _index, if (_return != "") then { ":" } else { "" }, _return] };
             };
 		};
 	};

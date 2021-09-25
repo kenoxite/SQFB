@@ -41,12 +41,11 @@ if (SQFB_showHUD) then {
         if (_unit getVariable "SQFB_smg") then { _return = "SQFB\images\smg.paa"; };
         if (_unit getVariable "SQFB_handgun") then { _return = "SQFB\images\handgun.paa"; };
         if (_unit getVariable "SQFB_rifle") then { _return = "SQFB\images\rifle.paa"; };
-        //if (_unit getVariable "SQFB_medic") then { _return = "a3\ui_f\data\igui\cfg\revive\overlayicons\r100_ca.paa"; };
     };
 
     if (!alive _unit && SQFB_opt_showDead && time >= SQFB_showDeadMinTime) then { _return = "a3\ui_f\data\igui\cfg\revive\overlayicons\f100_ca.paa" };
 } else {
-    if (SQFB_opt_AlwaysShowCritical && {player getVariable "SQFB_medic" || (leader _unit == player) || {!SQFB_opt_showText}}) then {
+    if (SQFB_opt_AlwaysShowCritical && {player getVariable "SQFB_medic" || (leader _unit == SQFB_player) || {!SQFB_opt_showText}}) then {
         // Ammo amount
         if ((vehicle _unit) == _unit) then {
             if (_unit getVariable "SQFB_noAmmo") then {
@@ -58,7 +57,6 @@ if (SQFB_showHUD) then {
         // Show medics when there's wounded units in the group
         if (((_unit getVariable "SQFB_medic") && (group _unit) getVariable "SQFB_wounded")) then {
             _return = "a3\ui_f\data\igui\cfg\cursors\unithealer_ca.paa";
-            //_return = "a3\ui_f\data\igui\cfg\revive\overlayicons\r100_ca.paa";
         };
 
         // Health
@@ -68,14 +66,10 @@ if (SQFB_showHUD) then {
                 _return = "a3\ui_f\data\igui\cfg\revive\overlayicons\u100_ca.paa";
             };
             case "INJURED": {
-                if (isBleeding _unit) then {
-                    _return = "a3\ui_f\data\igui\cfg\cursors\unitbleeding_ca.paa";
-                } else {
-                    _return = "a3\ui_f\data\igui\cfg\revive\overlayicons\r100_ca.paa";
-                };
-            };
-            case "DEAD": {
-                //if (SQFB_opt_showDead) then { _return = "a3\ui_f\data\igui\cfg\revive\overlayicons\f100_ca.paa" };
+                _return = [
+                                "a3\ui_f\data\igui\cfg\revive\overlayicons\r100_ca.paa",
+                                "a3\ui_f\data\igui\cfg\cursors\unitbleeding_ca.paa"
+                            ] select (isBleeding _unit);
             };
         };
     };

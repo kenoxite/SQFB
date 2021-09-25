@@ -15,8 +15,8 @@
 
 */
 
-if ((goggles player) in SQFB_enemyTrackingGoggles) exitWith { true };
-if ((headgear player) in SQFB_enemyTrackingHeadgear) exitWith { true };
-if ((hmd player) in SQFB_enemyTrackingHMD) exitWith { true };
+if ((goggles SQFB_player) in SQFB_enemyTrackingGoggles) exitWith { true };
+if ((headgear SQFB_player) in SQFB_enemyTrackingHeadgear) exitWith { true };
+if ((hmd SQFB_player) in SQFB_enemyTrackingHMD) exitWith { true };
 
 false

@@ -25,7 +25,8 @@ if (_type == "friendly") then {
         SQFB_showDeadMinTime = time + SQFB_opt_showDeadMinTime;
     };
 
-    private _grp = group player;
+    SQFB_player = call SQFB_fnc_playerUnit;
+    private _grp = group SQFB_player;
     // Rebuild units array
     private _units = _grp call SQFB_fnc_checkGroupChange;
     [_units] call SQFB_fnc_addUnits;

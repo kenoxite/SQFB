@@ -5,7 +5,7 @@ class CfgPatches
         name = "Squad Feedback";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0.4";
+        version = "1.0.5";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -45,6 +45,7 @@ class CfgFunctions
             class updateAllUnits {};
             class resetUnit {};
             class updateUnit {};
+            class playerUnit {};
 
             class HUDshow {};
             class HUDhide {};

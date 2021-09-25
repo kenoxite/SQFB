@@ -50,8 +50,8 @@ for "_i" from 0 to (count _SQFB_units) -1 do
         private _grp = group _unit; 
         private _alive = alive _unit;
         private _veh = vehicle _unit;
-        private _vehPlayer = vehicle player;
-        private _isPlayerAir = ((getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent player));
+        private _vehPlayer = vehicle SQFB_player;
+        private _isPlayerAir = ((getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent SQFB_player));
         private _dist = _vehPlayer distance _veh;
         private _maxRange = [SQFB_opt_maxRange, SQFB_opt_maxRangeAir] select (_isPlayerAir);
 
@@ -63,12 +63,12 @@ for "_i" from 0 to (count _SQFB_units) -1 do
         private _unitVisibility = [
                                         1,
                                         [
-                                            [objNull, "VIEW"] checkVisibility [eyePos player, eyePos _unit],
-                                            [objNull, "VIEW"] checkVisibility [eyePos player, AtlToAsl(_veh modeltoworld [0,0,0])]
+                                            [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, eyePos _unit],
+                                            [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, AtlToAsl(_veh modeltoworld [0,0,0])]
                                         ] select (_isOnFoot)
                                     ] select (_SQFB_opt_checkVisibility);
         private _unitOccluded = _unitVisibility < 0.2;
-        private _unitVisible = [ getPosWorld _vehPlayer, [0,0,0] getdir getCameraViewDirection player, ceil((call CBA_fnc_getFov select 0)*100), _unitPos] call BIS_fnc_inAngleSector;
+        private _unitVisible = [ _playerPos, [0,0,0] getdir getCameraViewDirection SQFB_player, ceil((call CBA_fnc_getFov select 0)*100), _unitPos] call BIS_fnc_inAngleSector;
         if (!_unitOccluded && (_SQFB_showHUD || {(!_SQFB_showHUD && _SQFB_opt_AlwaysShowCritical) || {!_unitVisible && SQFB_opt_outFOVindex}})) then {
             if (_alive || (!_alive && _SQFB_opt_showDead && (_unit getVariable "SQFB_veh") == _unit)) then {
                 private _zoom = call SQFB_fnc_trueZoom;
@@ -144,7 +144,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
 
                 private _iconHeightMod = [
                                             [0.1, 0] select (_text == ""),
-                                            [0.3, 0.1] select (_text == "")
+                                            [0.3, 0.2] select (_text == "")
                                         ] select (_isOnFoot);
                 private _selectionPos = _unit selectionPosition ["head", "HitPoints"];
                 // private _selectionPos = selectionPosition [_unit, "head", 12, true];

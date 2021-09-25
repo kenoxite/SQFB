@@ -16,7 +16,7 @@
 
 */
 
-params [["_grp", group player]];
+params [["_grp", group SQFB_player]];
 private _units = units _grp;
 _grp setVariable ["SQFB_group_static", [_grp, _units]];
 _grp setVariable ["SQFB_wounded", false];
@@ -33,5 +33,5 @@ SQFB_showEnemies = false;
 SQFB_knownEnemies = [];
         
 // Player traits
-private _unitTraits = getAllUnitTraits player;
+private _unitTraits = getAllUnitTraits SQFB_player;
 player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];

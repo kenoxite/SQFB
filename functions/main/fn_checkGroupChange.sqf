@@ -17,6 +17,7 @@
 */
 
 params ["_grp"];
+
 private _currentUnits = units _grp;
 private _currentUnitCount = count _currentUnits;
 private _currentGrp = _grp;
@@ -29,7 +30,7 @@ private _oldGrp = _oldGrpArr select 0;
 if (_currentUnitCount == 1) exitWith { [_grp] call SQFB_fnc_initGroup; _currentUnits };
 
 // Exit if it's a new group
-if ((_oldGrp != _currentGrp)) exitWith {
+if (_oldGrp != _currentGrp || SQFB_player != player) exitWith {
         diag_log format ["SQFB: Group has changed. Old group: %1. New group: %2", _oldGrp, _grp];
 		[_grp] call SQFB_fnc_initGroup;
 		private _tmp = [];

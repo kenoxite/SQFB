@@ -17,10 +17,10 @@
 */
 
 params ["_unit", ["_type", "friendly"]];
-private _vehPlayer = vehicle player;
+private _vehPlayer = vehicle SQFB_player;
 private _distance = (vehicle _unit) distance _vehPlayer;
 private _alpha = SQFB_opt_maxAlpha;
-private _isPlayerAir = (getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent player);
+private _isPlayerAir = (getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent SQFB_player);
 private _maxDist = [
                         [
                             SQFB_opt_showEnemiesMaxRange,

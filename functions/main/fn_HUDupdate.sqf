@@ -16,27 +16,25 @@
 */
 
 if (SQFB_opt_showSquad) then {
-    private _grp = group player;
-    private _count = count units player;
+    private _grp = group SQFB_player;
+    private _count = count units SQFB_player;
     if (_count != SQFB_unitCount || SQFB_showHUD) then {
     	[] call SQFB_fnc_HUDshow;
     };
-    if (!SQFB_showHUD) then {
-    	// Check for wounded units
-    	_grp setVariable ["SQFB_wounded", (units _grp) findIf {lifeState _x != "HEALTHY"} != -1];
-    };
+	// Check for wounded units
+	_grp setVariable ["SQFB_wounded", (units _grp) findIf {lifeState _x != "HEALTHY"} != -1];
 };
 
 if (SQFB_opt_showEnemies != "never") then {
     private _trackingDeviceEnabled = SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck;
-    private _grpCount = count (units group player);
+    private _grpCount = count (units group SQFB_player);
     private _showSolo = SQFB_opt_enemyCheckSolo || (!SQFB_opt_enemyCheckSolo && _grpCount > 1);
     SQFB_showEnemies = [false, true] select (SQFB_opt_showEnemies != "never" && (SQFB_opt_showEnemies == "always" || (SQFB_showEnemyHUD && _showSolo) ||  _trackingDeviceEnabled));
 
     if (SQFB_showEnemies) then {
-        private _range = if (((getPosASL vehicle player) select 2) > 5 && !(isNull objectParent player)) then { SQFB_opt_showEnemiesMaxRangeAir } else { SQFB_opt_showEnemiesMaxRange };
+        private _range = if (((getPosASL vehicle SQFB_player) select 2) > 5 && !(isNull objectParent SQFB_player)) then { SQFB_opt_showEnemiesMaxRangeAir } else { SQFB_opt_showEnemiesMaxRange };
         // Only alive enemies on foot and vehicles with crew
-        SQFB_knownEnemies = ([player, _range] call SQFB_fnc_enemyTargets) select { alive _x && {({ alive _x } count (crew _x)) > 0} };
+        SQFB_knownEnemies = ([SQFB_player, _range] call SQFB_fnc_enemyTargets) select { alive _x && {({ alive _x } count (crew _x)) > 0} };
         // Clean enemy taggers
         call SQFB_fnc_cleanEnemyTaggers;
         // Create enemy taggers, used to display last known position of enemy units
