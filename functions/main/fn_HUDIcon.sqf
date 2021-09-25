@@ -45,7 +45,7 @@ if (SQFB_showHUD) then {
 
     if (!alive _unit && SQFB_opt_showDead && time >= SQFB_showDeadMinTime) then { _return = "a3\ui_f\data\igui\cfg\revive\overlayicons\f100_ca.paa" };
 } else {
-    if (SQFB_opt_AlwaysShowCritical && {player getVariable "SQFB_medic" || (leader _unit == SQFB_player) || {!SQFB_opt_showText}}) then {
+    if (SQFB_opt_AlwaysShowCritical && {(player getVariable "SQFB_medic" || leader _unit == SQFB_player) || {!SQFB_opt_showText}}) then {
         // Ammo amount
         if ((vehicle _unit) == _unit) then {
             if (_unit getVariable "SQFB_noAmmo") then {

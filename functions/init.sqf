@@ -85,15 +85,9 @@ SQFB_oneShotLaunchers_default = [
 ];
 SQFB_oneShotLaunchers = +SQFB_oneShotLaunchers_default;
 
-waitUntil { !isNull player };
+waitUntil { sleep 1; !isNull player };
 
 SQFB_player = call SQFB_fnc_playerUnit;
-
-// Player traits
-private _unitTraits = getAllUnitTraits SQFB_player;
-player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];
-// Set player position
-player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
 
 // Init player group
 private _grp = group SQFB_player;
@@ -103,7 +97,8 @@ SQFB_unitCount = count _units;
 // Add units to the global array
 [_units] call SQFB_fnc_addUnits;
 
-waitUntil { !isNull findDisplay 46 };
+// Set player position
+player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
 
 // Keep track of group status
 SQFB_EH_update = [{ if (SQFB_opt_on) then { [] call SQFB_fnc_HUDupdate }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;

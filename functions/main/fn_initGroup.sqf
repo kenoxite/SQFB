@@ -33,5 +33,8 @@ SQFB_showEnemies = false;
 SQFB_knownEnemies = [];
         
 // Player traits
-private _unitTraits = getAllUnitTraits SQFB_player;
-player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];
+[] spawn {
+    sleep 0.1;
+    private _unitTraits = getAllUnitTraits SQFB_player;
+    player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];
+};

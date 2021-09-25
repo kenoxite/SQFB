@@ -20,11 +20,11 @@ params [["_unit", objNull, [objNull]]];
 
 if (!SQFB_opt_on) exitWith {false};
 
-// Reset unit variables
-_unit call SQFB_fnc_resetUnit;
-
 // Exclude players
 if (isPlayer _unit) exitWith {false};
+
+// Reset unit variables
+_unit call SQFB_fnc_resetUnit;
 
 // Editor class name
 private _displayName = "";

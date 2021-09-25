@@ -24,7 +24,6 @@ private _currentGrp = _grp;
 private _oldGrpArr = _grp getVariable "SQFB_group_static";
 if (isNil "_oldGrpArr") then { _oldGrpArr = [grpNull,[]] };
 private _oldGrp = _oldGrpArr select 0;
-//private _oldUnits = _oldGrpArr select 1;
 
 // Exit if there's only one unit
 if (_currentUnitCount == 1) exitWith { [_grp] call SQFB_fnc_initGroup; _currentUnits };
