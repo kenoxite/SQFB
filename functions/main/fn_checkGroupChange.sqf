@@ -30,7 +30,7 @@ if (_currentUnitCount == 1) exitWith { [_grp] call SQFB_fnc_initGroup; _currentU
 
 // Exit if it's a new group
 if (_oldGrp != _currentGrp || SQFB_player != player) exitWith {
-        diag_log format ["SQFB: Group has changed. Old group: %1. New group: %2", _oldGrp, _grp];
+        if (SQFB_debug) then { diag_log format ["SQFB: Group has changed. Old group: %1. New group: %2", _oldGrp, _grp] };
 		[_grp] call SQFB_fnc_initGroup;
 		private _tmp = [];
         for "_i" from 0 to (count SQFB_units) -1 do {

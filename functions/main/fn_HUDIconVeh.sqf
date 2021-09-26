@@ -50,7 +50,6 @@ if ((SQFB_opt_AlwaysShowCritical && !SQFB_showHUD) || !SQFB_opt_showText) then {
 	private _medic = _crew findIf {(_x getVariable "SQFB_medic")};
 	if (_medic != -1) then {
 		if (_grp getVariable "SQFB_wounded") then {
-			//_return = "a3\ui_f\data\igui\cfg\cursors\unithealer_ca.paa";
 			_return = "a3\ui_f\data\igui\cfg\actions\heal_ca.paa";
 		};
 	};
