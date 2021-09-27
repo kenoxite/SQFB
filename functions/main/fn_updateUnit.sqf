@@ -36,6 +36,18 @@ if (isNil "_displayNameUnitVar") then {
 
 if (!alive _unit) exitWith {false};
 
+private _unitIsVanilla = _unit getVariable "SQFB_isVanilla";
+if (isNil "_unitIsVanilla") then {
+    private _unitMod = (unitAddons typeof _unit) select 0;
+    private _vanilla = [
+                        "A3_Characters_F",
+                        "A3_Characters_F_Exp",
+                        "A3_Characters_F_Enoch"
+                        ];
+    _unitIsVanilla = _vanilla findIf { _x == _unitMod } != -1;
+    _unit setVariable ["SQFB_isVanilla", _unitIsVanilla];
+};
+
 private _primWep = toLowerAnsi (primaryWeapon _unit);
 private _hasPrimWep = _primWep != "";
 private _secWep = secondaryWeapon _unit;
@@ -53,14 +65,23 @@ private _primMagCount = { _mag = _x; _compatPrimMags findIf { _x == _mag } != -1
 private _compatSecMags = [[], [_secWep] call BIS_fnc_compatibleMagazines] select _hasSecWep;
 _mag = "";
 private _secMagCount = [
-                        0,
-                        { _mag = _x; _compatSecMags findIf { _x == _mag } != -1} count _mags
+                            0,
+                            { _mag = _x; _compatSecMags findIf { _x == _mag } != -1} count _mags
                         ] select _hasSecWep;
-
-private _items = items _unit;
+// Mines check
 private _hasMines = [false, true] select (_mags findIf { ((_x call BIS_fnc_itemType) select 0) == "Mine"} != -1);
+// Second pass for mod check
+if (!_unitIsVanilla) then {
+    if (!_hasMines) then {
+        _hasMines = [false, true] select (_mags findIf { "CUP_TimeBomb_M" in ([configfile >> "cfgMagazines" >> _x , true] call BIS_fnc_returnParents) } != -1);
+    };
+    if (!_hasMines) then {
+        _hasMines = [false, true] select (_mags findIf { "rhsusf_m112_mag" in ([configfile >> "cfgMagazines" >> _x , true] call BIS_fnc_returnParents) } != -1);
+    };
+};
 private _primWepDes = toLowerAnsi (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
 private _handgunWep = handgunWeapon _unit;
+private _items = items _unit;
 
 // Ammo check - primary
 private _noAmmoPrim = [
@@ -120,7 +141,7 @@ if (_isMedic && {"Medikit" in _items}) then {_medic = true; _roles pushBack "Med
 _unit setVariable ["SQFB_medic", _medic];
 
 // Demolition specialist
-if (_isDemo && {(_hasMines || "MineDetector" in _items || "Toolkit" in _items)}) then { _demo = true; _roles pushBack "Exp" };
+if (_hasMines || {_isDemo && {"MineDetector" in _items || "Toolkit" in _items}})then { _demo = true; _roles pushBack "Exp" };
 _unit setVariable ["SQFB_demo", _demo];
 
 // Engineer
@@ -140,11 +161,11 @@ if ((_secWepType == "Launcher" || {_secWepType == "MissileLauncher" || {_secWepT
 _unit setVariable ["SQFB_AT", _AT];
 
 // Grenade Launcher
-if (_primWepType == "GrenadeLauncher" || {"gl" in _primWep || {"m203" in _primWep || "gp25" in _primWep || "gp30" in _primWep || "gp34" in _primWep || "m32" in _primWep}}) then { _GL = true; _roles pushBack "GL" };
+if (_primWepType == "GrenadeLauncher" || {!_unitIsVanilla && {"gl" in _primWep || {"m203" in _primWep || "gp25" in _primWep || "gp30" in _primWep || "gp34" in _primWep || "m32" in _primWep}}}) then { _GL = true; _roles pushBack "GL" };
 _unit setVariable ["SQFB_GL", _GL];
 
 // Machine Gun
-if (!_anyMG && {"light machine gun" in _primWepDes || {"rpk" in _primWep || "m27" in _primWep || "pkp" in _primWep}}) then { _anyMG = true; _roles pushBack "LMG" };
+if (!_anyMG && {"light machine gun" in _primWepDes || {!_unitIsVanilla && {"rpk" in _primWep || "m27" in _primWep || "pkp" in _primWep}}}) then { _anyMG = true; _roles pushBack "LMG" };
 if (!_anyMG && {_primWepType == "MachineGun"}) then { _anyMG = true; _roles pushBack "MG" };
 if (_anyMG) then { _MG = true };
 _unit setVariable ["SQFB_MG", _MG];
