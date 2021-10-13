@@ -41,6 +41,7 @@ private _SQFB_opt_showEnemiesMaxRange = SQFB_opt_showEnemiesMaxRange;
 private _SQFB_opt_showEnemiesMaxRangeAir = SQFB_opt_showEnemiesMaxRangeAir;
 private _SQFB_opt_showDistEnemy = SQFB_opt_showDistEnemy;
 private _SQFB_opt_enemyPreciseVisCheck = SQFB_opt_enemyPreciseVisCheck;
+private _SQFB_opt_checkVisibilityEnemies = SQFB_opt_checkVisibilityEnemies;
 for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
 {
     if ((typeName (_SQFB_knownEnemies select _i))!="STRING") then {
@@ -111,12 +112,15 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         } else {
             private _isOnFoot = (typeOf _veh isKindOf "Man");
             private _unitVisibility = [
+                                            1,
                                             [
-                                                [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, AtlToAsl(_unit modeltoworld [0,0,0])],
-                                                [_unit, SQFB_player, true] call SQFB_fnc_checkVisibility
-                                            ] select _SQFB_opt_enemyPreciseVisCheck,
-                                            [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, eyePos _unit]
-                                        ] select (_isOnFoot);
+                                                [
+                                                    [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, AtlToAsl(_unit modeltoworld [0,0,0])],
+                                                    [_unit, SQFB_player, true] call SQFB_fnc_checkVisibility
+                                                ] select _SQFB_opt_enemyPreciseVisCheck,
+                                                [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, eyePos _unit]
+                                            ] select (_isOnFoot)
+                                        ] select (_SQFB_opt_checkVisibilityEnemies);
             private _visThreshold = [0.2, 0.1] select _isPlayerAir;
             private _enemyOccluded = _unitVisibility < _visThreshold;
 

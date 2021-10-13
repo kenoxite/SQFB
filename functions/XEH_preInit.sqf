@@ -443,9 +443,20 @@ Parameters:
 [
     "SQFB_opt_checkVisibility", 
     "CHECKBOX",
-    ["Check Squad for Visibility", "Only display HUD elements on units not hidden by obstacles or terrain.\nThis option only affects your squad units. Enemies are always checked for visibility."],
+    ["Check Squad for Visibility", "Only display HUD elements on units not hidden by obstacles or terrain."],
     ["Squad Feedback", "6 - HUD Display - Advanced"],
     [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_checkVisibilityEnemies", 
+    "CHECKBOX",
+    ["Check Enemies for Visibility", "If enabled, known enemy positions will be occluded by terrain and obstacles. When this happens, the last known enemy position will be displayed instead.
+    If disabled, the known enemy locations will always be visible."],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
+    [true],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -523,7 +534,7 @@ Parameters:
 [
     "SQFB_opt_enemyPreciseVisCheck", 
     "CHECKBOX",
-    ["Precise Visibilty Check for Enemies", "More precise visibility checks for enemy vehicles.\nThis will check all the corners of their bounding box instead of a single point, so it will severily affect performance."],
+    ["Precise Visibilty Check for Enemy Vehicles", "More precise visibility checks for enemy vehicles.\nThis will check all the corners of their bounding box instead of a single point, so it will severily affect performance."],
     ["Squad Feedback", "6 - HUD Display - Advanced"],
     [false],
     nil,

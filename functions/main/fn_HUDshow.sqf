@@ -34,4 +34,7 @@ if (_type == "friendly") then {
     if (SQFB_showEnemiesMinTime == 0) then {
         SQFB_showEnemiesMinTime = time + SQFB_opt_showEnemiesMinTime;
     };
+    // Immediate update of enemy positions
+    SQFB_enemiesTimeLastCheck = time;
+    [] call SQFB_fnc_HUDupdate;
 };
