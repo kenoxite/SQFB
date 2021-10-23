@@ -29,12 +29,16 @@ if (SQFB_opt_showEnemies != "never") then {
     private _trackingDeviceEnabled = SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck;
     private _grpCount = count (units group SQFB_player);
     private _showSolo = SQFB_opt_enemyCheckSolo || (!SQFB_opt_enemyCheckSolo && _grpCount > 1);
-    SQFB_showEnemies = [false, true] select (SQFB_opt_showEnemies != "never" && (SQFB_opt_showEnemies == "always" || (SQFB_showEnemyHUD && _showSolo) ||  _trackingDeviceEnabled));
+    private _assignedTarget = assignedTarget SQFB_player;
+    private _displayTarget = SQFB_opt_alwaysDisplayTarget && !isNull _assignedTarget;
+    private _showEnemies = SQFB_opt_showEnemies == "always" || (SQFB_showEnemyHUD && _showSolo) ||  _trackingDeviceEnabled;
+    SQFB_showEnemies = [false, true] select (_showEnemies || _displayTarget);
 
     if (SQFB_showEnemies) then {
         private _range = if (((getPosASL vehicle SQFB_player) select 2) > 5 && !(isNull objectParent SQFB_player)) then { SQFB_opt_showEnemiesMaxRangeAir } else { SQFB_opt_showEnemiesMaxRange };
         // Only alive enemies on foot and vehicles with crew
-        SQFB_knownEnemies = ([SQFB_player, _range] call SQFB_fnc_enemyTargets) select { alive _x && {({ alive _x } count (crew _x)) > 0} };
+        private _targets = [[SQFB_player, _range] call SQFB_fnc_enemyTargets, [_assignedTarget]] select (_displayTarget && !_showEnemies); // Only display the assigned target if enemy HUD is not requested
+        SQFB_knownEnemies = _targets select { alive _x && {({ alive _x } count (crew _x)) > 0} };
         // Clean enemy taggers
         call SQFB_fnc_cleanEnemyTaggers;
         // Create enemy taggers, used to display last known position of enemy units

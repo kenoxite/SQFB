@@ -30,17 +30,19 @@ private _index = -1;
 private _vehPlayer = vehicle SQFB_player;
 private _veh = vehicle _unit;
 if (_alive && SQFB_opt_showIndex) then { _index = _unit getVariable "SQFB_grpIndex"; };
-private _isGrpLeader = leader (group _unit) == _unit;
+private _grpLeader = leader (group _unit);
+private _isGrpLeader = _grpLeader == _unit;
 private _isFormLeader = formationLeader _vehPlayer == _unit;
+private _isFormFollower = (formationLeader _unit == _vehPlayer) && _grpLeader != SQFB_player;
 private _informCritical = player getVariable "SQFB_medic" || _grpLeader == SQFB_player;
 
 // Always show leader index
-if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0 && (_isGrpLeader || _isFormLeader)) then { _return = format ["%1%2%3%4%5%6 ", _return, if (_isGrpLeader) then {"<"} else {""}, _index, if (_isGrpLeader) then {">"} else {""}, if (_isFormLeader) then {"^"} else {""}, if (_return != "") then { ":" } else { "" }] };
+if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0 && (_isGrpLeader || _isFormLeader || _isFormFollower)) then { _return = format ["%1%2%3%4%5%6%7 ", _return, if (_isGrpLeader) then {"<"} else {""}, _index, if (_isGrpLeader) then {">"} else {""}, if (_isFormLeader) then {"^"} else {""}, if (_isFormFollower) then {""""} else {""}] };
 
 // Default text when requested by player
 if (SQFB_showHUD) then {
 	if (_alive || (!_alive && (_veh == _unit) && time >= SQFB_showDeadMinTime)) then {
-        if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0 && !_isGrpLeader && !_isFormLeader) then { _return = format ["%1%2%3 ", _return, _index, if (_return != "") then { ":" } else { "" }] };
+        if (SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0 && !_isGrpLeader && !_isFormLeader && !_isFormFollower) then { _return = format ["%1%2: ", _return, _index] };
 		if (_alive) then {
 			private _lifeState = lifeState _unit;
 			if (_lifeState != "HEALTHY") then {
@@ -96,7 +98,7 @@ if (SQFB_showHUD) then {
 			_return = format ["%1[MEDIC] ", _return];
             _critical = true;
 		};
-		if ((SQFB_opt_outFOVindex || _critical) && SQFB_opt_showIndex && _index >= 0 && !_isGrpLeader && !_isFormLeader) then {
+		if ((SQFB_opt_outFOVindex || _critical) && SQFB_opt_showIndex && _index >= 0 && !_isGrpLeader && !_isFormLeader && !_isFormFollower) then {
             _return = format ["%1%2 %3 ", _index, if (_return != "") then { ":" } else { "" }, _return];
         };
 	};

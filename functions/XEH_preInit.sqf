@@ -532,6 +532,16 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
+    "SQFB_opt_alwaysDisplayTarget", 
+    "CHECKBOX",
+    ["Always display target", "If enabled, you will always track your assigned target, even if the enemy HUD isn't currently activated."],
+    ["Squad Feedback", "6 - HUD Display - Advanced"],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
     "SQFB_opt_enemyPreciseVisCheck", 
     "CHECKBOX",
     ["Precise Visibilty Check for Enemy Vehicles", "More precise visibility checks for enemy vehicles.\nThis will check all the corners of their bounding box instead of a single point, so it will severily affect performance."],
@@ -540,6 +550,7 @@ Parameters:
     nil,
     {} 
 ] call CBA_fnc_addSetting;
+
 [
     "SQFB_opt_EnemyTrackingGearGoggles", 
     "EDITBOX",
@@ -626,6 +637,16 @@ Parameters:
     ["Enemy color", "Color used for enemy units.\nThis option won't have any effect if colors are deactivated."], 
     ["Squad Feedback", "7 - Colors"],
     [0.9,0.21,0.3],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_colorEnemyTarget", 
+    "COLOR",
+    ["Enemy color (target)", "Color used for enemy units assigned as the player's target.\nThis option won't have any effect if colors are deactivated."], 
+    ["Squad Feedback", "7 - Colors"],
+    [0.98,0.796,0.137],
     nil,
     {} 
 ] call CBA_fnc_addSetting;

@@ -38,12 +38,15 @@ if (_showClass) then {
     _vehName = toUpperANSI (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"));
 };
 
-private _isGrpLeader = leader (group _veh) == _unit;
+private _grpLeader = leader (group _unit);
+private _isGrpLeader = _grpLeader == _unit;
 private _isFormLeader = formationLeader _vehPlayer == _unit;
+private _isFormFollower = (formationLeader _unit == _vehPlayer) && _grpLeader != SQFB_player;
+private _informCritical = player getVariable "SQFB_medic" || _grpLeader == SQFB_player;
 
 // Always show leader index
 private _alive = alive _veh || damage _veh < 1;
-if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0 && (_isGrpLeader || _isFormLeader)) then { _return = format ["%1%2%3%4%5%6 ", _return, if (_isGrpLeader) then {"<"} else {""}, _index, if (_isGrpLeader) then {">"} else {""}, if (_isFormLeader) then {"^"} else {""}, if (_return != "") then { ":" } else { "" }] };
+if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0 && (_isGrpLeader || _isFormLeader || _isFormFollower)) then { _return = format ["%1%2%3%4%5%6%7 ", _return, if (_isGrpLeader) then {"<"} else {""}, _index, if (_isGrpLeader) then {">"} else {""}, if (_isFormLeader) then {"^"} else {""}, if (_isFormFollower) then {""""} else {""}] };
 
 // Default text when requested by player
 if (SQFB_showHUD) then {
@@ -106,7 +109,7 @@ if (SQFB_showHUD) then {
 	};
 } else {
     // Text when always show critical is enabled
-	if (SQFB_opt_outFOVindex || {SQFB_opt_AlwaysShowCritical && (player getVariable "SQFB_medic" || (_grpLeader == SQFB_player))}) then {
+	if (SQFB_opt_outFOVindex || {SQFB_opt_AlwaysShowCritical && _informCritical}) then {
 		if (!_unitVisible) then {
 			private _critical = false;
 			//if (_showClass) then {_return = format ["%1%2 ", _return,_vehName]};
@@ -138,7 +141,7 @@ if (SQFB_showHUD) then {
 					_critical = true;
 				};
 			};
-            if (_critical || SQFB_opt_outFOVindex  && !_isGrpLeader && !_isFormLeader) then {
+            if (_critical || SQFB_opt_outFOVindex  && !_isGrpLeader && !_isFormLeader && !_isFormFollower) then {
                 if (_showIndex && _index >= 0) then { _return = format ["%1%2 %3 ", _index, if (_return != "") then { ":" } else { "" }, _return] };
             };
 		};

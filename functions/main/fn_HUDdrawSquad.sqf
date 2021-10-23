@@ -29,7 +29,6 @@ private _SQFB_opt_iconHeightVeh = SQFB_opt_iconHeightVeh;
 private _SQFB_opt_showIcon = SQFB_opt_showIcon;
 private _SQFB_opt_showText = SQFB_opt_showText;
 private _SQFB_opt_showIndex = SQFB_opt_showIndex;
-private _SQFB_opt_scaleText = SQFB_opt_scaleText;
 
 private _SQFB_units = SQFB_units;
 private _SQFB_opt_GroupCrew = SQFB_opt_GroupCrew;
@@ -75,28 +74,28 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                 private _adjSize = 2; // TBH no idea why this is needed, but it's needed
 
                 private _iconSize = [
-                                [
-                                ((linearConversion[ 0, _maxRange min 200, _dist, (1.8 * _adjSize) * _zoom, 0.3, true ])) min 1.8,
-                                ((linearConversion[ 0, _maxRange min 200, _dist, (1.8 * _adjSize) * _zoom, 0.1, true ])) min 1.8
-                                ] select (_isOnFoot),
+                                        [
+                                            ((linearConversion[ 0, _maxRange min 200, _dist, (1.8 * _adjSize) * _zoom, 0.3, true ])) min 1.8,
+                                            ((linearConversion[ 0, _maxRange min 200, _dist, (1.8 * _adjSize) * _zoom, 0.1, true ])) min 1.8
+                                        ] select _isOnFoot,
 
-                                [
-                                ((linearConversion[ 0, _maxRange min 100, _dist, (2 * _adjSize) * _zoom, 0.3, true ])) min 2,
-                                ((linearConversion[ 0, _maxRange min 100, _dist, (1.8 * _adjSize) * _zoom, 0.1, true ])) min 1.8
-                                ] select (_isOnFoot)
-                            ] select (_isPlayerAir);
+                                        [
+                                            ((linearConversion[ 0, _maxRange min 100, _dist, (2 * _adjSize) * _zoom, 0.3, true ])) min 2,
+                                            ((linearConversion[ 0, _maxRange min 100, _dist, (1.8 * _adjSize) * _zoom, 0.1, true ])) min 1.8
+                                        ] select _isOnFoot
+                                    ] select _isPlayerAir;
 
                 private _textSize = [
-                                [
-                                ((linearConversion[ 0, _maxRange min 200, _dist, (0.052 * _adjSize) * _zoom, 0.02, true ])) min 0.052,
-                                ((linearConversion[ 0, _maxRange min 200, _dist, (0.04 * _adjSize) * _zoom, 0.02, true ])) min 0.04
-                                ] select (_isOnFoot),
+                                        0.03,
+                                        [
+                                            [
+                                                ((linearConversion[ 0, _maxRange min 200, _dist, (0.052 * _adjSize) * _zoom, 0.02, true ])) min 0.052,
+                                                ((linearConversion[ 0, _maxRange min 200, _dist, (0.04 * _adjSize) * _zoom, 0.02, true ])) min 0.04
+                                            ] select _isOnFoot,
 
-                                [
-                                0.03,
-                                ((linearConversion[ 0, _maxRange min 200, _dist, (0.04 * _adjSize) * _zoom, 0.02, true ])) min 0.04
-                                ] select (_isOnFoot)
-                            ] select (_isPlayerAir);
+                                            ((linearConversion[ 0, _maxRange min 200, _dist, (0.04 * _adjSize) * _zoom, 0.02, true ])) min 0.04
+                                        ] select _isPlayerAir
+                                    ] select _SQFB_opt_scaleText;
 
                 _iconSize = _iconSize * _SQFB_opt_iconSize;
                 _textSize = (_textSize * _SQFB_opt_textSize) max 0.02;
@@ -160,6 +159,9 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                             1 + _SQFB_opt_iconHeightVeh
                                         ]
                                     ] select _displayAsVehicle;
+
+                _position set [2, (_position select 2) + ((_dist * ([0.02, 0.03] select _SQFB_opt_scaleText)) min 2)]; // Hack to keep the icons more or less at the same height no matter the distance
+
                 private _angle = 0;
                 private _shadow = true;
                 private _font = _SQFB_opt_textFont;

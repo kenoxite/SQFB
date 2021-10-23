@@ -35,6 +35,7 @@ private _SQFB_opt_scaleText = SQFB_opt_scaleText;
 private _SQFB_knownEnemies = SQFB_knownEnemies;
 private _SQFB_enemyTagObjArr = SQFB_enemyTagObjArr;
 private _SQFB_opt_colorEnemy = SQFB_opt_colorEnemy;
+private _SQFB_opt_colorEnemyTarget = SQFB_opt_colorEnemyTarget;
 private _SQFB_opt_showEnemiesMinRange = SQFB_opt_showEnemiesMinRange;
 private _SQFB_opt_showEnemiesMinRangeAir = SQFB_opt_showEnemiesMinRangeAir;
 private _SQFB_opt_showEnemiesMaxRange = SQFB_opt_showEnemiesMaxRange;
@@ -76,8 +77,9 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         if (_dist > _maxRange) then { continue };
 
         // Retrieve tagger object
-        private _sameEnemyPos = [false, true] select (!_noEnemyData && {(_dataRealPos distance getPosWorld _veh) <= 0});
-        private _realPos = [_dataRealPos, getPosWorld _veh] select (_noEnemyData || !_sameEnemyPos);
+        private _pos = AtlToAsl (SQFB_player getHideFrom _unit);
+        private _sameEnemyPos = [false, true] select (!_noEnemyData && {(_dataRealPos distance _pos) <= 0});
+        private _realPos = [_dataRealPos, _pos] select (_noEnemyData || !_sameEnemyPos);
         private _enemyTagger = [_dataEnemyTagger, objNull] select _noEnemyData;
         if (_noEnemyData) then {
             private _enemyTaggerIndex = [_SQFB_enemyTagObjArr, _unit] call BIS_fnc_findNestedElement;
@@ -96,7 +98,8 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         private _zoom = call SQFB_fnc_trueZoom;
         private _sameZoom = [_zoom == _dataZoom, false] select _noEnemyData;
         private ["_iconSize", "_textSize", "_position", "_color", "_text", "_texture"];
-        if ((_playerPos distance (player getVariable "SQFB_pos")) <= 0 && _sameEnemyPos && _sameEnemyStance && _sameZoom && _sameCamDir) then {
+        private _isTarget = _unit == assignedTarget SQFB_player;
+        if ((_playerPos distance (player getVariable "SQFB_pos")) <= 0 && _sameEnemyPos && _sameEnemyStance && _sameZoom && _sameCamDir && !_isTarget) then {
             // Skip if enemy not in FOV of the player
             if (!_dataIsVisible) then { continue };
 
@@ -111,23 +114,40 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             _texture = _dataTexture;
         } else {
             private _isOnFoot = (typeOf _veh isKindOf "Man");
-            private _unitVisibility = [
-                                            1,
-                                            [
-                                                [
-                                                    [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, AtlToAsl(_unit modeltoworld [0,0,0])],
-                                                    [_unit, SQFB_player, true] call SQFB_fnc_checkVisibility
-                                                ] select _SQFB_opt_enemyPreciseVisCheck,
-                                                [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, eyePos _unit]
-                                            ] select (_isOnFoot)
-                                        ] select (_SQFB_opt_checkVisibilityEnemies);
-            private _visThreshold = [0.2, 0.1] select _isPlayerAir;
-            private _enemyOccluded = _unitVisibility < _visThreshold;
+            // Check enemy occlusion
+            private _enemyOccluded = [false, true] select _SQFB_opt_checkVisibilityEnemies;
+            if (_SQFB_opt_checkVisibilityEnemies) then {
+                if (_isTarget) then {
+                    private _playerUnits = units (group SQFB_player);
+                    for "_i" from 0 to (count _playerUnits) -1 do
+                    {
+                        private _groupUnit = _playerUnits select _i;
+                        if (_groupUnit != effectiveCommander (vehicle _groupUnit)) then { continue };
+                        if (_isOnFoot || !_SQFB_opt_enemyPreciseVisCheck) then {
+                            private _targetKnowledge = _groupUnit targetKnowledge _unit;
+                            private _enemyOccludedforUnit = (time - (_targetKnowledge select 2)) > 0.1;
+                            if (!_enemyOccludedforUnit) exitWith { _enemyOccluded = false };
+                        } else {
+                            private _unitVisibility = [_unit, _groupUnit, true] call SQFB_fnc_checkVisibility;
+                            if (_unitVisibility >= 0.2) exitWith { _enemyOccluded = false };
+                        };
+                    };
+                } else {
+                    if (_isOnFoot || !_SQFB_opt_enemyPreciseVisCheck) then {
+                        private _targetKnowledge = SQFB_player targetKnowledge _unit;
+                       _enemyOccluded = (time - (_targetKnowledge select 2)) > 0.1;
+                    } else {
+                        private _unitVisibility = [_unit, SQFB_player, true] call SQFB_fnc_checkVisibility;
+                        private _visThreshold = [0.2, 0.1] select _isPlayerAir;
+                        _enemyOccluded = _unitVisibility < _visThreshold;
+                    };
+                };
+            };
 
             // Move enemy tagger to last known position
             private _lastKnownPos = [_dataLastKnownPos, _realPos] select _noEnemyData;
             if (!_enemyOccluded) then {
-                _enemyTagger setPosWorld _realPos;
+                _enemyTagger setPosWorld _lastKnownPos;
                 _lastKnownPos = _realPos;
             };
             private _enemy = [
@@ -143,7 +163,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             if (!_enemyVisible) then { continue };
 
             // Skip if too close
-            private _distPerceived = _playerPos distance _perceivedPos;
+            private _distPerceived = _playerPos distance2D _perceivedPos;
             private _minRange = [_SQFB_opt_showEnemiesMinRange, _SQFB_opt_showEnemiesMinRangeAir] select _isPlayerAir;
             private _tooClose = _minRange > 0 && {_distPerceived <= _minRange};
             if (_tooClose) then { continue };
@@ -155,23 +175,28 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                             [
                                 ((linearConversion[ 0, _maxRange min 100, _distPerceived, (1 * _adjSize) * _zoom, 0.5, true ])) min 1,
                                 ((linearConversion[ 0, _maxRange min 100, _distPerceived, (0.6 * _adjSize) * _zoom, 0.3, true ])) min 0.6
-                            ] select (_isOnFoot),
+                            ] select _isOnFoot,
 
                             [
                                 ((linearConversion[ 0, _maxRange min 100, _distPerceived, (1 * _adjSize) * _zoom, 0.5, true ])) min 1,
                                 ((linearConversion[ 0, _maxRange min 100, _distPerceived, (1 * _adjSize) * _zoom, 0.5, true ])) min 1
-                            ] select (_isOnFoot)
-                        ] select (_isPlayerAir);
+                            ] select _isOnFoot
+                        ] select _isPlayerAir;
 
             _textSize = [
                             ((linearConversion[ 0, _maxRange min 200, _distPerceived, (0.04 * _adjSize) * _zoom, 0.03, true ])) min 0.04,
                             ((linearConversion[ 0, _maxRange min 200, _distPerceived, (0.04 * _adjSize) * _zoom, 0.03, true ])) min 0.04
-                        ] select (_isPlayerAir);
-
-            _iconSize = (_iconSize * _SQFB_opt_iconSize) max 0.01;
+                        ] select _isPlayerAir;
+            _iconSize = [
+                            (_iconSize * _SQFB_opt_iconSize) max 0.01,
+                            ((_iconSize * _SQFB_opt_iconSize) + 0.1) max 0.01
+                        ] select _isTarget;
             _textSize = (_textSize * _SQFB_opt_textSize) max 0.02;
 
-            _color = [_SQFB_opt_colorEnemy select 0,_SQFB_opt_colorEnemy select 1,_SQFB_opt_colorEnemy select 2, ([_enemy] call SQFB_fnc_HUDAlpha) max 0.7];
+            _color = [
+                        [_SQFB_opt_colorEnemy select 0,_SQFB_opt_colorEnemy select 1,_SQFB_opt_colorEnemy select 2, ([_enemy] call SQFB_fnc_HUDAlpha) max 0.7],
+                        [_SQFB_opt_colorEnemyTarget select 0,_SQFB_opt_colorEnemyTarget select 1,_SQFB_opt_colorEnemyTarget select 2, ([_enemy] call SQFB_fnc_HUDAlpha) max 0.7]
+                    ] select _isTarget;
 
             _text = [
                         "",
@@ -189,9 +214,9 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                         ] select _isRealPos;
 
             private _iconHeightMod = [
-                                        [1.7, 0.8] select (_text == ""),
-                                        [0.8, 0.5] select (_text == "")
-                                    ] select (_isOnFoot);
+                                        [0.8, 0.5] select (_text == ""),
+                                        [0.4, 0.2] select (_text == "")
+                                    ] select _isOnFoot;
             private _selectionPos = [getPosVisual _enemy, _enemy selectionPosition ["head", "HitPoints"]] select _isRealPos;
             // private _selectionPos = [getPosVisual _enemy, selectionPosition [_enemy, "head", 12, true]] select _isRealPos;
             _position = [
@@ -212,7 +237,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                                 _enemy modelToWorldVisual [
                                     _SQFB_opt_iconHor,
                                     0,
-                                    1.3
+                                    0.5
                                 ],
                                 _enemy modelToWorldVisual [
                                     (_selectionPos select 0) + _SQFB_opt_iconHor,
@@ -221,6 +246,8 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                                 ]
                             ] select _isRealPos
                         ] select _isOnFoot;
+
+            if (_isRealPos) then { _position set [2, (_position select 2) + ((_dist * 0.01) min 1.5)] }; // Hack to keep the icons more or less at the same height no matter the distance
                         
             // Create ememy vars
             _unit setVariable ["SQFB_enemyData", [_realPos, _enemyTagger, _lastKnownPos, _iconSize, _texture, _text, _textSize, _position, _color, _enemyVisible, _tooClose, stance _unit, _zoom, _camDir]]; 

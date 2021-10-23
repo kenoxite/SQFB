@@ -124,7 +124,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
 
             // Enemies
             if (time > SQFB_enemiesTimeLastCheck + SQFB_opt_HUDrefresh) then {
-                if (SQFB_showEnemies && SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck || {SQFB_showEnemies && !SQFB_opt_showEnemiesIfTrackingGear || {time >= SQFB_showEnemiesMinTime && SQFB_showEnemyHUD}}) then {
+                if (SQFB_showEnemies || {time >= SQFB_showEnemiesMinTime && SQFB_showEnemyHUD}) then {
                     [_playerPos] call SQFB_fnc_HUDdrawEnemies;
                 };
                 SQFB_enemiesTimeLastCheck = time;
