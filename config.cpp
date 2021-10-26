@@ -5,7 +5,7 @@ class CfgPatches
         name = "Squad Feedback";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0.7";
+        version = "1.0.8";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -25,9 +25,9 @@ class CfgFunctions
 {
     class SQFB
     {
-        class Init
+        class SQFBinit
         {
-            class SQFBinit
+            class postInit
             {
                 postInit = 1;
                 file = "SQFB\functions\init.sqf";

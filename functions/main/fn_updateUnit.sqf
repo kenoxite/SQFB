@@ -165,7 +165,7 @@ if (_primWepType == "GrenadeLauncher" || {!_unitIsVanilla && {"gl" in _primWep |
 _unit setVariable ["SQFB_GL", _GL];
 
 // Machine Gun
-if (!_anyMG && {"light machine gun" in _primWepDes || {!_unitIsVanilla && {"rpk" in _primWep || "m27" in _primWep || "pkp" in _primWep}}}) then { _anyMG = true; _roles pushBack "LMG" };
+if (!_anyMG && {"light machine gun" in _primWepDes || "rpk" in _primWep || {!_unitIsVanilla && {"m27" in _primWep || "pkp" in _primWep}}}) then { _anyMG = true; _roles pushBack "LMG" };
 if (!_anyMG && {_primWepType == "MachineGun"}) then { _anyMG = true; _roles pushBack "MG" };
 if (_anyMG) then { _MG = true };
 _unit setVariable ["SQFB_MG", _MG];
