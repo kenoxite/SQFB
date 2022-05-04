@@ -7,6 +7,7 @@
 SQFB_debug = if (is3DENPreview) then { true } else { false };
 SQFB_units = [];
 SQFB_knownEnemies = [];
+SQFB_knownFriendlies = [];
 SQFB_showHUD = false;
 SQFB_showDeadMinTime = 0;
 SQFB_squadTimeLastCheck = time;
@@ -17,6 +18,12 @@ SQFB_showEnemyHUD = false;
 SQFB_showEnemiesMinTime = 0;
 SQFB_enemyTagObjArr = [];
 SQFB_enemiesTimeLastCheck = time;
+
+SQFB_showFriendlies = false;
+SQFB_showFriendlyHUD = false;
+SQFB_showFriendliesMinTime = 0;
+SQFB_friendlyTagObjArr = [];
+SQFB_friendliesTimeLastCheck = time;
 
 SQFB_enemyTrackingGoggles_default = [
     "G_Balaclava_combat",
@@ -55,7 +62,17 @@ SQFB_enemyTrackingHMD_default = [
     // "O_NVGoggles_urb_F",
     // "O_NVGogglesB_blk_F",
     // "O_NVGogglesB_grn_F",
-    // "O_NVGogglesB_gry_F"
+    // "O_NVGogglesB_gry_F",
+
+    // IVAS
+    "TIOW_IVAS_Tan",
+    "TIOW_IVAS_Black",
+    "TIOW_IVAS_White",
+    "TIOW_IVAS_Green",
+    "TIOW_IVAS_TanTI",
+    "TIOW_IVAS_BlackTI",
+    "TIOW_IVAS_WhiteTI",
+    "TIOW_IVAS_GreenTI"
 ];
 SQFB_enemyTrackingHMD = +SQFB_enemyTrackingHMD_default;
 
@@ -84,6 +101,39 @@ SQFB_oneShotLaunchers_default = [
     "cwr3_launch_rpg75"
 ];
 SQFB_oneShotLaunchers = +SQFB_oneShotLaunchers_default;
+
+SQFB_factionsWest = [
+    // Main + Official DLCs
+    "BLU_F",
+    "BLU_G_F",
+    "BLU_T_F",
+    "BLU_CTRG_F",
+    "BLU_GEN_F",
+    "BLU_W_F"
+];
+
+SQFB_factionsEast = [
+    // Main + Official DLCs
+    "OPF_F",
+    "OPF_G_F",
+    "OPF_T_F",
+    "OPF_R_F"
+];
+
+SQFB_factionsGuer = [
+    // Main + Official DLCs
+    "IND_F",
+    "IND_G_F",
+    "IND_C_F",
+    "IND_E_F",
+    "IND_L_F"
+];
+
+SQFB_factionsCiv = [
+    // Main + Official DLCs
+    "CIV_F",
+    "CIV_IDAP_F"
+];
 
 waitUntil { !isNull player };
 
@@ -129,6 +179,15 @@ SQFB_draw3D_EH = addMissionEventHandler [
                 };
                 SQFB_enemiesTimeLastCheck = time;
             };
+
+            // Friendlies
+            if (time > SQFB_friendliesTimeLastCheck + SQFB_opt_HUDrefresh) then {
+                if (SQFB_showFriendlies || {time >= SQFB_showFriendliesMinTime && SQFB_showFriendlyHUD}) then {
+                    [_playerPos] call SQFB_fnc_HUDdrawFriendlies;
+                };
+                SQFB_friendliesTimeLastCheck = time;
+            };
+
             // Update player position
             player setVariable ["SQFB_pos", _playerPos];
         };

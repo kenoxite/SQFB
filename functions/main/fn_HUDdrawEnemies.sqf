@@ -2,7 +2,7 @@
   Author: kenoxite
 
   Description:
-  Draws the squad HUD
+  Draws the enemies HUD
 
 
   Parameter (s):
@@ -43,10 +43,19 @@ private _SQFB_opt_showEnemiesMaxRangeAir = SQFB_opt_showEnemiesMaxRangeAir;
 private _SQFB_opt_showDistEnemy = SQFB_opt_showDistEnemy;
 private _SQFB_opt_enemyPreciseVisCheck = SQFB_opt_enemyPreciseVisCheck;
 private _SQFB_opt_checkVisibilityEnemies = SQFB_opt_checkVisibilityEnemies;
+private _SQFB_opt_lastKnownEnemyPositionOnly = SQFB_opt_lastKnownEnemyPositionOnly;
+private _SQFB_opt_changeIconsToBlufor = SQFB_opt_changeIconsToBlufor;
+private _SQFB_opt_enemySideColors = SQFB_opt_enemySideColors;
+private _SQFB_opt_colorEnemyWest = SQFB_opt_colorEnemyWest;
+private _SQFB_opt_colorEnemyGuer = SQFB_opt_colorEnemyGuer;
+private _SQFB_opt_colorEnemyCiv = SQFB_opt_colorEnemyCiv;
+private _SQFB_opt_HUDrefresh = SQFB_opt_HUDrefresh;
+private _SQFB_opt_alternateOcclusionCheck = SQFB_opt_alternateOcclusionCheck;
 for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
 {
     if ((typeName (_SQFB_knownEnemies select _i))!="STRING") then {
         private _unit = _SQFB_knownEnemies select _i;
+        private _side = _unit call SQFB_fnc_factionSide;
         private _enemyData = _unit getVariable "SQFB_enemyData";
 
         private ["_dataRealPos", "_dataDist", "_dataEnemyTagger", "_dataLastKnownPos", "_dataIconSize", "_dataTexture", "_dataText", "_dataTextSize", "_dataPosition", "_dataColor", "_dataIsVisible", "_dataTooClose", "_dataStance", "_dataZoom", "_dataCamDir"];
@@ -77,7 +86,10 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
         if (_dist > _maxRange) then { continue };
 
         // Retrieve tagger object
-        private _pos = AtlToAsl (SQFB_player getHideFrom _unit);
+        private _pos = [
+                            getPosWorld _veh,
+                            AtlToAsl (SQFB_player getHideFrom _unit)
+                        ] select _SQFB_opt_alternateOcclusionCheck;
         private _sameEnemyPos = [false, true] select (!_noEnemyData && {(_dataRealPos distance _pos) <= 0});
         private _realPos = [_dataRealPos, _pos] select (_noEnemyData || !_sameEnemyPos);
         private _enemyTagger = [_dataEnemyTagger, objNull] select _noEnemyData;
@@ -123,21 +135,29 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                     {
                         private _groupUnit = _playerUnits select _i;
                         if (_groupUnit != effectiveCommander (vehicle _groupUnit)) then { continue };
-                        if (_isOnFoot || !_SQFB_opt_enemyPreciseVisCheck) then {
+                        if ((_isOnFoot || !_SQFB_opt_enemyPreciseVisCheck) && _SQFB_opt_alternateOcclusionCheck) then {
                             private _targetKnowledge = _groupUnit targetKnowledge _unit;
-                            private _enemyOccludedforUnit = (time - (_targetKnowledge select 2)) > 0.1;
+                            private _enemyOccludedforUnit = (time - (_targetKnowledge select 2)) > (_SQFB_opt_HUDrefresh + 0.1);
                             if (!_enemyOccludedforUnit) exitWith { _enemyOccluded = false };
                         } else {
-                            private _unitVisibility = [_unit, _groupUnit, true] call SQFB_fnc_checkVisibility;
+                            private _preciseVisCheck = call {
+                                            if (_isOnFoot || !_SQFB_opt_enemyPreciseVisCheck) exitWith {false};
+                                            if (!_isOnFoot && _SQFB_opt_enemyPreciseVisCheck) exitWith {true};
+                                        };
+                            private _unitVisibility = [_unit, _groupUnit, _preciseVisCheck] call SQFB_fnc_checkVisibility;
                             if (_unitVisibility >= 0.2) exitWith { _enemyOccluded = false };
                         };
                     };
                 } else {
-                    if (_isOnFoot || !_SQFB_opt_enemyPreciseVisCheck) then {
+                    if ((_isOnFoot || !_SQFB_opt_enemyPreciseVisCheck) && _SQFB_opt_alternateOcclusionCheck) then {
                         private _targetKnowledge = SQFB_player targetKnowledge _unit;
-                       _enemyOccluded = (time - (_targetKnowledge select 2)) > 0.1;
+                       _enemyOccluded = (time - (_targetKnowledge select 2)) > (_SQFB_opt_HUDrefresh + 0.1);
                     } else {
-                        private _unitVisibility = [_unit, SQFB_player, true] call SQFB_fnc_checkVisibility;
+                        private _preciseVisCheck = call {
+                                        if (_isOnFoot || !_SQFB_opt_enemyPreciseVisCheck) exitWith {false};
+                                        if (!_isOnFoot && _SQFB_opt_enemyPreciseVisCheck) exitWith {true};
+                                    };
+                        private _unitVisibility = [_unit, SQFB_player, _preciseVisCheck] call SQFB_fnc_checkVisibility;
                         private _visThreshold = [0.2, 0.1] select _isPlayerAir;
                         _enemyOccluded = _unitVisibility < _visThreshold;
                     };
@@ -157,9 +177,9 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
 
             private _isRealPos = _enemy == _unit;
             private _perceivedPos = [_lastKnownPos, _realPos] select _isRealPos;
-            private _enemyVisible = [ _playerPos, _camDir, ceil((call CBA_fnc_getFov select 0)*100), _perceivedPos] call BIS_fnc_inAngleSector;
 
             // Skip if enemy not in FOV of the player
+            private _enemyVisible = [ _playerPos, _camDir, ceil((call CBA_fnc_getFov select 0)*100), _perceivedPos] call BIS_fnc_inAngleSector;
             if (!_enemyVisible) then { continue };
 
             // Skip if too close
@@ -193,8 +213,16 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                         ] select _isTarget;
             _textSize = (_textSize * _SQFB_opt_textSize) max 0.02;
 
+            private _colorEnemy = [
+                                        _SQFB_opt_colorEnemy,
+                                        call {
+                                            if (_side == west) exitWith {_SQFB_opt_colorEnemyWest};
+                                            if (_side == resistance) exitWith {_SQFB_opt_colorEnemyGuer};
+                                            if (_side == civilian) exitWith {_SQFB_opt_colorEnemyCiv};
+                                        }
+                                    ] select (_SQFB_opt_enemySideColors != "never" && (_side == west || _side == resistance || (alive _unit && _side == civilian)));
             _color = [
-                        [_SQFB_opt_colorEnemy select 0,_SQFB_opt_colorEnemy select 1,_SQFB_opt_colorEnemy select 2, ([_enemy] call SQFB_fnc_HUDAlpha) max 0.7],
+                        [_colorEnemy select 0,_colorEnemy select 1,_colorEnemy select 2, ([_enemy] call SQFB_fnc_HUDAlpha) max 0.7],
                         [_SQFB_opt_colorEnemyTarget select 0,_SQFB_opt_colorEnemyTarget select 1,_SQFB_opt_colorEnemyTarget select 2, ([_enemy] call SQFB_fnc_HUDAlpha) max 0.7]
                     ] select _isTarget;
 
@@ -203,14 +231,21 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                         [
                             "",
                             format ["%1m", round _distPerceived]
-                        ] select (_SQFB_opt_showDistEnemy)
+                        ] select (_SQFB_opt_showDistEnemy
+                            && (!_SQFB_opt_lastKnownEnemyPositionOnly
+                                || (_SQFB_opt_lastKnownEnemyPositionOnly && !_isRealPos)
+                                )
+                            )
                     ] select (!_isPlayerAir && _SQFB_opt_showText && _textSize > 0.02);
 
 
             private _enemyType = [typeOf _unit] call SQFB_fnc_classType;
             _texture = [
                             "a3\ui_f\data\map\markers\military\unknown_ca.paa", 
-                            format ["a3\ui_f\data\map\markers\nato\o_%1.paa", _enemyType]
+                            [   
+                                format ["a3\ui_f\data\map\markers\nato\%1_%2.paa", ["o","n"] select (_side == west && _SQFB_opt_changeIconsToBlufor), _enemyType],
+                                ""
+                            ] select _SQFB_opt_lastKnownEnemyPositionOnly
                         ] select _isRealPos;
 
             private _iconHeightMod = [
@@ -237,7 +272,10 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
                                 _enemy modelToWorldVisual [
                                     _SQFB_opt_iconHor,
                                     0,
-                                    0.5
+                                    [
+                                        0.5,
+                                        1.5
+                                    ] select _SQFB_opt_alternateOcclusionCheck
                                 ],
                                 _enemy modelToWorldVisual [
                                     (_selectionPos select 0) + _SQFB_opt_iconHor,

@@ -64,8 +64,8 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                         [
                                             [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, eyePos _unit],
                                             [objNull, "VIEW"] checkVisibility [eyePos SQFB_player, AtlToAsl(_veh modeltoworld [0,0,0])]
-                                        ] select (_isOnFoot)
-                                    ] select (_SQFB_opt_checkVisibility);
+                                        ] select _isOnFoot
+                                    ] select _SQFB_opt_checkVisibility;
         private _unitOccluded = _unitVisibility < 0.2;
         private _unitVisible = [ _playerPos, [0,0,0] getdir getCameraViewDirection SQFB_player, ceil((call CBA_fnc_getFov select 0)*100), _unitPos] call BIS_fnc_inAngleSector;
         if (!_unitOccluded && (_SQFB_showHUD || {(!_SQFB_showHUD && _SQFB_opt_AlwaysShowCritical) || {!_unitVisible && SQFB_opt_outFOVindex}})) then {

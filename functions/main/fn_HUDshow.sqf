@@ -30,6 +30,10 @@ if (_type == "friendly") then {
     // Rebuild units array
     private _units = _grp call SQFB_fnc_checkGroupChange;
     [_units] call SQFB_fnc_addUnits;
+    
+    if (SQFB_showFriendliesMinTime == 0) then {
+        SQFB_showFriendliesMinTime = time + SQFB_opt_showFriendliesMinTime;
+    };
 } else {
     if (SQFB_showEnemiesMinTime == 0) then {
         SQFB_showEnemiesMinTime = time + SQFB_opt_showEnemiesMinTime;

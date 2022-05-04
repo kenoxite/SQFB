@@ -5,7 +5,7 @@ class CfgPatches
         name = "Squad Feedback";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0.8";
+        version = "1.1";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -52,6 +52,7 @@ class CfgFunctions
             class HUDupdate {};
             class HUDdrawSquad {};
             class HUDdrawEnemies {};
+            class HUDdrawFriendlies {};
             class HUDtext {};
             class HUDIcon {};
             class HUDAlpha {};
@@ -68,6 +69,7 @@ class CfgFunctions
             class checkVisibility {};
             class cleanEnemyTaggers {};
             class classType {};
+            class factionSide {};
         };
 
         class CBA

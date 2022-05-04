@@ -27,10 +27,18 @@ SQFB_units = _units;
 SQFB_unitCount = count _units;
 
 // Clean enemy taggers
-call SQFB_fnc_cleanEnemyTaggers;
+[true] call SQFB_fnc_cleanEnemyTaggers;
+
+// Clean friendly taggers
+[false] call SQFB_fnc_cleanEnemyTaggers;
+
 // Reset enemy vars
 SQFB_showEnemies = false;
 SQFB_knownEnemies = [];
+
+// Reset friendly vars
+SQFB_showFriendlies = false;
+SQFB_knownFriendlies = [];
         
 // Player traits
 [] spawn {
