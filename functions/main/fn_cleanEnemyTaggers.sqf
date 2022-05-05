@@ -39,8 +39,8 @@ if (count _tagObjArr > 0) then {
         if !(_unit in _known) then {
             // Remove unit vars
             [
-                _unit setVariable ["SQFB_enemyData", nil],
-                _unit setVariable ["SQFB_friendlyData", nil]
+                _unit setVariable ["SQFB_friendlyData", nil],
+                _unit setVariable ["SQFB_enemyData", nil]
             ] select _checkEnemies;
             if (SQFB_debug) then { diag_log format ["SQFB: cleanTaggers - About to delete entries with enemies no longer detected from _tagObjArr. _i: %1. Current values: %2", _i, count _tagObjArr] };
             deleteVehicle (_x select 0);
