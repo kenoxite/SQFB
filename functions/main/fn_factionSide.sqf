@@ -25,6 +25,7 @@ if (SQFB_opt_enemySideColors == "current") exitWith { side _unit };
 private _side = sideUnknown;
 private _factionClass = faction _unit;
 
+// First check against the already known faction sides
 if (_factionClass in SQFB_factionsWest) exitWith { west };
 if (_factionClass in SQFB_factionsEast) exitWith { east };
 if (_factionClass in SQFB_factionsGuer) exitWith { resistance };
