@@ -17,13 +17,15 @@ SQFB_showEnemies = false;
 SQFB_showEnemyHUD = false;
 SQFB_showEnemiesMinTime = 0;
 SQFB_enemyTagObjArr = [];
-SQFB_enemiesTimeLastCheck = time;
 
 SQFB_showFriendlies = false;
 SQFB_showFriendlyHUD = false;
 SQFB_showFriendliesMinTime = 0;
 SQFB_friendlyTagObjArr = [];
-SQFB_friendliesTimeLastCheck = time;
+
+SQFB_IFFTimeLastCheck = time;
+SQFB_deletingEnemyTaggers = false;
+SQFB_deletingFriendlyTaggers = false;
 
 SQFB_enemyTrackingGoggles_default = [
     "G_Balaclava_combat",
@@ -172,20 +174,12 @@ SQFB_draw3D_EH = addMissionEventHandler [
                 SQFB_squadTimeLastCheck = time;
             };
 
-            // Enemies
-            if (time > SQFB_enemiesTimeLastCheck + SQFB_opt_HUDrefresh) then {
-                if (SQFB_showEnemies || {time >= SQFB_showEnemiesMinTime && SQFB_showEnemyHUD}) then {
-                    [_playerPos] call SQFB_fnc_HUDdrawEnemies;
+            // Friends and foes
+            if (time > SQFB_IFFTimeLastCheck + SQFB_opt_HUDrefreshIFF) then {
+                if ((SQFB_showEnemies || {time >= SQFB_showEnemiesMinTime && SQFB_showEnemyHUD}) || (SQFB_showFriendlies || {time >= SQFB_showFriendliesMinTime && SQFB_showFriendlyHUD})) then {
+                    [_playerPos] call SQFB_fnc_HUDdrawIFF;
                 };
-                SQFB_enemiesTimeLastCheck = time;
-            };
-
-            // Friendlies
-            if (time > SQFB_friendliesTimeLastCheck + SQFB_opt_HUDrefresh) then {
-                if (SQFB_showFriendlies || {time >= SQFB_showFriendliesMinTime && SQFB_showFriendlyHUD}) then {
-                    [_playerPos] call SQFB_fnc_HUDdrawFriendlies;
-                };
-                SQFB_friendliesTimeLastCheck = time;
+                SQFB_IFFTimeLastCheck = time;
             };
 
             // Update player position

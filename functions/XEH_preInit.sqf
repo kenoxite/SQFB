@@ -127,9 +127,19 @@ Parameters:
 [
     "SQFB_opt_HUDrefresh", 
     "SLIDER",
-    ["HUD Refresh Rate", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
+    ["Refresh Rate for Squad HUD", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
     ["Squad Feedback", "00 - General"],
     [0, 0.05, 0.011, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_HUDrefreshIFF", 
+    "SLIDER",
+    ["Refresh Rate for Enemy and Friendly HUD", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
+    ["Squad Feedback", "00 - General"],
+    [0, 0.1, 0.011, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -245,7 +255,7 @@ Parameters:
     "SLIDER",
     ["Maximum Range", "Maximum distance to look for enemies and display their HUD elements, in meters."], 
     ["Squad Feedback", "03 - HUD Display - Known Enemies"],
-    [100, 5000, 800, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [100, 5000, 300, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -317,7 +327,7 @@ Parameters:
     "SLIDER",
     ["Maximum Range", "Maximum distance to look for friendlies and display their HUD elements, in meters."], 
     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
-    [100, 5000, 100, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [100, 5000, 200, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;

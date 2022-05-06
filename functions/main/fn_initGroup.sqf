@@ -27,10 +27,10 @@ SQFB_units = _units;
 SQFB_unitCount = count _units;
 
 // Clean enemy taggers
-[true] call SQFB_fnc_cleanEnemyTaggers;
+[true] call SQFB_fnc_cleanTaggers;
 
 // Clean friendly taggers
-[false] call SQFB_fnc_cleanEnemyTaggers;
+[false] call SQFB_fnc_cleanTaggers;
 
 // Reset enemy vars
 SQFB_showEnemies = false;

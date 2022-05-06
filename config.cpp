@@ -51,8 +51,7 @@ class CfgFunctions
             class HUDhide {};
             class HUDupdate {};
             class HUDdrawSquad {};
-            class HUDdrawEnemies {};
-            class HUDdrawFriendlies {};
+            class HUDdrawIFF {};
             class HUDtext {};
             class HUDIcon {};
             class HUDAlpha {};
@@ -67,9 +66,11 @@ class CfgFunctions
             class trueZoom {};
             class enemyTargets {};
             class checkVisibility {};
-            class cleanEnemyTaggers {};
+            class cleanTaggers {};
             class classType {};
             class factionSide {};
+            class knownFriendsAndFoes {};
+            class checkOcclusion {};
         };
 
         class CBA

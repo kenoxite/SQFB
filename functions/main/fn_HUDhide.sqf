@@ -22,12 +22,19 @@ if (_type == "friendly") then {
     SQFB_showDeadMinTime = 0;
 
     SQFB_showFriendliesMinTime = 0;
-    // Immediate update of friendly positions
-    SQFB_friendliesTimeLastCheck = time;
-    [] call SQFB_fnc_HUDupdate;
+    SQFB_IFFTimeLastCheck = time;
+
+    // Clean taggers
+    SQFB_knownFriendlies = [];
+    [false] call SQFB_fnc_cleanTaggers;
+    SQFB_friendlyTagObjArr = [];
+
 } else {
     SQFB_showEnemiesMinTime = 0;
-    // Immediate update of enemy positions
-    SQFB_enemiesTimeLastCheck = time;
-    [] call SQFB_fnc_HUDupdate;
+    SQFB_IFFTimeLastCheck = time;
+
+    // Clean taggers
+    SQFB_knownEnemies= [];
+    [true] call SQFB_fnc_cleanTaggers;
+    SQFB_enemyTagObjArr = [];
 };
