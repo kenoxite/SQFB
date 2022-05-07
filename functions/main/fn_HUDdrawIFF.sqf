@@ -73,7 +73,6 @@ _SQFB_known append _SQFB_knownFriendlies;
 for "_i" from 0 to (count _SQFB_known) -1 do
 {
     if ((typeName (_SQFB_known select _i))!="STRING") then {
-
         private _unit = _SQFB_known select _i;
         // Skip if dead
         if !(alive _unit) then { continue };
@@ -134,9 +133,11 @@ for "_i" from 0 to (count _SQFB_known) -1 do
         private _sameUnitStance = [stance _unit == _dataStance, false] select _noUnitData;
         private _zoom = call SQFB_fnc_trueZoom;
         private _sameZoom = [_zoom == _dataZoom, false] select _noUnitData;
-        private ["_iconSize", "_textSize", "_position", "_color", "_text", "_texture"];
         private _isTarget = _unit == assignedTarget SQFB_player;
-        if ((_playerPos distance (player getVariable "SQFB_pos")) <= 0 && _sameUnitPos && _sameUnitStance && _sameZoom && _sameCamDir && !_isTarget) then {
+
+        private ["_iconSize", "_textSize", "_position", "_color", "_text", "_texture"];
+
+        if ((_playerPos distance (SQFB_player getVariable "SQFB_pos")) <= 0 && _sameUnitPos && _sameUnitStance && _sameZoom && _sameCamDir && !_isTarget) then {
             // Skip if unit not in FOV of the player
             if (!_dataIsVisible) then { continue };
 

@@ -255,7 +255,7 @@ Parameters:
     "SLIDER",
     ["Maximum Range", "Maximum distance to look for enemies and display their HUD elements, in meters."], 
     ["Squad Feedback", "03 - HUD Display - Known Enemies"],
-    [100, 5000, 300, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [100, 5000, 800, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;

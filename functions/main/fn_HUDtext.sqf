@@ -23,7 +23,7 @@ private _return = "";
 if (!SQFB_opt_showText) exitwith { _return };
 
 // Exclude players
-if (isPlayer _unit) exitWith {_return};
+if (_unit == SQFB_player) exitWith {_return};
 
 private _alive = alive _unit;
 private _index = -1;
@@ -34,7 +34,7 @@ private _grpLeader = leader (group _unit);
 private _isGrpLeader = _grpLeader == _unit;
 private _isFormLeader = formationLeader _vehPlayer == _unit;
 private _isFormFollower = (formationLeader _unit == _vehPlayer) && _grpLeader != SQFB_player;
-private _informCritical = player getVariable "SQFB_medic" || _grpLeader == SQFB_player;
+private _informCritical = SQFB_player getVariable "SQFB_medic" || _grpLeader == SQFB_player;
 
 // Always show leader index
 if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0 && (_isGrpLeader || _isFormLeader || _isFormFollower)) then { _return = format ["%1%2%3%4%5%6%7 ", _return, if (_isGrpLeader) then {"<"} else {""}, _index, if (_isGrpLeader) then {">"} else {""}, if (_isFormLeader) then {"^"} else {""}, if (_isFormFollower) then {""""} else {""}] };

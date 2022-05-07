@@ -21,8 +21,8 @@ if (_checkEnemies) then { SQFB_deletingEnemyTaggers = true };
 if (!_checkEnemies) then { SQFB_deletingFriendlyTaggers = true };
 
 private _SQFB_tagObjArr = [
-                            SQFB_friendlyTagObjArr,
-                            SQFB_enemyTagObjArr
+                            +SQFB_friendlyTagObjArr,
+                            +SQFB_enemyTagObjArr
                         ] select _checkEnemies;
 
 private _known = [
@@ -40,7 +40,7 @@ if (count _SQFB_tagObjArr > 0) then {
         if !(_unit in _known) then {
             // Remove unit vars
             _unit setVariable ["SQFB_unitData", nil];
-            if (SQFB_debug) then { diag_log format ["SQFB: cleanTaggers - About to delete entries from _tagObjArr with enemies no longer detected. _i: %1. Current values: %2", _i, count _tagObjArr] };
+            // if (SQFB_debug) then { diag_log format ["SQFB: cleanTaggers - About to delete entries from _SQFB_tagObjArr with units no longer detected. _i: %1. Current values: %2", _i, count _tagObjArrTemp] };
             deleteVehicle (_x select 0);
             _tagObjArrTemp deleteAt _i;
             _delete = true;
@@ -49,7 +49,7 @@ if (count _SQFB_tagObjArr > 0) then {
     if (_delete) then {
         if (_checkEnemies) then { SQFB_enemyTagObjArr = +_tagObjArrTemp };
         if (!_checkEnemies) then { SQFB_friendlyTagObjArr = +_tagObjArrTemp };
-        if (SQFB_debug) then { diag_log format ["SQFB: cleanTaggers - ENTRIES DELETED. Current values: %1", count _tagObjArr] };
+        if (SQFB_debug) then { diag_log format ["SQFB: cleanTaggers - ENTRIES DELETED. Current values: %1", count _tagObjArrTemp] };
     };
 };
 

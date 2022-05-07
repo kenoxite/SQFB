@@ -20,5 +20,6 @@ private _trackingDeviceEnabled = SQFB_opt_showEnemiesIfTrackingGear && call SQFB
 if (!SQFB_showEnemyHUD && !_trackingDeviceEnabled) then 
 {
     SQFB_showEnemyHUD = true;
-	["enemy"] call SQFB_fnc_HUDshow;
+	call SQFB_fnc_HUDupdate;
+    ["iff"] call SQFB_fnc_HUDshow;
 };

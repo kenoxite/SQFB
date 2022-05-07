@@ -39,7 +39,6 @@ class CfgFunctions
             file = "SQFB\functions\main";
 
             class initGroup {};
-            class checkGroupChange {};
             class getUnitPositionId {};
             class addUnits {};
             class updateAllUnits {};

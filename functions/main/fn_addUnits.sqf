@@ -16,26 +16,25 @@
 
 */
 
-params ["_units"];
+params [["_units", []]];
+if (count _units == 0) exitWith { false };
+
 // Add units to array and assign EH
-if (count _units > 0) then {
-    for "_i" from 0 to (count _units) -1 do
-	{
-        private _x = _units select _i;
-        if !(_x isEqualType "") then {
-			if !(_x in SQFB_units) then {
-				// Add EH
-				_x addEventHandler ["Take", {(_this select 0) spawn SQFB_fnc_updateUnit}];
-				_x addEventHandler ["Put", {(_this select 0) spawn SQFB_fnc_updateUnit}];
-				_x addEventHandler ["InventoryClosed", {(_this select 0) spawn SQFB_fnc_updateUnit}];
-				_x addEventHandler ["InventoryOpened", {(_this select 0) spawn SQFB_fnc_updateUnit}];
-				_x addEventHandler ["Killed", {(_this select 0) spawn SQFB_fnc_updateUnit}];
-				_x addEventHandler ["Deleted", {SQFB_units = SQFB_units - [_this select 0]}];
-                // Add unit to global array
-                SQFB_units pushBackUnique _x;
-			};
+for "_i" from 0 to (count _units) -1 do
+{
+    private _x = _units select _i;
+    if !(_x isEqualType "") then {
+		if !(_x in SQFB_unitsWithEH) then {
+			// Add EH
+			_x addEventHandler ["Take", {(_this select 0) spawn SQFB_fnc_updateUnit}];
+			_x addEventHandler ["Put", {(_this select 0) spawn SQFB_fnc_updateUnit}];
+			_x addEventHandler ["InventoryClosed", {(_this select 0) spawn SQFB_fnc_updateUnit}];
+			_x addEventHandler ["InventoryOpened", {(_this select 0) spawn SQFB_fnc_updateUnit}];
+			_x addEventHandler ["Killed", {(_this select 0) spawn SQFB_fnc_updateUnit; SQFB_deadUnits pushBack (_this select 0)}];
+			_x addEventHandler ["Deleted", {SQFB_units = SQFB_units - [_this select 0]; SQFB_unitsWithEH = SQFB_unitsWithEH - [_this select 0]; SQFB_deadUnits = SQFB_deadUnits - [_this select 0];}];
+
+            // Add unit to global array for EH tracking
+            SQFB_unitsWithEH pushBackUnique _x;
 		};
 	};
 };
-// Update all
-[] call SQFB_fnc_updateAllUnits;

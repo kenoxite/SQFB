@@ -21,5 +21,6 @@ if (!SQFB_showHUD) then
     SQFB_showHUD = true;
     SQFB_showFriendlyHUD = true;
     
-	[] call SQFB_fnc_HUDshow;
+	call SQFB_fnc_HUDupdate;
+    [] call SQFB_fnc_HUDshow;
 };

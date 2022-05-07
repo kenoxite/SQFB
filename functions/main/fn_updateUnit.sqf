@@ -21,7 +21,10 @@ params [["_unit", objNull, [objNull]]];
 if (!SQFB_opt_on) exitWith {false};
 
 // Exclude players
-if (isPlayer _unit) exitWith {false};
+if (_unit == SQFB_player) exitWith {false};
+
+// Exclude units no longer in group
+if !(_unit in SQFB_units) exitWith {false};
 
 // Reset unit variables
 _unit call SQFB_fnc_resetUnit;

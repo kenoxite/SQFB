@@ -42,7 +42,7 @@ private _grpLeader = leader (group _unit);
 private _isGrpLeader = _grpLeader == _unit;
 private _isFormLeader = formationLeader _vehPlayer == _unit;
 private _isFormFollower = (formationLeader _unit == _vehPlayer) && _grpLeader != SQFB_player;
-private _informCritical = player getVariable "SQFB_medic" || _grpLeader == SQFB_player;
+private _informCritical = SQFB_player getVariable "SQFB_medic" || _grpLeader == SQFB_player;
 
 // Always show leader index
 private _alive = alive _veh || damage _veh < 1;

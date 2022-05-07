@@ -6,6 +6,8 @@
 // Init
 SQFB_debug = if (is3DENPreview) then { true } else { false };
 SQFB_units = [];
+SQFB_unitsWithEH = [];
+SQFB_deadUnits = [];
 SQFB_knownEnemies = [];
 SQFB_knownFriendlies = [];
 SQFB_showHUD = false;
@@ -139,21 +141,17 @@ SQFB_factionsCiv = [
 
 waitUntil { !isNull player };
 
-SQFB_player = call SQFB_fnc_playerUnit;
-
 // Init player group
-private _grp = group SQFB_player;
-private _units = units _grp;
-SQFB_unitCount = count _units;
-[_grp] call SQFB_fnc_initGroup;
-// Add units to the global array
-[_units] call SQFB_fnc_addUnits;
+SQFB_player = call SQFB_fnc_playerUnit;
+SQFB_group = group SQFB_player;
+SQFB_unitCount = count units SQFB_group;
+[SQFB_group] call SQFB_fnc_initGroup;
 
 // Set player position
-player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
+SQFB_player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
 
 // Keep track of group status
-SQFB_EH_update = [{ if (SQFB_opt_on) then { [] call SQFB_fnc_HUDupdate }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
+SQFB_EH_update = [{ if (SQFB_opt_on) then { call SQFB_fnc_HUDupdate }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
 
 // HUD display
 SQFB_draw3D_EH = addMissionEventHandler [
@@ -183,7 +181,7 @@ SQFB_draw3D_EH = addMissionEventHandler [
             };
 
             // Update player position
-            player setVariable ["SQFB_pos", _playerPos];
+            SQFB_player setVariable ["SQFB_pos", _playerPos];
         };
     };
 }];
