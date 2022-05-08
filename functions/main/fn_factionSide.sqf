@@ -18,10 +18,7 @@
 
 params ["_unit"];
 
-// Exit with current side if player only wants that
-if (SQFB_opt_enemySideColors == "current") exitWith { side _unit };
-
-// Otherwise check for the faction's real side
+// Check for the faction's real side
 private _side = sideUnknown;
 private _factionClass = faction _unit;
 

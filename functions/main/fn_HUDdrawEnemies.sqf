@@ -2,7 +2,7 @@
   Author: kenoxite
 
   Description:
-  Draws the enemies and friendlies HUD
+  Draws the known enemies HUD
 
 
   Parameter (s):
@@ -32,8 +32,8 @@ private _SQFB_opt_showText = SQFB_opt_showText;
 private _SQFB_opt_showIndex = SQFB_opt_showIndex;
 private _SQFB_opt_scaleText = SQFB_opt_scaleText;
 
-private _SQFB_known = +SQFB_knownEnemies;
-private _SQFB_enemyTagObjArr = +SQFB_enemyTagObjArr;
+private _SQFB_knownEnemies = SQFB_knownEnemies;
+private _SQFB_enemyTagObjArr = SQFB_enemyTagObjArr;
 private _SQFB_opt_colorEnemy = SQFB_opt_colorEnemy;
 private _SQFB_opt_colorEnemyTarget = SQFB_opt_colorEnemyTarget;
 private _SQFB_opt_showEnemiesMinRange = SQFB_opt_showEnemiesMinRange;
@@ -42,7 +42,7 @@ private _SQFB_opt_showEnemiesMaxRange = SQFB_opt_showEnemiesMaxRange;
 private _SQFB_opt_showEnemiesMaxRangeAir = SQFB_opt_showEnemiesMaxRangeAir;
 private _SQFB_opt_showDistEnemy = SQFB_opt_showDistEnemy;
 private _SQFB_opt_enemyPreciseVisCheck = SQFB_opt_enemyPreciseVisCheck;
-private _SQFB_opt_checkVisibilityEnemies = SQFB_opt_checkVisibilityEnemies;
+private _SQFB_opt_checkOcclusionEnemies = SQFB_opt_checkOcclusionEnemies;
 private _SQFB_opt_lastKnownEnemyPositionOnly = SQFB_opt_lastKnownEnemyPositionOnly;
 private _SQFB_opt_changeIconsToBlufor = SQFB_opt_changeIconsToBlufor;
 private _SQFB_opt_enemySideColors = SQFB_opt_enemySideColors;
@@ -50,35 +50,16 @@ private _SQFB_opt_colorEnemyWest = SQFB_opt_colorEnemyWest;
 private _SQFB_opt_colorEnemyGuer = SQFB_opt_colorEnemyGuer;
 private _SQFB_opt_colorEnemyCiv = SQFB_opt_colorEnemyCiv;
 
-private _SQFB_knownFriendlies = +SQFB_knownFriendlies;
-private _SQFB_friendlyTagObjArr = +SQFB_friendlyTagObjArr;
-private _SQFB_opt_colorFriendly = SQFB_opt_colorFriendly;
-private _SQFB_opt_showFriendliesMinRange = SQFB_opt_showFriendliesMinRange;
-private _SQFB_opt_showFriendliesMinRangeAir = SQFB_opt_showFriendliesMinRangeAir;
-private _SQFB_opt_showFriendliesMaxRange = SQFB_opt_showFriendliesMaxRange;
-private _SQFB_opt_showFriendliesMaxRangeAir = SQFB_opt_showFriendliesMaxRangeAir;
-private _SQFB_opt_showDistFriendly = SQFB_opt_showDistFriendly;
-private _SQFB_opt_friendlyPreciseVisCheck = SQFB_opt_friendlyPreciseVisCheck;
-private _SQFB_opt_checkVisibilityFriendlies = SQFB_opt_checkVisibilityFriendlies;
-private _SQFB_opt_lastKnownFriendlyPositionOnly = SQFB_opt_lastKnownFriendlyPositionOnly;
-private _SQFB_opt_friendlySideColors = SQFB_opt_friendlySideColors;
-private _SQFB_opt_colorFriendlyEast = SQFB_opt_colorFriendlyEast;
-private _SQFB_opt_colorFriendlyGuer = SQFB_opt_colorFriendlyGuer;
-private _SQFB_opt_colorFriendlyCiv = SQFB_opt_colorFriendlyCiv;
-
 private _SQFB_opt_alternateOcclusionCheck = SQFB_opt_alternateOcclusionCheck;
 
-_SQFB_known append _SQFB_knownFriendlies;
-
-for "_i" from 0 to (count _SQFB_known) -1 do
+for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
 {
-    if ((typeName (_SQFB_known select _i))!="STRING") then {
-        private _unit = _SQFB_known select _i;
+    if ((typeName (_SQFB_knownEnemies select _i))!="STRING") then {
+        private _unit = _SQFB_knownEnemies select _i;
         // Skip if dead
         if !(alive _unit) then { continue };
 
-        private _side = _unit call SQFB_fnc_factionSide;
-        private _isEnemy = [false, true] select ((side _unit getFriend side SQFB_player) < 0.6);
+        private _side = _unit getVariable "SQFB_side";
         private _unitData = _unit getVariable "SQFB_unitData";
 
         private ["_dataRealPos", "_dataDist", "_dataTagger", "_dataLastKnownPos", "_dataIconSize", "_dataTexture", "_dataText", "_dataTextSize", "_dataPosition", "_dataColor", "_dataIsVisible", "_dataTooClose", "_dataStance", "_dataZoom", "_dataCamDir"];
@@ -105,10 +86,7 @@ for "_i" from 0 to (count _SQFB_known) -1 do
 
         // Skip units outside the max range
         private _dist = _vehPlayer distance _unit;
-        private _maxRange = [
-                                [_SQFB_opt_showFriendliesMaxRange, _SQFB_opt_showFriendliesMaxRangeAir] select _isPlayerAir,
-                                [_SQFB_opt_showEnemiesMaxRange, _SQFB_opt_showEnemiesMaxRangeAir] select _isPlayerAir
-                            ] select _isEnemy;
+        private _maxRange = [_SQFB_opt_showEnemiesMaxRange, _SQFB_opt_showEnemiesMaxRangeAir] select _isPlayerAir;
         if (_dist > _maxRange) then { continue };
 
         // Retrieve tagger object
@@ -116,12 +94,11 @@ for "_i" from 0 to (count _SQFB_known) -1 do
         private _sameUnitPos = [false, true] select (!_noUnitData && {(_dataRealPos distance _pos) <= 0});
         private _realPos = [_dataRealPos, _pos] select (_noUnitData || !_sameUnitPos);
         private _tagger = [_dataTagger, objNull] select _noUnitData;
-        private _SQFB_taggerArr = [_SQFB_friendlyTagObjArr, _SQFB_enemyTagObjArr] select _isEnemy;
         if (_noUnitData) then {
-            private _taggerIndex = [_SQFB_taggerArr, _unit] call BIS_fnc_findNestedElement;
+            private _taggerIndex = [_SQFB_enemyTagObjArr, _unit] call BIS_fnc_findNestedElement;
             private _taggerArr = [];
             if (count _taggerIndex > 0) then {
-                _taggerArr = _SQFB_taggerArr select (_taggerIndex select 0);
+                _taggerArr = _SQFB_enemyTagObjArr select (_taggerIndex select 0);
                 _tagger = _taggerArr select 0;
                 _tagger setPosWorld _realPos;
             };
@@ -153,12 +130,10 @@ for "_i" from 0 to (count _SQFB_known) -1 do
         } else {
             private _isOnFoot = (typeOf _veh isKindOf "Man");
             // Check unit occlusion
-            private _SQFB_opt_checkVisibility = [_SQFB_opt_checkVisibilityFriendlies, _SQFB_opt_checkVisibilityEnemies] select _isEnemy;
-            private _unitOccluded = [false, true] select _SQFB_opt_checkVisibility;
-            if (_SQFB_opt_checkVisibility) then {
-                private _SQFB_opt_preciseVisCheck = [_SQFB_opt_friendlyPreciseVisCheck, _SQFB_opt_enemyPreciseVisCheck] select _isEnemy;
-                _unitOccluded = [_unit, SQFB_player, _isTarget, _SQFB_opt_preciseVisCheck, _isOnFoot, _SQFB_opt_alternateOcclusionCheck] call SQFB_fnc_checkOcclusion;
-            };
+            private _unitOccluded = [
+                                        false,
+                                        [_unit, SQFB_player, _isTarget, _SQFB_opt_enemyPreciseVisCheck, _isOnFoot, _SQFB_opt_alternateOcclusionCheck] call SQFB_fnc_checkOcclusion
+                                    ] select _SQFB_opt_checkOcclusionEnemies;
 
             // Move unit tagger to last known position
             private _lastKnownPos = [_dataLastKnownPos, _realPos] select _noUnitData;
@@ -168,14 +143,14 @@ for "_i" from 0 to (count _SQFB_known) -1 do
             };
 
             // Skip if only unkonwn positions should be shown
-            if (!_unitOccluded && ((_SQFB_opt_lastKnownEnemyPositionOnly && _isEnemy) || (_SQFB_opt_lastKnownFriendlyPositionOnly && !_isEnemy))) then { continue };
+            if (!_unitOccluded && _SQFB_opt_lastKnownEnemyPositionOnly) then { continue };
 
-            private _IFF = [
+            private _IFFunit = [
                                 _unit,
                                 [_unit, _tagger] select (!isNull _tagger)
                             ] select _unitOccluded;
 
-            private _isRealPos = _IFF == _unit;
+            private _isRealPos = _IFFunit == _unit;
             private _perceivedPos = [_lastKnownPos, _realPos] select _isRealPos;
 
             // Skip if unit not in FOV of the player
@@ -184,17 +159,14 @@ for "_i" from 0 to (count _SQFB_known) -1 do
 
             // Skip if too close
             private _distPerceived = _playerPos distance2D _perceivedPos;
-            private _minRange = [
-                                    [_SQFB_opt_showFriendliesMinRange, _SQFB_opt_showFriendliesMinRangeAir] select _isPlayerAir,
-                                    [_SQFB_opt_showEnemiesMinRange, _SQFB_opt_showEnemiesMinRangeAir] select _isPlayerAir
-                                ] select _isEnemy;
+            private _minRange = [_SQFB_opt_showEnemiesMinRange, _SQFB_opt_showEnemiesMinRangeAir] select _isPlayerAir;
             private _tooClose = _minRange > 0 && {_distPerceived <= _minRange};
             if (_tooClose) then { continue };
 
             // Adjust sizes to distance
             private _adjSize = 2; // TBH no idea why this is needed, but it's needed
 
-            _iconSize = [
+            private _iconSizeBase = [
                             [
                                 ((linearConversion[ 0, _maxRange min 100, _distPerceived, (1 * _adjSize) * _zoom, 0.5, true ])) min 1,
                                 ((linearConversion[ 0, _maxRange min 100, _distPerceived, (0.6 * _adjSize) * _zoom, 0.3, true ])) min 0.6
@@ -206,38 +178,20 @@ for "_i" from 0 to (count _SQFB_known) -1 do
                             ] select _isOnFoot
                         ] select _isPlayerAir;
 
-            _textSize = [
+            private _textSizeBase = [
                             ((linearConversion[ 0, _maxRange min 200, _distPerceived, (0.04 * _adjSize) * _zoom, 0.03, true ])) min 0.04,
                             ((linearConversion[ 0, _maxRange min 200, _distPerceived, (0.04 * _adjSize) * _zoom, 0.03, true ])) min 0.04
                         ] select _isPlayerAir;
             _iconSize = [
-                            (_iconSize * _SQFB_opt_iconSize) max 0.01,
-                            ((_iconSize * _SQFB_opt_iconSize) + 0.1) max 0.01
+                            (_iconSizeBase * _SQFB_opt_iconSize) max 0.01,
+                            ((_iconSizeBase * _SQFB_opt_iconSize) + 0.1) max 0.01
                         ] select _isTarget;
-            _textSize = (_textSize * _SQFB_opt_textSize) max 0.02;
+            _textSize = (_textSizeBase * _SQFB_opt_textSize) max 0.02;
 
-            private _colorUnit = [
-                                    [
-                                        _SQFB_opt_colorFriendly,
-                                        call {
-                                            if (_side == east) exitWith {_SQFB_opt_colorFriendlyEast};
-                                            if (_side == resistance) exitWith {_SQFB_opt_colorFriendlyGuer};
-                                            if (_side == civilian) exitWith {_SQFB_opt_colorFriendlyCiv};
-                                        }
-                                    ] select (_SQFB_opt_friendlySideColors != "never" && (_side == east || _side == resistance || _side == civilian)),
-                                    
-                                    [
-                                        _SQFB_opt_colorEnemy,
-                                        call {
-                                            if (_side == west) exitWith {_SQFB_opt_colorEnemyWest};
-                                            if (_side == resistance) exitWith {_SQFB_opt_colorEnemyGuer};
-                                            if (_side == civilian) exitWith {_SQFB_opt_colorEnemyCiv};
-                                        }
-                                    ] select (_SQFB_opt_enemySideColors != "never" && (_side == west || _side == resistance || _side == civilian))
-                                ] select _isEnemy;
+            private _colorUnit = _unit getVariable "SQFB_color";
             _color = [
-                        [_colorUnit select 0,_colorUnit select 1,_colorUnit select 2, ([_IFF] call SQFB_fnc_HUDAlpha) max 0.7],
-                        [_SQFB_opt_colorEnemyTarget select 0,_SQFB_opt_colorEnemyTarget select 1,_SQFB_opt_colorEnemyTarget select 2, ([_IFF] call SQFB_fnc_HUDAlpha) max 0.7]
+                        [_colorUnit select 0,_colorUnit select 1,_colorUnit select 2, ([_IFFunit] call SQFB_fnc_HUDAlpha) max 0.7],
+                        [_SQFB_opt_colorEnemyTarget select 0,_SQFB_opt_colorEnemyTarget select 1,_SQFB_opt_colorEnemyTarget select 2, ([_IFFunit] call SQFB_fnc_HUDAlpha) max 0.7]
                     ] select _isTarget;
 
             _text = [
@@ -245,7 +199,7 @@ for "_i" from 0 to (count _SQFB_known) -1 do
                         [
                             "",
                             format ["%1m", round _distPerceived]
-                        ] select ((_SQFB_opt_showDistEnemy && _isEnemy) || (_SQFB_opt_showDistFriendly && !_isEnemy))
+                        ] select _SQFB_opt_showDistEnemy
                     ] select (!_isPlayerAir && _SQFB_opt_showText && _textSize > 0.02);
 
 
@@ -259,15 +213,15 @@ for "_i" from 0 to (count _SQFB_known) -1 do
                                         [0.8, 0.5] select (_text == ""),
                                         [0.4, 0.2] select (_text == "")
                                     ] select _isOnFoot;
-            private _selectionPos = [getPosVisual _IFF, _IFF selectionPosition ["head", "HitPoints"]] select _isRealPos;
+            private _selectionPos = [getPosVisual _IFFunit, _IFFunit selectionPosition ["head", "HitPoints"]] select _isRealPos;
             _position = [
                             [
-                                _IFF modelToWorldVisual [
+                                _IFFunit modelToWorldVisual [
                                     _SQFB_opt_iconHorVeh,
                                     0,
                                     0
                                 ],
-                                _IFF modelToWorldVisual [
+                                _IFFunit modelToWorldVisual [
                                     _SQFB_opt_iconHorVeh,
                                     0,
                                     _iconHeightMod + _SQFB_opt_iconHeightVeh
@@ -275,7 +229,7 @@ for "_i" from 0 to (count _SQFB_known) -1 do
                             ] select _isRealPos,
 
                             [
-                                _IFF modelToWorldVisual [
+                                _IFFunit modelToWorldVisual [
                                     _SQFB_opt_iconHor,
                                     0,
                                     [
@@ -283,7 +237,7 @@ for "_i" from 0 to (count _SQFB_known) -1 do
                                         1.5
                                     ] select _SQFB_opt_alternateOcclusionCheck
                                 ],
-                                _IFF modelToWorldVisual [
+                                _IFFunit modelToWorldVisual [
                                     (_selectionPos select 0) + _SQFB_opt_iconHor,
                                     _selectionPos select 1,
                                     (_selectionPos select 2) + _iconHeightMod + _SQFB_opt_iconHeight
@@ -293,7 +247,7 @@ for "_i" from 0 to (count _SQFB_known) -1 do
 
             if (_isRealPos) then { _position set [2, (_position select 2) + ((_dist * 0.01) min 1.5)] }; // Hack to keep the icons more or less at the same height no matter the distance
                         
-            // Create ememy vars
+            // Create unit vars
             _unit setVariable ["SQFB_unitData", [_realPos, _tagger, _lastKnownPos, _iconSize, _texture, _text, _textSize, _position, _color, _unitVisible, _tooClose, stance _unit, _zoom, _camDir]]; 
         };
 

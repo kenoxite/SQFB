@@ -29,6 +29,12 @@ for "_i" from 0 to (count _nearUnits) -1 do
     if (_checkFriendlies && {_alignment >= 0.6}) then {
         if (_IFFunit distance2D _unit <= _distanceFriend) then {
             SQFB_knownFriendlies pushBackUnique _IFFunit;
+            _IFFunit setVariable ["SQFB_side", [
+                                                _IFFunit call SQFB_fnc_factionSide,
+                                                side _IFFunit
+                                                ] select (SQFB_opt_enemySideColors == "current")
+                                ];
+
             private _friendlyTaggerFound = SQFB_friendlyTagObjArr select { (_x select 1) == _IFFunit };
             if (count _friendlyTaggerFound == 0) then {
                 if (SQFB_debug) then { diag_log format ["SQFB: nearFriendAndFoes - friendlyTagger not found for unit: %1. Creating a new one...", _IFFunit] };
@@ -43,6 +49,11 @@ for "_i" from 0 to (count _nearUnits) -1 do
     if (_checkEnemies && {_alignment < 0.6}) then {
         if (_IFFunit distance2D _unit <= _distanceFoe) then {
             SQFB_knownEnemies pushBackUnique _IFFunit;
+            _IFFunit setVariable ["SQFB_side", [
+                                                _IFFunit call SQFB_fnc_factionSide,
+                                                side _IFFunit
+                                                ] select (SQFB_opt_enemySideColors == "current")
+                                ];
             private _enemyTaggerFound = SQFB_enemyTagObjArr select { (_x select 1) == _IFFunit };
             if (count _enemyTaggerFound == 0) then {
                 if (SQFB_debug) then { diag_log format ["SQFB: nearFriendAndFoes - enemyTagger not found for unit: %1. Creating a new one...", _IFFunit] };
@@ -53,3 +64,5 @@ for "_i" from 0 to (count _nearUnits) -1 do
         };
     };
 };
+
+SQFB_knownIFF = SQFB_knownFriendlies + SQFB_knownEnemies;

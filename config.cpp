@@ -50,7 +50,7 @@ class CfgFunctions
             class HUDhide {};
             class HUDupdate {};
             class HUDdrawSquad {};
-            class HUDdrawIFF {};
+            class HUDdrawEnemies {};
             class HUDtext {};
             class HUDIcon {};
             class HUDAlpha {};

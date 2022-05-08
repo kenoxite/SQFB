@@ -114,15 +114,15 @@ Parameters:
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_showFriendlies", 
-    "LIST",
-    ["Display Known Friendlies", "Choose when to display known friendles."],
-    ["Squad Feedback", "00 - General"],
-    [["never", "keypressed", "always"], ["Never", "When key is pressed", "Always"], 0],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_showFriendlies", 
+//     "LIST",
+//     ["Display Known Friendlies", "Choose when to display known friendles."],
+//     ["Squad Feedback", "00 - General"],
+//     [["never", "keypressed", "always"], ["Never", "When key is pressed", "Always"], 0],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_HUDrefresh", 
@@ -137,9 +137,9 @@ Parameters:
 [
     "SQFB_opt_HUDrefreshIFF", 
     "SLIDER",
-    ["Refresh Rate for Enemy and Friendly HUD", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
+    ["Refresh Rate for Enemy HUD", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
     ["Squad Feedback", "00 - General"],
-    [0, 0.1, 0.011, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [0, 0.05, 0.011, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -302,55 +302,55 @@ Parameters:
 
 
 // HUD DISPLAY - Friendlies
-[
-    "SQFB_opt_showFriendliesMinTime", 
-    "SLIDER",
-    ["Initial Delay", "Time that must pass while the HUD is shown to display known friendly units when the squad HUD key is pressed, in seconds."], 
-    ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
-    [0, 60, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_showFriendliesMinTime", 
+//     "SLIDER",
+//     ["Initial Delay", "Time that must pass while the HUD is shown to display known friendly units when the squad HUD key is pressed, in seconds."], 
+//     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
+//     [0, 60, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_showFriendliesMinRange", 
-    "SLIDER",
-    ["Minimum Range", "No HUD elements will be shown for friendlies below this distance, in meters.\nSet to zero to always show regardless of range."], 
-    ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
-    [0, 1000, 10, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_showFriendliesMinRange", 
+//     "SLIDER",
+//     ["Minimum Range", "No HUD elements will be shown for friendlies below this distance, in meters.\nSet to zero to always show regardless of range."], 
+//     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
+//     [0, 1000, 10, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_showFriendliesMaxRange", 
-    "SLIDER",
-    ["Maximum Range", "Maximum distance to look for friendlies and display their HUD elements, in meters."], 
-    ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
-    [100, 5000, 200, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_showFriendliesMaxRange", 
+//     "SLIDER",
+//     ["Maximum Range", "Maximum distance to look for friendlies and display their HUD elements, in meters."], 
+//     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
+//     [100, 5000, 200, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_showFriendliesMinRangeAir", 
-    "SLIDER",
-    ["Minimum Range (Air)", "No HUD elements will be shown for friendlies below this distance when the player is in an air vehicle, in meters.\nSet to zero to always show regardless of range."], 
-    ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
-    [0, 5000, 30, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_showFriendliesMinRangeAir", 
+//     "SLIDER",
+//     ["Minimum Range (Air)", "No HUD elements will be shown for friendlies below this distance when the player is in an air vehicle, in meters.\nSet to zero to always show regardless of range."], 
+//     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
+//     [0, 5000, 30, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_showFriendliesMaxRangeAir", 
-    "SLIDER",
-    ["Maximum Range (Air)", "Maximum distance to look for friendlies and display their HUD elements when the player is in an air vehicle, in meters."], 
-    ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
-    [100, 10000, 1000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_showFriendliesMaxRangeAir", 
+//     "SLIDER",
+//     ["Maximum Range (Air)", "Maximum distance to look for friendlies and display their HUD elements when the player is in an air vehicle, in meters."], 
+//     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
+//     [100, 10000, 1000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
 
 // HUD DISPLAY - Text
@@ -414,15 +414,15 @@ Parameters:
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_showDistFriendly", 
-    "CHECKBOX",
-    ["Display Distance (friendlies)", "Display the distance of the friendly unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
-    ["Squad Feedback", "04 - HUD Display - Text Options"],
-    [false],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_showDistFriendly", 
+//     "CHECKBOX",
+//     ["Display Distance (friendlies)", "Display the distance of the friendly unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
+//     ["Squad Feedback", "04 - HUD Display - Text Options"],
+//     [false],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
 
 // HUD CUSTOMIZATION
@@ -538,7 +538,7 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "SQFB_opt_checkVisibility", 
+    "SQFB_opt_checkOcclusion", 
     "CHECKBOX",
     ["Check Squad for Occlusion", "Only display HUD elements on units not hidden by obstacles or terrain."],
     ["Squad Feedback", "06 - HUD Display - Advanced (Squad)"],
@@ -610,7 +610,7 @@ Parameters:
 
 // ADVANCED - Enemies
 [
-    "SQFB_opt_checkVisibilityEnemies", 
+    "SQFB_opt_checkOcclusionEnemies", 
     "CHECKBOX",
     ["Check Enemies for Occlusion", "If enabled, known enemy positions will be occluded by terrain and obstacles. When this happens, the last known enemy position will be displayed instead.
     If disabled, the known enemy locations will always be visible."],
@@ -692,46 +692,46 @@ Parameters:
 
 
 // ADVANCED - Friendlies
-[
-    "SQFB_opt_checkVisibilityFriendlies", 
-    "CHECKBOX",
-    ["Check Friendlies for Occlusion", "If enabled, known friendly positions will be occluded by terrain and obstacles. When this happens, the last known friendly position will be displayed instead.
-    If disabled, the known friendly locations will always be visible."],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
-    [true],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_checkOcclusionFriendlies", 
+//     "CHECKBOX",
+//     ["Check Friendlies for Occlusion", "If enabled, known friendly positions will be occluded by terrain and obstacles. When this happens, the last known friendly position will be displayed instead.
+//     If disabled, the known friendly locations will always be visible."],
+//     ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
+//     [true],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_friendlyPreciseVisCheck", 
-    "CHECKBOX",
-    ["Precise Visibilty Check for Friendly Vehicles", "More precise visibility checks for friendly vehicles.\nThis will check all the corners of their bounding box instead of a single point, so it will affect performance."],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
-    [false],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_friendlyPreciseVisCheck", 
+//     "CHECKBOX",
+//     ["Precise Visibilty Check for Friendly Vehicles", "More precise visibility checks for friendly vehicles.\nThis will check all the corners of their bounding box instead of a single point, so it will affect performance."],
+//     ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
+//     [false],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_lastKnownFriendlyPositionOnly", 
-    "CHECKBOX",
-    ["Only display last known friendly positions", "If enabled, only the last known friendly positions will be displayed."],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
-    [false],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_lastKnownFriendlyPositionOnly", 
+//     "CHECKBOX",
+//     ["Only display last known friendly positions", "If enabled, only the last known friendly positions will be displayed."],
+//     ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
+//     [false],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_friendlySideColors", 
-    "LIST",
-    ["Use friendly side colors", "If enabled, the color for friendly icons will change depending on their side (default is blue for WEST, red for EAST, green for RESISTANCE and purple for CIVILIAN).\n\n- 'Never' will use the default friendly color.\n- 'Current side' will use the color of the side the unit currently belongs to.\n- 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always be red, BLUFOR blue, etc)"],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
-    [["never", "current", "faction"], ["Never", "Current side", "Faction side"], 0],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_friendlySideColors", 
+//     "LIST",
+//     ["Use friendly side colors", "If enabled, the color for friendly icons will change depending on their side (default is blue for WEST, red for EAST, green for RESISTANCE and purple for CIVILIAN).\n\n- 'Never' will use the default friendly color.\n- 'Current side' will use the color of the side the unit currently belongs to.\n- 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always be red, BLUFOR blue, etc)"],
+//     ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
+//     [["never", "current", "faction"], ["Never", "Current side", "Faction side"], 0],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
 
 // ADVANCED - Custom classnames
@@ -870,46 +870,46 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 
-// COLORS - Friendly
-[
-    "SQFB_opt_colorFriendly", 
-    "COLOR",
-    ["Friendly color for West and Global", "Color used for friendly units in general or when friendly units are BLUFOR side and 'Use friendly side colors' is enabled."], 
-    ["Squad Feedback", "10 - Colors (Friendly)"],
-    [0.33,0.8,1],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// // COLORS - Friendly
+// [
+//     "SQFB_opt_colorFriendly", 
+//     "COLOR",
+//     ["Friendly color for West and Global", "Color used for friendly units in general or when friendly units are BLUFOR side and 'Use friendly side colors' is enabled."], 
+//     ["Squad Feedback", "10 - Colors (Friendly)"],
+//     [0.33,0.8,1],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_colorFriendlyEast", 
-    "COLOR",
-    ["Friendly color for East", "Color used for friendly units of OPFOR side if 'Use friendly side colors' is enabled."], 
-    ["Squad Feedback", "10 - Colors (Friendly)"],
-    [0.9,0.21,0.3],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_colorFriendlyEast", 
+//     "COLOR",
+//     ["Friendly color for East", "Color used for friendly units of OPFOR side if 'Use friendly side colors' is enabled."], 
+//     ["Squad Feedback", "10 - Colors (Friendly)"],
+//     [0.9,0.21,0.3],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_colorFriendlyGuer", 
-    "COLOR",
-    ["Friendly color for Resistance", "Color used for friendly units of RESISTANCE side if 'Use friendly side colors' is enabled."], 
-    ["Squad Feedback", "10 - Colors (Friendly)"],
-    [0.36,0.95,0.33],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_colorFriendlyGuer", 
+//     "COLOR",
+//     ["Friendly color for Resistance", "Color used for friendly units of RESISTANCE side if 'Use friendly side colors' is enabled."], 
+//     ["Squad Feedback", "10 - Colors (Friendly)"],
+//     [0.36,0.95,0.33],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_colorFriendlyCiv", 
-    "COLOR",
-    ["Friendly color for Civilian", "Color used for friendly units of CIVILIAN side if 'Use friendly side colors' is enabled."], 
-    ["Squad Feedback", "10 - Colors (Friendly)"],
-    [0.7,0.1,0.9],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_colorFriendlyCiv", 
+//     "COLOR",
+//     ["Friendly color for Civilian", "Color used for friendly units of CIVILIAN side if 'Use friendly side colors' is enabled."], 
+//     ["Squad Feedback", "10 - Colors (Friendly)"],
+//     [0.7,0.1,0.9],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
 
 

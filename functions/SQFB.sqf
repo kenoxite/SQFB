@@ -10,6 +10,7 @@ SQFB_unitsWithEH = [];
 SQFB_deadUnits = [];
 SQFB_knownEnemies = [];
 SQFB_knownFriendlies = [];
+SQFB_knownIFF = [];
 SQFB_showHUD = false;
 SQFB_showDeadMinTime = 0;
 SQFB_squadTimeLastCheck = time;
@@ -42,9 +43,9 @@ SQFB_enemyTrackingGoggles_default = [
 SQFB_enemyTrackingGoggles = +SQFB_enemyTrackingGoggles_default;
 
 SQFB_enemyTrackingHeadgear_default = [
-    "H_HelmetSpecoO_blk",
-    "H_HelmetSpecoO_ghex_F",
-    "H_HelmetSpecoO_ocamo",
+    "H_HelmetSpecO_blk",
+    "H_HelmetSpecO_ghex_F",
+    "H_HelmetSpecO_ocamo",
     "H_HelmetLeaderO_ghex_F",
     "H_HelmetLeaderO_ocamo",
     "H_HelmetLeaderO_oucamo",
@@ -157,9 +158,8 @@ SQFB_EH_update = [{ if (SQFB_opt_on) then { call SQFB_fnc_HUDupdate }; }, SQFB_o
 SQFB_draw3D_EH = addMissionEventHandler [
 "Draw3D",
 {
-    private _offset = [0,0,0];
     if (SQFB_opt_on) then {
-        private _screenPosition = worldToScreen (_x modelToWorldVisual _offset);
+        private _screenPosition = worldToScreen (_x modelToWorldVisual [0,0,0]);
         if (_screenPosition isEqualTo []) exitWith {};
 
         if (count SQFB_units > 0) then {
@@ -174,8 +174,8 @@ SQFB_draw3D_EH = addMissionEventHandler [
 
             // Friends and foes
             if (time > SQFB_IFFTimeLastCheck + SQFB_opt_HUDrefreshIFF) then {
-                if ((SQFB_showEnemies || {time >= SQFB_showEnemiesMinTime && SQFB_showEnemyHUD}) || (SQFB_showFriendlies || {time >= SQFB_showFriendliesMinTime && SQFB_showFriendlyHUD})) then {
-                    [_playerPos] call SQFB_fnc_HUDdrawIFF;
+                if (SQFB_showEnemies || {time >= SQFB_showEnemiesMinTime && SQFB_showEnemyHUD}) then {
+                    [_playerPos] call SQFB_fnc_HUDdrawEnemies;
                 };
                 SQFB_IFFTimeLastCheck = time;
             };

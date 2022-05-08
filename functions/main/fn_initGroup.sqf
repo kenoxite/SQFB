@@ -55,6 +55,8 @@ SQFB_knownFriendlies = [];
 [false] call SQFB_fnc_cleanTaggers;
 SQFB_friendlyTagObjArr = [];
 
+SQFB_knownIFF = [];
+
 // Player traits
 private _unitTraits = getAllUnitTraits SQFB_player;
 SQFB_player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];

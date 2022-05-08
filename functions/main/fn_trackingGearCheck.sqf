@@ -18,12 +18,14 @@
 private _hasGear = false;
 
 private _goggles = goggles SQFB_player;
-{ if (_goggles isKindOf [_x, configFile >> "CfgGlasses"]) exitWith { _hasGear = true } } forEach SQFB_enemyTrackingGoggles;
+private _CfgGlasses = configFile >> "CfgGlasses";
+{ if (_goggles isKindOf [_x, _CfgGlasses]) exitWith { _hasGear = true } } forEach SQFB_enemyTrackingGoggles;
 
 private _headgear = headgear SQFB_player;
-{ if (_headgear isKindOf [_x, configFile >> "CfgWeapons"]) exitWith { _hasGear = true } } forEach SQFB_enemyTrackingHeadgear;
+private _CfgWeapons = configFile >> "CfgWeapons";
+{ if (_headgear isKindOf [_x, _CfgWeapons]) exitWith { _hasGear = true } } forEach SQFB_enemyTrackingHeadgear;
 
 private _hmd = hmd SQFB_player;
-{ if (_hmd isKindOf [_x, configFile >> "CfgWeapons"]) exitWith { _hasGear = true } } forEach SQFB_enemyTrackingHMD;
+{ if (_hmd isKindOf [_x, _CfgWeapons]) exitWith { _hasGear = true } } forEach SQFB_enemyTrackingHMD;
 
 _hasGear

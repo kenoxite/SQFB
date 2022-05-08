@@ -38,3 +38,5 @@ if (_type == "friendly") then {
     [true] call SQFB_fnc_cleanTaggers;
     SQFB_enemyTagObjArr = [];
 };
+
+SQFB_knownIFF = [];
