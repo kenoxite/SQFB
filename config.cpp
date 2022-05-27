@@ -50,7 +50,7 @@ class CfgFunctions
             class HUDhide {};
             class HUDupdate {};
             class HUDdrawSquad {};
-            class HUDdrawEnemies {};
+            class HUDdrawIFF {};
             class HUDtext {};
             class HUDIcon {};
             class HUDAlpha {};
@@ -70,6 +70,8 @@ class CfgFunctions
             class factionSide {};
             class knownFriendsAndFoes {};
             class checkOcclusion {};
+            class IFFupdate {};
+            class IFFactivateDevice {};
         };
 
         class CBA

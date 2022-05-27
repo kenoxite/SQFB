@@ -73,7 +73,7 @@
       <Key ID="STR_SQFB_Ctrl_SquadHUDkey_desc">
         <Original>Displays the squad HUD as long as this key is pressed.</Original>
         <English>Displays the squad HUD as long as this key is pressed.</English>
-        <Spanish>Muestra el HUD del pelotón cuando presionas esta tecla.</Spanish>
+        <Spanish>Muestra el HUD del pelotón mientras presiones esta tecla.</Spanish>
       </Key>
       <Key ID="STR_SQFB_Ctrl_SquadHUDkeyToggle">
         <Original>Squad HUD (Toggle)</Original>
@@ -86,24 +86,24 @@
         <Spanish>Alterna la visibilidad del HUD del pelotón cuando presionas esta tecla.</Spanish>
       </Key>
       <Key ID="STR_SQFB_Ctrl_enemyHUDkey">
-        <Original>Known Enemies HUD</Original>
-        <English>Known Enemies HUD</English>
-        <Spanish>HUD de enemigos conocidos</Spanish>
+        <Original>IFF HUD</Original>
+        <English>IFF HUD</English>
+        <Spanish>HUD de IFF</Spanish>
       </Key>
       <Key ID="STR_SQFB_Ctrl_enemyHUDkey_desc">
-        <Original>Displays the HUD for enemies as long as this key is pressed.</Original>
-        <English>Displays the HUD for enemies as long as this key is pressed.</English>
-        <Spanish>Muestra el HUD de enemigos conocidos cuando presionas esta tecla.</Spanish>
+        <Original>Displays the Identification, Friend or Foe (IFF) HUD as long as this key is pressed.</Original>
+        <English>Displays the Identification, Friend or Foe (IFF) HUD as long as this key is pressed.</English>
+        <Spanish>Muestra el HUD de amigos o enemigos conocidos mientras presiones esta tecla.</Spanish>
       </Key>
       <Key ID="STR_SQFB_Ctrl_enemyHUDkeyToggle">
-        <Original>Known Enemies HUD (Toggle)</Original>
-        <English>Known Enemies HUD (Toggle)</English>
-        <Spanish>HUD de enemigos conocidos (Alternar)</Spanish>
+        <Original>IFF HUD (Toggle)</Original>
+        <English>IFF HUD (Toggle)</English>
+        <Spanish>HUD de IFF (Alternar)</Spanish>
       </Key>
       <Key ID="STR_SQFB_Ctrl_enemyHUDkeyToggle_desc">
-        <Original>Toggles the display of the HUD for enemies.</Original>
-        <English>Toggles the display of the HUD for enemies.</English>
-        <Spanish>Alterna la visibilidad del HUD de enemigos conocidos cuando presionas esta tecla.</Spanish>
+        <Original>Toggles the display of the Identification, Friend or Foe (IFF) HUD.</Original>
+        <English>Toggles the display of the Identification, Friend or Foe (IFF) HUD.</English>
+        <Spanish>Alterna la visibilidad del HUD de enemigos o amigos conocidos cuando presionas esta tecla.</Spanish>
       </Key>
     </Container>
   </Package>
@@ -230,9 +230,39 @@
         <Spanish>Mostrar Enemigos Conocidos</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_showEnemies_desc">
-        <Original>Choose when to display known enemy locations.</Original>
-        <English>Choose when to display known enemy locations.</English>
-        <Spanish>Elige cuándo mostrar la posición de los enemigos conocidos.</Spanish>
+        <Original>Choose when to display known enemy locations.
+\n\nIf 'Only with IFF device' is chosen the HUD will only be shown when you have equipped one of these:
+\n  - Combat Goggles (any version, including balaclavas)
+\n  - Tactical Glasses (any version)
+\n  - VR Goggles
+\n  - Assassin Helmet (any version)
+\n  - Defender Helmet (any version)
+\n  - Fighter Pilot Helmet (any version)
+\n  - Special Purpose Helmet (any version)
+\n  - Integrated Visual Augmentation System (IVAS) Headsets
+\n\nYou can add more in the 'Additional IFF Devices' section below.</Original>
+        <English>Choose when to display known enemy locations.
+\n\nIf 'Only with IFF device' is chosen the HUD will only be shown when you have equipped one of these:
+\n  - Combat Goggles (any version, including balaclavas)
+\n  - Tactical Glasses (any version)
+\n  - VR Goggles
+\n  - Assassin Helmet (any version)
+\n  - Defender Helmet (any version)
+\n  - Fighter Pilot Helmet (any version)
+\n  - Special Purpose Helmet (any version)
+\n  - Integrated Visual Augmentation System (IVAS) Headsets
+\n\nYou can add more in the 'Additional IFF Devices' section below.</English>
+        <Spanish>Elige cuándo mostrar la posición de los enemigos conocidos.
+\n\nSi eliges 'Sólo con Disp. IFF' el HUD solo se mostrará cuando tengas equipado uno de estos:
+\n  - Gafas de Combate (cualquier versión, incluyendo pasamontañas)
+\n  - Gafas Tácticas (cualquier versión)
+\n  - Sistema de Realidad Virtual
+\n  - Casco de Asesino (cualquier versión)
+\n  - Casco Defensor (cualquier versión)
+\n  - Casco de Piloto (cualquier versión)
+\n  - Casco de Operaciones Especiales (cualquier versión)
+\n  - Integrated Visual Augmentation System (IVAS) Headsets
+\n\nPuedes añadir más en la sección 'Dispositivos IFF Adicionales' de más abajo.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_showEnemies_never">
         <Original>Never</Original>
@@ -250,9 +280,9 @@
         <Spanish>Siempre</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_showEnemies_device">
-        <Original>Only with Tracking Device</Original>
-        <English>Only with Tracking Device</English>
-        <Spanish>Sólo con Disp. de Seguimiento</Spanish>
+        <Original>Only with IFF Device</Original>
+        <English>Only with IFF Device</English>
+        <Spanish>Sólo con Disp. IFF</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_HUDrefresh">
         <Original>Refresh Rate for Squad HUD</Original>
@@ -268,9 +298,9 @@
 \nPuedes aumentar este valor si el rendimiento del juego se está viendo muy afectado, pero aumentará el parpadeo del HUD.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_HUDrefreshIFF">
-        <Original>Refresh Rate for Enemy HUD</Original>
-        <English>Refresh Rate for Enemy HUD</English>
-        <Spanish>Velocidad de Refresco del HUD de Enemigos</Spanish>
+        <Original>Refresh Rate for IFF HUD</Original>
+        <English>Refresh Rate for IFF HUD</English>
+        <Spanish>Velocidad de Refresco del HUD de IFF</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_HUDrefreshIFF_desc">
         <Original>Waiting time between HUD redraws, in seconds.
@@ -434,12 +464,12 @@
         <Spanish>Distancia máxima en la que se buscará a enemigos y se muestre su información en el HUD cuando el jugador esté en un vehículo volador, en metros.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_showEnemiesIfTrackingGear">
-        <Original>Allow Enemy Tracking Devices</Original>
-        <English>Allow Enemy Tracking Devices</English>
-        <Spanish>Permitir Dispositivos de Rastreo de Enemigos</Spanish>
+        <Original>Allow IFF Devices</Original>
+        <English>Allow IFF Devices</English>
+        <Spanish>Permitir Dispositivos IFF</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_showEnemiesIfTrackingGear_desc">
-        <Original>Enemy locations will ALWAYS be displayed as long as the player has an Enemy Tracking device equipped.
+        <Original>Enemy and friendly locations will ALWAYS be displayed as long as the player has an IFF device equipped.
 \nThe pre-defined devices are:
 \n  - Combat Goggles (any version, including balaclavas)
 \n  - Tactical Glasses (any version)
@@ -449,7 +479,7 @@
 \n  - Fighter Pilot Helmet (any version)
 \n  - Special Purpose Helmet (any version)
 \n  - Integrated Visual Augmentation System (IVAS) Headsets</Original>
-        <English>Enemy locations will ALWAYS be displayed as long as the player has an Enemy Tracking device equipped.
+        <English>Enemy and friendly  locations will ALWAYS be displayed as long as the player has an IFF device equipped.
 \nThe pre-defined devices are:
 \n  - Combat Goggles (any version, including balaclavas)
 \n  - Tactical Glasses (any version)
@@ -459,7 +489,7 @@
 \n  - Fighter Pilot Helmet (any version)
 \n  - Special Purpose Helmet (any version)
 \n  - Integrated Visual Augmentation System (IVAS) Headsets</English>
-        <Spanish>La posición de los enemigos se mostrará SIEMPRE si el jugador tiene equipado un Dispositivo de Rastreo de Enemigos.
+        <Spanish>La posición de los enemigos y amistosos se mostrará SIEMPRE si el jugador tiene equipado un Dispositivo IFF.
 \nLos dispositivos predeterminados son:
 \n  - Gafas de Combate (cualquier versión, incluyendo pasamontañas)
 \n  - Gafas Tácticas (cualquier versión)
@@ -828,11 +858,11 @@
       </Key>
       <Key ID="STR_SQFB_opt_enemyCheckSolo_desc">
         <Original>If enabled, you will always track known enemy units, even when you're not in a group. The known enemies will be those that the unit you are controlling perceives.
-\nEven if disabled, known enemies will still be shown if you have 'Allow Enemy Tracking Devices' enabled and one of those devices equipped.</Original>
+\nEven if disabled, known enemies will still be shown if you have 'Only with IFF Devices' enabled and one of those devices equipped.</Original>
         <English>If enabled, you will always track known enemy units, even when you're not in a group. The known enemies will be those that the unit you are controlling perceives.
-\nEven if disabled, known enemies will still be shown if you have 'Allow Enemy Tracking Devices' enabled and one of those devices equipped.</English>
+\nEven if disabled, known enemies will still be shown if you have 'Only with IFF Devices' enabled and one of those devices equipped.</English>
         <Spanish>Si se activa, siempre rastrearás las posiciones de los enemigos conocidos, aunque no seas parte de un pelotón. Los enemigos conocidos serán aquellos que perciba la unidad que controles.
-\nAunque lo desactives, los enemigos conocidos se seguirán mostrando si has activado 'Permitir Dispositivos de Rastreo de Enemigos' y tienes uno de esos dispositivos equipado.</Spanish>
+\nAunque lo desactives, los enemigos conocidos se seguirán mostrando si has activado 'Sólo con Disp. IFF' y tienes uno de esos dispositivos equipado.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_alwaysDisplayTarget">
         <Original>Always display assigned target</Original>
@@ -868,9 +898,9 @@
         <Spanish>Si se activa, sólo se mostrará la última posición conocida de los enemigos.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_lastKnownEnemyPositionOnly_device">
-        <Original>When not using Tracking Device</Original>
-        <English>When not using Tracking Device</English>
-        <Spanish>Cuando no use Disp. de Seg.</Spanish>
+        <Original>When not using IFF Device</Original>
+        <English>When not using IFF Device</English>
+        <Spanish>Cuando no use Disp. IFF</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_changeIconsToBlufor">
         <Original>Enemy icons for BLUFOR</Original>
@@ -925,9 +955,9 @@
     </Container>
     <Container name="AdditionalEnemyTrackingDevices">
       <Key ID="STR_SQFB_opt_AdditionalEnemyTrackingDevices">
-        <Original>Additional Enemy Tracking Devices</Original>
-        <English>Additional Enemy Tracking Devices</English>
-        <Spanish>Dispositivos de Rastreo de Enemigos Adicionales</Spanish>
+        <Original>Additional IFF Devices</Original>
+        <English>Additional IFF Devices</English>
+        <Spanish>Dispositivos IFF Adicionales</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_EnemyTrackingGearGoggles">
         <Original>Additional Goggles</Original>
@@ -938,15 +968,27 @@
         <Original>Add here any other goggles you want to be able to use to track known enemies.
 
 \n\nThe list must be class names (without quotation marks """") and separated by commas.
-\nExample: MyGogglesClass1, MyGogglesClass2, etc</Original>
+\nExample: MyGogglesClass1, MyGogglesClass2, etc
+\n\nThe pre-defined devices are:
+\n  - Combat Goggles (any version, including balaclavas)
+\n  - Tactical Glasses (any version)
+\n  - VR Goggles</Original>
         <English>Add here any other goggles you want to be able to use to track known enemies.
 
 \n\nThe list must be class names (without quotation marks """") and separated by commas.
-\nExample: MyGogglesClass1, MyGogglesClass2, etc</English>
+\nExample: MyGogglesClass1, MyGogglesClass2, etc
+\n\nThe pre-defined devices are:
+\n  - Combat Goggles (any version, including balaclavas)
+\n  - Tactical Glasses (any version)
+\n  - VR Goggles</English>
         <Spanish>Añade aquí cualquier otras gafas de protección que quieras usar para rastrear enemigos conocidos.
 
 \n\nLa lista ha de contener nombres de clase (sin las comillas """") y separados por comas.
-\nEjemplo: MiClaseGafasProtec1, MiClaseGafasProtec2, etc</Spanish>
+\nEjemplo: MiClaseGafasProtec1, MiClaseGafasProtec2, etc
+\n\nLos dispositivos predeterminados son:
+\n  - Gafas de Combate (cualquier versión, incluyendo pasamontañas)
+\n  - Gafas Tácticas (cualquier versión)
+\n  - Sistema de Realidad Virtual</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_EnemyTrackingGearHelmets">
         <Original>Additional Helmets</Original>
@@ -957,15 +999,30 @@
         <Original>Add here any other helmets you want to be able to use to track known enemies.
 
 \n\nThe list must be class names (without quotation marks """") and separated by commas.
-\nExample: MyHelmetClass1, MyHelmetClass2, etc</Original>
+\nExample: MyHelmetClass1, MyHelmetClass2, etc
+\n\nThe pre-defined devices are:
+\n  - Assassin Helmet (any version)
+\n  - Defender Helmet (any version)
+\n  - Fighter Pilot Helmet (any version)
+\n  - Special Purpose Helmet (any version)</Original>
         <English>Add here any other helmets you want to be able to use to track known enemies.
 
 \n\nThe list must be class names (without quotation marks """") and separated by commas.
-\nExample: MyHelmetClass1, MyHelmetClass2, etc</English>
+\nExample: MyHelmetClass1, MyHelmetClass2, etc
+\n\nThe pre-defined devices are:
+\n  - Assassin Helmet (any version)
+\n  - Defender Helmet (any version)
+\n  - Fighter Pilot Helmet (any version)
+\n  - Special Purpose Helmet (any version)</English>
         <Spanish>Añade aquí cualquier otros cascos que quieras usar para rastrear enemigos conocidos.
 
 \n\nLa lista ha de contener nombres de clase (sin las comillas """") y separados por comas.
-\nEjemplo: MiClaseCasco1, MiClaseCasco2, etc</Spanish>
+\nEjemplo: MiClaseCasco1, MiClaseCasco2, etc
+\n\nLos dispositivos predeterminados son:
+\n  - Casco de Asesino (cualquier versión)
+\n  - Casco Defensor (cualquier versión)
+\n  - Casco de Piloto (cualquier versión)
+\n  - Casco de Operaciones Especiales (cualquier versión)</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_EnemyTrackingGearHMD">
         <Original>Additional HMD</Original>
@@ -976,15 +1033,21 @@
         <Original>Add here any other Head Mounted Displays (like NVGs) you want to be able to use to track known enemies.
 
 \n\nThe list must be class names (without quotation marks """") and separated by commas.
-\nExample: MyHMDClass1, MyHMDClass2, etc</Original>
+\nExample: MyHMDClass1, MyHMDClass2, etc
+\n\nThe pre-defined devices are:
+\n  - Integrated Visual Augmentation System (IVAS) Headsets</Original>
         <English>Add here any other Head Mounted Displays (like NVGs) you want to be able to use to track known enemies.
 
 \n\nThe list must be class names (without quotation marks """") and separated by commas.
-\nExample: MyHMDClass1, MyHMDClass2, etc</English>
+\nExample: MyHMDClass1, MyHMDClass2, etc
+\n\nThe pre-defined devices are:
+\n  - Integrated Visual Augmentation System (IVAS) Headsets</English>
         <Spanish>Añade aquí cualquier otros 'Head Mounted Displays' (como las Gafas de Visión Nocturna) que quieras usar para rastrear enemigos conocidos.
 
 \n\nLa lista ha de contener nombres de clase (sin las comillas """") y separados por comas.
-\nEjemplo: MiClaseHMD1, MiClaseHMD2, etc</Spanish>
+\nEjemplo: MiClaseHMD1, MiClaseHMD2, etc
+\n\nLos dispositivos predeterminados son:
+\n  - Integrated Visual Augmentation System (IVAS) Headsets</Spanish>
       </Key>
     </Container>
     <Container name="Colors_squad">
@@ -1210,6 +1273,244 @@
         <Original>Ammo LMG</Original>
         <English>Ammo LMG</English>
         <Spanish>Muni A.Lig</Spanish>
+      </Key>
+    </Container>
+    <Container name="SQFB_opt_HUDdisplay_advanced">
+      <Key ID="STR_SQFB_opt_HUDdisplay_advanced">
+        <Original>HUD Display - Advanced</Original>
+        <English>HUD Display - Advanced</English>
+        <Spanish>Visualización del HUD - Avanzado</Spanish>
+      </Key>
+    </Container>
+    <Container name="General_Friendlies">
+      <Key ID="STR_SQFB_opt_showFriendlies">
+        <Original>Display Known Friendlies</Original>
+        <English>Display Known Friendlies</English>
+        <Spanish>Mostrar Amistosos Conocidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendlies_desc">
+        <Original>Choose when to display known friendlies.
+\n\nIf 'Only with IFF device' is chosen the HUD will only be shown when you have equipped one of these:
+\n  - Combat Goggles (any version, including balaclavas)
+\n  - Tactical Glasses (any version)
+\n  - VR Goggles
+\n  - Assassin Helmet (any version)
+\n  - Defender Helmet (any version)
+\n  - Fighter Pilot Helmet (any version)
+\n  - Special Purpose Helmet (any version)
+\n  - Integrated Visual Augmentation System (IVAS) Headsets
+\n\nYou can add more in the 'Additional IFF Devices' section below.</Original>
+        <English>Choose when to display known friendlies.
+\n\nIf 'Only with IFF device' is chosen the HUD will only be shown when you have equipped one of these:
+\n  - Combat Goggles (any version, including balaclavas)
+\n  - Tactical Glasses (any version)
+\n  - VR Goggles
+\n  - Assassin Helmet (any version)
+\n  - Defender Helmet (any version)
+\n  - Fighter Pilot Helmet (any version)
+\n  - Special Purpose Helmet (any version)
+\n  - Integrated Visual Augmentation System (IVAS) Headsets
+\n\nYou can add more in the 'Additional IFF Devices' section below.</English>
+        <Spanish>Elige cuándo mostrar la posición de los amistosos conocidos.
+\n\nSi eliges 'Sólo con Disp. IFF' el HUD solo se mostrará cuando tengas equipado uno de estos:
+\n  - Gafas de Combate (cualquier versión, incluyendo pasamontañas)
+\n  - Gafas Tácticas (cualquier versión)
+\n  - Sistema de Realidad Virtual
+\n  - Casco de Asesino (cualquier versión)
+\n  - Casco Defensor (cualquier versión)
+\n  - Casco de Piloto (cualquier versión)
+\n  - Casco de Operaciones Especiales (cualquier versión)
+\n  - Integrated Visual Augmentation System (IVAS) Headsets
+\n\nPuedes añadir más en la sección 'Dispositivos IFF Adicionales' de más abajo.</Spanish>
+      </Key>
+    </Container>
+    <Container name="SQFB_opt_HUDdisplay_friendlies">
+      <Key ID="STR_SQFB_opt_HUDdisplay_friendlies">
+        <Original>HUD Display - Known Friendlies</Original>
+        <English>HUD Display - Known Friendlies</English>
+        <Spanish>Visualización del HUD - Amistosos Conocidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMinTime">
+        <Original>Initial Delay</Original>
+        <English>Initial Delay</English>
+        <Spanish>Retraso Inicial</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMinTime_desc">
+        <Original>Time that must pass while the HUD is shown to display known friendly units when the IFF HUD key is pressed, in seconds.</Original>
+        <English>Time that must pass while the HUD is shown to display known friendly units when the IFF HUD key is pressed, in seconds.</English>
+        <Spanish>TTiempo que ha de pasar para que el HUD muestre las unidades amistosas conocidas cuando la tecla de HUD de IFF es presionada, en segundos.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMaxUnits">
+        <Original>Max Units</Original>
+        <English>Max Units</English>
+        <Spanish>Máximo Unidades</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMaxUnits_desc">
+        <Original>How many friendly units will be displayed. Set it to -1 for no unlimited.</Original>
+        <English>How many friendly units will be displayed. Set it to -1 for no unlimited.</English>
+        <Spanish>Cuántas unidades amistosas se mostrarán. Establécelo a -1 para ilimitadas.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMinRange">
+        <Original>Minimum Range</Original>
+        <English>Minimum Range</English>
+        <Spanish>Mínimo Alcance</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMinRange_desc">
+        <Original>No HUD elements will be shown for friendlies below this distance, in meters.\nSet to zero to always show regardless of range.</Original>
+        <English>No HUD elements will be shown for friendlies below this distance, in meters.\nSet to zero to always show regardless of range.</English>
+        <Spanish>Por debajo de esta distancia no se mostrará ningún elemento del HUD para amistosos, en metros.\nEstablécelo a cero para que siempre se muestre, sin importar el alcance.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMinRangeAir">
+        <Original>Minimum Range (Air)</Original>
+        <English>Minimum Range (Air)</English>
+        <Spanish>Mínimo Alcance (Aire)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMinRangeAir_desc">
+        <Original>No HUD elements will be shown for friendlies below this distance when the player is in an air vehicle, in meters.\nSet to zero to always show regardless of range.</Original>
+        <English>No HUD elements will be shown for friendlies below this distance when the player is in an air vehicle, in meters.\nSet to zero to always show regardless of range.</English>
+        <Spanish>Por debajo de esta distancia no se mostrará ningún elemento del HUD para amistosos cuando el jugador esté en un vehículo volador, en metros.\nEstablécelo a cero para que siempre se muestre, sin importar el alcance.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMaxRange">
+        <Original>Maximum Range</Original>
+        <English>Maximum Range</English>
+        <Spanish>Máximo Alcance</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMaxRange_desc">
+        <Original>Maximum distance to look for friendlies and display their HUD elements, in meters.</Original>
+        <English>Maximum distance to look for friendlies and display their HUD elements, in meters.</English>
+        <Spanish>Distancia máxima en la que se buscará a amistosos y se muestre su información en el HUD, en metros.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMaxRangeAir">
+        <Original>Maximum Range (Air)</Original>
+        <English>Maximum Range (Air)</English>
+        <Spanish>Máximo Alcance (Aire)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showFriendliesMaxRangeAir_desc">
+        <Original>Maximum distance to look for friendlies and display their HUD elements when the player is in an air vehicle, in meters.</Original>
+        <English>Maximum distance to look for friendlies and display their HUD elements when the player is in an air vehicle, in meters.</English>
+        <Spanish>Distancia máxima en la que se buscará a amistosos y se muestre su información en el HUD cuando el jugador esté en un vehículo volador, en metros.</Spanish>
+      </Key>
+    </Container>
+    <Container name="HUDdisplay_textOptions_friendlies">
+      <Key ID="STR_SQFB_opt_showDistFriendly">
+        <Original>Display Distance (friendlies)</Original>
+        <English>Display Distance (friendlies)</English>
+        <Spanish>Mostrar Distancia (amistosos)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showDistFriendly_desc">
+        <Original>Display the distance of the friendly unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled.</Original>
+        <English>Display the distance of the friendly unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled.</English>
+        <Spanish>Mostrar la distancia a la que la unidad amistosa está del jugador, en metros.\n\nEsta opción no tendrá efecto si Mostrar Texto está desactivado.</Spanish>
+      </Key>
+    </Container>
+    <Container name="HUDdisplay_advanced_friendlies">
+      <Key ID="STR_SQFB_opt_HUDdisplay_advanced_friendlies">
+        <Original>HUD Display - Advanced (Friendlies)</Original>
+        <English>HUD Display - Advanced (Friendlies)</English>
+        <Spanish>Visualización del HUD - Avanzado (Amistosos)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_checkOcclusionFriendlies">
+        <Original>Check Friendlies for Occlusion</Original>
+        <English>Check Friendlies for Occlusion</English>
+        <Spanish>Comprobar Oclusión de Amistosos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_checkOcclusionFriendlies_desc">
+        <Original>If enabled, known friendly positions will be occluded by terrain and obstacles. When this happens, the last known friendly position will be displayed instead.\nIf disabled, the known friendly locations will always be visible.</Original>
+        <English>If enabled, known friendly positions will be occluded by terrain and obstacles. When this happens, the last known friendly position will be displayed instead.\nIf disabled, the known friendly locations will always be visible.</English>
+        <Spanish>Si se activa, las posiciones de los amistosos conocidos serán ocluídas por el terreno y obstáculos. Cuando esto ocurra se mostrará la última posición conocida del amistoso.
+\nSi se desactiva, la posición de los amistosos conocidos será siempre visible.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_friendlyPreciseVisCheck">
+        <Original>Precise Visibilty Check for Friendly Vehicles</Original>
+        <English>Precise Visibilty Check for Friendly Vehicles</English>
+        <Spanish>Visibilidad Precisa para Vehículos Amistosos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_friendlyPreciseVisCheck_desc">
+        <Original>More precise visibility checks for friendly vehicles.\nThis will check all the corners of their bounding box instead of a single point, so it will affect performance.</Original>
+        <English>More precise visibility checks for friendly vehicles.\nThis will check all the corners of their bounding box instead of a single point, so it will affect performance.</English>
+        <Spanish>Comprobación de visibilidad más precisa para vehículos amistosos.\nEsto hará que se comprueben todas las esquinas de la caja delimitadora en vez de un sólo punto, así que afectará al rendimiento.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_lastKnownFriendlyPositionOnly">
+        <Original>Only display last known friendly positions</Original>
+        <English>Only display last known friendly positions</English>
+        <Spanish>Sólo Mostrar Última Posición de Amistosos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_lastKnownFriendlyPositionOnly_desc">
+        <Original>If enabled, only the last known friendly positions will be displayed.</Original>
+        <English>If enabled, only the last known friendly positions will be displayed.</English>
+        <Spanish>Si se activa, sólo se mostrará la última posición conocida de los amistosos.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_friendlySideColors">
+        <Original>Use friendly side colors</Original>
+        <English>Use friendly side colors</English>
+        <Spanish>Usar Colores del Bando para Amistosos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_friendlySideColors_desc">
+        <Original>If enabled, the color for friendly icons will change depending on their side (default is blue for WEST, red for EAST, green for RESISTANCE
+\nand purple for CIVILIAN).
+\n  - 'Never' will use the default friendly color.
+\n  - 'Current side' will use the color of the side the unit currently belongs to.
+\n  - 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
+\nbe red, BLUFOR blue, etc)</Original>
+        <English>If enabled, the color for friendly icons will change depending on their side (default is blue for WEST, red for EAST, green for RESISTANCE
+\nand purple for CIVILIAN).
+\n  - 'Never' will use the default friendly color.
+\n  - 'Current side' will use the color of the side the unit currently belongs to.
+\n  - 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
+\nbe red, BLUFOR blue, etc)</English>
+        <Spanish>Si se activa, el color de los iconos de los amistosos cambiará dependiendo de su bando (por defecto es azul para OESTE, rojo para ESTE, verde para RESISTENCIA
+\ny púrpura para CIVILES):
+\n  - 'Nunca' usará el color de amistosos por defecto.
+\n  - 'Bando actual' usará el color del bando al que pertenece la unidad.
+\n  - 'Facción actual' usará el color original del bando de la facción de la unidad, ignorando el bando de su líder actual (así que las facciones OPFOR siempre serán rojas,
+\nBLUFOR azules, etc)</Spanish>
+      </Key>
+    </Container>
+    <Container name="SQFB_opt_Colors_friendlies">
+      <Key ID="STR_SQFB_opt_Colors_friendlies">
+        <Original>Colors (Friendly)</Original>
+        <English>Colors (Friendly)</English>
+        <Spanish>Colores (Amistosos)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorFriendly">
+        <Original>Friendly color for West and Global</Original>
+        <English>Friendly color for West and Global</English>
+        <Spanish>Color de Oeste y Global para Amistosos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorFriendly_desc">
+        <Original>Color used for friendly units in general or when friendly units are BLUFOR side and 'Use friendly side colors' is enabled.</Original>
+        <English>Color used for friendly units in general or when friendly units are BLUFOR side and 'Use friendly side colors' is enabled.</English>
+        <Spanish>Color usado para las unidades amistosas en general o cuando las unidades amistosas son BLUFOR y 'Usar Colores del Bando para Amistosos' está activado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorFriendlyEast">
+        <Original>Friendly color for East</Original>
+        <English>Friendly color for East</English>
+        <Spanish>Color de amistosos para Este</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorFriendlyEast_desc">
+        <Original>Color used for friendly units of OPFOR side if 'Use friendly side colors' is enabled.</Original>
+        <English>Color used for friendly units of OPFOR side if 'Use friendly side colors' is enabled.</English>
+        <Spanish>Color usado para las unidades enemigas de OPFOR si 'Usar Colores del Bando para Amistosos' está activado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorFriendlyGuer">
+        <Original>Friendly color for Resistance</Original>
+        <English>Friendly color for Resistance</English>
+        <Spanish>Color de amistosos para Resistencia</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorFriendlyGuer_desc">
+        <Original>Color used for friendly units of RESISTANCE side if 'Use friendly side colors' is enabled.</Original>
+        <English>Color used for friendly units of RESISTANCE side if 'Use friendly side colors' is enabled.</English>
+        <Spanish>Color usado para las unidades enemigas de RESISTANCE si 'Usar Colores del Bando para Amistosos' está activado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorFriendlyCiv">
+        <Original>Friendly color for Civilian</Original>
+        <English>Friendly color for Civilian</English>
+        <Spanish>Color de amistosos para Civiles</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorFriendlyCiv_desc">
+        <Original>Color used for friendly units of CIVILIAN side if 'Use friendly side colors' is enabled.</Original>
+        <English>Color used for friendly units of CIVILIAN side if 'Use friendly side colors' is enabled.</English>
+        <Spanish>Color usado para las unidades enemigas de CIVILIAN si 'Usar Colores del Bando para Amistosos' está activado.</Spanish>
       </Key>
     </Container>
   </Package>

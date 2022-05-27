@@ -21,7 +21,6 @@ params [["_grp", SQFB_group]];
 if (SQFB_debug) then { diag_log format ["SQFB: initGroup - Initializing new group: %1 (old group: %2)", _grp, SQFB_group] };
 
 private _units = units _grp;
-// _grp setVariable ["SQFB_group_static", [_grp, _units]];
 _grp setVariable ["SQFB_wounded", false];
 
 // Initialize the units group index
@@ -43,19 +42,17 @@ call SQFB_fnc_updateAllUnits;
 
 // Reset enemy vars
 SQFB_showEnemies = false;
-SQFB_knownEnemies = [];
-// Clean enemy taggers
-[true] call SQFB_fnc_cleanTaggers;
-SQFB_enemyTagObjArr = [];
 
 // Reset friendly vars
 SQFB_showFriendlies = false;
-SQFB_knownFriendlies = [];
-// Clean friendly taggers
-[false] call SQFB_fnc_cleanTaggers;
-SQFB_friendlyTagObjArr = [];
 
+// Clean enemy taggers
 SQFB_knownIFF = [];
+call SQFB_fnc_cleanTaggers;
+SQFB_tagObjArr = [];
+
+// Init HUDs
+call SQFB_fnc_IFFactivateDevice;
 
 // Player traits
 private _unitTraits = getAllUnitTraits SQFB_player;

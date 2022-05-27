@@ -15,28 +15,20 @@
 
 */
 
-params [["_type", "friendly"]];
+params [["_type", "squad"]];
 
 
-if (_type == "friendly") then {
+if (_type == "squad") then {
     SQFB_showDeadMinTime = 0;
-
-    SQFB_showFriendliesMinTime = 0;
-    SQFB_IFFTimeLastCheck = time;
-
-    // Clean taggers
-    SQFB_knownFriendlies = [];
-    [false] call SQFB_fnc_cleanTaggers;
-    SQFB_friendlyTagObjArr = [];
-
 } else {
-    SQFB_showEnemiesMinTime = 0;
+    SQFB_showIFFminTime = 0;
     SQFB_IFFTimeLastCheck = time;
 
-    // Clean taggers
     SQFB_knownEnemies= [];
-    [true] call SQFB_fnc_cleanTaggers;
-    SQFB_enemyTagObjArr = [];
-};
+    SQFB_knownFriendlies= [];
 
-SQFB_knownIFF = [];
+    // Clean taggers
+    SQFB_knownIFF = [];
+    call SQFB_fnc_cleanTaggers;
+    SQFB_tagObjArr = [];
+};

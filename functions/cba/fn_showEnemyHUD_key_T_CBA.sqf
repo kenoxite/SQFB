@@ -16,15 +16,13 @@
 
 */
 
-private _trackingDeviceEnabled = (SQFB_opt_showEnemiesIfTrackingGear && SQFB_trackingGearCheck) || SQFB_opt_showEnemies == "device";
-if (!_trackingDeviceEnabled) then {
-    if (!SQFB_showEnemyHUD) then 
-    {
-        SQFB_showEnemyHUD = true;
-        call SQFB_fnc_HUDupdate;
-        ["iff"] call SQFB_fnc_HUDshow;
-    } else {
-        SQFB_showEnemyHUD = false;
-    	["enemy"] call SQFB_fnc_HUDhide;
-    };
+if (!SQFB_showIFFHUD) then 
+{
+    SQFB_showIFFHUD = true;
+    call SQFB_fnc_IFFactivateDevice;
+    call SQFB_fnc_HUDupdate;
+    ["iff"] call SQFB_fnc_HUDshow;
+} else {
+    SQFB_showIFFHUD = false;
+	["iff"] call SQFB_fnc_HUDhide;
 };

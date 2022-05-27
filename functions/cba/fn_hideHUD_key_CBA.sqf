@@ -19,6 +19,5 @@
 if (SQFB_showHUD) then 
 {
     SQFB_showHUD = false;
-    SQFB_showFriendlyHUD = false;
 	[] call SQFB_fnc_HUDhide;
 };

@@ -17,18 +17,19 @@ SQFB_squadTimeLastCheck = time;
 SQFB_opt_profile_old = SQFB_opt_profile;
 
 SQFB_showEnemies = false;
-SQFB_showEnemyHUD = false;
-SQFB_showEnemiesMinTime = 0;
-SQFB_enemyTagObjArr = [];
+// SQFB_showEnemyHUD = false;
+// SQFB_showEnemiesMinTime = 0;
 
 SQFB_showFriendlies = false;
-SQFB_showFriendlyHUD = false;
-SQFB_showFriendliesMinTime = 0;
-SQFB_friendlyTagObjArr = [];
+// SQFB_showFriendlyHUD = false;
+// SQFB_showFriendliesMinTime = 0;
 
 SQFB_IFFTimeLastCheck = time;
-SQFB_deletingEnemyTaggers = false;
-SQFB_deletingFriendlyTaggers = false;
+
+SQFB_tagObjArr = [];
+SQFB_deletingTaggers = false;
+SQFB_showIFFHUD = false;
+SQFB_showIFFminTime = 0;
 
 SQFB_enemyTrackingGoggles_default = [
     "G_Balaclava_combat",
@@ -153,7 +154,10 @@ SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
 SQFB_player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
 
 // Keep track of group status
-SQFB_EH_update = [{ if (SQFB_opt_on) then { call SQFB_fnc_HUDupdate }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
+SQFB_EH_HUDupdate = [{ if (SQFB_opt_on) then { call SQFB_fnc_HUDupdate }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
+
+// Update IFF display info
+SQFB_EH_IFFupdate = [{ if (SQFB_opt_on && {(SQFB_showFriendlies || SQFB_showEnemies || SQFB_showIFFHUD)}) then { [getPosWorld vehicle SQFB_player] call SQFB_fnc_IFFupdate }; }, SQFB_opt_HUDrefreshIFF, []] call CBA_fnc_addPerFrameHandler;
 
 // HUD display
 SQFB_draw3D_EH = addMissionEventHandler [
@@ -175,8 +179,8 @@ SQFB_draw3D_EH = addMissionEventHandler [
 
             // Friends and foes
             if (time > SQFB_IFFTimeLastCheck + SQFB_opt_HUDrefreshIFF) then {
-                if (SQFB_showEnemies || {time >= SQFB_showEnemiesMinTime && SQFB_showEnemyHUD}) then {
-                    [_playerPos] call SQFB_fnc_HUDdrawEnemies;
+                if ((SQFB_showEnemies || SQFB_showFriendlies) && {time >= SQFB_showIFFminTime && SQFB_showIFFHUD}) then {
+                    call SQFB_fnc_HUDdrawIFF;
                 };
                 SQFB_IFFTimeLastCheck = time;
             };
