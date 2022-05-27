@@ -50,12 +50,13 @@ if (SQFB_opt_showSquad) then {
 // };
 
 // Enemies
+SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
 if (SQFB_opt_showEnemies != "never") then {
-    private _trackingDeviceEnabled = SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck;
+    private _trackingDeviceEnabled = (SQFB_opt_showEnemiesIfTrackingGear || SQFB_opt_showEnemies == "device") && SQFB_trackingGearCheck;
     private _showSolo = SQFB_opt_enemyCheckSolo || (!SQFB_opt_enemyCheckSolo && _unitCount > 1);
     private _assignedTarget = assignedTarget SQFB_player;
     private _displayTarget = SQFB_opt_alwaysDisplayTarget && !isNull _assignedTarget;
-    private _showEnemies = SQFB_opt_showEnemies == "always" || (SQFB_showEnemyHUD && _showSolo) ||  _trackingDeviceEnabled;
+    private _showEnemies = SQFB_opt_showEnemies == "always" || (SQFB_showEnemyHUD && _showSolo && SQFB_opt_showEnemies != "device") ||  _trackingDeviceEnabled;
     SQFB_showEnemies = [false, true] select (_showEnemies || _displayTarget);
 
     // if (SQFB_showEnemies) then {
@@ -63,37 +64,48 @@ if (SQFB_opt_showEnemies != "never") then {
     // };
 
     if (SQFB_showEnemies) then {
+        //Disable manual toggling variable if not set as such
+        if (SQFB_showEnemyHUD && _trackingDeviceEnabled) then { SQFB_showEnemyHUD = false };
+        // Choose which max range to check for: normal or air
         private _range = if (((getPosASL vehicle SQFB_player) select 2) > 5 && !(isNull objectParent SQFB_player)) then { SQFB_opt_showEnemiesMaxRangeAir } else { SQFB_opt_showEnemiesMaxRange };
-        // Only alive enemies on foot and vehicles with crew
+        // Check for known enemies
         private _targets = [[SQFB_player, _range] call SQFB_fnc_enemyTargets, [_assignedTarget]] select (_displayTarget && !_showEnemies); // Only display the assigned target if enemy HUD is not requested
-        SQFB_knownEnemies = _targets select { alive _x && {({ alive _x } count (crew _x)) > 0} };
+        // Only alive enemies on foot and vehicles with crew
+        private _knownEnemies = _targets select { alive _x && {({ alive _x } count (crew _x)) > 0} };
+        // Sort by distance
+        SQFB_knownEnemies = [_knownEnemies, [], { SQFB_player distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+        // Resize to chosen max
+        if (SQFB_opt_showEnemiesMaxUnits > -1) then { SQFB_knownEnemies resize SQFB_opt_showEnemiesMaxUnits };
         // Clean enemy taggers
         [true] call SQFB_fnc_cleanTaggers;
         // Create enemy taggers, used to display last known position of enemy units
-        for "_i" from 0 to (count SQFB_knownEnemies) -1 do
-        {
-            private _enemy = SQFB_knownEnemies select _i;
-            private _side = [
-                                _enemy call SQFB_fnc_factionSide,
-                                side _enemy
-                            ] select (SQFB_opt_enemySideColors == "current");
-            _enemy setVariable ["SQFB_side", _side];
-            _enemy setVariable ["SQFB_color",[
-                                                SQFB_opt_colorEnemy,
-                                                call {
-                                                    if (_side == west) exitWith {SQFB_opt_colorEnemyWest};
-                                                    if (_side == resistance) exitWith {SQFB_opt_colorEnemyGuer};
-                                                    if (_side == civilian) exitWith {SQFB_opt_colorEnemyCiv};
-                                                    SQFB_opt_colorEnemy;
-                                                }
-                                                ] select (SQFB_opt_enemySideColors != "never")
-                                            ]; 
-            private _enemyTaggerFound = SQFB_enemyTagObjArr select { (_x select 1) == _enemy };
-            if (count _enemyTaggerFound == 0) then {
-                if (SQFB_debug) then { diag_log format ["SQFB: updateHUD - enemyTagger not found for unit: %1. Creating a new one...", _enemy] };
-                private _enemyTagger = createSimpleObject ["RoadCone_F", [0,0,0], false];
-                _enemyTagger hideObject true;
-                SQFB_enemyTagObjArr pushBack [_enemyTagger, _enemy];
+        private _knownEnemiesAmount = count SQFB_knownEnemies;
+        if (_knownEnemiesAmount > 0) then {
+            for "_i" from 0 to _knownEnemiesAmount -1 do
+            {
+                private _enemy = SQFB_knownEnemies select _i;
+                private _side = [
+                                    _enemy call SQFB_fnc_factionSide,
+                                    side _enemy
+                                ] select (SQFB_opt_enemySideColors == "current");
+                _enemy setVariable ["SQFB_side", _side];
+                _enemy setVariable ["SQFB_color",[
+                                                    SQFB_opt_colorEnemy,
+                                                    call {
+                                                        if (_side == west) exitWith {SQFB_opt_colorEnemyWest};
+                                                        if (_side == resistance) exitWith {SQFB_opt_colorEnemyGuer};
+                                                        if (_side == civilian) exitWith {SQFB_opt_colorEnemyCiv};
+                                                        SQFB_opt_colorEnemy;
+                                                    }
+                                                    ] select (SQFB_opt_enemySideColors != "never")
+                                                ]; 
+                private _enemyTaggerFound = SQFB_enemyTagObjArr select { (_x select 1) == _enemy };
+                if (count _enemyTaggerFound == 0) then {
+                    if (SQFB_debug) then { diag_log format ["SQFB: updateHUD - enemyTagger not found for unit: %1. Creating a new one...", _enemy] };
+                    private _enemyTagger = createSimpleObject ["RoadCone_F", [0,0,0], false];
+                    _enemyTagger hideObject true;
+                    SQFB_enemyTagObjArr pushBack [_enemyTagger, _enemy];
+                };
             };
         };
     };

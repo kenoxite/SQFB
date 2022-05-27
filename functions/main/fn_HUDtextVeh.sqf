@@ -57,13 +57,13 @@ if (SQFB_showHUD) then {
     };
 	// Vehicle status
 	if ((fuel _veh) == 0) then {
-		_return = format ["%1[NO FUEL] ", _return];
+		_return = format ["%1[%2] ", _return, localize "STR_SQFB_HUD_noFuel"];
 	};
 	if ((damage _veh) >= 0.5) then {
-		_return = format ["%1[DAMAGED] ", _return];
+		_return = format ["%1[%2] ", _return, localize "STR_SQFB_HUD_damaged"];
 	};
 	if (!(canMove _veh) && (fuel _veh) > 0) then {
-		_return = format ["%1[CAN'T MOVE] ", _return];
+		_return = format ["%1[%2] ", _return, localize "STR_SQFB_HUD_cantMove"];
 	};
 	if (_showRoles) then {
         _return = format ["%1[%2: ", _return, (_veh call BIS_fnc_objectType) select 1];
@@ -109,38 +109,40 @@ if (SQFB_showHUD) then {
 	};
 } else {
     // Text when always show critical is enabled
-	if (SQFB_opt_outFOVindex || {SQFB_opt_AlwaysShowCritical && _informCritical}) then {
+	if (count _crew > 0 && {SQFB_opt_outFOVindex || {SQFB_opt_AlwaysShowCritical && _informCritical}}) then {
 		if (!_unitVisible) then {
 			private _critical = false;
-			//if (_showClass) then {_return = format ["%1%2 ", _return,_vehName]};
-			// Vehicle status
-			if ((fuel _veh) == 0) then {
-				_return = format ["%1[NO FUEL] ", _return];
-				_critical = true;
-			};
-			if ((damage _veh) >= 0.5) then {
-				_return = format ["%1[DAMAGED] ", _return];
-				_critical = true;
-			};
-			if (!(canMove _veh) && (fuel _veh) > 0) then {
-				_return = format ["%1[CAN'T MOVE] ", _return];
-				_critical = true;
-			};
-			// Display if wounded units in crew
-			private _crew = crew _veh;
-			private _wounded = { lifeState _x != "HEALTHY" && alive _x} count _crew;
-			if (_wounded > 0) then {
-				_return =  format ["%1[%2 WOUNDED] ", _return, _wounded];
-				_critical = true;
-			};
-			// Show medics in the vehicle when there's wounded units in the group
-			private _medic = _crew findIf {(_x getVariable "SQFB_medic")};
-			if (_medic != -1) then {
-				if (_grp getVariable "SQFB_wounded") then {
-					_return =  format ["%1[MEDIC IS %2] ", _return, (_crew select _medic) getVariable "SQFB_grpIndex"];
-					_critical = true;
-				};
-			};
+            if (_informCritical) then {
+    			//if (_showClass) then {_return = format ["%1%2 ", _return,_vehName]};
+    			// Vehicle status
+    			if ((fuel _veh) == 0) then {
+    				_return = format ["%1[%2] ", _return, localize "STR_SQFB_HUD_noFuel"];
+    				_critical = true;
+    			};
+    			if ((damage _veh) >= 0.5) then {
+    				_return = format ["%1[%2] ", _return, localize "STR_SQFB_HUD_damaged"];
+    				_critical = true;
+    			};
+    			if (!(canMove _veh) && (fuel _veh) > 0) then {
+    				_return = format ["%1[%2] ", _return, localize "STR_SQFB_HUD_cantMove"];
+    				_critical = true;
+    			};
+    			// Display if wounded units in crew
+    			private _crew = crew _veh;
+    			private _wounded = { lifeState _x != "HEALTHY" && alive _x} count _crew;
+    			if (_wounded > 0) then {
+    				_return =  format ["%1[%2 %3] ", _return, _wounded, localize "STR_SQFB_HUD_wounded"];
+    				_critical = true;
+    			};
+    			// Show medics in the vehicle when there's wounded units in the group
+    			private _medic = _crew findIf {(_x getVariable "SQFB_medic")};
+    			if (_medic != -1) then {
+    				if (_grp getVariable "SQFB_wounded") then {
+    					_return =  format ["%1[%2 %3] ", _return, localize "STR_SQFB_HUD_medicIs", (_crew select _medic) getVariable "SQFB_grpIndex"];
+    					_critical = true;
+    				};
+    			};
+            };
             if (_critical || SQFB_opt_outFOVindex  && !_isGrpLeader && !_isFormLeader && !_isFormFollower) then {
                 if (_showIndex && _index >= 0) then { _return = format ["%1%2 %3 ", _index, if (_return != "") then { ":" } else { "" }, _return] };
             };

@@ -5,7 +5,7 @@ class CfgPatches
         name = "Squad Feedback";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.1";
+        version = "1.2";
         //url = "";
 
         requiredVersion = 1.60; 

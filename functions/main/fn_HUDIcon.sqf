@@ -12,8 +12,7 @@
     Returns:
 
 
-    Examples:
-
+    Examples:d
 */
 
 params ["_unit"];
@@ -28,10 +27,12 @@ if (_unit == SQFB_player) exitWith {_return};
 if (SQFB_showHUD) then {
     if (SQFB_opt_profile != "crit") then {
         // Role - in reverse order of preference (lower is higher priority)
+        if (_unit getVariable "SQFB_unarmed") then { _return = "SQFB\images\none.paa"; };
         if (_unit getVariable "SQFB_rifle") then { _return = "SQFB\images\rifle.paa"; };
         if (_unit getVariable "SQFB_shotgun") then { _return = "SQFB\images\shotgun.paa"; };
         if (_unit getVariable "SQFB_smg") then { _return = "SQFB\images\smg.paa"; };
         if (_unit getVariable "SQFB_handgun") then { _return = "SQFB\images\handgun.paa"; };
+        if (_unit getVariable "SQFB_ammoBearer" || _unit getVariable "SQFB_assistAT" || _unit getVariable "SQFB_assistAA" || _unit getVariable "SQFB_assistLMG") then { _return = "SQFB\images\backpack.paa"; };
         if (_unit getVariable "SQFB_hacker") then { _return = "a3\ui_f\data\igui\cfg\holdactions\holdaction_hack_ca.paa"; };
         if (_unit getVariable "SQFB_GL") then { _return = "a3\ui_f\data\igui\cfg\weaponicons\gl_ca.paa"; };
         if (_unit getVariable "SQFB_sniper") then { _return = "a3\ui_f\data\igui\cfg\weaponicons\srifle_ca.paa"; };

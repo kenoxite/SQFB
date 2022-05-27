@@ -52,6 +52,17 @@ private _SQFB_opt_colorEnemyCiv = SQFB_opt_colorEnemyCiv;
 
 private _SQFB_opt_alternateOcclusionCheck = SQFB_opt_alternateOcclusionCheck;
 
+private _onlyLastPos = [
+                            [
+                                [   
+                                    true,
+                                    false
+                                ] select SQFB_trackingGearCheck,
+                                true
+                            ] select (_SQFB_opt_lastKnownEnemyPositionOnly == "always"),
+                            false
+                        ] select (_SQFB_opt_lastKnownEnemyPositionOnly == "never");
+
 for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
 {
     if ((typeName (_SQFB_knownEnemies select _i))!="STRING") then {
@@ -143,7 +154,7 @@ for "_i" from 0 to (count _SQFB_knownEnemies) -1 do
             };
 
             // Skip if only unkonwn positions should be shown
-            if (!_unitOccluded && _SQFB_opt_lastKnownEnemyPositionOnly) then { continue };
+            if (!_unitOccluded && _onlyLastPos) then { continue };
 
             private _IFFunit = [
                                 _unit,

@@ -1,0 +1,1216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="Squad Feedback">
+  <Package name="ProjectName">
+    <Container name="ProjectNameMain">
+      <Key ID="STR_SQFB_SquadFeedback">
+        <Original>Squad Feedback</Original>
+        <English>Squad Feedback</English>
+        <Spanish>Información del Pelotón</Spanish>
+      </Key>
+    </Container>
+  </Package>
+  <Package name="InGame_conditions">
+    <Container name="All">
+      <Key ID="STR_SQFB_HUD_bleeding">
+        <Original>BLEEDING</Original>
+        <English>BLEEDING</English>
+        <Spanish>SANGRANDO</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_noAmmoSec">
+        <Original>NO AMMO SEC</Original>
+        <English>NO AMMO SEC</English>
+        <Spanish>SIN MUNI SEC</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_noAmmoPrim">
+        <Original>NO AMMO PRIM</Original>
+        <English>NO AMMO PRIM</English>
+        <Spanish>SIN MUNI PRIN</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_noAmmo">
+        <Original>NO AMMO</Original>
+        <English>NO AMMO</English>
+        <Spanish>SIN MUNI</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_medic">
+        <Original>MEDIC</Original>
+        <English>MEDIC</English>
+        <Spanish>MÉDICO</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_noFuel">
+        <Original>NO FUEL</Original>
+        <English>NO FUEL</English>
+        <Spanish>SIN COMBUSTIBLE</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_damaged">
+        <Original>DAMAGED</Original>
+        <English>DAMAGED</English>
+        <Spanish>DAÑADO</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_cantMove">
+        <Original>CAN'T MOVE</Original>
+        <English>CAN'T MOVE</English>
+        <Spanish>INMÓVIL</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_wounded">
+        <Original>WOUNDED</Original>
+        <English>WOUNDED</English>
+        <Spanish>HERIDO</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_medicIs">
+        <Original>MEDIC IS</Original>
+        <English>MEDIC IS</English>
+        <Spanish>MÉDICO ES</Spanish>
+      </Key>
+    </Container>
+  </Package>
+  <Package name="Controls">
+    <Container name="Controls">
+      <Key ID="STR_SQFB_Ctrl_SquadHUDkey">
+        <Original>Squad HUD</Original>
+        <English>Squad HUD</English>
+        <Spanish>HUD del Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_Ctrl_SquadHUDkey_desc">
+        <Original>Displays the squad HUD as long as this key is pressed.</Original>
+        <English>Displays the squad HUD as long as this key is pressed.</English>
+        <Spanish>Muestra el HUD del pelotón cuando presionas esta tecla.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_Ctrl_SquadHUDkeyToggle">
+        <Original>Squad HUD (Toggle)</Original>
+        <English>Squad HUD (Toggle)</English>
+        <Spanish>HUD del Pelotón (Alternar)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_Ctrl_SquadHUDkeyToggle_desc">
+        <Original>Toggles the display of the HUD for your squad.</Original>
+        <English>Toggles the display of the HUD for your squad.</English>
+        <Spanish>Alterna la visibilidad del HUD del pelotón cuando presionas esta tecla.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_Ctrl_enemyHUDkey">
+        <Original>Known Enemies HUD</Original>
+        <English>Known Enemies HUD</English>
+        <Spanish>HUD de enemigos conocidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_Ctrl_enemyHUDkey_desc">
+        <Original>Displays the HUD for enemies as long as this key is pressed.</Original>
+        <English>Displays the HUD for enemies as long as this key is pressed.</English>
+        <Spanish>Muestra el HUD de enemigos conocidos cuando presionas esta tecla.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_Ctrl_enemyHUDkeyToggle">
+        <Original>Known Enemies HUD (Toggle)</Original>
+        <English>Known Enemies HUD (Toggle)</English>
+        <Spanish>HUD de enemigos conocidos (Alternar)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_Ctrl_enemyHUDkeyToggle_desc">
+        <Original>Toggles the display of the HUD for enemies.</Original>
+        <English>Toggles the display of the HUD for enemies.</English>
+        <Spanish>Alterna la visibilidad del HUD de enemigos conocidos cuando presionas esta tecla.</Spanish>
+      </Key>
+    </Container>
+  </Package>
+  <Package name="Settings">
+    <Container name="Main">
+      <Key ID="STR_SQFB_opt_on">
+        <Original>Enable</Original>
+        <English>Enable</English>
+        <Spanish>Activar</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_on_desc">
+        <Original>Enables or disables the whole system.</Original>
+        <English>Enables or disables the whole system.</English>
+        <Spanish>Activa o desactiva todo el sistema.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_profile">
+        <Original>Profile (applies after closing this window)</Original>
+        <English>Profile (applies after closing this window)</English>
+        <Spanish>Perfil (se aplica tras cerrar esta ventana)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_profile_desc">
+        <Original>Choosing a profile will change the activation status of the following settings:
+\n  - Display Squad HUD
+\n  - Display Known Enemies
+\n  - Display Icon
+\n  - Display Text
+\n  - Display Team Color
+\n  - Display Index
+\n  - Display Class
+\n  - Display Roles
+\n  - Display Distance
+\n  - Display Arrows and Text
+\n  - Always Display Index
+\n  - Display Crew
+\n  - Display Dead Units
+\n  - Always Display Critical
+\n  - Always Display Enemies
+\nIf you change the profile any further changes to those settings won't be applied after you close this window.</Original>
+        <English>Choosing a profile will change the activation status of the following settings:
+\n  - Display Squad HUD
+\n  - Display Known Enemies
+\n  - Display Icon
+\n  - Display Text
+\n  - Display Team Color
+\n  - Display Index
+\n  - Display Class
+\n  - Display Roles
+\n  - Display Distance
+\n  - Display Arrows and Text
+\n  - Always Display Index
+\n  - Display Crew
+\n  - Display Dead Units
+\n  - Always Display Critical
+\n  - Always Display Enemies
+\nIf you change the profile any further changes to those settings won't be applied after you close this window.</English>
+        <Spanish>Al elegir un perfil cambiará el estado de activación de los siguientes ajustes:
+\n  - Mostrar HUD del Pelotón
+\n  - Mostrar Enemigos Conocidos
+\n  - Mostrar Icono
+\n  - Mostrar Texto
+\n  - Mostrar Color del Equipo
+\n  - Mostrar Índice
+\n  - Mostrar Clase
+\n  - Mostrar Roles
+\n  - Mostrar Distancia
+\n  - Mostrar Flechas y Texto
+\n  - Siempre Mostrar Índice
+\n  - Mostrar Tripulación
+\n  - Mostrar Unidades Fallecidas
+\n  - Siempre Mostrar Críticos
+\n  - Siempre Mostrar Enemigos
+\nSi cambias el perfil cualquier otro cambio a esos ajustes no será aplicado tras cerrar esta ventana.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_profile_custom">
+        <Original>Custom</Original>
+        <English>Custom</English>
+        <Spanish>Personalizado</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_profile_allOn">
+        <Original>All On</Original>
+        <English>All On</English>
+        <Spanish>Todo Activado</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_profile_minimalist">
+        <Original>Minimalist</Original>
+        <English>Minimalist</English>
+        <Spanish>Minimalista</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_profile_onlyCritical">
+        <Original>Only Critical</Original>
+        <English>Only Critical</English>
+        <Spanish>Sólo Críticos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_profile_vanillaLike">
+        <Original>Vanilla-like</Original>
+        <English>Vanilla-like</English>
+        <Spanish>Como en el Juego</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_profile_onlyAlwaysEnemies">
+        <Original>Only Always Enemies</Original>
+        <English>Only Always Enemies</English>
+        <Spanish>Sólo Siempre Enemigos</Spanish>
+      </Key>
+    </Container>
+    <Container name="General">
+      <Key ID="STR_SQFB_opt_general">
+        <Original>General</Original>
+        <English>General</English>
+        <Spanish>General</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showSquad">
+        <Original>Display Squad HUD</Original>
+        <English>Display Squad HUD</English>
+        <Spanish>Mostrar HUD del Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showSquad_desc">
+        <Original>Toggles the activation of your squad's feeback HUD.</Original>
+        <English>Toggles the activation of your squad's feeback HUD.</English>
+        <Spanish>Alterna la activación del HUD de información del pelotón.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemies">
+        <Original>Display Known Enemies</Original>
+        <English>Display Known Enemies</English>
+        <Spanish>Mostrar Enemigos Conocidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemies_desc">
+        <Original>Choose when to display known enemy locations.</Original>
+        <English>Choose when to display known enemy locations.</English>
+        <Spanish>Elige cuándo mostrar la posición de los enemigos conocidos.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemies_never">
+        <Original>Never</Original>
+        <English>Never</English>
+        <Spanish>Nunca</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemies_keyPressed">
+        <Original>When key is pressed</Original>
+        <English>When key is pressed</English>
+        <Spanish>Al presionar la tecla</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemies_always">
+        <Original>Always</Original>
+        <English>Always</English>
+        <Spanish>Siempre</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemies_device">
+        <Original>Only with Tracking Device</Original>
+        <English>Only with Tracking Device</English>
+        <Spanish>Sólo con Disp. de Seguimiento</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_HUDrefresh">
+        <Original>Refresh Rate for Squad HUD</Original>
+        <English>Refresh Rate for Squad HUD</English>
+        <Spanish>Velocidad de Refresco del HUD del Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_HUDrefresh_desc">
+        <Original>Waiting time between HUD redraws, in seconds.
+\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering.</Original>
+        <English>Waiting time between HUD redraws, in seconds.
+\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering.</English>
+        <Spanish>Tiempo a esperar entre cada redibujado del HUD, en segundos.
+\nPuedes aumentar este valor si el rendimiento del juego se está viendo muy afectado, pero aumentará el parpadeo del HUD.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_HUDrefreshIFF">
+        <Original>Refresh Rate for Enemy HUD</Original>
+        <English>Refresh Rate for Enemy HUD</English>
+        <Spanish>Velocidad de Refresco del HUD de Enemigos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_HUDrefreshIFF_desc">
+        <Original>Waiting time between HUD redraws, in seconds.
+\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering.</Original>
+        <English>Waiting time between HUD redraws, in seconds.
+\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering.</English>
+        <Spanish>Tiempo a esperar entre cada redibujado del HUD, en segundos.
+\nPuedes aumentar este valor si el rendimiento del juego se está viendo muy afectado, pero aumentará el parpadeo del HUD.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_updateDelay">
+        <Original>Data Update Delay</Original>
+        <English>Data Update Delay</English>
+        <Spanish>Retraso de la Actualización de Datos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_updateDelay_desc">
+        <Original>Waiting time between squad status and known enemies checks, in seconds.
+\nSetting this value lower will keep the HUDs more up to date, but the game performance can be affected.</Original>
+        <English>Waiting time between squad status and known enemies checks, in seconds.
+\nSetting this value lower will keep the HUDs more up to date, but the game performance can be affected.</English>
+        <Spanish>Tiempo de espera entre las comprobaciones del estado del pelotón y los enemigos conocidos, en segundos.
+\nDisminuir este valor mantendrá los HUD más actualizados, pero esto puede afectar al rendimiento del juego.</Spanish>
+      </Key>
+    </Container>
+    <Container name="HUDdisplay_general">
+      <Key ID="STR_SQFB_opt_HUDdisplay_general">
+        <Original>HUD Display - General</Original>
+        <English>HUD Display - General</English>
+        <Spanish>Visualización del HUD - General</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showIcon">
+        <Original>Display Icon</Original>
+        <English>Display Icon</English>
+        <Spanish>Mostrar Icono</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showIcon_desc">
+        <Original>Display an icon indicating the AI unit's role and its health and ammo status, etc.</Original>
+        <English>Display an icon indicating the AI unit's role and its health and ammo status, etc.</English>
+        <Spanish>Mostrar un icono indicando el rol de la unidad, su estado de salud y munición, etc.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showText">
+        <Original>Display Text</Original>
+        <English>Display Text</English>
+        <Spanish>Mostrar Texto</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showText_desc">
+        <Original>Display descriptive text below the icon. The kind of text shown is controlled by the other text related options.
+\nNo text will be shown at all if this setting is deactivated, regardless of the other settings.</Original>
+        <English>Display descriptive text below the icon. The kind of text shown is controlled by the other text related options.
+\nNo text will be shown at all if this setting is deactivated, regardless of the other settings.</English>
+        <Spanish>Mostrar texto descriptivo debajo del icono. El tipo de texto a mostrar está controlado por otros ajustes relacionados con el texto.
+\nNo se mostrará ningún texto si se desactiva este ajuste, sin importar el estado de otros ajustes.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showColor">
+        <Original>Display Team Color</Original>
+        <English>Display Team Color</English>
+        <Spanish>Mostrar Colores de Equipo</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showColor_desc">
+        <Original>Automatically change the color of the icon and text to match that of the unit's assigned team.</Original>
+        <English>Automatically change the color of the icon and text to match that of the unit's assigned team.</English>
+        <Spanish>Cambia automáticamente el color del icono y del texto para que coincida con el color del equipo al que está asignada la unidad.</Spanish>
+      </Key>
+    </Container>
+    <Container name="HUDdisplay_squad">
+      <Key ID="STR_SQFB_opt_HUDdisplay_squad">
+        <Original>HUD Display - Squad</Original>
+        <English>HUD Display - Squad</English>
+        <Spanish>Visualización del HUD - Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_maxRange">
+        <Original>Maximum Range</Original>
+        <English>Maximum Range</English>
+        <Spanish>Máximo Alcance</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_maxRange_desc">
+        <Original>Maximum distance a unit has to be for its HUD info to show up, in meters.</Original>
+        <English>Maximum distance a unit has to be for its HUD info to show up, in meters.</English>
+        <Spanish>Distancia máxima a la que una unidad ha de estar para que se muestre su información en el HUD, en metros.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_maxRange_air">
+        <Original>Maximum Range (air)</Original>
+        <English>Maximum Range (air)</English>
+        <Spanish>Máximo Alcance (Aire)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_maxRange_air_desc">
+        <Original>Maximum distance a unit has to be for its HUD info to show up when the player is flying, in meters.</Original>
+        <English>Maximum distance a unit has to be for its HUD info to show up when the player is flying, in meters.</English>
+        <Spanish>Distancia máxima a la que una unidad ha de estar para que se muestre su información en el HUD cuando el jugador está volando, en metros.</Spanish>
+      </Key>
+    </Container>
+    <Container name="HUDdisplay_enemies">
+      <Key ID="STR_SQFB_opt_HUDdisplay_enemies">
+        <Original>HUD Display - Known Enemies</Original>
+        <English>HUD Display - Known Enemies</English>
+        <Spanish>Visualización del HUD - Enemigos Conocidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMinTime">
+        <Original>Initial Delay</Original>
+        <English>Initial Delay</English>
+        <Spanish>Retraso Inicial</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMinTime_desc">
+        <Original>Time that must pass while the HUD is shown to display known enemy units when the key is pressed, in seconds.</Original>
+        <English>Time that must pass while the HUD is shown to display known enemy units when the key is pressed, in seconds.</English>
+        <Spanish>Tiempo que ha de pasar hasta que se muestre el HUD de los enemigos conocidos cuando se pulse la tecla, en segundos.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMaxUnits">
+        <Original>Maximum Units</Original>
+        <English>Maximum Units</English>
+        <Spanish>Máximo Unidades</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMaxUnits_desc">
+        <Original>How many known enemy unit locations will be displayed.\nSet it to -1 for no unlimited.</Original>
+        <English>How many known enemy unit locations will be displayed.\nSet it to -1 for no unlimited.</English>
+        <Spanish>Cuántas posiciones de enemigos conocidos se mostrarán.\nEstablécelo a -1 para ilimitado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMinRange">
+        <Original>Minimum Range</Original>
+        <English>Minimum Range</English>
+        <Spanish>Mínimo Alcance</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMinRange_desc">
+        <Original>No HUD elements will be shown for enemies below this distance, in meters.
+\nSet to zero to always show regardless of range.</Original>
+        <English>No HUD elements will be shown for enemies below this distance, in meters.
+\nSet to zero to always show regardless of range.</English>
+        <Spanish>Por debajo de esta distancia no se mostrará ningún elemento del HUD para enemigos, en metros.
+\nEstablécelo a cero para que siempre se muestre, sin importar el alcance.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMaxRange">
+        <Original>Maximum Range</Original>
+        <English>Maximum Range</English>
+        <Spanish>Máximo Alcance</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMaxRange_desc">
+        <Original>Maximum distance to look for enemies and display their HUD elements, in meters.</Original>
+        <English>Maximum distance to look for enemies and display their HUD elements, in meters.</English>
+        <Spanish>Distancia máxima en la que se buscará a enemigos y se muestre su información en el HUD, en metros.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMinRangeAir">
+        <Original>Minimum Range (Air)</Original>
+        <English>Minimum Range (Air)</English>
+        <Spanish>Mínimo Alcance (Aire)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMinRangeAir_desc">
+        <Original>No HUD elements will be shown for enemies below this distance when the player is in an air vehicle, in meters.
+\nSet to zero to always show regardless of range.</Original>
+        <English>No HUD elements will be shown for enemies below this distance when the player is in an air vehicle, in meters.
+\nSet to zero to always show regardless of range.</English>
+        <Spanish>Por debajo de esta distancia no se mostrará ningún elemento del HUD para enemigos cuando el jugador esté en un vehículo volador, en metros.
+\nEstablécelo a cero para que siempre se muestre, sin importar el alcance.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMaxRangeAir">
+        <Original>Maximum Range (Air)</Original>
+        <English>Maximum Range (Air)</English>
+        <Spanish>Máximo Alcance (Aire)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesMaxRangeAir_desc">
+        <Original>Maximum distance to look for enemies and display their HUD elements when the player is in an air vehicle, in meters.</Original>
+        <English>Maximum distance to look for enemies and display their HUD elements when the player is in an air vehicle, in meters.</English>
+        <Spanish>Distancia máxima en la que se buscará a enemigos y se muestre su información en el HUD cuando el jugador esté en un vehículo volador, en metros.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesIfTrackingGear">
+        <Original>Allow Enemy Tracking Devices</Original>
+        <English>Allow Enemy Tracking Devices</English>
+        <Spanish>Permitir Dispositivos de Rastreo de Enemigos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showEnemiesIfTrackingGear_desc">
+        <Original>Enemy locations will ALWAYS be displayed as long as the player has an Enemy Tracking device equipped.
+\nThe pre-defined devices are:
+\n  - Combat Goggles (any version, including balaclavas)
+\n  - Tactical Glasses (any version)
+\n  - VR Goggles
+\n  - Assassin Helmet (any version)
+\n  - Defender Helmet (any version)
+\n  - Fighter Pilot Helmet (any version)
+\n  - Special Purpose Helmet (any version)
+\n  - Integrated Visual Augmentation System (IVAS) Headsets</Original>
+        <English>Enemy locations will ALWAYS be displayed as long as the player has an Enemy Tracking device equipped.
+\nThe pre-defined devices are:
+\n  - Combat Goggles (any version, including balaclavas)
+\n  - Tactical Glasses (any version)
+\n  - VR Goggles
+\n  - Assassin Helmet (any version)
+\n  - Defender Helmet (any version)
+\n  - Fighter Pilot Helmet (any version)
+\n  - Special Purpose Helmet (any version)
+\n  - Integrated Visual Augmentation System (IVAS) Headsets</English>
+        <Spanish>La posición de los enemigos se mostrará SIEMPRE si el jugador tiene equipado un Dispositivo de Rastreo de Enemigos.
+\nLos dispositivos predeterminados son:
+\n  - Gafas de Combate (cualquier versión, incluyendo pasamontañas)
+\n  - Gafas Tácticas (cualquier versión)
+\n  - Sistema de Realidad Virtual
+\n  - Casco de Asesino (cualquier versión)
+\n  - Casco Defensor (cualquier versión)
+\n  - Casco de Piloto (cualquier versión)
+\n  - Casco de Operaciones Especiales (cualquier versión)
+\n  - Integrated Visual Augmentation System (IVAS) Headsets</Spanish>
+      </Key>
+    </Container>
+    <Container name="HUDdisplay_textOptions">
+      <Key ID="STR_SQFB_opt_HUDdisplay_textOptions">
+        <Original>HUD Display - Text Options</Original>
+        <English>HUD Display - Text Options</English>
+        <Spanish>Visualización del HUD - Opciones de Texto</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showIndex">
+        <Original>Display Index</Original>
+        <English>Display Index</English>
+        <Spanish>Mostrar Índice</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showIndex_desc">
+        <Original>Display the index of the unit in the player's group.
+
+\n\nThis option will have no effect if Show Text is disabled.</Original>
+        <English>Display the index of the unit in the player's group.
+
+\n\nThis option will have no effect if Show Text is disabled.</English>
+        <Spanish>Mostrar el índice de la unidad en el pelotón del jugador.
+
+\n\nEsta opción no tendrá efecto si Mostrar Texto está desactivado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showClass">
+        <Original>Display Class</Original>
+        <English>Display Class</English>
+        <Spanish>Mostrar Clase</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showClass_desc">
+        <Original>Display the unit's class name as seen in the Eden editor.
+
+\n\nThis option will have no effect if Show Text is disabled.</Original>
+        <English>Display the unit's class name as seen in the Eden editor.
+
+\n\nThis option will have no effect if Show Text is disabled.</English>
+        <Spanish>Mostrar la clase de la unidad tal como aparece en el editor Eden.
+
+\n\nEsta opción no tendrá efecto si Mostrar Texto está desactivado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showRoles">
+        <Original>Display Roles Text</Original>
+        <English>Display Roles Text</English>
+        <Spanish>Mostrar Texto de Roles</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showRoles_desc">
+        <Original>Display the unit's role(s) text, which might be different from its original class.
+\nSome of the roles shown can be:
+\n  * Medic: The unit can heal and has a medikit.
+\n  * AT: The unit has a launcher weapon.
+\n  * Demo: The unit has some explosives in its inventory.
+\nThese are just some examples. There are many more roles and each unit can have more than one role depending on its weapon, ammo, gear and traits.
+
+\n\nThis option will have no effect if Display Text is disabled.</Original>
+        <English>Display the unit's role(s) text, which might be different from its original class.
+\nSome of the roles shown can be:
+\n  * Medic: The unit can heal and has a medikit.
+\n  * AT: The unit has a launcher weapon.
+\n  * Demo: The unit has some explosives in its inventory.
+\nThese are just some examples. There are many more roles and each unit can have more than one role depending on its weapon, ammo, gear and traits.
+
+\n\nThis option will have no effect if Display Text is disabled.</English>
+        <Spanish>Mostrar el texto del rol(es) de la unidad, que puede ser diferente de su clase original.
+\nAlgunos de los roles a mostrar pueden ser:
+\n  * Médico: La unidad puede curar y tiene un botiquín.
+\n  * AT: La unidad tiene un arma lanzadora.
+\n  * Demo: La unidad tiene algunos explosivos en su inventario.
+\nEstos son sólo algunos ejemplos. Hay muchos otros roles y cada unidad puede tener más de un rol dependiendo de su arma, munición, equipación y atributos.
+
+\n\nEsta opción no tendrá efecto si Mostrar Texto está desactivado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showRolesIcon">
+        <Original>Display Roles Icon</Original>
+        <English>Display Roles Icon</English>
+        <Spanish>Mostrar Icono de Roles</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showRolesIcon_desc">
+        <Original>Display the unit's role(s) icon, which might be different from its original class.\nSome of the roles shown can be:
+\n  * Medic: The unit can heal and has a medikit.
+\n  * AT: The unit has a launcher weapon.
+\n  * Demo: The unit has some explosives in its inventory.
+\nThese are just some examples. There are many more roles and each unit can have more than one role depending on its weapon, ammo, gear and traits.</Original>
+        <English>Display the unit's role(s) icon, which might be different from its original class.\nSome of the roles shown can be:
+\n  * Medic: The unit can heal and has a medikit.
+\n  * AT: The unit has a launcher weapon.
+\n  * Demo: The unit has some explosives in its inventory.
+\nThese are just some examples. There are many more roles and each unit can have more than one role depending on its weapon, ammo, gear and traits.</English>
+        <Spanish>Mostrar el texto del rol(es) de la unidad, que puede ser diferente de su clase original.
+\nAlgunos de los roles a mostrar pueden ser:
+\n  * Médico: La unidad puede curar y tiene un botiquín.
+\n  * AT: La unidad tiene un arma lanzadora.
+\n  * Demo: La unidad tiene algunos explosivos en su inventario.
+\nEstos sólo son algunos ejemplos. Hay muchos otros roles y cada unidad puede tener más de un rol dependiendo de su arma, munición, equipación y atributos.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showDist">
+        <Original>Display Distance (squad)</Original>
+        <English>Display Distance (squad)</English>
+        <Spanish>Mostrar Distancia (pelotón)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showDist_desc">
+        <Original>Display the distance of the squad unit from the player, in meters.
+
+\n\nThis option will have no effect if Show Text is disabled.</Original>
+        <English>Display the distance of the squad unit from the player, in meters.
+
+\n\nThis option will have no effect if Show Text is disabled.</English>
+        <Spanish>Mostrar la distancia a la que la unidad del pelotón está del jugador, en metros.
+
+\n\nEsta opción no tendrá efecto si Mostrar Texto está desactivado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showDistEnemy">
+        <Original>Display Distance (enemies)</Original>
+        <English>Display Distance (enemies)</English>
+        <Spanish>Mostrar Distancia (enemigos)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showDistEnemy_desc">
+        <Original>Display the distance of the enemy unit from the player, in meters.
+
+\n\nThis option will have no effect if Show Text is disabled.</Original>
+        <English>Display the distance of the enemy unit from the player, in meters.
+
+\n\nThis option will have no effect if Show Text is disabled.</English>
+        <Spanish>Mostrar la distancia a la que la unidad enemiga está del jugador, en metros.
+
+\n\nEsta opción no tendrá efecto si Mostrar Texto está desactivado.</Spanish>
+      </Key>
+    </Container>
+    <Container name="HUDcustomization">
+      <Key ID="STR_SQFB_opt_HUDcustomization">
+        <Original>HUD Customization</Original>
+        <English>HUD Customization</English>
+        <Spanish>Personalización del HUD</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_iconSize">
+        <Original>Icon Size</Original>
+        <English>Icon Size</English>
+        <Spanish>Tamaño del Icono</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_iconSize_desc">
+        <Original>Relative size of the icons.</Original>
+        <English>Relative size of the icons.</English>
+        <Spanish>Tamaño relativo de los iconos.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_iconHeight">
+        <Original>Icon Height</Original>
+        <English>Icon Height</English>
+        <Spanish>Altura del Icono</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_iconHeight_desc">
+        <Original>Height of the icons for infantry units, relative to the default height.</Original>
+        <English>Height of the icons for infantry units, relative to the default height.</English>
+        <Spanish>Altura de los iconos para unidades de infantería, relativa a la altura por defecto.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_iconHor">
+        <Original>Icon Horizontal</Original>
+        <English>Icon Horizontal</English>
+        <Spanish>Horizontal del Icono</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_iconHor_desc">
+        <Original>Horizontal position of the icons for infantry units, relative to the default horizontal position.</Original>
+        <English>Horizontal position of the icons for infantry units, relative to the default horizontal position.</English>
+        <Spanish>Posición horizontal de los iconos para unidades de infantería, relativa a la posición horizontal por defecto.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_iconHeightVeh">
+        <Original>Icon Height (vehicles)</Original>
+        <English>Icon Height (vehicles)</English>
+        <Spanish>Altura del Icono (vehículos)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_iconHeightVeh_desc">
+        <Original>Height of the icons for vehicles, relative to the default height.</Original>
+        <English>Height of the icons for vehicles, relative to the default height.</English>
+        <Spanish>Altura de los iconos para vehículos, relativa a la altura por defecto.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_iconHorVeh">
+        <Original>Icon Horizontal (vehicles)</Original>
+        <English>Icon Horizontal (vehicles)</English>
+        <Spanish>Horizontal del Icono (vehículos)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_iconHorVeh_desc">
+        <Original>Horizontal position of the icons for vehicles, relative to the default horizontal position.</Original>
+        <English>Horizontal position of the icons for vehicles, relative to the default horizontal position.</English>
+        <Spanish>Posición horizontal de los iconos para vehículos, relativa a la posición horizontal por defecto.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_textSize">
+        <Original>Text Size</Original>
+        <English>Text Size</English>
+        <Spanish>Tamaño del Texto</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_textSize_desc">
+        <Original>Relative size of the texts.</Original>
+        <English>Relative size of the texts.</English>
+        <Spanish>Tamaño relativo de los textos.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_textFont">
+        <Original>Text Font</Original>
+        <English>Text Font</English>
+        <Spanish>Fuente del Texto</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_textFont_desc">
+        <Original>Font used in all the texts.</Original>
+        <English>Font used in all the texts.</English>
+        <Spanish>Fuente a usar en todos los textos.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_maxAlpha">
+        <Original>Maximum Alpha</Original>
+        <English>Maximum Alpha</English>
+        <Spanish>Alfa Máximo</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_maxAlpha_desc">
+        <Original>Maximum opaqueness for all the elements of the HUD.</Original>
+        <English>Maximum opaqueness for all the elements of the HUD.</English>
+        <Spanish>Opacidad máxima para todos los elementos del HUD.</Spanish>
+      </Key>
+    </Container>
+    <Container name="HUDdisplay_advanced_squad">
+      <Key ID="STR_SQFB_opt_HUDdisplay_advanced_squad">
+        <Original>HUD Display - Advanced (Squad)</Original>
+        <English>HUD Display - Advanced (Squad)</English>
+        <Spanish>Visualización del HUD - Avanzado (Pelotón)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_Arrows">
+        <Original>Display Arrows and Text</Original>
+        <English>Display Arrows and Text</English>
+        <Spanish>Mostrar Flechas y Texto</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_Arrows_desc">
+        <Original>Display arrows and text at the edge of the screen indicating the unit's relative position when it's not in view of the player.</Original>
+        <English>Display arrows and text at the edge of the screen indicating the unit's relative position when it's not in view of the player.</English>
+        <Spanish>Mostrar flechas y texto en el borde de la pantalla indicando la posición relativa de la unidad cuando no esté a la vista del jugador.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_outFOVindex">
+        <Original>Alway Show Index</Original>
+        <English>Alway Show Index</English>
+        <Spanish>Siempre Mostrar Índice</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_outFOVindex_desc">
+        <Original>Always display the indexes of your units when not in view.</Original>
+        <English>Always display the indexes of your units when not in view.</English>
+        <Spanish>Mostrar siempre los índices de tus unidades cuando no estén a la vista.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_checkOcclusion">
+        <Original>Check Squad for Occlusion</Original>
+        <English>Check Squad for Occlusion</English>
+        <Spanish>Comprobar Oclusión del Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_checkOcclusion_desc">
+        <Original>Only display HUD elements on units not hidden by obstacles or terrain.</Original>
+        <English>Only display HUD elements on units not hidden by obstacles or terrain.</English>
+        <Spanish>Mostrar sólamente los elementos del HUD para unidades no tapadas por obstáculos o terreno.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_scaleText">
+        <Original>Scale Squad HUD Text</Original>
+        <English>Scale Squad HUD Text</English>
+        <Spanish>Escalar el Texto del HUD del Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_scaleText_desc">
+        <Original>The further away the unit is the smaller the text. When too far away the text won't be displayed.
+\nThis option only affects your squad units.</Original>
+        <English>The further away the unit is the smaller the text. When too far away the text won't be displayed.
+\nThis option only affects your squad units.</English>
+        <Spanish>Contra más lejos esté la unidad más pequeño será el texto. El texto no se mostrará si está muy lejos.
+\nEsta opción sólo afecta a tus unidades del pelotón.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_ShowCrew">
+        <Original>Display Squad Crew</Original>
+        <English>Display Squad Crew</English>
+        <Spanish>Mostrar Tripulación del Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_ShowCrew_desc">
+        <Original>Display the indexes of all the crew of the group vehicles and their roles as crew (D for driver, C for commander, G for gunner, T for turret).</Original>
+        <English>Display the indexes of all the crew of the group vehicles and their roles as crew (D for driver, C for commander, G for gunner, T for turret).</English>
+        <Spanish>Mostrar los índices de toda la tripulación de los vehículos del pelotón y sus roles como tripulación (D para conductor, C para comandante, G para artillero, T para torre).</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_GroupCrew">
+        <Original>Group Squad Units in Vehicles</Original>
+        <English>Group Squad Units in Vehicles</English>
+        <Spanish>Agrupar Unidades del Pelotón en los Vehículos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_GroupCrew_desc">
+        <Original>If enabled, when units are inside a vehicle only a HUD element will be displayed over such vehicle (instead of over every crew member),
+\nwith information about its crew, cargo and empty seats (displayed as E).
+\nIf disabled, every unit inside a vehicle will display a HUD element over their heads (same behaviour as if they weren't in a vehicle).</Original>
+        <English>If enabled, when units are inside a vehicle only a HUD element will be displayed over such vehicle (instead of over every crew member),
+\nwith information about its crew, cargo and empty seats (displayed as E).
+\nIf disabled, every unit inside a vehicle will display a HUD element over their heads (same behaviour as if they weren't in a vehicle).</English>
+        <Spanish>Si se activa, cuando las unidades estén dentro de un vehículo sólo se mostrará un elemento del HUD sobre el vehículo (en vez de sobre cada miembro de la tripulación),
+\ncon información relativa a su tripulación, carga y asientos vacíos (mostrado como E).
+\nSi se desactiva, cada unidad dentro del vehículo mostrará un elemento del HUD sobre sus cabezas (el mismo comportamiento que si no estuviesen en un vehículo).</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showDead">
+        <Original>Display Squad's Dead Units</Original>
+        <English>Display Squad's Dead Units</English>
+        <Spanish>Mostrar las Unidades Fallecidas del Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showDead_desc">
+        <Original>Display the HUD over dead units which were part of the player's group.</Original>
+        <English>Display the HUD over dead units which were part of the player's group.</English>
+        <Spanish>Mostrar el HUD sobre las unidades fallecidas que eran parte del pelotón del jugador.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showDeadMinTime">
+        <Original>Display Dead Initial Delay</Original>
+        <English>Display Dead Initial Delay</English>
+        <Spanish>Retraso Inicial para Mostrar Fallecidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showDeadMinTime_desc">
+        <Original>Time that must pass while the HUD is shown to display dead units, in seconds.</Original>
+        <English>Time that must pass while the HUD is shown to display dead units, in seconds.</English>
+        <Spanish>Tiempo que ha de pasar hasta que el HUD se muestre sobre las unidades fallecidas, en segundos.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_AlwaysShowCritical">
+        <Original>Always Display Squad Critical Conditions</Original>
+        <English>Always Display Squad Critical Conditions</English>
+        <Spanish>Siempre Mostrar Condiciones Críticas</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_AlwaysShowCritical_desc">
+        <Original>If player is medic or the squad leader, always display information about injured, unconscious, units without ammo, etc. even when the
+\nSquad Feedback key isn't pressed.</Original>
+        <English>If player is medic or the squad leader, always display information about injured, unconscious, units without ammo, etc. even when the
+\nSquad Feedback key isn't pressed.</English>
+        <Spanish>Si el jugador es médico o el líder del pelotón siempre se mostrará información sobre los heridos, inconscientes, unidades sin munición, etc.
+\naunque no se pulse la tecla de HUD del pelotón.</Spanish>
+      </Key>
+    </Container>
+    <Container name="HUDdisplay_advanced_enemies">
+      <Key ID="STR_SQFB_opt_HUDdisplay_advanced_enemies">
+        <Original>HUD Display - Advanced (Enemies)</Original>
+        <English>HUD Display - Advanced (Enemies)</English>
+        <Spanish>Visualización del HUD - Avanzado (Enemigos)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_checkOcclusionEnemies">
+        <Original>Check Enemies for Occlusion</Original>
+        <English>Check Enemies for Occlusion</English>
+        <Spanish>Comprobar Oclusión de Enemigos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_checkOcclusionEnemies_desc">
+        <Original>If enabled, known enemy positions will be occluded by terrain and obstacles. When this happens, the last known enemy position will be displayed instead.
+\nIf disabled, the known enemy locations will always be visible.</Original>
+        <English>If enabled, known enemy positions will be occluded by terrain and obstacles. When this happens, the last known enemy position will be displayed instead.
+\nIf disabled, the known enemy locations will always be visible.</English>
+        <Spanish>Si se activa, las posiciones de los enemigos conocidos serán ocluídas por el terreno y obstáculos. Cuando esto ocurra se mostrará la última posición conocida del enemigo.
+\nSi se desactiva, la posición de los enemigos conocidos será siempre visible.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_alternateOcclusionCheck">
+        <Original>Use Alternate Occlusion Check</Original>
+        <English>Use Alternate Occlusion Check</English>
+        <Spanish>Usar Comprobación de Oclusión Alternativa</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_alternateOcclusionCheck_desc">
+        <Original>If enabled, the occlusion checks will probably be a bit more peformance friendly at the cost of precision.</Original>
+        <English>If enabled, the occlusion checks will probably be a bit more peformance friendly at the cost of precision.</English>
+        <Spanish>Si se activa, las comprobaciones de oclusión serán probablemente un poco mejores para el rendimiento, pero serán a su vez menos precisas.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_enemyCheckSolo">
+        <Original>Check for enemies when alone</Original>
+        <English>Check for enemies when alone</English>
+        <Spanish>Buscar Enemigos Estando Solo</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_enemyCheckSolo_desc">
+        <Original>If enabled, you will always track known enemy units, even when you're not in a group. The known enemies will be those that the unit you are controlling perceives.
+\nEven if disabled, known enemies will still be shown if you have 'Allow Enemy Tracking Devices' enabled and one of those devices equipped.</Original>
+        <English>If enabled, you will always track known enemy units, even when you're not in a group. The known enemies will be those that the unit you are controlling perceives.
+\nEven if disabled, known enemies will still be shown if you have 'Allow Enemy Tracking Devices' enabled and one of those devices equipped.</English>
+        <Spanish>Si se activa, siempre rastrearás las posiciones de los enemigos conocidos, aunque no seas parte de un pelotón. Los enemigos conocidos serán aquellos que perciba la unidad que controles.
+\nAunque lo desactives, los enemigos conocidos se seguirán mostrando si has activado 'Permitir Dispositivos de Rastreo de Enemigos' y tienes uno de esos dispositivos equipado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_alwaysDisplayTarget">
+        <Original>Always display assigned target</Original>
+        <English>Always display assigned target</English>
+        <Spanish>Siempre Mostrar el Objetivo Asignado</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_alwaysDisplayTarget_desc">
+        <Original>If enabled, you will always track your assigned target, even if the enemy HUD isn't currently activated.</Original>
+        <English>If enabled, you will always track your assigned target, even if the enemy HUD isn't currently activated.</English>
+        <Spanish>Si se activa, siempre rastrearás a tu objetivo asignado, incluso si el HUD de enemigos no está actualmente activo.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_enemyPreciseVisCheck">
+        <Original>Precise Visibilty Check for Enemy Vehicles</Original>
+        <English>Precise Visibilty Check for Enemy Vehicles</English>
+        <Spanish>Visibilidad Precisa para Vehículos Enemigos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_enemyPreciseVisCheck_desc">
+        <Original>More precise visibility checks for enemy vehicles.
+\nThis will check all the corners of their bounding box instead of a single point, so it will affect performance.</Original>
+        <English>More precise visibility checks for enemy vehicles.
+\nThis will check all the corners of their bounding box instead of a single point, so it will affect performance.</English>
+        <Spanish>Comprobación de visibilidad más precisa para vehículos enemigos.
+\nEsto hará que se comprueben todas las esquinas de la caja delimitadora en vez de un sólo punto, así que afectará al rendimiento.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_lastKnownEnemyPositionOnly">
+        <Original>Only display last known enemy positions</Original>
+        <English>Only display last known enemy positions</English>
+        <Spanish>Sólo Mostrar Última Posición de Enemigos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_lastKnownEnemyPositionOnly_desc">
+        <Original>If enabled, only the last known enemy positions will be displayed.</Original>
+        <English>If enabled, only the last known enemy positions will be displayed.</English>
+        <Spanish>Si se activa, sólo se mostrará la última posición conocida de los enemigos.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_lastKnownEnemyPositionOnly_device">
+        <Original>When not using Tracking Device</Original>
+        <English>When not using Tracking Device</English>
+        <Spanish>Cuando no use Disp. de Seg.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_changeIconsToBlufor">
+        <Original>Enemy icons for BLUFOR</Original>
+        <English>Enemy icons for BLUFOR</English>
+        <Spanish>Iconos de Enemigo para BLUFOR</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_changeIconsToBlufor_desc">
+        <Original>If enabled, the type of icons shown for enemies when they are BLUFOR will be those of NATO.</Original>
+        <English>If enabled, the type of icons shown for enemies when they are BLUFOR will be those of NATO.</English>
+        <Spanish>Si se activa, el tipo de iconos mostrado para enemigos cuando sean BLUFOR serán los de la OTAN.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_enemySideColors">
+        <Original>Use enemy side colors</Original>
+        <English>Use enemy side colors</English>
+        <Spanish>Usar Colores del Bando para Enemigos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_enemySideColors_desc">
+        <Original>If enabled, the color for enemy icons will change depending on their side (default is blue for WEST, red for EAST, green for RESISTANCE
+\nand purple for CIVILIAN).
+\n  - 'Never' will use the default enemy color.
+\n  - 'Current side' will use the color of the side the unit currently belongs to.
+\n  - 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
+\nbe red, BLUFOR blue, etc)</Original>
+        <English>If enabled, the color for enemy icons will change depending on their side (default is blue for WEST, red for EAST, green for RESISTANCE
+\nand purple for CIVILIAN).
+\n  - 'Never' will use the default enemy color.
+\n  - 'Current side' will use the color of the side the unit currently belongs to.
+\n  - 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
+\nbe red, BLUFOR blue, etc)</English>
+        <Spanish>Si se activa, el color de los iconos de los enemigos cambiará dependiendo de su bando (por defecto es azul para OESTE, rojo para ESTE, verde para RESISTENCIA
+\ny púrpura para CIVILES):
+\n  - 'Nunca' usará el color de enemigos por defecto.
+\n  - 'Bando actual' usará el color del bando al que pertenece la unidad.
+\n  - 'Facción actual' usará el color original del bando de la facción de la unidad, ignorando el bando de su líder actual (así que las facciones OPFOR siempre serán rojas,
+\nBLUFOR azules, etc)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_enemySideColors_never">
+        <Original>Never</Original>
+        <English>Never</English>
+        <Spanish>Nunca</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_enemySideColors_current">
+        <Original>Current side</Original>
+        <English>Current side</English>
+        <Spanish>Bando actual</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_enemySideColors_faction">
+        <Original>Faction side</Original>
+        <English>Faction side</English>
+        <Spanish>Facción actual</Spanish>
+      </Key>
+    </Container>
+    <Container name="AdditionalEnemyTrackingDevices">
+      <Key ID="STR_SQFB_opt_AdditionalEnemyTrackingDevices">
+        <Original>Additional Enemy Tracking Devices</Original>
+        <English>Additional Enemy Tracking Devices</English>
+        <Spanish>Dispositivos de Rastreo de Enemigos Adicionales</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearGoggles">
+        <Original>Additional Goggles</Original>
+        <English>Additional Goggles</English>
+        <Spanish>Gafas Adicionales</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearGoggles_desc">
+        <Original>Add here any other goggles you want to be able to use to track known enemies.
+
+\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\nExample: MyGogglesClass1, MyGogglesClass2, etc</Original>
+        <English>Add here any other goggles you want to be able to use to track known enemies.
+
+\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\nExample: MyGogglesClass1, MyGogglesClass2, etc</English>
+        <Spanish>Añade aquí cualquier otras gafas de protección que quieras usar para rastrear enemigos conocidos.
+
+\n\nLa lista ha de contener nombres de clase (sin las comillas """") y separados por comas.
+\nEjemplo: MiClaseGafasProtec1, MiClaseGafasProtec2, etc</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearHelmets">
+        <Original>Additional Helmets</Original>
+        <English>Additional Helmets</English>
+        <Spanish>Cascos Adicionales</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearHelmets_desc">
+        <Original>Add here any other helmets you want to be able to use to track known enemies.
+
+\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\nExample: MyHelmetClass1, MyHelmetClass2, etc</Original>
+        <English>Add here any other helmets you want to be able to use to track known enemies.
+
+\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\nExample: MyHelmetClass1, MyHelmetClass2, etc</English>
+        <Spanish>Añade aquí cualquier otros cascos que quieras usar para rastrear enemigos conocidos.
+
+\n\nLa lista ha de contener nombres de clase (sin las comillas """") y separados por comas.
+\nEjemplo: MiClaseCasco1, MiClaseCasco2, etc</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearHMD">
+        <Original>Additional HMD</Original>
+        <English>Additional HMD</English>
+        <Spanish>HMD Adicionales</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearHMD_desc">
+        <Original>Add here any other Head Mounted Displays (like NVGs) you want to be able to use to track known enemies.
+
+\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\nExample: MyHMDClass1, MyHMDClass2, etc</Original>
+        <English>Add here any other Head Mounted Displays (like NVGs) you want to be able to use to track known enemies.
+
+\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\nExample: MyHMDClass1, MyHMDClass2, etc</English>
+        <Spanish>Añade aquí cualquier otros 'Head Mounted Displays' (como las Gafas de Visión Nocturna) que quieras usar para rastrear enemigos conocidos.
+
+\n\nLa lista ha de contener nombres de clase (sin las comillas """") y separados por comas.
+\nEjemplo: MiClaseHMD1, MiClaseHMD2, etc</Spanish>
+      </Key>
+    </Container>
+    <Container name="Colors_squad">
+      <Key ID="STR_SQFB_opt_Colors_squad">
+        <Original>Colors (Squad)</Original>
+        <English>Colors (Squad)</English>
+        <Spanish>Colores (Pelotón)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorDefault">
+        <Original>Default color</Original>
+        <English>Default color</English>
+        <Spanish>Color por defecto</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorDefault_desc">
+        <Original>Default color used for all the elements of the HUD.</Original>
+        <English>Default color used for all the elements of the HUD.</English>
+        <Spanish>Color por defecto usado por todos los elementos del HUD.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorRed">
+        <Original>Red Team color</Original>
+        <English>Red Team color</English>
+        <Spanish>Color del Equipo Rojo</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorRed_desc">
+        <Original>Color used for units assigned to the red player's team.
+\nThis option won't have any effect if colors are deactivated.</Original>
+        <English>Color used for units assigned to the red player's team.
+\nThis option won't have any effect if colors are deactivated.</English>
+        <Spanish>Color usado para las unidades asignadas al equipo rojo del jugador.
+\nEsta opción no tendrá efecto si los colores están desactivados.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorGreen">
+        <Original>Green Team color</Original>
+        <English>Green Team color</English>
+        <Spanish>Color del Equipo Verde</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorGreen_desc">
+        <Original>Color used for units assigned to the green player's team.
+\nThis option won't have any effect if colors are deactivated.</Original>
+        <English>Color used for units assigned to the green player's team.
+\nThis option won't have any effect if colors are deactivated.</English>
+        <Spanish>Color usado para las unidades asignadas al equipo verde del jugador.
+\nEsta opción no tendrá efecto si los colores están desactivados.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorBlue">
+        <Original>Blue Team color</Original>
+        <English>Blue Team color</English>
+        <Spanish>Color del Equipo Azul</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorBlue_desc">
+        <Original>Color used for units assigned to the blue player's team.
+\nThis option won't have any effect if colors are deactivated.</Original>
+        <English>Color used for units assigned to the blue player's team.
+\nThis option won't have any effect if colors are deactivated.</English>
+        <Spanish>Color usado para las unidades asignadas al equipo azul del jugador.
+\nEsta opción no tendrá efecto si los colores están desactivados.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorYellow">
+        <Original>Yellow Team color</Original>
+        <English>Yellow Team color</English>
+        <Spanish>Color del Equipo Amarillo</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorYellow_desc">
+        <Original>Color used for units assigned to the yellow player's team.
+\nThis option won't have any effect if colors are deactivated.</Original>
+        <English>Color used for units assigned to the yellow player's team.
+\nThis option won't have any effect if colors are deactivated.</English>
+        <Spanish>Color usado para las unidades asignadas al equipo amarillo del jugador.
+\nEsta opción no tendrá efecto si los colores están desactivados.</Spanish>
+      </Key>
+    </Container>
+    <Container name="Colors_enemy">
+      <Key ID="STR_SQFB_opt_Colors_enemy">
+        <Original>Colors (Enemy)</Original>
+        <English>Colors (Enemy)</English>
+        <Spanish>Colores (Enemigo)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorEnemyTarget">
+        <Original>Enemy color for Assigned Target</Original>
+        <English>Enemy color for Assigned Target</English>
+        <Spanish>Color del enemigo para el Objetivo Asignado</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorEnemyTarget_desc">
+        <Original>Color used for enemy units assigned as the player's target.</Original>
+        <English>Color used for enemy units assigned as the player's target.</English>
+        <Spanish>Color usado por las unidades enemigas asignadas como objetivo del jugador.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorEnemy">
+        <Original>Enemy color for East and Global</Original>
+        <English>Enemy color for East and Global</English>
+        <Spanish>Color del enemigo para Este y Global</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorEnemy_desc">
+        <Original>Color used for enemy units in general or when enemy units are OPFOR side and 'Use enemy side colors' is enabled.</Original>
+        <English>Color used for enemy units in general or when enemy units are OPFOR side and 'Use enemy side colors' is enabled.</English>
+        <Spanish>Color usado para las unidades enemigas en general o cuando las unidades enemigas son OPFOR y 'Usar Colores del Bando para Enemigos' está activado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorEnemyWest">
+        <Original>Enemy color for West</Original>
+        <English>Enemy color for West</English>
+        <Spanish>Color del enemigo para Oeste</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorEnemyWest_desc">
+        <Original>Color used for enemy units of BLUFOR side if 'Use enemy side colors' is enabled.</Original>
+        <English>Color used for enemy units of BLUFOR side if 'Use enemy side colors' is enabled.</English>
+        <Spanish>Color usado para las unidades enemigas de BLUFOR si 'Usar Colores del Bando para Enemigos' está activado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorEnemyGuer">
+        <Original>Enemy color for Resistance</Original>
+        <English>Enemy color for Resistance</English>
+        <Spanish>Color del enemigo para Resistencia</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorEnemyGuer_desc">
+        <Original>Color used for enemy units of RESISTANCE side if 'Use enemy side colors' is enabled.</Original>
+        <English>Color used for enemy units of RESISTANCE side if 'Use enemy side colors' is enabled.</English>
+        <Spanish>Color usado para las unidades enemigas de RESISTANCE si 'Usar Colores del Bando para Enemigos' está activado.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorEnemyCiv">
+        <Original>Enemy color for Civilian</Original>
+        <English>Enemy color for Civilian</English>
+        <Spanish>Color del enemigo para Civiles</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_colorEnemyCiv_desc">
+        <Original>Color used for enemy units of CIVILIAN side if 'Use enemy side colors' is enabled.</Original>
+        <English>Color used for enemy units of CIVILIAN side if 'Use enemy side colors' is enabled.</English>
+        <Spanish>Color usado para las unidades enemigas de CIVILIAN si 'Usar Colores del Bando para Enemigos' está activado.</Spanish>
+      </Key>
+    </Container>
+  </Package>
+  <Package name="InGame_roles">
+    <Container name="All">
+      <Key ID="STR_SQFB_HUD_roles_Medic">
+        <Original>Medic</Original>
+        <English>Medic</English>
+        <Spanish>Médico</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_Demolition">
+        <Original>Exp</Original>
+        <English>Exp</English>
+        <Spanish>Exp</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_Engineer">
+        <Original>Engi</Original>
+        <English>Engi</English>
+        <Spanish>Ingeniero</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_Hacker">
+        <Original>Hacker</Original>
+        <English>Hacker</English>
+        <Spanish>Hacker</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_ammoBearer">
+        <Original>Ammo</Original>
+        <English>Ammo</English>
+        <Spanish>Muni</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_AA">
+        <Original>AA</Original>
+        <English>AA</English>
+        <Spanish>AA</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_AT">
+        <Original>AT</Original>
+        <English>AT</English>
+        <Spanish>AT</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_GL">
+        <Original>GL</Original>
+        <English>GL</English>
+        <Spanish>Granadero</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_LMG">
+        <Original>LMG</Original>
+        <English>LMG</English>
+        <Spanish>A.Ligera</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_MG">
+        <Original>MG</Original>
+        <English>MG</English>
+        <Spanish>Amet.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_Sniper">
+        <Original>Sniper</Original>
+        <English>Sniper</English>
+        <Spanish>Francot.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_Marksman">
+        <Original>Marksman</Original>
+        <English>Marksman</English>
+        <Spanish>Tirador</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_SMG">
+        <Original>SMG</Original>
+        <English>SMG</English>
+        <Spanish>Subamet.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_Shotgun">
+        <Original>Shotgun</Original>
+        <English>Shotgun</English>
+        <Spanish>Escopeta</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_Handgun">
+        <Original>Handgun</Original>
+        <English>Handgun</English>
+        <Spanish>Arma corta</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_Rifle">
+        <Original>Rifle</Original>
+        <English>Rifle</English>
+        <Spanish>Fusil</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_assistAT">
+        <Original>Ammo AT</Original>
+        <English>Ammo AT</English>
+        <Spanish>Muni AT</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_assistAA">
+        <Original>Ammo AA</Original>
+        <English>Ammo AA</English>
+        <Spanish>Muni AA</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_assistLMG">
+        <Original>Ammo LMG</Original>
+        <English>Ammo LMG</English>
+        <Spanish>Muni A.Lig</Spanish>
+      </Key>
+    </Container>
+  </Package>
+</Project>
