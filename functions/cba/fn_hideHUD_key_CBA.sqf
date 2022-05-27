@@ -16,8 +16,12 @@
 
 */
 
+if (SQFB_opt_SquadHUDkey_Toggle) exitWith { false };
+
 if (SQFB_showHUD) then 
 {
     SQFB_showHUD = false;
 	[] call SQFB_fnc_HUDhide;
+
+    ["squad", "off"] call SQFB_fnc_playSound;
 };

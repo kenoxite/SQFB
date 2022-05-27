@@ -81,9 +81,9 @@
         <Spanish>HUD del Pelotón (Alternar)</Spanish>
       </Key>
       <Key ID="STR_SQFB_Ctrl_SquadHUDkeyToggle_desc">
-        <Original>Toggles the display of the HUD for your squad.</Original>
-        <English>Toggles the display of the HUD for your squad.</English>
-        <Spanish>Alterna la visibilidad del HUD del pelotón cuando presionas esta tecla.</Spanish>
+        <Original>DEPRECATED! Use the toggle options in the main settings instead. This option is only kept for compatibility reasons.</Original>
+        <English>DEPRECATED! Use the toggle options in the main settings instead. This option is only kept for compatibility reasons.</English>
+        <Spanish>OBSOLETO! Usa las opciones de alternar en los ajustes principales. Sólo se mantiene esta opción por motivos de compatibilidad.</Spanish>
       </Key>
       <Key ID="STR_SQFB_Ctrl_enemyHUDkey">
         <Original>IFF HUD</Original>
@@ -101,9 +101,9 @@
         <Spanish>HUD de IFF (Alternar)</Spanish>
       </Key>
       <Key ID="STR_SQFB_Ctrl_enemyHUDkeyToggle_desc">
-        <Original>Toggles the display of the Identification, Friend or Foe (IFF) HUD.</Original>
-        <English>Toggles the display of the Identification, Friend or Foe (IFF) HUD.</English>
-        <Spanish>Alterna la visibilidad del HUD de enemigos o amigos conocidos cuando presionas esta tecla.</Spanish>
+        <Original>DEPRECATED! Use the toggle options in the main settings instead. This option is only kept for compatibility reasons.</Original>
+        <English>DEPRECATED! Use the toggle options in the main settings instead. This option is only kept for compatibility reasons.</English>
+        <Spanish>OBSOLETO! Usa las opciones de alternar en los ajustes principales. Sólo se mantiene esta opción por motivos de compatibilidad.</Spanish>
       </Key>
     </Container>
   </Package>
@@ -283,6 +283,26 @@
         <Original>Only with IFF Device</Original>
         <English>Only with IFF Device</English>
         <Spanish>Sólo con Disp. IFF</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_SquadHUDkey_Toggle">
+        <Original>Toggle Squad HUD key</Original>
+        <English>Toggle Squad HUD key</English>
+        <Spanish>Alternar tecla de HUD del Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_SquadHUDkey_Toggle_desc">
+        <Original>Toggles the activation of your squad's feeback HUD.</Original>
+        <English>Toggles the activation of your squad's feeback HUD.</English>
+        <Spanish>Alterna la activación del HUD de información del pelotón.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_IFFHUDkey_Toggle">
+        <Original>Toggle IFF HUD key</Original>
+        <English>Toggle IFF HUD key</English>
+        <Spanish>Alternar tecla de HUD del Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_IFFHUDkey_Toggle_desc">
+        <Original>Toggles the activation of the IFF HUD.</Original>
+        <English>Toggles the activation of the IFF HUD.</English>
+        <Spanish>Alterna la activación del HUD de IFF.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_HUDrefresh">
         <Original>Refresh Rate for Squad HUD</Original>
@@ -1511,6 +1531,65 @@
         <Original>Color used for friendly units of CIVILIAN side if 'Use friendly side colors' is enabled.</Original>
         <English>Color used for friendly units of CIVILIAN side if 'Use friendly side colors' is enabled.</English>
         <Spanish>Color usado para las unidades enemigas de CIVILIAN si 'Usar Colores del Bando para Amistosos' está activado.</Spanish>
+      </Key>
+    </Container>
+    <Container name="SQFB_opt_sounds">
+      <Key ID="STR_SQFB_opt_sounds">
+        <Original>Sounds</Original>
+        <English>Sounds</English>
+        <Spanish>Sonidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_sounds_squad">
+        <Original>Squad HUD</Original>
+        <English>Squad HUD</English>
+        <Spanish>HUD del Pelotón</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_sounds_squad_desc">
+        <Original>Sound to play when activating or deactivating the Squad HUD.</Original>
+        <English>Sound to play when activating or deactivating the Squad HUD.</English>
+        <Spanish>Sonido a reproducir cuando se activa o desactiva la HUD del Pelotón.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_sounds_noIFF">
+        <Original>HUD without IFF device</Original>
+        <English>HUD without IFF device</English>
+        <Spanish>HUD sin disp. IFF</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_sounds_noIFF_desc">
+        <Original>Sound to play when activating or deactivating the IFF HUD when you don't have equipped an IFF device.</Original>
+        <English>Sound to play when activating or deactivating the IFF HUD when you don't have equipped an IFF device.</English>
+        <Spanish>Sonido a reproducir cuando se activa o desactiva la HUD de IFF y no tienes equipado un dispositivo IFF.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_sounds_none">
+        <Original>None</Original>
+        <English>None</English>
+        <Spanish>Ninguno</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_sounds_beep">
+        <Original>Beep</Original>
+        <English>Beep</English>
+        <Spanish>Bip</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_sounds_focus">
+        <Original>Focus</Original>
+        <English>Focus</English>
+        <Spanish>Concentración</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_sounds_IFF">
+        <Original>HUD with IFF device</Original>
+        <English>HUD with IFF device</English>
+        <Spanish>HUD con disp. IFF</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_sounds_IFF_desc">
+        <Original>Sound to play when activating or deactivating the IFF HUD when you have equipped an IFF device.</Original>
+        <English>Sound to play when activating or deactivating the IFF HUD when you have equipped an IFF device.</English>
+        <Spanish>Sonido a reproducir cuando se activa o desactiva la HUD de IFF y tienes equipado un dispositivo IFF.</Spanish>
+      </Key>
+    </Container>
+    <Container name="SQFB_opt_deprecated">
+      <Key ID="STR_SQFB_opt_deprecated">
+        <Original>** DEPRECATED **</Original>
+        <English>** DEPRECATED **</English>
+        <Spanish>** OBSOLETO **</Spanish>
       </Key>
     </Container>
   </Package>

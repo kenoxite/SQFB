@@ -22,7 +22,11 @@ if (!SQFB_showIFFHUD) then
     call SQFB_fnc_IFFactivateDevice;
     call SQFB_fnc_HUDupdate;
     ["iff"] call SQFB_fnc_HUDshow;
+
+    ["iff", "on"] call SQFB_fnc_playSound;
 } else {
     SQFB_showIFFHUD = false;
 	["iff"] call SQFB_fnc_HUDhide;
+
+    ["iff", "off"] call SQFB_fnc_playSound;
 };

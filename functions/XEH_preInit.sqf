@@ -29,17 +29,9 @@ Returns:
 	"SQFB_opt_showHUD_key",
 	[localize "STR_SQFB_Ctrl_SquadHUDkey", localize "STR_SQFB_Ctrl_SquadHUDkey_desc"],
 	{ _this call SQFB_fnc_showHUD_key_CBA },
-	{ _this call SQFB_fnc_hideHUD_key_CBA }
-] call CBA_fnc_addKeybind;
-
-[
-    ["Squad Feedback", ""],
-	"SQFB_opt_showHUD_T_key",
-	[localize "STR_SQFB_Ctrl_SquadHUDkeyToggle", localize "STR_SQFB_Ctrl_SquadHUDkeyToggle_desc"],
-	{ _this call SQFB_fnc_showHUD_key_T_CBA },
-	{},
-	[ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]] 
-	false
+	{ _this call SQFB_fnc_hideHUD_key_CBA },
+    [ DIK_TAB, [false, true, false] ], // [DIK, [shift, ctrl, alt]
+    false
 ] call CBA_fnc_addKeybind;
 
 [
@@ -47,17 +39,26 @@ Returns:
     "SQFB_opt_showEnemyHUD_key",
     [localize "STR_SQFB_Ctrl_enemyHUDkey", localize "STR_SQFB_Ctrl_enemyHUDkey_desc"],
     { _this call SQFB_fnc_showEnemyHUD_key_CBA },
-    { _this call SQFB_fnc_hideEnemyHUD_key_CBA }
+    { _this call SQFB_fnc_hideEnemyHUD_key_CBA },
+    [ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]
+    false
 ] call CBA_fnc_addKeybind;
 
+
+// DEPRECATED
 [
-    ["Squad Feedback", ""],
+    ["Squad Feedback", localize "STR_SQFB_opt_deprecated"],
+    "SQFB_opt_showHUD_T_key",
+    [localize "STR_SQFB_Ctrl_SquadHUDkeyToggle", localize "STR_SQFB_Ctrl_SquadHUDkeyToggle_desc"],
+    { _this call SQFB_fnc_showHUD_key_T_CBA },
+    {}
+] call CBA_fnc_addKeybind;
+[
+    ["Squad Feedback", localize "STR_SQFB_opt_deprecated"],
     "SQFB_opt_showEnemyHUD_T_key",
     [localize "STR_SQFB_Ctrl_enemyHUDkeyToggle", localize "STR_SQFB_Ctrl_enemyHUDkeyToggle_desc"],
     { _this call SQFB_fnc_showEnemyHUD_key_T_CBA },
-    {},
-    [ DIK_TAB, [false, true, false] ], // [DIK, [shift, ctrl, alt]] 
-    false
+    {}
 ] call CBA_fnc_addKeybind;
 
 /*
@@ -120,6 +121,26 @@ Parameters:
     [localize "STR_SQFB_opt_showFriendlies", localize "STR_SQFB_opt_showFriendlies_desc"],
     ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
     [["never", "keypressed", "always", "device"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_keyPressed", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_showEnemies_device"], 1],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_SquadHUDkey_Toggle", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_SquadHUDkey_Toggle", localize "STR_SQFB_opt_SquadHUDkey_Toggle_desc"],
+    ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_IFFHUDkey_Toggle", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_IFFHUDkey_Toggle", localize "STR_SQFB_opt_IFFHUDkey_Toggle_desc"],
+    ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
+    [false],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -210,15 +231,16 @@ Parameters:
 
 
 // HUD DISPLAY - Enemies
-[
-    "SQFB_opt_showEnemiesMinTime", 
-    "SLIDER",
-    [localize "STR_SQFB_opt_showEnemiesMinTime", localize "STR_SQFB_opt_showEnemiesMinTime_desc"], 
-    ["Squad Feedback", format ["03 - %1", localize "STR_SQFB_opt_HUDdisplay_enemies"]],
-    [0, 60, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+
+// [
+//     "SQFB_opt_showEnemiesMinTime", 
+//     "SLIDER",
+//     [localize "STR_SQFB_opt_showEnemiesMinTime", localize "STR_SQFB_opt_showEnemiesMinTime_desc"], 
+//     ["Squad Feedback", format ["03 - %1", localize "STR_SQFB_opt_HUDdisplay_enemies"]],
+//     [0, 60, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_showEnemiesMaxUnits", 
@@ -282,15 +304,16 @@ Parameters:
 
 
 // HUD DISPLAY - Friendlies
-[
-    "SQFB_opt_showFriendliesMinTime", 
-    "SLIDER",
-    [localize "STR_SQFB_opt_showFriendliesMinTime", localize "STR_SQFB_opt_showFriendliesMinTime_desc"], 
-    ["Squad Feedback", format ["04 - %1", localize "STR_SQFB_opt_HUDdisplay_friendlies"]],
-    [0, 60, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+
+// [
+//     "SQFB_opt_showFriendliesMinTime", 
+//     "SLIDER",
+//     [localize "STR_SQFB_opt_showFriendliesMinTime", localize "STR_SQFB_opt_showFriendliesMinTime_desc"], 
+//     ["Squad Feedback", format ["04 - %1", localize "STR_SQFB_opt_HUDdisplay_friendlies"]],
+//     [0, 60, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_showFriendliesMaxUnits", 
@@ -718,7 +741,7 @@ Parameters:
     "LIST",
     [localize "STR_SQFB_opt_friendlySideColors", localize "STR_SQFB_opt_friendlySideColors_desc"],
     ["Squad Feedback", format ["10 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_friendlies"]],
-    [["never", "current", "faction"], ["Never", "Current side", "Faction side"], 0],
+    [["never", "current", "faction"], [localize "STR_SQFB_opt_enemySideColors_never", localize "STR_SQFB_opt_enemySideColors_current", localize "STR_SQFB_opt_enemySideColors_faction"], 0],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -756,12 +779,44 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 
+// SOUNDS
+[
+    "SQFB_opt_sounds_squad", 
+    "LIST",
+    [localize "STR_SQFB_opt_sounds_squad", localize "STR_SQFB_opt_sounds_squad_desc"],
+    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_sounds"]],
+    [["none", "beep", "focus"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus"], 0],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_sounds_noIFF", 
+    "LIST",
+    [localize "STR_SQFB_opt_sounds_noIFF", localize "STR_SQFB_opt_sounds_noIFF_desc"],
+    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_sounds"]],
+    [["none", "beep", "focus"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus"], 2],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_sounds_IFF", 
+    "LIST",
+    [localize "STR_SQFB_opt_sounds_IFF", localize "STR_SQFB_opt_sounds_IFF_desc"],
+    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_sounds"]],
+    [["none", "beep", "focus"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus"], 1],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+
 // COLORS - Squad
 [
     "SQFB_opt_colorDefault", 
     "COLOR",
     [localize "STR_SQFB_opt_colorDefault", localize "STR_SQFB_opt_colorDefault_desc"],
-    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_Colors_squad"]],
+    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.9,0.9,0.9],
     nil,
     {} 
@@ -771,7 +826,7 @@ Parameters:
     "SQFB_opt_colorRed", 
     "COLOR",
     [localize "STR_SQFB_opt_colorRed", localize "STR_SQFB_opt_colorRed_desc"],
-    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_Colors_squad"]],
+    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.95,0.33,0.5],
     nil,
     {} 
@@ -781,7 +836,7 @@ Parameters:
     "SQFB_opt_colorGreen", 
     "COLOR",
     [localize "STR_SQFB_opt_colorGreen", localize "STR_SQFB_opt_colorGreen_desc"],
-    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_Colors_squad"]],
+    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.36,0.95,0.33],
     nil,
     {} 
@@ -791,7 +846,7 @@ Parameters:
     "SQFB_opt_colorBlue", 
     "COLOR",
     [localize "STR_SQFB_opt_colorBlue", localize "STR_SQFB_opt_colorBlue_desc"],
-    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_Colors_squad"]],
+    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.33,0.65,0.9],
     nil,
     {} 
@@ -801,7 +856,7 @@ Parameters:
     "SQFB_opt_colorYellow", 
     "COLOR",
     [localize "STR_SQFB_opt_colorYellow", localize "STR_SQFB_opt_colorYellow_desc"],
-    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_Colors_squad"]],
+    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.95,0.9,0.3],
     nil,
     {} 
@@ -813,7 +868,7 @@ Parameters:
     "SQFB_opt_colorEnemyTarget", 
     "COLOR",
     [localize "STR_SQFB_opt_colorEnemyTarget", localize "STR_SQFB_opt_colorEnemyTarget_desc"],
-    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
+    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.98,0.796,0.137],
     nil,
     {} 
@@ -823,7 +878,7 @@ Parameters:
     "SQFB_opt_colorEnemy", 
     "COLOR",
     [localize "STR_SQFB_opt_colorEnemy", localize "STR_SQFB_opt_colorEnemy_desc"],
-    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
+    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.9,0.21,0.3],
     nil,
     {} 
@@ -833,7 +888,7 @@ Parameters:
     "SQFB_opt_colorEnemyWest", 
     "COLOR",
     [localize "STR_SQFB_opt_colorEnemyWest", localize "STR_SQFB_opt_colorEnemyWest_desc"],
-    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
+    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.33,0.8,1],
     nil,
     {} 
@@ -843,7 +898,7 @@ Parameters:
     "SQFB_opt_colorEnemyGuer", 
     "COLOR",
     [localize "STR_SQFB_opt_colorEnemyGuer", localize "STR_SQFB_opt_colorEnemyGuer_desc"],
-    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
+    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.36,0.95,0.33],
     nil,
     {} 
@@ -853,7 +908,7 @@ Parameters:
     "SQFB_opt_colorEnemyCiv", 
     "COLOR",
     [localize "STR_SQFB_opt_colorEnemyCiv", localize "STR_SQFB_opt_colorEnemyCiv_desc"],
-    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
+    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.7,0.1,0.9],
     nil,
     {} 
@@ -865,7 +920,7 @@ Parameters:
     "SQFB_opt_colorFriendly", 
     "COLOR",
     [localize "STR_SQFB_opt_colorFriendly", localize "STR_SQFB_opt_colorFriendly_desc"], 
-    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    ["Squad Feedback", format ["15 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
     [0.33,0.65,0.9],
     nil,
     {} 
@@ -875,7 +930,7 @@ Parameters:
     "SQFB_opt_colorFriendlyEast", 
     "COLOR",
     [localize "STR_SQFB_opt_colorFriendlyEast", localize "STR_SQFB_opt_colorFriendlyEast_desc"], 
-    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    ["Squad Feedback", format ["15 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
     [0.95,0.33,0.5],
     nil,
     {} 
@@ -885,7 +940,7 @@ Parameters:
     "SQFB_opt_colorFriendlyGuer", 
     "COLOR",
     [localize "STR_SQFB_opt_colorFriendlyGuer", localize "STR_SQFB_opt_colorFriendlyGuer_desc"], 
-    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    ["Squad Feedback", format ["15 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
     [0.36,0.95,0.33],
     nil,
     {} 
@@ -895,7 +950,7 @@ Parameters:
     "SQFB_opt_colorFriendlyCiv", 
     "COLOR",
     [localize "STR_SQFB_opt_colorFriendlyCiv", localize "STR_SQFB_opt_colorFriendlyCiv_desc"], 
-    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    ["Squad Feedback", format ["15 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
     [0.7,0.1,0.9],
     nil,
     {} 

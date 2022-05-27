@@ -24,8 +24,5 @@ if (_type == "squad") exitWith {
     };
 };
 
-if (SQFB_showIFFminTime == 0) then {
-    SQFB_showIFFminTime = time + SQFB_showIFFminTime;
-};
 // Immediate update of unit positions
 SQFB_IFFTimeLastCheck = time;

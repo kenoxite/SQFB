@@ -72,6 +72,7 @@ class CfgFunctions
             class checkOcclusion {};
             class IFFupdate {};
             class IFFactivateDevice {};
+            class playSound {};
         };
 
         class CBA
@@ -86,5 +87,38 @@ class CfgFunctions
             class hideEnemyHUD_key_CBA {};
             class showEnemyHUD_key_T_CBA {};
         };
+    };
+};
+
+class CfgSounds
+{
+    sounds[] = {};
+
+    // Effects
+    class SQFB_beep_On
+    {
+        name = "[SQFB] Beep - On";
+        // filename, volume, pitch, distance (optional)
+        sound[] = { "\SQFB\sounds\sfx\beep_on", db, 1, 100 };
+        titles[] = {};
+    };
+    class SQFB_beep_Off
+    {
+        name = "[SQFB] Beep - Off";
+        sound[] = { "\SQFB\sounds\sfx\beep_off", db, 1, 100 };
+        titles[] = {};
+    };
+
+    class SQFB_focus_On
+    {
+        name = "[SQFB] Focus - On";
+        sound[] = { "\SQFB\sounds\sfx\focus_on", db, 1, 100 };
+        titles[] = {};
+    };
+    class SQFB_focus_Off
+    {
+        name = "[SQFB] Focus - Off";
+        sound[] = { "\SQFB\sounds\sfx\focus_off", db, 1, 100 };
+        titles[] = {};
     };
 };

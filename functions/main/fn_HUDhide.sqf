@@ -21,7 +21,6 @@ params [["_type", "squad"]];
 if (_type == "squad") then {
     SQFB_showDeadMinTime = 0;
 } else {
-    SQFB_showIFFminTime = 0;
     SQFB_IFFTimeLastCheck = time;
 
     SQFB_knownEnemies= [];
