@@ -256,7 +256,7 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
         private _unitType = [typeOf _unit] call SQFB_fnc_classType;
         _texture = [
                         "a3\ui_f\data\map\markers\military\unknown_ca.paa", 
-                        format ["a3\ui_f\data\map\markers\nato\%1_%2.paa", ["o","n"] select (!_isEnemy || {_SQFB_opt_changeIconsToBlufor && {_side == west}}), _unitType]
+                        format ["a3\ui_f\data\map\markers\nato\%1_%2.paa", ["o","n"] select ((!_isEnemy && !_SQFB_opt_changeIconsToBlufor) || {_SQFB_opt_changeIconsToBlufor && {_side == west}}), _unitType]
                     ] select _isRealPos;
 
         private _iconHeightMod = [

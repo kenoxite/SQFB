@@ -90,7 +90,7 @@ Parameters:
     "LIST",
     [localize "STR_SQFB_opt_profile", localize "STR_SQFB_opt_profile_desc"],
     "Squad Feedback",
-    [["custom", "default", "all", "min", "crit", "vanillalike", "onlyalwaysenemies"],[localize "STR_SQFB_opt_profile_custom", localize "STR_A3_OPTIONS_DEFAULT", localize "STR_SQFB_opt_profile_allOn", localize "STR_SQFB_opt_profile_minimalist", localize "STR_SQFB_opt_profile_onlyCritical", localize "STR_SQFB_opt_profile_vanillaLike", localize "STR_SQFB_opt_profile_onlyAlwaysEnemies"], 1],
+    [["custom", "default", "all", "min", "crit", "vanillalike", "onlyalwaysenemies", "hightech", "immersion"],[localize "STR_SQFB_opt_profile_custom", localize "STR_A3_OPTIONS_DEFAULT", localize "STR_SQFB_opt_profile_allOn", localize "STR_SQFB_opt_profile_minimalist", localize "STR_SQFB_opt_profile_onlyCritical", localize "STR_SQFB_opt_profile_vanillaLike", localize "STR_SQFB_opt_profile_onlyAlwaysEnemies", localize "STR_SQFB_opt_profile_hightech", localize "STR_SQFB_opt_profile_immersion"], 1],
     nil,
     { call SQFB_fnc_changeProfile; } 
 ] call CBA_fnc_addSetting;
@@ -122,7 +122,7 @@ Parameters:
     ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
     [["never", "keypressed", "always", "device"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_keyPressed", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_showEnemies_device"], 1],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 [
@@ -434,7 +434,7 @@ Parameters:
     ["Squad Feedback", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
     [false],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 
@@ -531,6 +531,16 @@ Parameters:
 
 // ADVANCED - General
 [
+    "SQFB_opt_IFFCheckSolo", 
+    "LIST",
+    [localize "STR_SQFB_opt_IFFCheckSolo", localize "STR_SQFB_opt_IFFCheckSolo_desc"],
+    ["Squad Feedback", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [["never", "always", "device"], [localize "STR_SQFB_opt_enemySideColors_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_showEnemies_device"], 1],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
     "SQFB_opt_alternateOcclusionCheck", 
     "CHECKBOX",
     [localize "STR_SQFB_opt_alternateOcclusionCheck", localize "STR_SQFB_opt_alternateOcclusionCheck_desc"],
@@ -538,6 +548,36 @@ Parameters:
     [false],
     nil,
     {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_lastKnownEnemyPositionOnly", 
+    "LIST", 
+    [localize "STR_SQFB_opt_lastKnownEnemyPositionOnly", localize "STR_SQFB_opt_lastKnownEnemyPositionOnly_desc"],
+    ["Squad Feedback", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [["never", "always", "device"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_lastKnownEnemyPositionOnly_device"], 0],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_lastKnownFriendlyPositionOnly", 
+    "LIST", 
+    [localize "STR_SQFB_opt_lastKnownFriendlyPositionOnly", localize "STR_SQFB_opt_lastKnownFriendlyPositionOnly_desc"],
+    ["Squad Feedback", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [["never", "always", "device"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_lastKnownEnemyPositionOnly_device"], 0],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_changeIconsToBlufor", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_changeIconsToBlufor", localize "STR_SQFB_opt_changeIconsToBlufor_desc"],
+    ["Squad Feedback", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [false],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 
@@ -645,16 +685,6 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "SQFB_opt_enemyCheckSolo", 
-    "CHECKBOX",
-    [localize "STR_SQFB_opt_enemyCheckSolo", localize "STR_SQFB_opt_enemyCheckSolo_desc"],
-    ["Squad Feedback", format ["09 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_enemies"]],
-    [true],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
     "SQFB_opt_alwaysDisplayTarget", 
     "CHECKBOX",
     [localize "STR_SQFB_opt_alwaysDisplayTarget", localize "STR_SQFB_opt_alwaysDisplayTarget_desc"],
@@ -675,33 +705,13 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "SQFB_opt_lastKnownEnemyPositionOnly", 
-    "LIST", 
-    [localize "STR_SQFB_opt_lastKnownEnemyPositionOnly", localize "STR_SQFB_opt_lastKnownEnemyPositionOnly_desc"],
-    ["Squad Feedback", format ["09 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_enemies"]],
-    [["never", "always", "device"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_lastKnownEnemyPositionOnly_device"], 0],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_changeIconsToBlufor", 
-    "CHECKBOX",
-    [localize "STR_SQFB_opt_changeIconsToBlufor", localize "STR_SQFB_opt_changeIconsToBlufor_desc"],
-    ["Squad Feedback", format ["09 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_enemies"]],
-    [false],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
     "SQFB_opt_enemySideColors", 
     "LIST",
     [localize "STR_SQFB_opt_enemySideColors", localize "STR_SQFB_opt_enemySideColors_desc"],
     ["Squad Feedback", format ["09 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_enemies"]],
     [["never", "current", "faction"], [localize "STR_SQFB_opt_enemySideColors_never", localize "STR_SQFB_opt_enemySideColors_current", localize "STR_SQFB_opt_enemySideColors_faction"], 0],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 
@@ -727,23 +737,13 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "SQFB_opt_lastKnownFriendlyPositionOnly", 
-    "LIST", 
-    [localize "STR_SQFB_opt_lastKnownFriendlyPositionOnly", localize "STR_SQFB_opt_lastKnownFriendlyPositionOnly_desc"],
-    ["Squad Feedback", format ["10 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_friendlies"]],
-    [["never", "always", "device"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_lastKnownEnemyPositionOnly_device"], 0],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
     "SQFB_opt_friendlySideColors", 
     "LIST",
     [localize "STR_SQFB_opt_friendlySideColors", localize "STR_SQFB_opt_friendlySideColors_desc"],
     ["Squad Feedback", format ["10 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_friendlies"]],
     [["never", "current", "faction"], [localize "STR_SQFB_opt_enemySideColors_never", localize "STR_SQFB_opt_enemySideColors_current", localize "STR_SQFB_opt_enemySideColors_faction"], 0],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 
@@ -785,7 +785,7 @@ Parameters:
     "LIST",
     [localize "STR_SQFB_opt_sounds_squad", localize "STR_SQFB_opt_sounds_squad_desc"],
     ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_sounds"]],
-    [["none", "beep", "focus"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus"], 0],
+    [["none", "beep", "focus", "radio"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus", localize "STR_SQFB_opt_sounds_radio"], 3],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -795,7 +795,7 @@ Parameters:
     "LIST",
     [localize "STR_SQFB_opt_sounds_noIFF", localize "STR_SQFB_opt_sounds_noIFF_desc"],
     ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_sounds"]],
-    [["none", "beep", "focus"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus"], 2],
+    [["none", "beep", "focus", "radio"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus", localize "STR_SQFB_opt_sounds_radio"], 2],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -805,7 +805,7 @@ Parameters:
     "LIST",
     [localize "STR_SQFB_opt_sounds_IFF", localize "STR_SQFB_opt_sounds_IFF_desc"],
     ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_sounds"]],
-    [["none", "beep", "focus"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus"], 1],
+    [["none", "beep", "focus", "radio"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus", localize "STR_SQFB_opt_sounds_radio"], 1],
     nil,
     {} 
 ] call CBA_fnc_addSetting;

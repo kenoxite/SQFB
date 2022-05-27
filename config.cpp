@@ -121,4 +121,17 @@ class CfgSounds
         sound[] = { "\SQFB\sounds\sfx\focus_off", db, 1, 100 };
         titles[] = {};
     };
+
+    class SQFB_radio_On
+    {
+        name = "[SQFB] Radio - On";
+        sound[] = { "\SQFB\sounds\sfx\radiocomm_on", db, 1, 100 };
+        titles[] = {};
+    };
+    class SQFB_radio_Off
+    {
+        name = "[SQFB] Radio - Off";
+        sound[] = { "\SQFB\sounds\sfx\radiocomm_off", db, 1, 100 };
+        titles[] = {};
+    };
 };

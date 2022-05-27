@@ -207,6 +207,16 @@
         <English>Only Always Enemies</English>
         <Spanish>Sólo Siempre Enemigos</Spanish>
       </Key>
+      <Key ID="STR_SQFB_opt_profile_hightech">
+        <Original>High Tech</Original>
+        <English>High Tech</English>
+        <Spanish>Alta Tecnología</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_profile_immersion">
+        <Original>Immersion</Original>
+        <English>Immersion</English>
+        <Spanish>Inmersión</Spanish>
+      </Key>
     </Container>
     <Container name="General">
       <Key ID="STR_SQFB_opt_general">
@@ -871,18 +881,24 @@
         <English>If enabled, the occlusion checks will probably be a bit more peformance friendly at the cost of precision.</English>
         <Spanish>Si se activa, las comprobaciones de oclusión serán probablemente un poco mejores para el rendimiento, pero serán a su vez menos precisas.</Spanish>
       </Key>
-      <Key ID="STR_SQFB_opt_enemyCheckSolo">
-        <Original>Check for enemies when alone</Original>
-        <English>Check for enemies when alone</English>
-        <Spanish>Buscar Enemigos Estando Solo</Spanish>
+      <Key ID="STR_SQFB_opt_IFFCheckSolo">
+        <Original>Show IFF HUD when alone</Original>
+        <English>Show IFF HUD when alone</English>
+        <Spanish>Mostrar HUD IFF estando Solo</Spanish>
       </Key>
-      <Key ID="STR_SQFB_opt_enemyCheckSolo_desc">
-        <Original>If enabled, you will always track known enemy units, even when you're not in a group. The known enemies will be those that the unit you are controlling perceives.
-\nEven if disabled, known enemies will still be shown if you have 'Only with IFF Devices' enabled and one of those devices equipped.</Original>
-        <English>If enabled, you will always track known enemy units, even when you're not in a group. The known enemies will be those that the unit you are controlling perceives.
-\nEven if disabled, known enemies will still be shown if you have 'Only with IFF Devices' enabled and one of those devices equipped.</English>
-        <Spanish>Si se activa, siempre rastrearás las posiciones de los enemigos conocidos, aunque no seas parte de un pelotón. Los enemigos conocidos serán aquellos que perciba la unidad que controles.
-\nAunque lo desactives, los enemigos conocidos se seguirán mostrando si has activado 'Sólo con Disp. IFF' y tienes uno de esos dispositivos equipado.</Spanish>
+      <Key ID="STR_SQFB_opt_IFFCheckSolo_desc">
+        <Original>Choose whether display or not the IFF HUD when you're not in a group.
+\n - Always: You will always track known enemy and friendly units.
+\n - Never: No IFF info will be displayed when you're not in a group.
+\n - Only with IFF Devices: As long as you have equipped an IFF device, the IFF HUD will be displayed regardless of you being in a group or not.</Original>
+        <English>Choose whether display or not the IFF HUD when you're not in a group.
+\n - Always: You will always track known enemy and friendly units.
+\n - Never: No IFF info will be displayed when you're not in a group.
+\n - Only with IFF Devices: As long as you have equipped an IFF device, the IFF HUD will be displayed regardless of you being in a group or not.</English>
+        <Spanish>Elige si mostrar o no el HUD de IFF cuando no estás en un grupo.
+\n - Siempre: Siempre rastrearás a las unidades enemigas y amistosas.
+\n - Nunca: No se mostrará información sobre IFF cuando no estés en un grupo.
+\n - Sólo con Disp. IFF: Mientras lleves equipado un dispositivo IFF, el HUD de IFF se mostrará sin importar que estés en un grupo o no.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_alwaysDisplayTarget">
         <Original>Always display assigned target</Original>
@@ -1550,9 +1566,9 @@
         <Spanish>Sonido a reproducir cuando se activa o desactiva la HUD del Pelotón.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_sounds_noIFF">
-        <Original>HUD without IFF device</Original>
-        <English>HUD without IFF device</English>
-        <Spanish>HUD sin disp. IFF</Spanish>
+        <Original>IFF HUD without IFF device</Original>
+        <English>IFF HUD without IFF device</English>
+        <Spanish>HUD IFF sin disp. IFF</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_sounds_noIFF_desc">
         <Original>Sound to play when activating or deactivating the IFF HUD when you don't have equipped an IFF device.</Original>
@@ -1573,6 +1589,11 @@
         <Original>Focus</Original>
         <English>Focus</English>
         <Spanish>Concentración</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_sounds_radio">
+        <Original>Radio</Original>
+        <English>Radio</English>
+        <Spanish>Radio</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_sounds_IFF">
         <Original>HUD with IFF device</Original>

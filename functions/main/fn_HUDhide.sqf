@@ -23,8 +23,10 @@ if (_type == "squad") then {
 } else {
     SQFB_IFFTimeLastCheck = time;
 
-    SQFB_knownEnemies= [];
-    SQFB_knownFriendlies= [];
+    if (SQFB_opt_showEnemies != "always") then { SQFB_knownEnemies= []; };
+    if (SQFB_opt_showFriendlies != "always") then { SQFB_knownFriendlies= []; };
+
+    if (SQFB_opt_showEnemies == "always" || SQFB_opt_showFriendlies == "always") exitWith { call SQFB_fnc_HUDupdate; };
 
     // Clean taggers
     SQFB_knownIFF = [];

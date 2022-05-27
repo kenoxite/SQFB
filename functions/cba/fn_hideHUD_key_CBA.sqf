@@ -18,7 +18,7 @@
 
 if (SQFB_opt_SquadHUDkey_Toggle) exitWith { false };
 
-if (SQFB_showHUD) then 
+if (SQFB_showHUD && SQFB_opt_showEnemies != "always") then 
 {
     SQFB_showHUD = false;
 	[] call SQFB_fnc_HUDhide;
