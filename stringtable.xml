@@ -760,14 +760,17 @@
         <Spanish>Mostrar flechas y texto en el borde de la pantalla indicando la posición relativa de la unidad cuando no esté a la vista del jugador.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_outFOVindex">
-        <Original>Alway Show Index</Original>
-        <English>Alway Show Index</English>
-        <Spanish>Siempre Mostrar Índice</Spanish>
+        <Original>Show Index when Off-Screen</Original>
+        <English>Show Index when Off-Screen</English>
+        <Spanish>Mostrar Índice Fuera de Pantalla</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_outFOVindex_desc">
-        <Original>Always display the indexes of your units when not in view.</Original>
-        <English>Always display the indexes of your units when not in view.</English>
-        <Spanish>Mostrar siempre los índices de tus unidades cuando no estén a la vista.</Spanish>
+        <Original>Always display the indexes of your units when not in view.
+\nIt only works if 'Display Arrows and Text' is active.</Original>
+        <English>Always display the indexes of your units when not in view.
+\nIt only works if 'Display Arrows and Text' is active.</English>
+        <Spanish>Mostrar siempre los índices de tus unidades cuando no estén a la vista.
+\nSólo funciona si 'Mostrar Flechas y Texto' está activo.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_checkOcclusion">
         <Original>Check Squad for Occlusion</Original>
