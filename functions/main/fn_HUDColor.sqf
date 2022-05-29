@@ -16,11 +16,12 @@
 
 */
 
-params ["_unit"];
+params [["_unit", objNull], ["_distance", 0], ["_maxRange", 800], ["_maxAlpha", 1]];
+if (isNull _unit) exitWith {[1,1,1,1]};
 
 private _return = [];
 
-private _alpha = [_unit] call SQFB_fnc_HUDAlpha;
+private _alpha = [_unit, _distance, _maxRange, _maxAlpha] call SQFB_fnc_HUDAlpha;
 if (!SQFB_showHUD && _alpha > 0 && leader group _unit != _unit && formationLeader _unit != _unit) then {
 	_alpha = _alpha /1.5;
 };

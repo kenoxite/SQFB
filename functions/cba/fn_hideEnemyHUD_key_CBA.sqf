@@ -15,9 +15,13 @@
 	Examples:
 
 */
-private _trackingDeviceEnabled = SQFB_opt_showEnemiesIfTrackingGear && call SQFB_fnc_trackingGearCheck;
-if (SQFB_showEnemyHUD && !_trackingDeviceEnabled) then
+
+if (SQFB_opt_IFFHUDkey_Toggle) exitWith { false };
+    
+if (SQFB_showIFFHUD) then
 {
-    SQFB_showEnemyHUD = false;
-	["enemy"] call SQFB_fnc_HUDhide;
+    SQFB_showIFFHUD = false;
+	["iff"] call SQFB_fnc_HUDhide;
+
+    ["iff", "off"] call SQFB_fnc_playSound;
 };

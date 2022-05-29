@@ -85,6 +85,8 @@ if (!_unitIsVanilla) then {
 private _primWepDes = toLowerAnsi (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
 private _handgunWep = handgunWeapon _unit;
 private _items = items _unit;
+private _backpack = unitBackpack _unit;
+private _backpackStr = typeOf _backpack;
 
 // Ammo check - primary
 private _noAmmoPrim = [
@@ -128,6 +130,10 @@ private _SMG = false;
 private _shotgun = false;
 private _handgun = false;
 private _rifle = false;
+private _ammoBearer = false;
+private _assistAT = false;
+private _assistAA = false;
+private _assistLMG = false;
 
 // Group index
 _grpIndex = _unit call SQFB_fnc_getUnitPositionId;
@@ -137,66 +143,82 @@ private _unitTraits = getAllUnitTraits _unit;
 private _isMedic = (_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0;
 private _isEngi = (_unitTraits select { (_x select 0) == "Engineer" } apply { _x select 1 }) select 0;
 private _isDemo = (_unitTraits select { (_x select 0) == "ExplosiveSpecialist" } apply { _x select 1 }) select 0;
-private _isHacker = (_unitTraits select { (_x select 0) == "UavHacker" } apply { _x select 1 }) select 0; 
+private _isHacker = (_unitTraits select { (_x select 0) == "UavHacker" } apply { _x select 1 }) select 0;
 
 // Medic
-if (_isMedic && {"Medikit" in _items}) then {_medic = true; _roles pushBack "Medic"};
+if (_isMedic && {"Medikit" in _items}) then {_medic = true; _roles pushBack localize "STR_SQFB_HUD_roles_Medic"};
 _unit setVariable ["SQFB_medic", _medic];
 
 // Demolition specialist
-if (_hasMines || {_isDemo && {"MineDetector" in _items || "Toolkit" in _items}})then { _demo = true; _roles pushBack "Exp" };
+if (_hasMines || {_isDemo && {"MineDetector" in _items || "Toolkit" in _items}}) then { _demo = true; _roles pushBack localize "STR_SQFB_HUD_roles_Demolition" };
 _unit setVariable ["SQFB_demo", _demo];
 
 // Engineer
-if (_isEngi && {"Toolkit" in _items}) then { _engi = true; _roles pushBack "Engi" };
+if (_isEngi && {"Toolkit" in _items}) then { _engi = true; _roles pushBack localize "STR_SQFB_HUD_roles_Engineer" };
 _unit setVariable ["SQFB_engi", _engi];
 
 // Hacker
-if (_isHacker) then { _hacker = true; _roles pushBack "Hacker" };
+if (_isHacker) then { _hacker = true; _roles pushBack localize "STR_SQFB_HUD_roles_Hacker" };
 _unit setVariable ["SQFB_hacker", _hacker];
 
+// Ammo bearer
+if (_backpackStr != "" && {"ammo" in _backpackStr || "Ammo" in _backpackStr}) then { _ammoBearer = true; _roles pushBack localize "STR_SQFB_HUD_roles_ammoBearer" };
+_unit setVariable ["SQFB_ammoBearer", _ammoBearer];
+
+// Asistant AT
+if (_backpackStr != "" && !_ammoBearer && {"AAT" in _backpackStr || "aat" in _backpackStr || "AHAT" in _backpackStr || "ahat" in _backpackStr}) then { _assistAT = true; _roles pushBack localize "STR_SQFB_HUD_roles_assistAT" };
+_unit setVariable ["SQFB_assistAT", _assistAT];
+
+// Asistant AA
+if (_backpackStr != "" && !_ammoBearer && {"AAA" in _backpackStr || "aaa" in _backpackStr}) then { _assistAA = true; _roles pushBack localize "STR_SQFB_HUD_roles_assistAA" };
+_unit setVariable ["SQFB_assistAA", _assistAA];
+
+// Asistant LMG
+if (_backpackStr != "" && !_ammoBearer && {"AAR" in _backpackStr || "aar" in _backpackStr}) then { _assistLMG = true; _roles pushBack localize "STR_SQFB_HUD_roles_assistLMG" };
+_unit setVariable ["SQFB_assistLMG", _assistLMG];
+
 // AntiAir
-if (("_aa" in _secWepMagName)) then { _AA = true; _roles pushBack "AA" };
+if (("_aa" in _secWepMagName)) then { _AA = true; _roles pushBack localize "STR_SQFB_HUD_roles_AA" };
 _unit setVariable ["SQFB_AA", _AA];
 
 // AntiTank
-if ((_secWepType == "Launcher" || {_secWepType == "MissileLauncher" || {_secWepType == "RocketLauncher"}}) && !_AA) then { _AT = true; _roles pushBack "AT" };
+if ((_secWepType == "Launcher" || {_secWepType == "MissileLauncher" || {_secWepType == "RocketLauncher"}}) && !_AA) then { _AT = true; _roles pushBack localize "STR_SQFB_HUD_roles_AT" };
 _unit setVariable ["SQFB_AT", _AT];
 
 // Grenade Launcher
-if (_primWepType == "GrenadeLauncher" || {!_unitIsVanilla && {"gl" in _primWep || {"m203" in _primWep || "gp25" in _primWep || "gp30" in _primWep || "gp34" in _primWep || "m32" in _primWep}}}) then { _GL = true; _roles pushBack "GL" };
+if (_primWepType == "GrenadeLauncher" || {!_unitIsVanilla && {"gl" in _primWep || {"m203" in _primWep || "gp25" in _primWep || "gp30" in _primWep || "gp34" in _primWep || "m32" in _primWep}}}) then { _GL = true; _roles pushBack localize "STR_SQFB_HUD_roles_GL" };
 _unit setVariable ["SQFB_GL", _GL];
 
 // Machine Gun
-if (!_anyMG && {"light machine gun" in _primWepDes || "rpk" in _primWep || {!_unitIsVanilla && {"m27" in _primWep || "pkp" in _primWep}}}) then { _anyMG = true; _roles pushBack "LMG" };
-if (!_anyMG && {_primWepType == "MachineGun"}) then { _anyMG = true; _roles pushBack "MG" };
+if (!_anyMG && {"light machine gun" in _primWepDes || "rpk" in _primWep || {!_unitIsVanilla && {"m27" in _primWep || "pkp" in _primWep}}}) then { _anyMG = true; _roles pushBack localize "STR_SQFB_HUD_roles_LMG" };
+if (!_anyMG && {_primWepType == "MachineGun"}) then { _anyMG = true; _roles pushBack localize "STR_SQFB_HUD_roles_MG" };
 if (_anyMG) then { _MG = true };
 _unit setVariable ["SQFB_MG", _MG];
 
 // Sniper
-if (!_anySniper && {_primWepType == "SniperRifle"}) then { _anySniper = true; _roles pushBack "Sniper" };
-if (!_anySniper && {"sniper" in _primWepDes || {"dms" in _primWep || "mxm" in _primWep}}) then { _anySniper = true; _roles pushBack "Marksman" };
+if (!_anySniper && {_primWepType == "SniperRifle"}) then { _anySniper = true; _roles pushBack localize "STR_SQFB_HUD_roles_Sniper" };
+if (!_anySniper && {"sniper" in _primWepDes || {"dms" in _primWep || "mxm" in _primWep}}) then { _anySniper = true; _roles pushBack localize "STR_SQFB_HUD_roles_Marksman" };
 if (_anySniper) then { _sniper = true };
 _unit setVariable ["SQFB_sniper", _sniper];
 
 // SMG
-if (_primWepType == "SubmachineGun" || {"submachine" in _primWepDes || {"smg" in _primWepDes}}) then { _SMG = true; _roles pushBack "SMG" };
+if (_primWepType == "SubmachineGun" || {"submachine" in _primWepDes || {"smg" in _primWepDes}}) then { _SMG = true; _roles pushBack localize "STR_SQFB_HUD_roles_SMG" };
 _unit setVariable ["SQFB_smg", _SMG];
 
 // Shotgun
-if (_primWepType == "Shotgun") then { _shotgun = true; _roles pushBack "Shotgun" };   
+if (_primWepType == "Shotgun") then { _shotgun = true; _roles pushBack localize "STR_SQFB_HUD_roles_Shotgun" };   
 _unit setVariable ["SQFB_shotgun", _shotgun];
 
 // Handgun
-if (_primWepType == "Handgun" || {_primWepType == "" && _handgunWep != ""}) then { _handgun = true; _roles pushBack "Handgun" };
+if (_primWepType == "Handgun" || {_primWepType == "" && _handgunWep != ""}) then { _handgun = true; _roles pushBack localize "STR_SQFB_HUD_roles_Handgun" };
 _unit setVariable ["SQFB_handgun", _handgun];
 
 // Rifle
-if (count _roles == 0 && _primWepType == "AssaultRifle") then { _rifle = true; _roles pushBack "Rifle" };
+if (count _roles == 0 && _primWepType == "AssaultRifle") then { _rifle = true; _roles pushBack localize "STR_SQFB_HUD_roles_Rifle" };
 _unit setVariable ["SQFB_rifle", _rifle];
 
 // Other
-if (count _roles == 0) then { _roles pushBack _primWepType };
+if (count _roles == 0) then { _unit setVariable ["SQFB_unarmed", true]; _roles pushBack _primWepType } else { _unit setVariable ["SQFB_unarmed", false] };
 
 // Crew type
 private _veh = vehicle _unit;

@@ -20,10 +20,10 @@ params [["_observed", objNull], ["_observer", SQFB_player], ["_isTarget", false]
 private _unitOccluded = true;
 
 if (_isTarget) then {
-    private _playerUnits = units group _observer;
-    for "_i" from 0 to (count _playerUnits) -1 do
+    private _groupUnits = units group _observer;
+    for "_i" from 0 to (count _groupUnits) -1 do
     {
-        private _groupUnit = _playerUnits select _i;
+        private _groupUnit = _groupUnits select _i;
         if (_groupUnit != effectiveCommander (vehicle _groupUnit)) then { continue };
         if ((_isOnFoot || !_SQFB_opt_preciseVisCheck) && _SQFB_opt_alternateOcclusionCheck) then {
             private _targetKnowledge = _groupUnit targetKnowledge _observed;

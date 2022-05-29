@@ -27,37 +27,38 @@ Returns:
 [
     ["Squad Feedback", ""],
 	"SQFB_opt_showHUD_key",
-	["Squad HUD", "Displays the squad HUD as long as this key is pressed."],
+	[localize "STR_SQFB_Ctrl_SquadHUDkey", localize "STR_SQFB_Ctrl_SquadHUDkey_desc"],
 	{ _this call SQFB_fnc_showHUD_key_CBA },
-	{ _this call SQFB_fnc_hideHUD_key_CBA }
-] call CBA_fnc_addKeybind;
-
-[
-    ["Squad Feedback", ""],
-	"SQFB_opt_showHUD_T_key",
-	["Squad HUD (Toggle)", "Toggles the display of the HUD for your squad."],
-	{ _this call SQFB_fnc_showHUD_key_T_CBA },
-	{},
-	[ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]] 
-	false
+	{ _this call SQFB_fnc_hideHUD_key_CBA },
+    [ DIK_CAPSLOCK, [false, true, false] ], // [DIK, [shift, ctrl, alt]
+    false
 ] call CBA_fnc_addKeybind;
 
 [
     ["Squad Feedback", ""],
     "SQFB_opt_showEnemyHUD_key",
-    ["Known Enemies HUD", "Displays the HUD for enemies as long as this key is pressed."],
+    [localize "STR_SQFB_Ctrl_enemyHUDkey", localize "STR_SQFB_Ctrl_enemyHUDkey_desc"],
     { _this call SQFB_fnc_showEnemyHUD_key_CBA },
-    { _this call SQFB_fnc_hideEnemyHUD_key_CBA }
+    { _this call SQFB_fnc_hideEnemyHUD_key_CBA },
+    [ DIK_CAPSLOCK, [false, false, false] ], // [DIK, [shift, ctrl, alt]
+    false
 ] call CBA_fnc_addKeybind;
 
+
+// DEPRECATED
 [
-    ["Squad Feedback", ""],
+    ["Squad Feedback", localize "STR_SQFB_opt_deprecated"],
+    "SQFB_opt_showHUD_T_key",
+    [localize "STR_SQFB_Ctrl_SquadHUDkeyToggle", localize "STR_SQFB_Ctrl_SquadHUDkeyToggle_desc"],
+    { _this call SQFB_fnc_showHUD_key_T_CBA },
+    {}
+] call CBA_fnc_addKeybind;
+[
+    ["Squad Feedback", localize "STR_SQFB_opt_deprecated"],
     "SQFB_opt_showEnemyHUD_T_key",
-    ["Known Enemies HUD (Toggle)", "Toggles the display of the HUD for enemies."],
+    [localize "STR_SQFB_Ctrl_enemyHUDkeyToggle", localize "STR_SQFB_Ctrl_enemyHUDkeyToggle_desc"],
     { _this call SQFB_fnc_showEnemyHUD_key_T_CBA },
-    {},
-    [ DIK_TAB, [false, true, false] ], // [DIK, [shift, ctrl, alt]] 
-    false
+    {}
 ] call CBA_fnc_addKeybind;
 
 /*
@@ -75,7 +76,7 @@ Parameters:
 [
     "SQFB_opt_on", 
     "CHECKBOX",
-    ["Enable", "Enables or disables the whole system."],
+    [localize "STR_SQFB_opt_on", localize "STR_SQFB_opt_on_desc"],
     "Squad Feedback",
     [true],
     nil,
@@ -87,9 +88,9 @@ Parameters:
 [
     "SQFB_opt_profile", 
     "LIST",
-    ["Profile (applies after closing this window)", "Choosing a profile will change the activation status of the following settings:\n  - Display Squad HUD\n  - Display Known Enemies\n  - Display Icon\n  - Display Text\n  - Display Team Color\n  - Display Index\n  - Display Class\n  - Display Roles\n  - Display Distance\n  - Display Arrows and Text\n  - Always Display Index\n  - Display Crew\n  - Display Dead Units\n  - Always Display Critical\n  - Always Display Enemies\nIf you change the profile any further changes to those settings won't be applied after you close this window."],
+    [localize "STR_SQFB_opt_profile", localize "STR_SQFB_opt_profile_desc"],
     "Squad Feedback",
-    [["custom", "default", "all", "min", "crit", "vanillalike", "onlyalwaysenemies"],["Custom", "Default", "All On", "Minimalist", "Only Critical", "Vanilla-like", "Only Always Enemies"], 1],
+    [["custom", "default", "all", "min", "crit", "vanillalike", "onlyalwaysenemies", "hightech", "immersion", "author"],[localize "STR_SQFB_opt_profile_custom", localize "STR_A3_OPTIONS_DEFAULT", localize "STR_SQFB_opt_profile_allOn", localize "STR_SQFB_opt_profile_minimalist", localize "STR_SQFB_opt_profile_onlyCritical", localize "STR_SQFB_opt_profile_vanillaLike", localize "STR_SQFB_opt_profile_onlyAlwaysEnemies", localize "STR_SQFB_opt_profile_hightech", localize "STR_SQFB_opt_profile_immersion", "kenoxite"], 1],
     nil,
     { call SQFB_fnc_changeProfile; } 
 ] call CBA_fnc_addSetting;
@@ -97,8 +98,8 @@ Parameters:
 [
     "SQFB_opt_showSquad", 
     "CHECKBOX",
-    ["Display Squad HUD", "Toggles the activation of your squad's feeback HUD."],
-    ["Squad Feedback", "00 - General"],
+    [localize "STR_SQFB_opt_showSquad", localize "STR_SQFB_opt_showSquad_desc"],
+    ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -107,28 +108,58 @@ Parameters:
 [
     "SQFB_opt_showEnemies", 
     "LIST",
-    ["Display Known Enemies", "Choose when to display known enemy locations."],
-    ["Squad Feedback", "00 - General"],
-    [["never", "keypressed", "always"], ["Never", "When key is pressed", "Always"], 1],
+    [localize "STR_SQFB_opt_showEnemies", localize "STR_SQFB_opt_showEnemies_desc"],
+    ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
+    [["never", "keypressed", "always", "device"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_keyPressed", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_showEnemies_device"], 1],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_showFriendlies", 
-//     "LIST",
-//     ["Display Known Friendlies", "Choose when to display known friendles."],
-//     ["Squad Feedback", "00 - General"],
-//     [["never", "keypressed", "always"], ["Never", "When key is pressed", "Always"], 0],
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_showFriendlies", 
+    "LIST",
+    [localize "STR_SQFB_opt_showFriendlies", localize "STR_SQFB_opt_showFriendlies_desc"],
+    ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
+    [["never", "keypressed", "always", "device"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_keyPressed", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_showEnemies_device"], 1],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_SquadHUDkey_Toggle", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_SquadHUDkey_Toggle", localize "STR_SQFB_opt_SquadHUDkey_Toggle_desc"],
+    ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_IFFHUDkey_Toggle", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_IFFHUDkey_Toggle", localize "STR_SQFB_opt_IFFHUDkey_Toggle_desc"],
+    ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
+    [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_updateDelay", 
+    "SLIDER",
+    [localize "STR_SQFB_opt_updateDelay", localize "STR_SQFB_opt_updateDelay_desc"],
+    ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
+    [0.1, 30, 5, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
 [
     "SQFB_opt_HUDrefresh", 
     "SLIDER",
-    ["Refresh Rate for Squad HUD", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
-    ["Squad Feedback", "00 - General"],
+    [localize "STR_SQFB_opt_HUDrefresh", localize "STR_SQFB_opt_HUDrefresh_desc"], 
+    ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
     [0, 0.05, 0.011, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -137,19 +168,9 @@ Parameters:
 [
     "SQFB_opt_HUDrefreshIFF", 
     "SLIDER",
-    ["Refresh Rate for Enemy HUD", "Waiting time between HUD redraws, in seconds.\nYou can set this value higher if the game performance is badly affected, but you'll see the HUD flickering."], 
-    ["Squad Feedback", "00 - General"],
+    [localize "STR_SQFB_opt_HUDrefreshIFF", localize "STR_SQFB_opt_HUDrefreshIFF_desc"], 
+    ["Squad Feedback", format ["00 - %1", localize "STR_SQFB_opt_general"]],
     [0, 0.05, 0.011, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_updateDelay", 
-    "SLIDER",
-    ["Data Update Delay", "Waiting time between squad status and known enemies checks, in seconds.\nSetting this value lower will keep the HUDs more up to date, but the game performance can be affected."], 
-    ["Squad Feedback", "00 - General"],
-    [0.1, 30, 5, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -159,8 +180,8 @@ Parameters:
 [
     "SQFB_opt_showIcon", 
     "CHECKBOX",
-    ["Display Icon", "Display an icon indicating the AI unit's role and its health and ammo status, etc."],
-    ["Squad Feedback", "01 - HUD Display - General"],
+    [localize "STR_SQFB_opt_showIcon", localize "STR_SQFB_opt_showIcon_desc"],
+    ["Squad Feedback", format ["01 - %1", localize "STR_SQFB_opt_HUDdisplay_general"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -169,8 +190,8 @@ Parameters:
 [
     "SQFB_opt_showText", 
     "CHECKBOX",
-    ["Display Text", "Display descriptive text below the icon. The kind of text shown is controlled by the other text related options.\nNo text will be shown at all if this setting is deactivated, regardless of the other settings."],
-    ["Squad Feedback", "01 - HUD Display - General"],
+    [localize "STR_SQFB_opt_showText", localize "STR_SQFB_opt_showText_desc"],
+    ["Squad Feedback", format ["01 - %1", localize "STR_SQFB_opt_HUDdisplay_general"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -179,8 +200,8 @@ Parameters:
 [
     "SQFB_opt_showColor", 
     "CHECKBOX",
-    ["Display Team Color", "Automatically change the color of the icon and text to match that of the unit's assigned team."],
-    ["Squad Feedback", "01 - HUD Display - General"],
+    [localize "STR_SQFB_opt_showColor", localize "STR_SQFB_opt_showColor_desc"],
+    ["Squad Feedback", format ["01 - %1", localize "STR_SQFB_opt_HUDdisplay_general"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -188,41 +209,21 @@ Parameters:
 
 
 // HUD DISPLAY - Squad
-// [
-//     "SQFB_opt_minRange", 
-//     "SLIDER",
-//     ["Minimum Range", "Distance above which a unit has to be for its HUD info to show up, in meters.\nSet to zero to always show regardless of range."], 
-//     ["Squad Feedback", "02 - HUD Display - Squad"],
-//     [0, 1000, 5, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
-
 [
     "SQFB_opt_maxRange", 
     "SLIDER",
-    ["Maximum Range", "Maximum distance a unit has to be for its HUD info to show up, in meters."], 
-    ["Squad Feedback", "02 - HUD Display - Squad"],
+    [localize "STR_SQFB_opt_maxRange", localize "STR_SQFB_opt_maxRange_desc"], 
+    ["Squad Feedback", format ["02 - %1", localize "STR_SQFB_opt_HUDdisplay_squad"]],
     [10, 5000, 800, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_minRangeAir", 
-//     "SLIDER",
-//     ["Minimum Range (air)", "Distance above which a unit has to be for its HUD info to show up when the player is flying, in meters.\nSet to zero to always show regardless of range."], 
-//     ["Squad Feedback", "02 - HUD Display - Squad"],
-//     [0, 5000, 50, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
-
 [
     "SQFB_opt_maxRangeAir", 
     "SLIDER",
-    ["Maximum Range (air)", "Maximum distance a unit has to be for its HUD info to show up when the player is flying, in meters."], 
-    ["Squad Feedback", "02 - HUD Display - Squad"],
+    [localize "STR_SQFB_opt_maxRange_air", localize "STR_SQFB_opt_maxRange_air_desc"], 
+    ["Squad Feedback", format ["02 - %1", localize "STR_SQFB_opt_HUDdisplay_squad"]],
     [10, 5000, 2000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -230,12 +231,23 @@ Parameters:
 
 
 // HUD DISPLAY - Enemies
+
+// [
+//     "SQFB_opt_showEnemiesMinTime", 
+//     "SLIDER",
+//     [localize "STR_SQFB_opt_showEnemiesMinTime", localize "STR_SQFB_opt_showEnemiesMinTime_desc"], 
+//     ["Squad Feedback", format ["03 - %1", localize "STR_SQFB_opt_HUDdisplay_enemies"]],
+//     [0, 60, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
+
 [
-    "SQFB_opt_showEnemiesMinTime", 
+    "SQFB_opt_showEnemiesMaxUnits", 
     "SLIDER",
-    ["Initial Delay", "Time that must pass while the HUD is shown to display known enemy units when the key is pressed, in seconds."], 
-    ["Squad Feedback", "03 - HUD Display - Known Enemies"],
-    [0, 60, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [localize "STR_SQFB_opt_showEnemiesMaxUnits", localize "STR_SQFB_opt_showEnemiesMaxUnits_desc"], 
+    ["Squad Feedback", format ["03 - %1", localize "STR_SQFB_opt_HUDdisplay_enemies"]],
+    [-1, 100, -1, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -243,19 +255,9 @@ Parameters:
 [
     "SQFB_opt_showEnemiesMinRange", 
     "SLIDER",
-    ["Minimum Range", "No HUD elements will be shown for enemies below this distance, in meters.\nSet to zero to always show regardless of range."], 
-    ["Squad Feedback", "03 - HUD Display - Known Enemies"],
+    [localize "STR_SQFB_opt_showEnemiesMinRange", localize "STR_SQFB_opt_showEnemiesMinRange_desc"], 
+    ["Squad Feedback", format ["03 - %1", localize "STR_SQFB_opt_HUDdisplay_enemies"]],
     [0, 1000, 20, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_showEnemiesMaxRange", 
-    "SLIDER",
-    ["Maximum Range", "Maximum distance to look for enemies and display their HUD elements, in meters."], 
-    ["Squad Feedback", "03 - HUD Display - Known Enemies"],
-    [100, 5000, 800, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -263,9 +265,19 @@ Parameters:
 [
     "SQFB_opt_showEnemiesMinRangeAir", 
     "SLIDER",
-    ["Minimum Range (Air)", "No HUD elements will be shown for enemies below this distance when the player is in an air vehicle, in meters.\nSet to zero to always show regardless of range."], 
-    ["Squad Feedback", "03 - HUD Display - Known Enemies"],
+    [localize "STR_SQFB_opt_showEnemiesMinRangeAir", localize "STR_SQFB_opt_showEnemiesMinRangeAir_desc"], 
+    ["Squad Feedback", format ["03 - %1", localize "STR_SQFB_opt_HUDdisplay_enemies"]],
     [0, 5000, 100, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showEnemiesMaxRange", 
+    "SLIDER",
+    [localize "STR_SQFB_opt_showEnemiesMaxRange", localize "STR_SQFB_opt_showEnemiesMaxRange_desc"], 
+    ["Squad Feedback", format ["03 - %1", localize "STR_SQFB_opt_HUDdisplay_enemies"]],
+    [100, 5000, 800, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -273,92 +285,93 @@ Parameters:
 [
     "SQFB_opt_showEnemiesMaxRangeAir", 
     "SLIDER",
-    ["Maximum Range (Air)", "Maximum distance to look for enemies and display their HUD elements when the player is in an air vehicle, in meters."], 
-    ["Squad Feedback", "03 - HUD Display - Known Enemies"],
+    [localize "STR_SQFB_opt_showEnemiesMaxRangeAir", localize "STR_SQFB_opt_showEnemiesMaxRangeAir_desc"], 
+    ["Squad Feedback", format ["03 - %1", localize "STR_SQFB_opt_HUDdisplay_enemies"]],
     [100, 10000, 2000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_showEnemiesIfTrackingGear", 
-    "CHECKBOX",
-    ["Allow Enemy Tracking Devices", "Enemy locations will ALWAYS be displayed as long as the player has an Enemy Tracking device equipped.\nThe pre-defined devices are:
-    - Combat Goggles (any version, including balaclavas)
-    - Tactical Glasses (any version)
-    - VR Goggles
-    - Assassin Helmet (any version)
-    - Defender Helmet (any version)
-    - Fighter Pilot Helmet (any version)
-    - Special Purpose Helmet (any version)
-    - Integrated Visual Augmentation System (IVAS) Headsets
-    \nYou can still use the corresponding key to display enemy locations even with this option active.
-    "],
-    ["Squad Feedback", "03 - HUD Display - Known Enemies"],
-    [true],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
+// [
+//     "SQFB_opt_showEnemiesIfTrackingGear", 
+//     "CHECKBOX",
+//     [localize "STR_SQFB_opt_showEnemiesIfTrackingGear", localize "STR_SQFB_opt_showEnemiesIfTrackingGear_desc"],
+//     ["Squad Feedback", format ["03 - %1", localize "STR_SQFB_opt_HUDdisplay_enemies"]],
+//     [true],
+//     nil,
+//     {} 
+// ] call CBA_fnc_addSetting;
 
 
 // HUD DISPLAY - Friendlies
+
 // [
 //     "SQFB_opt_showFriendliesMinTime", 
 //     "SLIDER",
-//     ["Initial Delay", "Time that must pass while the HUD is shown to display known friendly units when the squad HUD key is pressed, in seconds."], 
-//     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
+//     [localize "STR_SQFB_opt_showFriendliesMinTime", localize "STR_SQFB_opt_showFriendliesMinTime_desc"], 
+//     ["Squad Feedback", format ["04 - %1", localize "STR_SQFB_opt_HUDdisplay_friendlies"]],
 //     [0, 60, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
 //     nil,
 //     {} 
 // ] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_showFriendliesMinRange", 
-//     "SLIDER",
-//     ["Minimum Range", "No HUD elements will be shown for friendlies below this distance, in meters.\nSet to zero to always show regardless of range."], 
-//     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
-//     [0, 1000, 10, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_showFriendliesMaxUnits", 
+    "SLIDER",
+    [localize "STR_SQFB_opt_showFriendliesMaxUnits", localize "STR_SQFB_opt_showFriendliesMaxUnits_desc"], 
+    ["Squad Feedback", format ["04 - %1", localize "STR_SQFB_opt_HUDdisplay_friendlies"]],
+    [-1, 100, -1, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_showFriendliesMaxRange", 
-//     "SLIDER",
-//     ["Maximum Range", "Maximum distance to look for friendlies and display their HUD elements, in meters."], 
-//     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
-//     [100, 5000, 200, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_showFriendliesMinRange", 
+    "SLIDER",
+    [localize "STR_SQFB_opt_showFriendliesMinRange", localize "STR_SQFB_opt_showFriendliesMinRange_desc"], 
+    ["Squad Feedback", format ["04 - %1", localize "STR_SQFB_opt_HUDdisplay_friendlies"]],
+    [0, 1000, 30, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_showFriendliesMinRangeAir", 
-//     "SLIDER",
-//     ["Minimum Range (Air)", "No HUD elements will be shown for friendlies below this distance when the player is in an air vehicle, in meters.\nSet to zero to always show regardless of range."], 
-//     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
-//     [0, 5000, 30, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_showFriendliesMinRangeAir", 
+    "SLIDER",
+    [localize "STR_SQFB_opt_showFriendliesMinRangeAir", localize "STR_SQFB_opt_showFriendliesMinRangeAir_desc"], 
+    ["Squad Feedback", format ["04 - %1", localize "STR_SQFB_opt_HUDdisplay_friendlies"]],
+    [0, 5000, 30, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_showFriendliesMaxRangeAir", 
-//     "SLIDER",
-//     ["Maximum Range (Air)", "Maximum distance to look for friendlies and display their HUD elements when the player is in an air vehicle, in meters."], 
-//     ["Squad Feedback", "03 - HUD Display - Known Friendlies"],
-//     [100, 10000, 1000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_showFriendliesMaxRange", 
+    "SLIDER",
+    [localize "STR_SQFB_opt_showFriendliesMaxRange", localize "STR_SQFB_opt_showFriendliesMaxRange_desc"], 
+    ["Squad Feedback", format ["04 - %1", localize "STR_SQFB_opt_HUDdisplay_friendlies"]],
+    [100, 5000, 200, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_showFriendliesMaxRangeAir", 
+    "SLIDER",
+    [localize "STR_SQFB_opt_showFriendliesMaxRangeAir", localize "STR_SQFB_opt_showFriendliesMaxRangeAir_desc"], 
+    ["Squad Feedback", format ["04 - %1", localize "STR_SQFB_opt_HUDdisplay_friendlies"]],
+    [100, 10000, 1000, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
 
 // HUD DISPLAY - Text
 [
     "SQFB_opt_showIndex", 
     "CHECKBOX",
-    ["Display Index", "Display the index of the unit in the player's group.\n\nThis option will have no effect if Show Text is disabled."],
-    ["Squad Feedback", "04 - HUD Display - Text Options"],
+    [localize "STR_SQFB_opt_showIndex", localize "STR_SQFB_opt_showIndex_desc"],
+    ["Squad Feedback", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -367,8 +380,8 @@ Parameters:
 [
     "SQFB_opt_showClass", 
     "CHECKBOX",
-    ["Display Class", "Display the unit's class name as seen in the Eden editor.\n\nThis option will have no effect if Show Text is disabled."],
-    ["Squad Feedback", "04 - HUD Display - Text Options"],
+    [localize "STR_SQFB_opt_showClass", localize "STR_SQFB_opt_showClass_desc"],
+    ["Squad Feedback", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
     [false],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -377,8 +390,8 @@ Parameters:
 [
     "SQFB_opt_showRoles", 
     "CHECKBOX",
-    ["Display Roles Text", "Display the unit's role(s) text, which might be different from its original class.\nSome of the roles shown can be:\n* Medic: The unit can heal and has a medikit.\n* AT: The unit has a launcher weapon.\n* Demo: The unit can use explosives and has some in its inventory.\nThese are just some examples. There are many more roles and each unit can have more than one role depending on its weapon, ammo, gear and attributes.\n\nThis option will have no effect if Display Text is disabled."],
-    ["Squad Feedback", "04 - HUD Display - Text Options"],
+    [localize "STR_SQFB_opt_showRoles", localize "STR_SQFB_opt_showRoles_desc"],
+    ["Squad Feedback", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -387,8 +400,8 @@ Parameters:
 [
     "SQFB_opt_showRolesIcon", 
     "CHECKBOX",
-    ["Display Roles Icon", "Display the unit's role(s) icon, which might be different from its original class.\nSome of the roles shown can be:\n* Medic: The unit can heal and has a medikit.\n* AT: The unit has a launcher weapon.\n* Demo: The unit can use explosives and has some in its inventory.\nThese are just some examples. There are many more roles and each unit can have more than one role depending on its weapon, ammo, gear and attributes.\n\nThis option will have no effect if Display Text is disabled."],
-    ["Squad Feedback", "04 - HUD Display - Text Options"],
+    [localize "STR_SQFB_opt_showRolesIcon", localize "STR_SQFB_opt_showRolesIcon_desc"],
+    ["Squad Feedback", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -397,8 +410,8 @@ Parameters:
 [
     "SQFB_opt_showDist", 
     "CHECKBOX",
-    ["Display Distance (squad)", "Display the distance of the squad unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
-    ["Squad Feedback", "04 - HUD Display - Text Options"],
+    [localize "STR_SQFB_opt_showDist", localize "STR_SQFB_opt_showDist_desc"],
+    ["Squad Feedback", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
     [false],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -407,30 +420,30 @@ Parameters:
 [
     "SQFB_opt_showDistEnemy", 
     "CHECKBOX",
-    ["Display Distance (enemies)", "Display the distance of the enemy unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
-    ["Squad Feedback", "04 - HUD Display - Text Options"],
+    [localize "STR_SQFB_opt_showDistEnemy", localize "STR_SQFB_opt_showDistEnemy_desc"],
+    ["Squad Feedback", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
     [false],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_showDistFriendly", 
-//     "CHECKBOX",
-//     ["Display Distance (friendlies)", "Display the distance of the friendly unit from the player, in meters.\n\nThis option will have no effect if Show Text is disabled."],
-//     ["Squad Feedback", "04 - HUD Display - Text Options"],
-//     [false],
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_showDistFriendly", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_showDistFriendly", localize "STR_SQFB_opt_showDistFriendly_desc"],
+    ["Squad Feedback", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
+    [false],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
 
 
 // HUD CUSTOMIZATION
 [
     "SQFB_opt_iconSize", 
     "SLIDER",
-    ["Icon Size", "Relative size of the icons."], 
-    ["Squad Feedback", "05 - HUD Customization"],
+    [localize "STR_SQFB_opt_iconSize", localize "STR_SQFB_opt_iconSize_desc"], 
+    ["Squad Feedback", format ["06 - %1", localize "STR_SQFB_opt_HUDcustomization"]],
     [0.1, 2, 1, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -439,8 +452,8 @@ Parameters:
 [
     "SQFB_opt_iconHeight", 
     "SLIDER",
-    ["Icon Height", "Height of the icons for infantry units, relative to the default height."], 
-    ["Squad Feedback", "05 - HUD Customization"],
+    [localize "STR_SQFB_opt_iconHeight", localize "STR_SQFB_opt_iconHeight_desc"],
+    ["Squad Feedback", format ["06 - %1", localize "STR_SQFB_opt_HUDcustomization"]],
     [-2, 2, 0, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -449,8 +462,8 @@ Parameters:
 [
     "SQFB_opt_iconHor", 
     "SLIDER",
-    ["Icon Horizontal", "Horizontal position of the icons for infantry units, relative to the default horizontal position."], 
-    ["Squad Feedback", "05 - HUD Customization"],
+    [localize "STR_SQFB_opt_iconHor", localize "STR_SQFB_opt_iconHor_desc"],
+    ["Squad Feedback", format ["06 - %1", localize "STR_SQFB_opt_HUDcustomization"]],
     [-2, 2, 0, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -459,8 +472,8 @@ Parameters:
 [
     "SQFB_opt_iconHeightVeh", 
     "SLIDER",
-    ["Icon Height (vehicles)", "Height of the icons for vehicles, relative to the default height."], 
-    ["Squad Feedback", "05 - HUD Customization"],
+    [localize "STR_SQFB_opt_iconHeightVeh", localize "STR_SQFB_opt_iconHeightVeh_desc"],
+    ["Squad Feedback", format ["06 - %1", localize "STR_SQFB_opt_HUDcustomization"]],
     [-3, 3, 0, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -469,8 +482,8 @@ Parameters:
 [
     "SQFB_opt_iconHorVeh", 
     "SLIDER",
-    ["Icon Horizontal (vehicles)", "Horizontal position of the icons for vehicles, relative to the default horizontal position."], 
-    ["Squad Feedback", "05 - HUD Customization"],
+    [localize "STR_SQFB_opt_iconHorVeh", localize "STR_SQFB_opt_iconHorVeh_desc"],
+    ["Squad Feedback", format ["06 - %1", localize "STR_SQFB_opt_HUDcustomization"]],
     [-5, 5, 0, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -479,8 +492,8 @@ Parameters:
 [
     "SQFB_opt_textSize", 
     "SLIDER",
-    ["Text Size", "Relative size of the texts."], 
-    ["Squad Feedback", "05 - HUD Customization"],
+    [localize "STR_SQFB_opt_textSize", localize "STR_SQFB_opt_textSize_desc"],
+    ["Squad Feedback", format ["06 - %1", localize "STR_SQFB_opt_HUDcustomization"]],
     [0.1, 2, 1, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -498,8 +511,8 @@ Parameters:
 [
     "SQFB_opt_textFont", 
     "LIST",
-    ["Text Font", "Font used in all the texts."], 
-    ["Squad Feedback", "05 - HUD Customization"],
+    [localize "STR_SQFB_opt_textFont", localize "STR_SQFB_opt_textFont_desc"],
+    ["Squad Feedback", format ["06 - %1", localize "STR_SQFB_opt_HUDcustomization"]],
     [["EtelkaMonospacePro","EtelkaMonospaceProBold","EtelkaNarrowMediumPro","LucidaConsoleB","PuristaBold","PuristaLight","PuristaMedium","PuristaSemiBold","RobotoCondensed","RobotoCondensedBold","RobotoCondensedLight","TahomaB"], ["EtelkaMonospacePro","EtelkaMonospaceProBold","EtelkaNarrowMediumPro","LucidaConsoleB","PuristaBold","PuristaLight","PuristaMedium","PuristaSemiBold","RobotoCondensed","RobotoCondensedBold","RobotoCondensedLight","TahomaB"],6],
     nil,
     {} 
@@ -508,11 +521,63 @@ Parameters:
 [
     "SQFB_opt_maxAlpha", 
     "SLIDER",
-    ["Maximum Alpha", "Maximum opaqueness for all the elements of the HUD."], 
-    ["Squad Feedback", "05 - HUD Customization"],
+    [localize "STR_SQFB_opt_maxAlpha", localize "STR_SQFB_opt_maxAlpha_desc"],
+    ["Squad Feedback", format ["06 - %1", localize "STR_SQFB_opt_HUDcustomization"]],
     [0.1, 1, 0.9, 2], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
+] call CBA_fnc_addSetting;
+
+
+// ADVANCED - General
+[
+    "SQFB_opt_IFFCheckSolo", 
+    "LIST",
+    [localize "STR_SQFB_opt_IFFCheckSolo", localize "STR_SQFB_opt_IFFCheckSolo_desc"],
+    ["Squad Feedback", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [["never", "always", "device"], [localize "STR_SQFB_opt_enemySideColors_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_showEnemies_device"], 1],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_alternateOcclusionCheck", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_alternateOcclusionCheck", localize "STR_SQFB_opt_alternateOcclusionCheck_desc"],
+    ["Squad Feedback", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_lastKnownEnemyPositionOnly", 
+    "LIST", 
+    [localize "STR_SQFB_opt_lastKnownEnemyPositionOnly", localize "STR_SQFB_opt_lastKnownEnemyPositionOnly_desc"],
+    ["Squad Feedback", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [["never", "always", "device"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_lastKnownEnemyPositionOnly_device"], 0],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_lastKnownFriendlyPositionOnly", 
+    "LIST", 
+    [localize "STR_SQFB_opt_lastKnownFriendlyPositionOnly", localize "STR_SQFB_opt_lastKnownFriendlyPositionOnly_desc"],
+    ["Squad Feedback", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [["never", "always", "device"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_lastKnownEnemyPositionOnly_device"], 0],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_changeIconsToBlufor", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_changeIconsToBlufor", localize "STR_SQFB_opt_changeIconsToBlufor_desc"],
+    ["Squad Feedback", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [false],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 
@@ -520,8 +585,8 @@ Parameters:
 [
     "SQFB_opt_Arrows", 
     "CHECKBOX",
-    ["Display Arrows and Text", "Display arrows and text at the edge of the screen indicating the unit's relative position when it's not in view of the player."],
-    ["Squad Feedback", "06 - HUD Display - Advanced (Squad)"],
+    [localize "STR_SQFB_opt_Arrows", localize "STR_SQFB_opt_Arrows_desc"],
+    ["Squad Feedback", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -530,8 +595,8 @@ Parameters:
 [
     "SQFB_opt_outFOVindex", 
     "CHECKBOX",
-    ["Alway Show Index", "Always display the indexes of your units when not in view."],
-    ["Squad Feedback", "06 - HUD Display - Advanced (Squad)"],
+    [localize "STR_SQFB_opt_outFOVindex", localize "STR_SQFB_opt_outFOVindex_desc"],
+    ["Squad Feedback", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -540,8 +605,8 @@ Parameters:
 [
     "SQFB_opt_checkOcclusion", 
     "CHECKBOX",
-    ["Check Squad for Occlusion", "Only display HUD elements on units not hidden by obstacles or terrain."],
-    ["Squad Feedback", "06 - HUD Display - Advanced (Squad)"],
+    [localize "STR_SQFB_opt_checkOcclusion", localize "STR_SQFB_opt_checkOcclusion_desc"],
+    ["Squad Feedback", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
     [false],
     nil,
     {} 
@@ -550,8 +615,8 @@ Parameters:
 [
     "SQFB_opt_scaleText", 
     "CHECKBOX",
-    ["Scale Squad HUD Text", "The further away the unit is the smaller the text. When too far away the text won't be displayed.\nThis option only affects your squad units."],
-    ["Squad Feedback", "06 - HUD Display - Advanced (Squad)"],
+    [localize "STR_SQFB_opt_scaleText", localize "STR_SQFB_opt_scaleText_desc"],
+    ["Squad Feedback", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
     [true],
     nil,
     {} 
@@ -560,8 +625,8 @@ Parameters:
 [
     "SQFB_opt_ShowCrew", 
     "CHECKBOX",
-    ["Display Squad Crew", "Display the indexes of all the crew of the group vehicles and their roles as crew (D for driver, C for commander, G for gunner, T for turret)."],
-    ["Squad Feedback", "06 - HUD Display - Advanced (Squad)"],
+    [localize "STR_SQFB_opt_ShowCrew", localize "STR_SQFB_opt_ShowCrew_desc"],
+    ["Squad Feedback", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -570,8 +635,8 @@ Parameters:
 [
     "SQFB_opt_GroupCrew", 
     "CHECKBOX",
-    ["Group Squad Units in Vehicles", "If enabled, when units are inside a vehicle only a HUD element will be displayed over such vehicle (instead of over every crew member), with information about its crew and cargo.\nIf disabled, every unit inside a vehicle will display a HUD element over their heads (same behaviour as if they weren't in a vehicle)."],
-    ["Squad Feedback", "06 - HUD Display - Advanced (Squad)"],
+    [localize "STR_SQFB_opt_GroupCrew", localize "STR_SQFB_opt_GroupCrew_desc"],
+    ["Squad Feedback", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
     [true],
     nil,
     {} 
@@ -580,8 +645,8 @@ Parameters:
 [
     "SQFB_opt_showDead", 
     "CHECKBOX",
-    ["Display Squad's Dead Units", "Display the HUD over dead units which were part of the player's group."],
-    ["Squad Feedback", "06 - HUD Display - Advanced (Squad)"],
+    [localize "STR_SQFB_opt_showDead", localize "STR_SQFB_opt_showDead_desc"],
+    ["Squad Feedback", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
     [true],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
@@ -590,8 +655,8 @@ Parameters:
 [
     "SQFB_opt_showDeadMinTime", 
     "SLIDER",
-    ["Display Dead Initial Delay", "Time that must pass while the HUD is shown to display dead units, in seconds."], 
-    ["Squad Feedback", "06 - HUD Display - Advanced (Squad)"],
+    [localize "STR_SQFB_opt_showDeadMinTime", localize "STR_SQFB_opt_showDeadMinTime_desc"],
+    ["Squad Feedback", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
     [0, 60, 3, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -599,10 +664,10 @@ Parameters:
 
 [
     "SQFB_opt_AlwaysShowCritical", 
-    "CHECKBOX",
-    ["Always Display Squad Critical Conditions", "If player is medic or the squad leader, always display information about injured, unconscious, units without ammo, etc. even when the Squad Feedback key isn't pressed."],
-    ["Squad Feedback", "06 - HUD Display - Advanced (Squad)"],
-    [true],
+    "LIST",
+    [localize "STR_SQFB_opt_AlwaysShowCritical", localize "STR_SQFB_opt_AlwaysShowCritical_desc"],
+    ["Squad Feedback", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
+    [["never", "always", "infantry", "vehicles"], [localize "STR_SQFB_opt_enemySideColors_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_AlwaysShowCritical_infantry", localize "STR_SQFB_opt_AlwaysShowCritical_vehicles"], 1],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
@@ -612,29 +677,8 @@ Parameters:
 [
     "SQFB_opt_checkOcclusionEnemies", 
     "CHECKBOX",
-    ["Check Enemies for Occlusion", "If enabled, known enemy positions will be occluded by terrain and obstacles. When this happens, the last known enemy position will be displayed instead.
-    If disabled, the known enemy locations will always be visible."],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Enemies)"],
-    [true],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_alternateOcclusionCheck", 
-    "CHECKBOX",
-    ["Use Alternate Occlusion Check", "If enabled, the occlusion checks will probably be a bit more peformance friendly at the cost of precision."],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Enemies)"],
-    [false],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_enemyCheckSolo", 
-    "CHECKBOX",
-    ["Check for enemies when alone", "If enabled, you will always track known enemy units, even when you're not in a group. The known enemies will be those that the unit you are controlling perceives.\nEven if disabled, known enemies will still be shown if you have 'Allow Enemy Tracking Devices' enabled and one of those devices equipped."],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Enemies)"],
+    [localize "STR_SQFB_opt_checkOcclusionEnemies", localize "STR_SQFB_opt_checkOcclusionEnemies_desc"],
+    ["Squad Feedback", format ["09 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_enemies"]],
     [true],
     nil,
     {} 
@@ -643,8 +687,8 @@ Parameters:
 [
     "SQFB_opt_alwaysDisplayTarget", 
     "CHECKBOX",
-    ["Always display assigned target", "If enabled, you will always track your assigned target, even if the enemy HUD isn't currently activated."],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Enemies)"],
+    [localize "STR_SQFB_opt_alwaysDisplayTarget", localize "STR_SQFB_opt_alwaysDisplayTarget_desc"],
+    ["Squad Feedback", format ["09 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_enemies"]],
     [true],
     nil,
     {} 
@@ -653,28 +697,8 @@ Parameters:
 [
     "SQFB_opt_enemyPreciseVisCheck", 
     "CHECKBOX",
-    ["Precise Visibilty Check for Enemy Vehicles", "More precise visibility checks for enemy vehicles.\nThis will check all the corners of their bounding box instead of a single point, so it will affect performance."],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Enemies)"],
-    [false],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_lastKnownEnemyPositionOnly", 
-    "CHECKBOX",
-    ["Only display last known enemy positions", "If enabled, only the last known enemy positions will be displayed."],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Enemies)"],
-    [false],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "SQFB_opt_changeIconsToBlufor", 
-    "CHECKBOX",
-    ["Enemy icons for BLUFOR", "If enabled, the type of icons shown for enemies when they are BLUFOR will be those of NATO."],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Enemies)"],
+    [localize "STR_SQFB_opt_enemyPreciseVisCheck", localize "STR_SQFB_opt_enemyPreciseVisCheck_desc"],
+    ["Squad Feedback", format ["09 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_enemies"]],
     [false],
     nil,
     {} 
@@ -683,63 +707,52 @@ Parameters:
 [
     "SQFB_opt_enemySideColors", 
     "LIST",
-    ["Use enemy side colors", "If enabled, the color for enemy icons will change depending on their side (default is blue for WEST, red for EAST, green for RESISTANCE and purple for CIVILIAN).\n\n- 'Never' will use the default enemy color.\n- 'Current side' will use the color of the side the unit currently belongs to.\n- 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always be red, BLUFOR blue, etc)"],
-    ["Squad Feedback", "07 - HUD Display - Advanced (Enemies)"],
-    [["never", "current", "faction"], ["Never", "Current side", "Faction side"], 0],
+    [localize "STR_SQFB_opt_enemySideColors", localize "STR_SQFB_opt_enemySideColors_desc"],
+    ["Squad Feedback", format ["09 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_enemies"]],
+    [["never", "current", "faction"], [localize "STR_SQFB_opt_enemySideColors_never", localize "STR_SQFB_opt_enemySideColors_current", localize "STR_SQFB_opt_enemySideColors_faction"], 0],
     nil,
-    {} 
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
 
 // ADVANCED - Friendlies
-// [
-//     "SQFB_opt_checkOcclusionFriendlies", 
-//     "CHECKBOX",
-//     ["Check Friendlies for Occlusion", "If enabled, known friendly positions will be occluded by terrain and obstacles. When this happens, the last known friendly position will be displayed instead.
-//     If disabled, the known friendly locations will always be visible."],
-//     ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
-//     [true],
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_checkOcclusionFriendlies", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_checkOcclusionFriendlies", localize "STR_SQFB_opt_checkOcclusionFriendlies_desc"],
+    ["Squad Feedback", format ["10 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_friendlies"]],
+    [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_friendlyPreciseVisCheck", 
-//     "CHECKBOX",
-//     ["Precise Visibilty Check for Friendly Vehicles", "More precise visibility checks for friendly vehicles.\nThis will check all the corners of their bounding box instead of a single point, so it will affect performance."],
-//     ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
-//     [false],
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_friendlyPreciseVisCheck", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_friendlyPreciseVisCheck", localize "STR_SQFB_opt_friendlyPreciseVisCheck_desc"],
+    ["Squad Feedback", format ["10 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_friendlies"]],
+    [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_lastKnownFriendlyPositionOnly", 
-//     "CHECKBOX",
-//     ["Only display last known friendly positions", "If enabled, only the last known friendly positions will be displayed."],
-//     ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
-//     [false],
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
-
-// [
-//     "SQFB_opt_friendlySideColors", 
-//     "LIST",
-//     ["Use friendly side colors", "If enabled, the color for friendly icons will change depending on their side (default is blue for WEST, red for EAST, green for RESISTANCE and purple for CIVILIAN).\n\n- 'Never' will use the default friendly color.\n- 'Current side' will use the color of the side the unit currently belongs to.\n- 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always be red, BLUFOR blue, etc)"],
-//     ["Squad Feedback", "07 - HUD Display - Advanced (Friendlies)"],
-//     [["never", "current", "faction"], ["Never", "Current side", "Faction side"], 0],
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_friendlySideColors", 
+    "LIST",
+    [localize "STR_SQFB_opt_friendlySideColors", localize "STR_SQFB_opt_friendlySideColors_desc"],
+    ["Squad Feedback", format ["10 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_friendlies"]],
+    [["never", "current", "faction"], [localize "STR_SQFB_opt_enemySideColors_never", localize "STR_SQFB_opt_enemySideColors_current", localize "STR_SQFB_opt_enemySideColors_faction"], 0],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
 
 
 // ADVANCED - Custom classnames
 [
     "SQFB_opt_EnemyTrackingGearGoggles", 
     "EDITBOX",
-    ["Additional Goggles", "Add here any other goggles you want to be able to use to track known enemies.\n\nThe list must be class names (without quotation marks "") and separated by commas.\nExample: MyGogglesClass1, MyGogglesClass2, etc"],
-    ["Squad Feedback", "08 - Additional Enemy Tracking Devices"],
+    [localize "STR_SQFB_opt_EnemyTrackingGearGoggles", localize "STR_SQFB_opt_EnemyTrackingGearGoggles_desc"],
+    ["Squad Feedback", format ["11 - %1", localize "STR_SQFB_opt_AdditionalEnemyTrackingDevices"]],
     "", // data for this setting: "defaultValue"
     nil,
     { [( _this splitString ",") apply {_x}, "goggles"] call SQFB_fnc_trackingGearAdd; }
@@ -748,8 +761,8 @@ Parameters:
 [
     "SQFB_opt_EnemyTrackingGearHelmets", 
     "EDITBOX",
-    ["Additional Helmets", "Add here any other helmets you want to be able to use to track known enemies.\n\nThe list must be class names (without quotation marks "") and separated by commas.\nExample: MyHelmetClass1, MyHelmetClass2, etc"],
-    ["Squad Feedback", "08 - Additional Enemy Tracking Devices"],
+    [localize "STR_SQFB_opt_EnemyTrackingGearHelmets", localize "STR_SQFB_opt_EnemyTrackingGearHelmets_desc"],
+    ["Squad Feedback", format ["11 - %1", localize "STR_SQFB_opt_AdditionalEnemyTrackingDevices"]],
     "", // data for this setting: "defaultValue"
     nil,
     { [( _this splitString ",") apply {_x}, "headgear"] call SQFB_fnc_trackingGearAdd; }
@@ -758,11 +771,43 @@ Parameters:
 [
     "SQFB_opt_EnemyTrackingGearHMD", 
     "EDITBOX",
-    ["Additional HMD", "Add here any other Head Mounted Displays (like NVGs) you want to be able to use to track known enemies.\n\nThe list must be class names (without quotation marks "") and separated by commas.\nExample: MyHMDClass1, MyHMDClass2, etc"],
-    ["Squad Feedback", "08 - Additional Enemy Tracking Devices"],
+    [localize "STR_SQFB_opt_EnemyTrackingGearHMD", localize "STR_SQFB_opt_EnemyTrackingGearHMD_desc"],
+    ["Squad Feedback", format ["11 - %1", localize "STR_SQFB_opt_AdditionalEnemyTrackingDevices"]],
     "", // data for this setting: "defaultValue"
     nil,
     { [( _this splitString ",") apply {_x}, "hmd"] call SQFB_fnc_trackingGearAdd; }
+] call CBA_fnc_addSetting;
+
+
+// SOUNDS
+[
+    "SQFB_opt_sounds_squad", 
+    "LIST",
+    [localize "STR_SQFB_opt_sounds_squad", localize "STR_SQFB_opt_sounds_squad_desc"],
+    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_sounds"]],
+    [["none", "beep", "focus", "radio"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus", localize "STR_SQFB_opt_sounds_radio"], 3],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_sounds_noIFF", 
+    "LIST",
+    [localize "STR_SQFB_opt_sounds_noIFF", localize "STR_SQFB_opt_sounds_noIFF_desc"],
+    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_sounds"]],
+    [["none", "beep", "focus", "radio"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus", localize "STR_SQFB_opt_sounds_radio"], 2],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_sounds_IFF", 
+    "LIST",
+    [localize "STR_SQFB_opt_sounds_IFF", localize "STR_SQFB_opt_sounds_IFF_desc"],
+    ["Squad Feedback", format ["12 - %1", localize "STR_SQFB_opt_sounds"]],
+    [["none", "beep", "focus", "radio"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus", localize "STR_SQFB_opt_sounds_radio"], 1],
+    nil,
+    {} 
 ] call CBA_fnc_addSetting;
 
 
@@ -770,8 +815,8 @@ Parameters:
 [
     "SQFB_opt_colorDefault", 
     "COLOR",
-    ["Default color", "Default color used for all the elements of the HUD."], 
-    ["Squad Feedback", "09 - Colors (Squad)"],
+    [localize "STR_SQFB_opt_colorDefault", localize "STR_SQFB_opt_colorDefault_desc"],
+    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.9,0.9,0.9],
     nil,
     {} 
@@ -780,8 +825,8 @@ Parameters:
 [
     "SQFB_opt_colorRed", 
     "COLOR",
-    ["Red Team color", "Color used for units assigned to the red player's team.\nThis option won't have any effect if colors are deactivated."], 
-    ["Squad Feedback", "09 - Colors (Squad)"],
+    [localize "STR_SQFB_opt_colorRed", localize "STR_SQFB_opt_colorRed_desc"],
+    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.95,0.33,0.5],
     nil,
     {} 
@@ -790,8 +835,8 @@ Parameters:
 [
     "SQFB_opt_colorGreen", 
     "COLOR",
-    ["Green Team color", "Color used for units assigned to the green player's team.\nThis option won't have any effect if colors are deactivated."], 
-    ["Squad Feedback", "09 - Colors (Squad)"],
+    [localize "STR_SQFB_opt_colorGreen", localize "STR_SQFB_opt_colorGreen_desc"],
+    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.36,0.95,0.33],
     nil,
     {} 
@@ -800,8 +845,8 @@ Parameters:
 [
     "SQFB_opt_colorBlue", 
     "COLOR",
-    ["Blue Team color", "Color used for units assigned to the blue player's team.\nThis option won't have any effect if colors are deactivated."], 
-    ["Squad Feedback", "09 - Colors (Squad)"],
+    [localize "STR_SQFB_opt_colorBlue", localize "STR_SQFB_opt_colorBlue_desc"],
+    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.33,0.65,0.9],
     nil,
     {} 
@@ -810,8 +855,8 @@ Parameters:
 [
     "SQFB_opt_colorYellow", 
     "COLOR",
-    ["Yellow Team color", "Color used for units assigned to the yellow player's team.\nThis option won't have any effect if colors are deactivated."],
-    ["Squad Feedback", "09 - Colors (Squad)"],
+    [localize "STR_SQFB_opt_colorYellow", localize "STR_SQFB_opt_colorYellow_desc"],
+    ["Squad Feedback", format ["13 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.95,0.9,0.3],
     nil,
     {} 
@@ -822,8 +867,8 @@ Parameters:
 [
     "SQFB_opt_colorEnemyTarget", 
     "COLOR",
-    ["Enemy color for Assigned Target", "Color used for enemy units assigned as the player's target.\nThis option won't have any effect if colors are deactivated."], 
-    ["Squad Feedback", "10 - Colors (Enemy)"],
+    [localize "STR_SQFB_opt_colorEnemyTarget", localize "STR_SQFB_opt_colorEnemyTarget_desc"],
+    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.98,0.796,0.137],
     nil,
     {} 
@@ -832,8 +877,8 @@ Parameters:
 [
     "SQFB_opt_colorEnemy", 
     "COLOR",
-    ["Enemy color for East and Global", "Color used for enemy units in general or when enemy units are OPFOR side and 'Use enemy side colors' is enabled."], 
-    ["Squad Feedback", "10 - Colors (Enemy)"],
+    [localize "STR_SQFB_opt_colorEnemy", localize "STR_SQFB_opt_colorEnemy_desc"],
+    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.9,0.21,0.3],
     nil,
     {} 
@@ -842,8 +887,8 @@ Parameters:
 [
     "SQFB_opt_colorEnemyWest", 
     "COLOR",
-    ["Enemy color for West", "Color used for enemy units of BLUFOR side if 'Use enemy side colors' is enabled."], 
-    ["Squad Feedback", "10 - Colors (Enemy)"],
+    [localize "STR_SQFB_opt_colorEnemyWest", localize "STR_SQFB_opt_colorEnemyWest_desc"],
+    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.33,0.8,1],
     nil,
     {} 
@@ -852,8 +897,8 @@ Parameters:
 [
     "SQFB_opt_colorEnemyGuer", 
     "COLOR",
-    ["Enemy color for Resistance", "Color used for enemy units of RESISTANCE side if 'Use enemy side colors' is enabled."], 
-    ["Squad Feedback", "10 - Colors (Enemy)"],
+    [localize "STR_SQFB_opt_colorEnemyGuer", localize "STR_SQFB_opt_colorEnemyGuer_desc"],
+    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.36,0.95,0.33],
     nil,
     {} 
@@ -862,8 +907,8 @@ Parameters:
 [
     "SQFB_opt_colorEnemyCiv", 
     "COLOR",
-    ["Enemy color for Civilian", "Color used for enemy units of CIVILIAN side if 'Use enemy side colors' is enabled."], 
-    ["Squad Feedback", "10 - Colors (Enemy)"],
+    [localize "STR_SQFB_opt_colorEnemyCiv", localize "STR_SQFB_opt_colorEnemyCiv_desc"],
+    ["Squad Feedback", format ["14 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.7,0.1,0.9],
     nil,
     {} 
@@ -871,45 +916,45 @@ Parameters:
 
 
 // // COLORS - Friendly
-// [
-//     "SQFB_opt_colorFriendly", 
-//     "COLOR",
-//     ["Friendly color for West and Global", "Color used for friendly units in general or when friendly units are BLUFOR side and 'Use friendly side colors' is enabled."], 
-//     ["Squad Feedback", "10 - Colors (Friendly)"],
-//     [0.33,0.8,1],
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_colorFriendly", 
+    "COLOR",
+    [localize "STR_SQFB_opt_colorFriendly", localize "STR_SQFB_opt_colorFriendly_desc"], 
+    ["Squad Feedback", format ["15 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    [0.33,0.65,0.9],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_colorFriendlyEast", 
-//     "COLOR",
-//     ["Friendly color for East", "Color used for friendly units of OPFOR side if 'Use friendly side colors' is enabled."], 
-//     ["Squad Feedback", "10 - Colors (Friendly)"],
-//     [0.9,0.21,0.3],
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_colorFriendlyEast", 
+    "COLOR",
+    [localize "STR_SQFB_opt_colorFriendlyEast", localize "STR_SQFB_opt_colorFriendlyEast_desc"], 
+    ["Squad Feedback", format ["15 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    [0.95,0.33,0.5],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_colorFriendlyGuer", 
-//     "COLOR",
-//     ["Friendly color for Resistance", "Color used for friendly units of RESISTANCE side if 'Use friendly side colors' is enabled."], 
-//     ["Squad Feedback", "10 - Colors (Friendly)"],
-//     [0.36,0.95,0.33],
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_colorFriendlyGuer", 
+    "COLOR",
+    [localize "STR_SQFB_opt_colorFriendlyGuer", localize "STR_SQFB_opt_colorFriendlyGuer_desc"], 
+    ["Squad Feedback", format ["15 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    [0.36,0.95,0.33],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
-// [
-//     "SQFB_opt_colorFriendlyCiv", 
-//     "COLOR",
-//     ["Friendly color for Civilian", "Color used for friendly units of CIVILIAN side if 'Use friendly side colors' is enabled."], 
-//     ["Squad Feedback", "10 - Colors (Friendly)"],
-//     [0.7,0.1,0.9],
-//     nil,
-//     {} 
-// ] call CBA_fnc_addSetting;
+[
+    "SQFB_opt_colorFriendlyCiv", 
+    "COLOR",
+    [localize "STR_SQFB_opt_colorFriendlyCiv", localize "STR_SQFB_opt_colorFriendlyCiv_desc"], 
+    ["Squad Feedback", format ["15 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    [0.7,0.1,0.9],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
 
 
 

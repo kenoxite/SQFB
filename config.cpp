@@ -5,7 +5,7 @@ class CfgPatches
         name = "Squad Feedback";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.1";
+        version = "2.0";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -50,7 +50,7 @@ class CfgFunctions
             class HUDhide {};
             class HUDupdate {};
             class HUDdrawSquad {};
-            class HUDdrawEnemies {};
+            class HUDdrawIFF {};
             class HUDtext {};
             class HUDIcon {};
             class HUDAlpha {};
@@ -70,6 +70,9 @@ class CfgFunctions
             class factionSide {};
             class knownFriendsAndFoes {};
             class checkOcclusion {};
+            class IFFupdate {};
+            class IFFactivateDevice {};
+            class playSound {};
         };
 
         class CBA
@@ -84,5 +87,51 @@ class CfgFunctions
             class hideEnemyHUD_key_CBA {};
             class showEnemyHUD_key_T_CBA {};
         };
+    };
+};
+
+class CfgSounds
+{
+    sounds[] = {};
+
+    // Effects
+    class SQFB_beep_On
+    {
+        name = "[SQFB] Beep - On";
+        // filename, volume, pitch, distance (optional)
+        sound[] = { "\SQFB\sounds\sfx\beep_on", db, 1, 100 };
+        titles[] = {};
+    };
+    class SQFB_beep_Off
+    {
+        name = "[SQFB] Beep - Off";
+        sound[] = { "\SQFB\sounds\sfx\beep_off", db, 1, 100 };
+        titles[] = {};
+    };
+
+    class SQFB_focus_On
+    {
+        name = "[SQFB] Focus - On";
+        sound[] = { "\SQFB\sounds\sfx\focus_on", db, 1, 100 };
+        titles[] = {};
+    };
+    class SQFB_focus_Off
+    {
+        name = "[SQFB] Focus - Off";
+        sound[] = { "\SQFB\sounds\sfx\focus_off", db, 1, 100 };
+        titles[] = {};
+    };
+
+    class SQFB_radio_On
+    {
+        name = "[SQFB] Radio - On";
+        sound[] = { "\SQFB\sounds\sfx\radiocomm_on", db, 1, 100 };
+        titles[] = {};
+    };
+    class SQFB_radio_Off
+    {
+        name = "[SQFB] Radio - Off";
+        sound[] = { "\SQFB\sounds\sfx\radiocomm_off", db, 1, 100 };
+        titles[] = {};
     };
 };

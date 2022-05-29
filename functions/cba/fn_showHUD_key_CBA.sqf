@@ -16,11 +16,14 @@
 
 */
 
+if (SQFB_opt_SquadHUDkey_Toggle) exitWith { _this call SQFB_fnc_showHUD_key_T_CBA };
+
 if (!SQFB_showHUD) then 
 {
     SQFB_showHUD = true;
-    SQFB_showFriendlyHUD = true;
     
 	call SQFB_fnc_HUDupdate;
     [] call SQFB_fnc_HUDshow;
+
+    ["squad", "on"] call SQFB_fnc_playSound;
 };

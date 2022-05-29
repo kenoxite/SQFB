@@ -19,11 +19,13 @@
 if (!SQFB_showHUD) then 
 {
     SQFB_showHUD = true;
-    SQFB_showFriendlyHUD = true;
 	call SQFB_fnc_HUDupdate;
     [] call SQFB_fnc_HUDshow;
+
+    ["squad", "on"] call SQFB_fnc_playSound;
 } else {
     SQFB_showHUD = false;
-    SQFB_showFriendlyHUD = false;
 	[] call SQFB_fnc_HUDhide;
+
+    ["squad", "off"] call SQFB_fnc_playSound;
 };

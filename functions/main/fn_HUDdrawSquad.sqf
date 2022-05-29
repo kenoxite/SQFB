@@ -17,6 +17,23 @@
 */
 params ["_playerPos"];
 
+private _playerOnFoot = isNull objectParent SQFB_player;
+private _vehPlayer = vehicle SQFB_player;
+private _isPlayerAir = (!_playerOnFoot && {(getPosASL _vehPlayer select 2) > 5});
+
+private _allTurrets = allTurrets [_vehPlayer, false];
+private _camDir = -1;
+if (count _allTurrets == 0 || {_vehPlayer turretUnit [0] != SQFB_player}) then {
+    _camDir = [0,0,0] getdir getCameraViewDirection _vehPlayer;
+} else {
+    private _weaponDir = _vehPlayer weaponDirection (currentWeapon _vehPlayer);
+    private _turretDir = (_weaponDir select 0) atan2 (_weaponDir select 1);
+    _camDir = [
+                    _turretDir,
+                    360 + _turretDir
+                ] select (_turretDir < 0);
+};
+
 private _SQFB_opt_scaleText = SQFB_opt_scaleText;
 private _SQFB_opt_textSize = SQFB_opt_textSize;
 private _SQFB_opt_iconSize = SQFB_opt_iconSize;
@@ -29,6 +46,7 @@ private _SQFB_opt_iconHeightVeh = SQFB_opt_iconHeightVeh;
 private _SQFB_opt_showIcon = SQFB_opt_showIcon;
 private _SQFB_opt_showText = SQFB_opt_showText;
 private _SQFB_opt_showIndex = SQFB_opt_showIndex;
+private _SQFB_opt_maxAlpha = SQFB_opt_maxAlpha;
 
 private _SQFB_units = SQFB_units;
 private _SQFB_opt_GroupCrew = SQFB_opt_GroupCrew;
@@ -40,6 +58,12 @@ private _SQFB_opt_showClass = SQFB_opt_showClass;
 private _SQFB_opt_showRoles = SQFB_opt_showRoles;
 private _SQFB_opt_ShowCrew = SQFB_opt_ShowCrew;
 private _SQFB_opt_showDist = SQFB_opt_showDist;
+private _SQFB_opt_profile = SQFB_opt_profile;
+private _SQFB_opt_outFOVindex = SQFB_opt_outFOVindex;
+
+private _SQFB_showDeadMinTime = SQFB_showDeadMinTime;
+
+private _cameraView = cameraView;
 
 private _vehData = [];
 for "_i" from 0 to (count _SQFB_units) -1 do
@@ -49,8 +73,6 @@ for "_i" from 0 to (count _SQFB_units) -1 do
         private _grp = group _unit; 
         private _alive = alive _unit;
         private _veh = vehicle _unit;
-        private _vehPlayer = vehicle SQFB_player;
-        private _isPlayerAir = ((getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent SQFB_player));
         private _dist = _vehPlayer distance _veh;
         private _maxRange = [SQFB_opt_maxRange, SQFB_opt_maxRangeAir] select (_isPlayerAir);
 
@@ -67,15 +89,17 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                         ] select _isOnFoot
                                     ] select _SQFB_opt_checkOcclusion;
         private _unitOccluded = _unitVisibility < 0.2;
-        private _unitVisible = [ _playerPos, [0,0,0] getdir getCameraViewDirection SQFB_player, ceil((call CBA_fnc_getFov select 0)*100), _unitPos] call BIS_fnc_inAngleSector;
-        if (!_unitOccluded && (_SQFB_showHUD || {(!_SQFB_showHUD && _SQFB_opt_AlwaysShowCritical) || {!_unitVisible && SQFB_opt_outFOVindex}})) then {
+        private _unitVisible = [_playerPos, _camDir, ceil((call CBA_fnc_getFov select 0)*100), _unitPos] call BIS_fnc_inAngleSector;
+        
+        private _showCritical = [false, true] select (_SQFB_opt_AlwaysShowCritical == "always" || (_SQFB_opt_AlwaysShowCritical == "infantry" && _isOnFoot) || (_SQFB_opt_AlwaysShowCritical == "vehicles" && _isOnFoot));
+        if (!_unitOccluded && (_SQFB_showHUD || {(!_SQFB_showHUD && _showCritical) || {!_unitVisible && SQFB_opt_outFOVindex}})) then {
             if (_alive || (!_alive && _SQFB_opt_showDead && (_unit getVariable "SQFB_veh") == _unit)) then {
                 private _zoom = call SQFB_fnc_trueZoom;
                 private _adjSize = 2; // TBH no idea why this is needed, but it's needed
 
-                private _iconSize = [
+                private _iconSizeBase = [
                                         [
-                                            ((linearConversion[ 0, _maxRange min 200, _dist, (1.8 * _adjSize) * _zoom, 0.3, true ])) min 1.8,
+                                            ((linearConversion[ 0, _maxRange min 200, _dist, (1.5 * _adjSize) * _zoom, 0.3, true ])) min 1.5,
                                             ((linearConversion[ 0, _maxRange min 200, _dist, (1.8 * _adjSize) * _zoom, 0.1, true ])) min 1.8
                                         ] select _isOnFoot,
 
@@ -85,7 +109,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                         ] select _isOnFoot
                                     ] select _isPlayerAir;
 
-                private _textSize = [
+                private _textSizeBase = [
                                         0.03,
                                         [
                                             [
@@ -95,14 +119,14 @@ for "_i" from 0 to (count _SQFB_units) -1 do
 
                                             ((linearConversion[ 0, _maxRange min 200, _dist, (0.04 * _adjSize) * _zoom, 0.02, true ])) min 0.04
                                         ] select _isPlayerAir
-                                    ] select _SQFB_opt_scaleText;
+                                    ] select (_SQFB_opt_scaleText || _cameraView != "GUNNER");
 
-                _iconSize = _iconSize * _SQFB_opt_iconSize;
-                _textSize = (_textSize * _SQFB_opt_textSize) max 0.02;
+                private _iconSize = _iconSizeBase * _SQFB_opt_iconSize;
+                private _textSize = (_textSizeBase * _SQFB_opt_textSize) max 0.02;
 
-                private _color = _unit call SQFB_fnc_HUDColor;
+                private _color = [_unit, _dist, _maxRange, _SQFB_opt_maxAlpha] call SQFB_fnc_HUDColor;
 
-                // Check wether info should be displayed as a vehicle or as separate units
+                // Check whether crew info should be displayed as a vehicle or as separate units
                 private _displayIndividualCrew = _SQFB_opt_GroupCrew && !_isOnFoot && (_veh != _vehPlayer || (_veh == _vehPlayer && cameraView != "INTERNAL"));
                 private _isFirstCrew = false;
                 if (_displayIndividualCrew) then {
@@ -120,24 +144,24 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                 private _texture = [
                                         [
                                             "",
-                                            _unit call SQFB_fnc_HUDIcon
+                                            [_unit, _SQFB_opt_profile, _SQFB_opt_showDead, _SQFB_showDeadMinTime, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_showText] call SQFB_fnc_HUDIcon
                                         ] select (!_unitOccluded && (_SQFB_opt_showIcon || _textSize <= 0.02) && (_isOnFoot || (!_isOnFoot && _veh == _vehPlayer && cameraView == "INTERNAL"))),
 
                                         [
                                             "",
-                                            [_veh, _grp] call SQFB_fnc_HUDIconVeh
+                                            [_veh, _grp, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_showText] call SQFB_fnc_HUDIconVeh
                                         ] select (!_unitOccluded && (_SQFB_opt_showIcon || _textSize <= 0.02))
                                     ] select _displayAsVehicle;
 
                 private _text = [
                                     [
                                         "",
-                                        [_unit, _unitVisible] call SQFB_fnc_HUDtext
+                                        [_unit, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_showDist, _SQFB_opt_outFOVindex, _SQFB_opt_profile] call SQFB_fnc_HUDtext
                                     ] select (_SQFB_opt_showText && _textSize > 0.02 && (_isOnFoot || (!_isOnFoot && _veh == _vehPlayer && cameraView == "INTERNAL"))),
                                     
                                     [
                                         "",
-                                        [_veh, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_ShowCrew, _SQFB_opt_showDist] call SQFB_fnc_HUDtextVeh
+                                        [_veh, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_ShowCrew, _SQFB_opt_showDist, _SQFB_opt_profile, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_outFOVindex] call SQFB_fnc_HUDtextVeh
                                     ] select (_SQFB_opt_showText && _textSize > 0.02)
                                 ] select _displayAsVehicle;
 
