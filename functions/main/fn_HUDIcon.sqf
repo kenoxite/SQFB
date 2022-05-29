@@ -15,11 +15,10 @@
     Examples:d
 */
 
-params ["_unit"];
+params [["_unit", objNull], ["_profile", "default"], ["_showDead", true], ["_showDeadMinTime", 3], ["_alwaysShowCritical", true], ["_showText", true]];
 
 private _return = "";
-
-if (!SQFB_opt_showIcon) exitwith { _return };
+if(isNull _unit) exitWith {_return};
 
 // Exclude players
 if (_unit == SQFB_player) exitWith {_return};
@@ -44,9 +43,12 @@ if (SQFB_showHUD) then {
         if (_unit getVariable "SQFB_medic") then { _return = "a3\ui_f\data\igui\cfg\cursors\unithealer_ca.paa"; };
     };
 
-    if (!alive _unit && SQFB_opt_showDead && time >= SQFB_showDeadMinTime) then { _return = "a3\ui_f\data\igui\cfg\revive\overlayicons\f100_ca.paa" };
+    if (!alive _unit && _showDead && time >= _showDeadMinTime) then { _return = "a3\ui_f\data\igui\cfg\revive\overlayicons\f100_ca.paa" };
 } else {
-    if (SQFB_opt_AlwaysShowCritical && {(SQFB_player getVariable "SQFB_medic" || leader _unit == SQFB_player) || {!SQFB_opt_showText}}) then {
+    private _playerIsLeader = leader _unit == SQFB_player;
+    private _playerIsMedic = SQFB_player getVariable "SQFB_medic";
+    private _showCritical = [false, true] select (_alwaysShowCritical == "always" || _alwaysShowCritical == "infantry");
+    if (_showCritical && {(_playerIsMedic || _playerIsLeader) || {!_showText}}) then {
         // Ammo amount
         if ((vehicle _unit) == _unit) then {
             if (_unit getVariable "SQFB_noAmmo") then {
@@ -75,4 +77,4 @@ if (SQFB_showHUD) then {
     };
 };
 
-_return 
+_return

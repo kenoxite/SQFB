@@ -839,9 +839,9 @@
         <Spanish>Tiempo que ha de pasar hasta que el HUD se muestre sobre las unidades fallecidas, en segundos.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_AlwaysShowCritical">
-        <Original>Always Display Squad Critical Conditions</Original>
-        <English>Always Display Squad Critical Conditions</English>
-        <Spanish>Siempre Mostrar Condiciones Críticas</Spanish>
+        <Original>Display Squad Critical Conditions</Original>
+        <English>Display Squad Critical Conditions</English>
+        <Spanish>Mostrar Condiciones Críticas del Pelotón</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_AlwaysShowCritical_desc">
         <Original>If player is medic or the squad leader, always display information about injured, unconscious, units without ammo, etc. even when the
@@ -850,6 +850,16 @@
 \nSquad Feedback key isn't pressed.</English>
         <Spanish>Si el jugador es médico o el líder del pelotón siempre se mostrará información sobre los heridos, inconscientes, unidades sin munición, etc.
 \naunque no se pulse la tecla de HUD del pelotón.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_AlwaysShowCritical_infantry">
+        <Original>Only Infantry</Original>
+        <English>Only Infantry</English>
+        <Spanish>Sólo Infantería</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_AlwaysShowCritical_vehicles">
+        <Original>Only Vehicles</Original>
+        <English>Only Vehicles</English>
+        <Spanish>Sólo Vehículos</Spanish>
       </Key>
     </Container>
     <Container name="HUDdisplay_advanced_enemies">

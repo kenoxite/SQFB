@@ -24,6 +24,8 @@ params ["_observed", ["_observer", SQFB_player], ["_precise", false]];
 private _isObject = typeName _observed == "OBJECT";
 private _observerPos = [_observer, eyepos _observer] select _isObject;
 private _vis = 0;
+private _observerVeh = vehicle _observer;
+private _observedVeh = vehicle _observed;
 
 if (_isObject) then {
     if (_precise) then {
@@ -59,7 +61,7 @@ if (_isObject) then {
 
         private _visArr = [];
         {
-            private _visCheck = [objNull, "VIEW"] checkVisibility [_observerPos, _bbrCoords select _forEachIndex];
+            private _visCheck = [_observerVeh, "VIEW", _observedVeh] checkVisibility [_observerPos, _bbrCoords select _forEachIndex];
             _visArr pushBack _visCheck;
             if (_visCheck == 1) exitWith { true };
         } forEach _bbrCoords;
@@ -68,9 +70,12 @@ if (_isObject) then {
 
     } else {
         _vis = [
-                    [objNull, "VIEW"] checkVisibility [_observerPos, AtlToAsl (_unit modeltoworld [0,0,0])],
-                    [objNull, "VIEW"] checkVisibility [_observerPos, eyepos _observed]
-                ] select (_observed isKindOf "Man");
+                    [_observerVeh, "VIEW", _observedVeh] checkVisibility [_observerPos, AtlToAsl (_observedVeh modeltoworld [0,0,0])],
+                    [
+                        [_observerVeh, "VIEW", _observedVeh] checkVisibility [_observerPos, eyepos _observed],
+                        [objNull, "VIEW"] checkVisibility [_observerPos, eyepos _observed]
+                    ] select (_observerVeh isKindOf "Man")
+                ] select (_observedVeh isKindOf "Man");
     };
 } else {
     _vis = [objNull, "VIEW"] checkVisibility [_observerPos, _observed]

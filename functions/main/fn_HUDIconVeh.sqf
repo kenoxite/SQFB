@@ -16,30 +16,33 @@
 
 */
 
-params ["_veh", "_grp"];
+params [["_veh", objNull], ["_grp", grpNull], ["_alwaysShowCritical", true], ["_showText", true]];
 private _return = "";
+if(isNull _veh || isNull _grp) exitWith {_return};
+
 private _crew = crew _veh;
-
-if (!SQFB_opt_showIcon || count _crew == 0) exitwith { _return };
     
-
 // Default
-if (SQFB_showHUD) then {
-	//_return = format["%1", getText (configfile >> "CfgVehicles" >> typeOf _veh >> "picture")];
-};
+// if (SQFB_showHUD) then {
+// 	//_return = format["%1", getText (configfile >> "CfgVehicles" >> typeOf _veh >> "picture")];
+// };
 
-if (SQFB_opt_AlwaysShowCritical && !SQFB_showHUD && {(SQFB_player getVariable "SQFB_medic" || leader _unit == SQFB_player) || {!SQFB_opt_showText}}) then {
-	// Vehicle status
-	if ((fuel _veh) == 0) then {
-		_return = "a3\ui_f\data\igui\cfg\actions\refuel_ca.paa";
+private _showCritical = [false, true] select (_alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles");
+private _playerIsLeader = leader _unit == SQFB_player;
+private _playerIsMedic = SQFB_player getVariable "SQFB_medic";
+if (_showCritical && !SQFB_showHUD && {(_playerIsLeader || _playerIsMedic) || {!_showText}}) then {
+    if (_playerIsLeader) then {
+    	// Vehicle status
+    	if ((fuel _veh) == 0) then {
+    		_return = "a3\ui_f\data\igui\cfg\actions\refuel_ca.paa";
+    	};
+    	if ((damage _veh) >= 0.5) then {
+    		_return = "a3\ui_f\data\igui\cfg\actions\repair_ca.paa";
+    	};
+    	if (!(canMove _veh) && (fuel _veh) > 0) then {
+    		_return = "a3\ui_f\data\igui\cfg\actions\repair_ca.paa";
+    	};
 	};
-	if ((damage _veh) >= 0.5) then {
-		_return = "a3\ui_f\data\igui\cfg\actions\repair_ca.paa";
-	};
-	if (!(canMove _veh) && (fuel _veh) > 0) then {
-		_return = "a3\ui_f\data\igui\cfg\actions\repair_ca.paa";
-	};
-	
 	// Display if wounded units in crew
 	private _wounded = { lifeState _x != "HEALTHY" && alive _x} count _crew;
 	if (_wounded > 0) then {
@@ -54,4 +57,4 @@ if (SQFB_opt_AlwaysShowCritical && !SQFB_showHUD && {(SQFB_player getVariable "S
 		};
 	};
 };
-_return	
+_return

@@ -16,23 +16,8 @@
 
 */
 
-params ["_unit", ["_type", "friendly"]];
-private _vehPlayer = vehicle SQFB_player;
-private _distance = (vehicle _unit) distance _vehPlayer;
-private _alpha = SQFB_opt_maxAlpha;
-private _isPlayerAir = (getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent SQFB_player);
-private _maxDist = [
-                        [
-                            SQFB_opt_showEnemiesMaxRange,
-                            SQFB_opt_maxRange
-                        ] select (_type == "friendly"),
-
-                        [
-                            SQFB_opt_showEnemiesMaxRangeAir,
-                            SQFB_opt_maxRangeAir
-                        ] select (_type == "friendly")
-                    ] select (_isPlayerAir);
-
+params [["_unit", objNull], ["_distance", 0], ["_maxDist", 800], ["_alpha", 1]];
+if (isNull _unit) exitWith {1};
 if (_distance > _maxDist) exitWith { 0 };
 
 if (_distance > _maxDist/8 && _distance <= _maxDist/6) exitWith { _alpha - 0.2 };

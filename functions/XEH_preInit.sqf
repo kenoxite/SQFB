@@ -30,7 +30,7 @@ Returns:
 	[localize "STR_SQFB_Ctrl_SquadHUDkey", localize "STR_SQFB_Ctrl_SquadHUDkey_desc"],
 	{ _this call SQFB_fnc_showHUD_key_CBA },
 	{ _this call SQFB_fnc_hideHUD_key_CBA },
-    [ DIK_TAB, [false, true, false] ], // [DIK, [shift, ctrl, alt]
+    [ DIK_CAPSLOCK, [false, true, false] ], // [DIK, [shift, ctrl, alt]
     false
 ] call CBA_fnc_addKeybind;
 
@@ -40,7 +40,7 @@ Returns:
     [localize "STR_SQFB_Ctrl_enemyHUDkey", localize "STR_SQFB_Ctrl_enemyHUDkey_desc"],
     { _this call SQFB_fnc_showEnemyHUD_key_CBA },
     { _this call SQFB_fnc_hideEnemyHUD_key_CBA },
-    [ DIK_TAB, [false, false, false] ], // [DIK, [shift, ctrl, alt]
+    [ DIK_CAPSLOCK, [false, false, false] ], // [DIK, [shift, ctrl, alt]
     false
 ] call CBA_fnc_addKeybind;
 
@@ -90,7 +90,7 @@ Parameters:
     "LIST",
     [localize "STR_SQFB_opt_profile", localize "STR_SQFB_opt_profile_desc"],
     "Squad Feedback",
-    [["custom", "default", "all", "min", "crit", "vanillalike", "onlyalwaysenemies", "hightech", "immersion"],[localize "STR_SQFB_opt_profile_custom", localize "STR_A3_OPTIONS_DEFAULT", localize "STR_SQFB_opt_profile_allOn", localize "STR_SQFB_opt_profile_minimalist", localize "STR_SQFB_opt_profile_onlyCritical", localize "STR_SQFB_opt_profile_vanillaLike", localize "STR_SQFB_opt_profile_onlyAlwaysEnemies", localize "STR_SQFB_opt_profile_hightech", localize "STR_SQFB_opt_profile_immersion"], 1],
+    [["custom", "default", "all", "min", "crit", "vanillalike", "onlyalwaysenemies", "hightech", "immersion", "author"],[localize "STR_SQFB_opt_profile_custom", localize "STR_A3_OPTIONS_DEFAULT", localize "STR_SQFB_opt_profile_allOn", localize "STR_SQFB_opt_profile_minimalist", localize "STR_SQFB_opt_profile_onlyCritical", localize "STR_SQFB_opt_profile_vanillaLike", localize "STR_SQFB_opt_profile_onlyAlwaysEnemies", localize "STR_SQFB_opt_profile_hightech", localize "STR_SQFB_opt_profile_immersion", "kenoxite"], 1],
     nil,
     { call SQFB_fnc_changeProfile; } 
 ] call CBA_fnc_addSetting;
@@ -664,10 +664,10 @@ Parameters:
 
 [
     "SQFB_opt_AlwaysShowCritical", 
-    "CHECKBOX",
+    "LIST",
     [localize "STR_SQFB_opt_AlwaysShowCritical", localize "STR_SQFB_opt_AlwaysShowCritical_desc"],
     ["Squad Feedback", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
-    [true],
+    [["never", "always", "infantry", "vehicles"], [localize "STR_SQFB_opt_enemySideColors_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_AlwaysShowCritical_infantry", localize "STR_SQFB_opt_AlwaysShowCritical_vehicles"], 1],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;

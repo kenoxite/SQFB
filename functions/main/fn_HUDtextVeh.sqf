@@ -16,19 +16,23 @@
 
 */
 
-params ["_veh", "_unitVisible", ["_showIndex", true],["_showClass", false],["_showRoles", false],["_showCrew", true],["_showDist", true]];
+params ["_veh", "_unitVisible", ["_showIndex", true], ["_showClass", false], ["_showRoles", false], ["_showCrew", true], ["_showDist", true], ["_profile", "default"], ["_alwaysShowCritical", true], ["_outFOVindex", true]];
+
 private _return = "";
+
+// Exclude players
+if (_veh == vehicle SQFB_player) exitWith {_return};
+
 private _index = -1;
 private _crew = fullCrew [vehicle _veh,"",true];
 private _vehLeader = objNull;
-if (_showIndex) then {
-	if (isNull _vehLeader) then {_vehLeader = effectiveCommander _veh};
-	if (isNull _vehLeader) then {_vehLeader = driver _veh};
-	if (isNull _vehLeader) then {_vehLeader = gunner _veh};
-	if (isNull _vehLeader) then {_vehLeader = _crew select 0};
+if (isNull _vehLeader) then {_vehLeader = effectiveCommander _veh};
+if (isNull _vehLeader) then {_vehLeader = driver _veh};
+if (isNull _vehLeader) then {_vehLeader = gunner _veh};
+if (isNull _vehLeader) then {_vehLeader = _crew select 0};
 
-	if (!isNull _vehLeader) then {_index = _vehLeader getVariable "SQFB_grpIndex";};
-};
+if (!isNull _vehLeader) then {_index = _vehLeader getVariable "SQFB_grpIndex";};
+
 if (isNil "_vehLeader") exitWith { _return };
 if (isNull _vehLeader) exitWith { _return };
 
@@ -38,19 +42,23 @@ if (_showClass) then {
     _vehName = toUpperANSI (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"));
 };
 
-private _grpLeader = leader (group _unit);
-private _isGrpLeader = _grpLeader == _unit;
-private _isFormLeader = formationLeader _vehPlayer == _unit;
-private _isFormFollower = (formationLeader _unit == _vehPlayer) && _grpLeader != SQFB_player;
-private _informCritical = SQFB_player getVariable "SQFB_medic" || _grpLeader == SQFB_player;
+private _playerIsLeader = _grpLeader == SQFB_player;
+private _playerIsMedic = SQFB_player getVariable "SQFB_medic";
+private _informCritical = _playerIsMedic || _playerIsLeader;
+private _showCritical = [false, true] select (_alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles");
+
+private _grpLeader = leader (group _vehLeader);
+private _isGrpLeader = _grpLeader == _vehLeader;
+private _isFormLeader = formationLeader _vehPlayer == _vehLeader;
+private _isFormFollower = (formationLeader _vehLeader == _vehPlayer) && !_playerIsLeader;
 
 // Always show leader index
 private _alive = alive _veh || damage _veh < 1;
-if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && SQFB_opt_showIndex && _index >= 0 && (_isGrpLeader || _isFormLeader || _isFormFollower)) then { _return = format ["%1%2%3%4%5%6%7 ", _return, if (_isGrpLeader) then {"<"} else {""}, _index, if (_isGrpLeader) then {">"} else {""}, if (_isFormLeader) then {"^"} else {""}, if (_isFormFollower) then {""""} else {""}] };
+if (_outFOVindex && _profile != "crit" && _alive && _showIndex && _index >= 0 && (_isGrpLeader || _isFormLeader || _isFormFollower)) then { _return = format ["%1%2%3%4%5%6%7 ", _return, if (_isGrpLeader) then {"<"} else {""}, _index, if (_isGrpLeader) then {">"} else {""}, if (_isFormLeader) then {"^"} else {""}, if (_isFormFollower) then {""""} else {""}] };
 
 // Default text when requested by player
 if (SQFB_showHUD) then {
-    if (SQFB_opt_outFOVindex && SQFB_opt_profile != "crit" && _alive && _showIndex && _index >= 0 && !_isGrpLeader && !_isFormLeader) then { _return = format ["%1%2: ", _return, _index] };
+    if (_profile != "crit" && _alive && _showIndex && _index >= 0 && !_isGrpLeader && !_isFormLeader && !_isFormFollower) then { _return = format ["%1%2 ", _return, _index] };
 
 	if (_showClass) then {
         _return = format ["%1%2 ", _return, _vehName];
@@ -68,7 +76,7 @@ if (SQFB_showHUD) then {
 	if (_showRoles) then {
         _return = format ["%1[%2: ", _return, (_veh call BIS_fnc_objectType) select 1];
     } else {
-        _return = format ["%1[", _return];
+        _return = format ["%1", _return];
     };
 	// Crew
 	if (_showCrew) then {
@@ -102,17 +110,17 @@ if (SQFB_showHUD) then {
 				_j = _j + 1;
 			};
 		};
-	  _return = format ["%1%2]%3 ", _return,_crewStr, if (_e > 0) then { format[" E:%1",_e] } else { "" }];
+	  _return = format ["%1[%2]%3 ", _return,_crewStr, if (_e > 0) then { format[" E:%1",_e] } else { "" }];
 	};
 	if (_showDist && _veh != _vehPlayer) then {
 		_return = format ["%1(%2m) ",_return, round (_veh distance _vehPlayer)];
 	};
 } else {
     // Text when always show critical is enabled
-	if (count _crew > 0 && {SQFB_opt_outFOVindex || {SQFB_opt_AlwaysShowCritical && _informCritical}}) then {
-		if (!_unitVisible) then {
-			private _critical = false;
-            if (_informCritical) then {
+    if (count _crew > 0 && !_unitVisible && _alive && {_outFOVindex || {_showCritical && _informCritical}}) then {
+		private _critical = false;
+        if (_informCritical) then {
+            if (_playerIsLeader) then {
     			//if (_showClass) then {_return = format ["%1%2 ", _return,_vehName]};
     			// Vehicle status
     			if ((fuel _veh) == 0) then {
@@ -127,26 +135,26 @@ if (SQFB_showHUD) then {
     				_return = format ["%1[%2] ", _return, localize "STR_SQFB_HUD_cantMove"];
     				_critical = true;
     			};
-    			// Display if wounded units in crew
-    			private _crew = crew _veh;
-    			private _wounded = { lifeState _x != "HEALTHY" && alive _x} count _crew;
-    			if (_wounded > 0) then {
-    				_return =  format ["%1[%2 %3] ", _return, _wounded, localize "STR_SQFB_HUD_wounded"];
-    				_critical = true;
-    			};
-    			// Show medics in the vehicle when there's wounded units in the group
-    			private _medic = _crew findIf {(_x getVariable "SQFB_medic")};
-    			if (_medic != -1) then {
-    				if (_grp getVariable "SQFB_wounded") then {
-    					_return =  format ["%1[%2 %3] ", _return, localize "STR_SQFB_HUD_medicIs", (_crew select _medic) getVariable "SQFB_grpIndex"];
-    					_critical = true;
-    				};
-    			};
             };
-            if (_critical || SQFB_opt_outFOVindex  && !_isGrpLeader && !_isFormLeader && !_isFormFollower) then {
-                if (_showIndex && _index >= 0) then { _return = format ["%1%2 %3 ", _index, if (_return != "") then { ":" } else { "" }, _return] };
-            };
-		};
+			// Display if wounded units in crew
+			private _crew = crew _veh;
+			private _wounded = { lifeState _x != "HEALTHY" && alive _x} count _crew;
+			if (_wounded > 0) then {
+				_return =  format ["%1[%2 %3] ", _return, _wounded, localize "STR_SQFB_HUD_wounded"];
+				_critical = true;
+			};
+			// Show medics in the vehicle when there's wounded units in the group
+			private _medic = _crew findIf {(_x getVariable "SQFB_medic")};
+			if (_medic != -1) then {
+				if (_grp getVariable "SQFB_wounded") then {
+					_return =  format ["%1[%2 %3] ", _return, localize "STR_SQFB_HUD_medicIs", (_crew select _medic) getVariable "SQFB_grpIndex"];
+					_critical = true;
+				};
+			};
+        };
+        if ((_outFOVindex || _critical) && _showIndex && _index >= 0 && !_isGrpLeader && !_isFormLeader && !_isFormFollower) then {
+            _return = format ["%1%2 %3 ", _index, if (_return != "") then { ":" } else { "" }, _return];
+        };
 	};
 };
 _return

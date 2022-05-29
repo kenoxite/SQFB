@@ -44,7 +44,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_outFOVindex = true;
         SQFB_opt_showCrew = true;
         SQFB_opt_showDead = true;
-        SQFB_opt_AlwaysShowCritical = true;
+        SQFB_opt_AlwaysShowCritical = "always";
 
         SQFB_opt_IFFCheckSolo = "always";
         SQFB_opt_lastKnownEnemyPositionOnly = "never";
@@ -74,7 +74,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_outFOVindex = true;
         SQFB_opt_showCrew = true;
         SQFB_opt_showDead = true;
-        SQFB_opt_AlwaysShowCritical = true;
+        SQFB_opt_AlwaysShowCritical = "always";
 
         SQFB_opt_IFFCheckSolo = "always";
         SQFB_opt_lastKnownEnemyPositionOnly = "never";
@@ -104,7 +104,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_outFOVindex = false;
         SQFB_opt_showCrew = false;
         SQFB_opt_showDead = true;
-        SQFB_opt_AlwaysShowCritical = true;
+        SQFB_opt_AlwaysShowCritical = "always";
 
         SQFB_opt_IFFCheckSolo = "always";
         SQFB_opt_lastKnownEnemyPositionOnly = "never";
@@ -134,7 +134,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_outFOVindex = false;
         SQFB_opt_showCrew = true;
         SQFB_opt_showDead = false;
-        SQFB_opt_AlwaysShowCritical = true;
+        SQFB_opt_AlwaysShowCritical = "always";
 
         SQFB_opt_IFFCheckSolo = "always";
         SQFB_opt_lastKnownEnemyPositionOnly = "never";
@@ -164,7 +164,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_outFOVindex = false;
         SQFB_opt_showCrew = false;
         SQFB_opt_showDead = false;
-        SQFB_opt_AlwaysShowCritical = false;
+        SQFB_opt_AlwaysShowCritical = "never";
 
         SQFB_opt_IFFCheckSolo = "always";
         SQFB_opt_lastKnownEnemyPositionOnly = "never";
@@ -194,7 +194,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_outFOVindex = true;
         SQFB_opt_showCrew = true;
         SQFB_opt_showDead = true;
-        SQFB_opt_AlwaysShowCritical = true;
+        SQFB_opt_AlwaysShowCritical = "always";
 
         SQFB_opt_IFFCheckSolo = "device";
         SQFB_opt_lastKnownEnemyPositionOnly = "device";
@@ -224,11 +224,41 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_outFOVindex = false;
         SQFB_opt_showCrew = false;
         SQFB_opt_showDead = false;
-        SQFB_opt_AlwaysShowCritical = false;
+        SQFB_opt_AlwaysShowCritical = "never";
 
         SQFB_opt_IFFCheckSolo = "never";
         SQFB_opt_lastKnownEnemyPositionOnly = "always";
         SQFB_opt_lastKnownFriendlyPositionOnly = "always";
+        SQFB_opt_enemySideColors = "current";
+        SQFB_opt_friendlySideColors = "current";
+        SQFB_opt_changeIconsToBlufor = true;
+    };
+
+    case "author": {
+        SQFB_opt_showSquad = true;
+        SQFB_opt_showEnemies = "keypressed";
+        SQFB_opt_showFriendlies = "keypressed";
+        
+        SQFB_opt_showIcon = true;
+        SQFB_opt_showText = true;
+        SQFB_opt_showColor = true;
+        SQFB_opt_showIndex = true;
+        SQFB_opt_showClass = false;
+        SQFB_opt_showRoles = false;
+        SQFB_opt_showRolesIcon = true;
+        SQFB_opt_showDist = false;
+        SQFB_opt_showDistEnemy = false;
+        SQFB_opt_showDistFriendly = false;
+
+        SQFB_opt_Arrows = false;
+        SQFB_opt_outFOVindex = false;
+        SQFB_opt_showCrew = false;
+        SQFB_opt_showDead = true;
+        SQFB_opt_AlwaysShowCritical = "infantry";
+
+        SQFB_opt_IFFCheckSolo = "device";
+        SQFB_opt_lastKnownEnemyPositionOnly = "device";
+        SQFB_opt_lastKnownFriendlyPositionOnly = "device";
         SQFB_opt_enemySideColors = "current";
         SQFB_opt_friendlySideColors = "current";
         SQFB_opt_changeIconsToBlufor = true;
@@ -254,7 +284,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_outFOVindex = true;
         SQFB_opt_showCrew = true;
         SQFB_opt_showDead = true;
-        SQFB_opt_AlwaysShowCritical = true;
+        SQFB_opt_AlwaysShowCritical = "always";
 
         SQFB_opt_IFFCheckSolo = "always";
         SQFB_opt_lastKnownEnemyPositionOnly = "never";

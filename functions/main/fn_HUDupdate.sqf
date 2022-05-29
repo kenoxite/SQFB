@@ -37,9 +37,10 @@ SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
 private _rangeFriendly = 0;
 private _rangeEnemy = 0;
 
+private _showSolo = SQFB_opt_IFFCheckSolo == "always" || _unitCount > 1 || (SQFB_opt_IFFCheckSolo == "device" && SQFB_trackingGearCheck);
+
 // Friendlies
 if (SQFB_opt_showFriendlies != "never") then {
-    private _showSolo = SQFB_opt_IFFCheckSolo == "always" || (SQFB_opt_IFFCheckSolo == "never" && _unitCount > 1) || (SQFB_opt_IFFCheckSolo == "device" && SQFB_trackingGearCheck);
     SQFB_showFriendlies = SQFB_opt_showFriendlies == "always" || (SQFB_showIFFHUD && _showSolo && SQFB_opt_showFriendlies != "device") ||  (SQFB_opt_showFriendlies == "device" && SQFB_trackingGearCheck && SQFB_showIFFHUD);
     _rangeFriendly = if (((getPosASL vehicle SQFB_player) select 2) > 5 && !(isNull objectParent SQFB_player)) then { SQFB_opt_showFriendliesMaxRangeAir } else { SQFB_opt_showFriendliesMaxRange };
 } else {   
@@ -50,7 +51,6 @@ if (SQFB_opt_showFriendlies != "never") then {
 
 // Enemies
 if (SQFB_opt_showEnemies != "never") then {
-    private _showSolo = SQFB_opt_IFFCheckSolo == "always" || (SQFB_opt_IFFCheckSolo == "never" && _unitCount > 1) || (SQFB_opt_IFFCheckSolo == "device" && SQFB_trackingGearCheck);
     private _assignedTarget = assignedTarget SQFB_player;
     private _displayTarget = SQFB_opt_alwaysDisplayTarget && !isNull _assignedTarget;
     private _showEnemies = SQFB_opt_showEnemies == "always" || (SQFB_showIFFHUD && _showSolo && SQFB_opt_showEnemies != "device") ||  (SQFB_opt_showEnemies == "device" && SQFB_trackingGearCheck && SQFB_showIFFHUD);

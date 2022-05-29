@@ -17,22 +17,33 @@
 
 params ["_playerPos"];
 
-private _SQFB_opt_scaleText = SQFB_opt_scaleText;
+private _playerOnFoot = isNull objectParent SQFB_player;
+private _vehPlayer = vehicle SQFB_player;
+private _isPlayerAir = (!_playerOnFoot && {(getPosASL _vehPlayer select 2) > 5});
+
+private _allTurrets = allTurrets [_vehPlayer, false];
+private _camDir = -1;
+if (count _allTurrets == 0 || {_vehPlayer turretUnit [0] != SQFB_player}) then {
+    _camDir = [0,0,0] getdir getCameraViewDirection _vehPlayer;
+} else {
+    private _weaponDir = _vehPlayer weaponDirection (currentWeapon _vehPlayer);
+    private _turretDir = (_weaponDir select 0) atan2 (_weaponDir select 1);
+    _camDir = [
+                    _turretDir,
+                    360 + _turretDir
+                ] select (_turretDir < 0);
+};
+
 private _SQFB_opt_textSize = SQFB_opt_textSize;
 private _SQFB_opt_iconSize = SQFB_opt_iconSize;
 private _SQFB_opt_iconHor = SQFB_opt_iconHor;
 private _SQFB_opt_iconHeight = SQFB_opt_iconHeight;
 private _SQFB_opt_textFont = SQFB_opt_textFont;
-private _SQFB_opt_Arrows = SQFB_opt_Arrows;
 private _SQFB_opt_iconHorVeh = SQFB_opt_iconHorVeh;
 private _SQFB_opt_iconHeightVeh = SQFB_opt_iconHeightVeh;
-private _SQFB_opt_showIcon = SQFB_opt_showIcon;
 private _SQFB_opt_showText = SQFB_opt_showText;
-private _SQFB_opt_showIndex = SQFB_opt_showIndex;
-private _SQFB_opt_scaleText = SQFB_opt_scaleText;
+private _SQFB_opt_maxAlpha = SQFB_opt_maxAlpha;
 
-// private _SQFB_knownEnemies = SQFB_knownEnemies;
-// private _SQFB_enemyTagObjArr = SQFB_enemyTagObjArr;
 private _SQFB_opt_colorEnemy = SQFB_opt_colorEnemy;
 private _SQFB_opt_colorEnemyTarget = SQFB_opt_colorEnemyTarget;
 private _SQFB_opt_showEnemiesMinRange = SQFB_opt_showEnemiesMinRange;
@@ -50,6 +61,7 @@ private _SQFB_opt_colorEnemyGuer = SQFB_opt_colorEnemyGuer;
 private _SQFB_opt_colorEnemyCiv = SQFB_opt_colorEnemyCiv;
 
 private _SQFB_opt_alternateOcclusionCheck = SQFB_opt_alternateOcclusionCheck;
+private _cameraView = cameraView;
 
 private _onlyLastPosEnemy = [
                             [
@@ -60,10 +72,8 @@ private _onlyLastPosEnemy = [
                                 true
                             ] select (_SQFB_opt_lastKnownEnemyPositionOnly == "always"),
                             false
-                        ] select (_SQFB_opt_lastKnownEnemyPositionOnly == "never");
+                        ] select (_SQFB_opt_lastKnownEnemyPositionOnly == "never" || (_cameraView == "GUNNER" && SQFB_player != driver _vehPlayer) || _cameraView == "GROUP");
 
-// private _SQFB_knownFriendlies = SQFB_knownFriendlies;
-// private _SQFB_friendlyTagObjArr = SQFB_friendlyTagObjArr;
 private _SQFB_opt_colorFriendly = SQFB_opt_colorFriendly;
 private _SQFB_opt_showFriendliesMinRange = SQFB_opt_showFriendliesMinRange;
 private _SQFB_opt_showFriendliesMinRangeAir = SQFB_opt_showFriendliesMinRangeAir;
@@ -87,7 +97,7 @@ private _onlyLastPosFriendly = [
                                 true
                             ] select (_SQFB_opt_lastKnownFriendlyPositionOnly == "always"),
                             false
-                        ] select (_SQFB_opt_lastKnownFriendlyPositionOnly == "never");
+                        ] select (_SQFB_opt_lastKnownFriendlyPositionOnly == "never" || (_cameraView == "GUNNER" && SQFB_player != driver _vehPlayer) || _cameraView == "GROUP");
 
 private _SQFB_knownIFF = +SQFB_knownIFF;
 private _SQFB_tagObjArr = +SQFB_tagObjArr;
@@ -122,11 +132,9 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
         _dataCamDir = _unitData select 13;
     };
     private _veh = vehicle _unit;
-    private _vehPlayer = vehicle SQFB_player;
-    private _isPlayerAir = ((getPosASL _vehPlayer select 2) > 5 && !(isNull objectParent SQFB_player));
 
     // Skip units outside the max range
-    private _dist = _vehPlayer distance _unit;
+    private _dist = _vehPlayer distance _veh;
     private _maxRange = [
                             [_SQFB_opt_showFriendliesMaxRange, _SQFB_opt_showFriendliesMaxRangeAir] select _isPlayerAir,
                             [_SQFB_opt_showEnemiesMaxRange, _SQFB_opt_showEnemiesMaxRangeAir] select _isPlayerAir
@@ -149,7 +157,6 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
     };
 
     // Skip calculations if positions of both unit and player haven't changed and player and unit still have the same key attributes since last check
-    private _camDir = [0,0,0] getdir getCameraViewDirection SQFB_player;
     private _sameCamDir = [_dataCamDir == _camDir, false] select _noUnitData;
     private _sameUnitStance = [stance _unit == _dataStance, false] select _noUnitData;
     private _zoom = call SQFB_fnc_trueZoom;
@@ -201,11 +208,11 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
         private _perceivedPos = [_lastKnownPos, _realPos] select _isRealPos;
 
         // Skip if unit not in FOV of the player
-        private _unitVisible = [ _playerPos, _camDir, ceil((call CBA_fnc_getFov select 0)*100), _perceivedPos] call BIS_fnc_inAngleSector;
+        private _unitVisible = [_playerPos, _camDir, ceil((call CBA_fnc_getFov select 0)*100), _perceivedPos] call BIS_fnc_inAngleSector;
         if (!_unitVisible) then { _unit setVariable ["SQFB_HUDdata", nil]; continue };
 
         // Skip if too close
-        private _distPerceived = _playerPos distance2D _perceivedPos;
+        private _distPerceived = _playerPos distance _perceivedPos;
         private _minRange = [
                                 [_SQFB_opt_showFriendliesMinRange, _SQFB_opt_showFriendliesMinRangeAir] select _isPlayerAir,
                                 [_SQFB_opt_showEnemiesMinRange, _SQFB_opt_showEnemiesMinRangeAir] select _isPlayerAir
@@ -223,25 +230,27 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
                         ] select _isOnFoot,
 
                         [
-                            ((linearConversion[ 0, _maxRange min 100, _distPerceived, (1 * _adjSize) * _zoom, 0.5, true ])) min 1,
-                            ((linearConversion[ 0, _maxRange min 100, _distPerceived, (1 * _adjSize) * _zoom, 0.5, true ])) min 1
+                            ((linearConversion[ 0, _maxRange min 100, _distPerceived, (0.8 * _adjSize) * _zoom, 0.4, true ])) min 0.8,
+                            ((linearConversion[ 0, _maxRange min 100, _distPerceived, (0.6 * _adjSize) * _zoom, 0.3, true ])) min 0.6
                         ] select _isOnFoot
                     ] select _isPlayerAir;
+                    
+        _iconSize = [
+                        (_iconSizeBase * _SQFB_opt_iconSize) max 0.01,
+                        ((_iconSizeBase * _SQFB_opt_iconSize) + 0.1) max 0.01
+                    ] select _isTarget;
 
         private _textSizeBase = [
                         ((linearConversion[ 0, _maxRange min 200, _distPerceived, (0.04 * _adjSize) * _zoom, 0.03, true ])) min 0.04,
                         ((linearConversion[ 0, _maxRange min 200, _distPerceived, (0.04 * _adjSize) * _zoom, 0.03, true ])) min 0.04
                     ] select _isPlayerAir;
-        _iconSize = [
-                        (_iconSizeBase * _SQFB_opt_iconSize) max 0.01,
-                        ((_iconSizeBase * _SQFB_opt_iconSize) + 0.1) max 0.01
-                    ] select _isTarget;
+
         _textSize = (_textSizeBase * _SQFB_opt_textSize) max 0.02;
 
         private _colorUnit = _unit getVariable "SQFB_color";
         _color = [
-                    [_colorUnit select 0,_colorUnit select 1,_colorUnit select 2, ([_IFFunit] call SQFB_fnc_HUDAlpha) max 0.7],
-                    [_SQFB_opt_colorEnemyTarget select 0,_SQFB_opt_colorEnemyTarget select 1,_SQFB_opt_colorEnemyTarget select 2, ([_IFFunit] call SQFB_fnc_HUDAlpha) max 0.7]
+                    [_colorUnit select 0, _colorUnit select 1, _colorUnit select 2, ([_IFFunit, _distPerceived, _maxRange, _SQFB_opt_maxAlpha] call SQFB_fnc_HUDAlpha) max 0.7],
+                    [_SQFB_opt_colorEnemyTarget select 0, _SQFB_opt_colorEnemyTarget select 1, _SQFB_opt_colorEnemyTarget select 2, 0.7]
                 ] select _isTarget;
 
         _text = [
