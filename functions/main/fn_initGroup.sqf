@@ -24,7 +24,7 @@ private _units = units _grp;
 _grp setVariable ["SQFB_wounded", false];
 
 // Initialize the units group index
-{ _x setVariable ["SQFB_grpIndex", _x call SQFB_fnc_getUnitPositionId]; _x setVariable ["SQFB_lastGroup", group _x] } forEach _units;
+{ private _index = _x call SQFB_fnc_getUnitPositionId; _x setVariable ["SQFB_grpIndex", _index]; _x setVariable ["SQFB_lastGroup", group _x]; if (_x == SQFB_player) then {SQFB_lastPlayerIndex = _index }; } forEach _units;
 
 // Update global vars
 SQFB_group = _grp;

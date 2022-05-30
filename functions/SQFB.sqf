@@ -85,6 +85,7 @@ SQFB_oneShotLaunchers_default = [
     "rhs_weap_rpg26",
     "rhs_weap_rpg18",
     "rhs_weap_rshg2",
+    "rhs_weap_m80",
 
     // CUP
     "CUP_launch_M136",
@@ -143,6 +144,7 @@ SQFB_group = group SQFB_player;
 SQFB_unitCount = count units SQFB_group;
 [SQFB_group] call SQFB_fnc_initGroup;
 SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
+SQFB_lastPlayerIndex = -1;
 
 // Set player position
 SQFB_player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
