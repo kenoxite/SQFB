@@ -23,6 +23,7 @@ private _grp = group SQFB_player;
 private _units = units _grp;
 private _unitCount = count _units;
 private _indexData = SQFB_player getVariable "SQFB_grpIndex";
+if (isNil "_indexData") then {_indexData = SQFB_lastPlayerIndex};
 if (SQFB_group != _grp || !(SQFB_player in SQFB_units) || _indexData != SQFB_lastPlayerIndex) then {
     // Rebuild units array
     [_grp] call SQFB_fnc_initGroup;

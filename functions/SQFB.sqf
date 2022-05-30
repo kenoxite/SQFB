@@ -142,9 +142,9 @@ waitUntil { !isNull player };
 SQFB_player = call SQFB_fnc_playerUnit;
 SQFB_group = group SQFB_player;
 SQFB_unitCount = count units SQFB_group;
+SQFB_lastPlayerIndex = -1;
 [SQFB_group] call SQFB_fnc_initGroup;
 SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
-SQFB_lastPlayerIndex = -1;
 
 // Set player position
 SQFB_player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
