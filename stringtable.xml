@@ -115,9 +115,9 @@
         <Spanish>Activar</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_on_desc">
-        <Original>Enables or disables the whole system.</Original>
-        <English>Enables or disables the whole system.</English>
-        <Spanish>Activa o desactiva todo el sistema.</Spanish>
+        <Original>Enables or disables the whole feedback system.</Original>
+        <English>Enables or disables the whole feedback system.</English>
+        <Spanish>Activa o desactiva todo el sistema de feedback.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_profile">
         <Original>Profile (applies after closing this window)</Original>
@@ -139,8 +139,15 @@
 \n  - Always Display Index
 \n  - Display Crew
 \n  - Display Dead Units
-\n  - Always Display Critical
-\n  - Always Display Enemies
+\n  - Display Squad Critical Conditions
+\n  - Display Known Enemies
+\n  - Display Known Friendlies
+\n  - Show IFF HUD when alone
+\n  - Only display last known enemy positions
+\n  - Only display last known friendly positions
+\n  - Enemy icons for BLUFOR
+\n  - Use Enemy side colors
+\n  - Use Friendly side colors
 \nIf you change the profile any further changes to those settings won't be applied after you close this window.</Original>
         <English>Choosing a profile will change the activation status of the following settings:
 \n  - Display Squad HUD
@@ -156,8 +163,15 @@
 \n  - Always Display Index
 \n  - Display Crew
 \n  - Display Dead Units
-\n  - Always Display Critical
-\n  - Always Display Enemies
+\n  - Display Squad Critical Conditions
+\n  - Display Known Enemies
+\n  - Display Known Friendlies
+\n  - Show IFF HUD when alone
+\n  - Only display last known enemy positions
+\n  - Only display last known friendly positions
+\n  - Enemy icons for BLUFOR
+\n  - Use Enemy side colors
+\n  - Use Friendly side colors
 \nIf you change the profile any further changes to those settings won't be applied after you close this window.</English>
         <Spanish>Al elegir un perfil cambiará el estado de activación de los siguientes ajustes:
 \n  - Mostrar HUD del Pelotón
@@ -173,8 +187,15 @@
 \n  - Siempre Mostrar Índice
 \n  - Mostrar Tripulación
 \n  - Mostrar Unidades Fallecidas
-\n  - Siempre Mostrar Críticos
-\n  - Siempre Mostrar Enemigos
+\n  - Mostrar Condiciones Críticas
+\n  - Mostrar Enemigos Conocidos
+\n  - Mostrar Amistosos Conocidos
+\n  - Mostrar HUD IFF si sólo
+\n  - Sólo mostrar última position conocida de enemigos
+\n  - Sólo mostrar última position conocida de amistosos
+\n  - Iconos de enemigo para BLUFOR
+\n  - Colores de bando para enemigos
+\n  - Colores de bando para amistosos
 \nSi cambias el perfil cualquier otro cambio a esos ajustes no será aplicado tras cerrar esta ventana.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_profile_custom">
@@ -346,11 +367,11 @@
         <Spanish>Retraso de la Actualización de Datos</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_updateDelay_desc">
-        <Original>Waiting time between squad status and known enemies checks, in seconds.
-\nSetting this value lower will keep the HUDs more up to date, but the game performance can be affected.</Original>
-        <English>Waiting time between squad status and known enemies checks, in seconds.
-\nSetting this value lower will keep the HUDs more up to date, but the game performance can be affected.</English>
-        <Spanish>Tiempo de espera entre las comprobaciones del estado del pelotón y los enemigos conocidos, en segundos.
+        <Original>Waiting time between squad status and IFF checks, in seconds.
+\nSetting this value lower will keep the HUDs more up to date, but the game performance may be affected.</Original>
+        <English>Waiting time between squad status and IFF checks, in seconds.
+\nSetting this value lower will keep the HUDs more up to date, but the game performance may be affected.</English>
+        <Spanish>Tiempo de espera entre las comprobaciones del estado del pelotón e IFF, en segundos.
 \nDisminuir este valor mantendrá los HUD más actualizados, pero esto puede afectar al rendimiento del juego.</Spanish>
       </Key>
     </Container>
@@ -848,11 +869,11 @@
       </Key>
       <Key ID="STR_SQFB_opt_AlwaysShowCritical_desc">
         <Original>If player is medic or the squad leader, always display information about injured, unconscious, units without ammo, etc. even when the
-\nSquad Feedback key isn't pressed.</Original>
+\nSquad HUD key isn't pressed.</Original>
         <English>If player is medic or the squad leader, always display information about injured, unconscious, units without ammo, etc. even when the
-\nSquad Feedback key isn't pressed.</English>
+\nSquad HUD key isn't pressed.</English>
         <Spanish>Si el jugador es médico o el líder del pelotón siempre se mostrará información sobre los heridos, inconscientes, unidades sin munición, etc.
-\naunque no se pulse la tecla de HUD del pelotón.</Spanish>
+\naunque no se presione la tecla de HUD del pelotón.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_AlwaysShowCritical_infantry">
         <Original>Only Infantry</Original>
@@ -1081,19 +1102,19 @@
       <Key ID="STR_SQFB_opt_EnemyTrackingGearHMD_desc">
         <Original>Add here any other Head Mounted Displays (like NVGs) you want to be able to use to track known enemies.
 
-\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
 \nExample: MyHMDClass1, MyHMDClass2, etc
 \n\nThe pre-defined devices are:
 \n  - Integrated Visual Augmentation System (IVAS) Headsets</Original>
         <English>Add here any other Head Mounted Displays (like NVGs) you want to be able to use to track known enemies.
 
-\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
 \nExample: MyHMDClass1, MyHMDClass2, etc
 \n\nThe pre-defined devices are:
 \n  - Integrated Visual Augmentation System (IVAS) Headsets</English>
         <Spanish>Añade aquí cualquier otros 'Head Mounted Displays' (como las Gafas de Visión Nocturna) que quieras usar para rastrear enemigos conocidos.
 
-\n\nLa lista ha de contener nombres de clase (sin las comillas """") y separados por comas.
+\n\nLa lista ha de contener nombres de clase (sin las comillas "") y separados por comas.
 \nEjemplo: MiClaseHMD1, MiClaseHMD2, etc
 \n\nLos dispositivos predeterminados son:
 \n  - Integrated Visual Augmentation System (IVAS) Headsets</Spanish>
@@ -1225,6 +1246,18 @@
         <Spanish>Color usado para las unidades enemigas de CIVILIAN si 'Usar Colores del Bando para Enemigos' está activado.</Spanish>
       </Key>
     </Container>
+    <Container name="Settings_title">
+      <Key ID="STR_SQFB_opt_Settings_1">
+        <Original>Squad Feedback - Settings 1</Original>
+        <English>Squad Feedback - Settings 1</English>
+        <Spanish>Squad Feedback - Ajustes 1</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_Settings_2">
+        <Original>Squad Feedback - Settings 2</Original>
+        <English>Squad Feedback - Settings 2</English>
+        <Spanish>Squad Feedback - Ajustes 2</Spanish>
+      </Key>
+    </Container>
   </Package>
   <Package name="InGame_roles">
     <Container name="All">
@@ -1323,6 +1356,11 @@
         <English>Ammo LMG</English>
         <Spanish>Muni A.Lig</Spanish>
       </Key>
+      <Key ID="STR_SQFB_HUD_roles_assistMG">
+        <Original>Ammo MG</Original>
+        <English>Ammo MG</English>
+        <Spanish>Muni Amet.</Spanish>
+      </Key>
     </Container>
     <Container name="SQFB_opt_HUDdisplay_advanced">
       <Key ID="STR_SQFB_opt_HUDdisplay_advanced">
@@ -1348,7 +1386,7 @@
 \n  - Fighter Pilot Helmet (any version)
 \n  - Special Purpose Helmet (any version)
 \n  - Integrated Visual Augmentation System (IVAS) Headsets
-\n\nYou can add more in the 'Additional IFF Devices' section below.</Original>
+\n\nYou can add more in the 'Additional IFF Devices' section in Settings 2.</Original>
         <English>Choose when to display known friendlies.
 \n\nIf 'Only with IFF device' is chosen the HUD will only be shown when you have equipped one of these:
 \n  - Combat Goggles (any version, including balaclavas)
@@ -1359,7 +1397,7 @@
 \n  - Fighter Pilot Helmet (any version)
 \n  - Special Purpose Helmet (any version)
 \n  - Integrated Visual Augmentation System (IVAS) Headsets
-\n\nYou can add more in the 'Additional IFF Devices' section below.</English>
+\n\nYou can add more in the 'Additional IFF Devices' section in Settings 2.</English>
         <Spanish>Elige cuándo mostrar la posición de los amistosos conocidos.
 \n\nSi eliges 'Sólo con Disp. IFF' el HUD solo se mostrará cuando tengas equipado uno de estos:
 \n  - Gafas de Combate (cualquier versión, incluyendo pasamontañas)
@@ -1370,7 +1408,7 @@
 \n  - Casco de Piloto (cualquier versión)
 \n  - Casco de Operaciones Especiales (cualquier versión)
 \n  - Integrated Visual Augmentation System (IVAS) Headsets
-\n\nPuedes añadir más en la sección 'Dispositivos IFF Adicionales' de más abajo.</Spanish>
+\n\nPuedes añadir más en la sección 'Dispositivos IFF Adicionales' de Ajustes 2.</Spanish>
       </Key>
     </Container>
     <Container name="SQFB_opt_HUDdisplay_friendlies">
@@ -1609,9 +1647,9 @@
         <Spanish>Radio</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_sounds_IFF">
-        <Original>HUD with IFF device</Original>
-        <English>HUD with IFF device</English>
-        <Spanish>HUD con disp. IFF</Spanish>
+        <Original>IFF HUD with IFF device</Original>
+        <English>IFF HUD with IFF device</English>
+        <Spanish>HUD IFF con disp. IFF</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_sounds_IFF_desc">
         <Original>Sound to play when activating or deactivating the IFF HUD when you have equipped an IFF device.</Original>
