@@ -42,15 +42,17 @@ if (_showClass) then {
     _vehName = toUpperANSI (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"));
 };
 
+private _grpLeader = leader (group _vehLeader);
+
 private _playerIsLeader = _grpLeader == SQFB_player;
 private _playerIsMedic = SQFB_player getVariable "SQFB_medic";
 private _informCritical = _playerIsMedic || _playerIsLeader;
-private _showCritical = [false, true] select (_alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles");
 
-private _grpLeader = leader (group _vehLeader);
 private _isGrpLeader = _grpLeader == _vehLeader;
 private _isFormLeader = formationLeader _vehPlayer == _vehLeader;
 private _isFormFollower = (formationLeader _vehLeader == _vehPlayer) && !_playerIsLeader;
+
+private _showCritical = [false, true] select (_alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles");
 
 // Always show leader index
 private _alive = alive _veh || damage _veh < 1;
