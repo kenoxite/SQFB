@@ -52,11 +52,13 @@ if (SQFB_opt_showFriendlies != "never") then {
 };
 
 // Enemies
+private _displayTarget = SQFB_opt_alwaysDisplayTarget && !isNull (assignedTarget SQFB_player);
+private _showEnemies = false;
+private _onlyDisplayTarget = false;
 if (SQFB_opt_showEnemies != "never") then {
-    private _assignedTarget = assignedTarget SQFB_player;
-    private _displayTarget = SQFB_opt_alwaysDisplayTarget && !isNull _assignedTarget;
-    private _showEnemies = SQFB_opt_showEnemies == "always" || (SQFB_showIFFHUD && _showSolo && SQFB_opt_showEnemies != "device") ||  (SQFB_opt_showEnemies == "device" && SQFB_trackingGearCheck && SQFB_showIFFHUD);
-    SQFB_showEnemies = [false, true] select (_showEnemies || _displayTarget);
+    _showEnemies = SQFB_opt_showEnemies == "always" || (SQFB_showIFFHUD && _showSolo && SQFB_opt_showEnemies != "device") ||  (SQFB_opt_showEnemies == "device" && SQFB_trackingGearCheck && SQFB_showIFFHUD);
+    _onlyDisplayTarget = _displayTarget && !_showEnemies;
+    SQFB_showEnemies = [false, true] select (_showEnemies || _onlyDisplayTarget);
 
     if (SQFB_showEnemies) then {
         _rangeEnemy = if (((getPosASL vehicle SQFB_player) select 2) > 5 && !(isNull objectParent SQFB_player)) then { SQFB_opt_showEnemiesMaxRangeAir } else { SQFB_opt_showEnemiesMaxRange };
@@ -97,5 +99,5 @@ if ((SQFB_showFriendlies || SQFB_showEnemies) && !SQFB_deletingTaggers) then {
     SQFB_knownIFF = [];
 
     // Rebuild known IFF list and create taggers
-    [SQFB_player, _range, SQFB_showEnemies, _rangeEnemy, SQFB_showFriendlies, _rangeFriendly] call SQFB_fnc_knownFriendsAndFoes;
+    [SQFB_player, _range, SQFB_showEnemies, _rangeEnemy, SQFB_showFriendlies, _rangeFriendly, _onlyDisplayTarget] call SQFB_fnc_knownFriendsAndFoes;
 };

@@ -15,19 +15,21 @@
 
 */
 
-params [["_unit", SQFB_player, [objNull]], ["_distance", 1000, [123]], ["_checkEnemies", true, [true]], ["_distanceFoe", 1000, [123]], ["_checkFriendlies", true, [true]], ["_distanceFriend", 1000, [123]]];
+params [["_unit", SQFB_player, [objNull]], ["_distance", 1000, [123]], ["_checkEnemies", true, [true]], ["_distanceFoe", 1000, [123]], ["_checkFriendlies", true, [true]], ["_distanceFriend", 1000, [123]], ["_onlyDisplayTarget", false, [true]]];
 
 private _nearUnitsUnsorted = (_unit nearEntities [["CAManBase", "Helicopter", "Plane", "LandVehicle", "Ship"], _distance]) select { (_unit targetKnowledge _x) select 0 };
 _nearUnitsUnsorted = _nearUnitsUnsorted - SQFB_units; // Exclude player units
 // Only alive enemies on foot and vehicles with crew
 _nearUnitsUnsorted = _nearUnitsUnsorted select { alive _x && {({ alive _x } count (crew _x)) > 0} };
 // Sort by distance
-_nearUnits = [_nearUnitsUnsorted, [], { _unit distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+private _nearUnits = [_nearUnitsUnsorted, [], { _unit distance _x }, "ASCEND"] call BIS_fnc_sortBy;
+
+private _playerTarget = assignedTarget SQFB_player;
 
 for "_i" from 0 to (count _nearUnits) -1 do
 {
     private _IFFunit = _nearUnits select _i;
-    private _distIFFunit = _IFFunit distance2D _unit;
+    private _distIFFunit = _IFFunit distance _unit;
     private _alignment = side _IFFunit getFriend side _unit;
     private _addTagger = false;
     
@@ -66,8 +68,8 @@ for "_i" from 0 to (count _nearUnits) -1 do
 
     // Foes
     if (_checkEnemies && {_alignment < 0.6}) then {
-        // Check if unit is still below max count
-        if (SQFB_opt_showEnemiesMaxUnits == -1 || {count SQFB_knownEnemies < SQFB_opt_showEnemiesMaxUnits}) then {
+        // Check if unit is still below max count or is the target
+        if ((_onlyDisplayTarget && _IFFunit == _playerTarget) || (!_onlyDisplayTarget && {SQFB_opt_showEnemiesMaxUnits == -1 || {count SQFB_knownEnemies < SQFB_opt_showEnemiesMaxUnits}})) then {
             // Check if within distance
             if (_distIFFunit <= _distanceFoe) then {
                 SQFB_knownEnemies pushBackUnique _IFFunit;
@@ -108,7 +110,7 @@ for "_i" from 0 to (count _nearUnits) -1 do
                 private _index = SQFB_tagObjArr find [objNull, _IFFunit];
                 if (_index > -1) then { SQFB_tagObjArr set [_index, [_tagger, _IFFunit]] };
             };
-        }; 
+        };
     };
 };
 
