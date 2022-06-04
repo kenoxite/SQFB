@@ -5,7 +5,7 @@
 
 ### Info
 
-Squad Feedback  is a singleplayer mod for Arma 3 that aims to enhance AI / player communication via visual cues so you can receive the same information your AI team does, including team status and known enemy locations.
+Squad Feedback  is a singleplayer mod for Arma 3 that aims to enhance AI / player communication via visual cues so you can receive the same information your AI team does, including team status and known enemy and friendly locations.
 
 You can check the already compiled version by visiting this mod's [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2605644817) page.
 
