@@ -992,19 +992,19 @@
 \nand purple for CIVILIAN).
 \n  - 'Never' will use the default enemy color.
 \n  - 'Current side' will use the color of the side the unit currently belongs to.
-\n  - 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
+\n  - 'Faction' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
 \nbe red, BLUFOR blue, etc)</Original>
         <English>If enabled, the color for enemy icons will change depending on their side (default is blue for WEST, red for EAST, green for RESISTANCE
 \nand purple for CIVILIAN).
 \n  - 'Never' will use the default enemy color.
 \n  - 'Current side' will use the color of the side the unit currently belongs to.
-\n  - 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
+\n  - 'Faction' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
 \nbe red, BLUFOR blue, etc)</English>
         <Spanish>Si se activa, el color de los iconos de los enemigos cambiará dependiendo de su bando (por defecto es azul para OESTE, rojo para ESTE, verde para RESISTENCIA
 \ny púrpura para CIVILES):
 \n  - 'Nunca' usará el color de enemigos por defecto.
 \n  - 'Bando actual' usará el color del bando al que pertenece la unidad.
-\n  - 'Facción actual' usará el color original del bando de la facción de la unidad, ignorando el bando de su líder actual (así que las facciones OPFOR siempre serán rojas,
+\n  - 'Facción' usará el color original del bando de la facción de la unidad, ignorando el bando de su líder actual (así que las facciones OPFOR siempre serán rojas,
 \nBLUFOR azules, etc)</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_enemySideColors_never">
@@ -1018,9 +1018,9 @@
         <Spanish>Bando actual</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_enemySideColors_faction">
-        <Original>Faction side</Original>
-        <English>Faction side</English>
-        <Spanish>Facción actual</Spanish>
+        <Original>Faction</Original>
+        <English>Faction</English>
+        <Spanish>Facción</Spanish>
       </Key>
     </Container>
     <Container name="AdditionalEnemyTrackingDevices">
@@ -1037,7 +1037,7 @@
       <Key ID="STR_SQFB_opt_EnemyTrackingGearGoggles_desc">
         <Original>Add here any other goggles you want to be able to use to track known enemies.
 
-\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
 \nExample: MyGogglesClass1, MyGogglesClass2, etc
 \n\nThe pre-defined devices are:
 \n  - Combat Goggles (any version, including balaclavas)
@@ -1045,7 +1045,7 @@
 \n  - VR Goggles</Original>
         <English>Add here any other goggles you want to be able to use to track known enemies.
 
-\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
 \nExample: MyGogglesClass1, MyGogglesClass2, etc
 \n\nThe pre-defined devices are:
 \n  - Combat Goggles (any version, including balaclavas)
@@ -1053,7 +1053,7 @@
 \n  - VR Goggles</English>
         <Spanish>Añade aquí cualquier otras gafas de protección que quieras usar para rastrear enemigos conocidos.
 
-\n\nLa lista ha de contener nombres de clase (sin las comillas """") y separados por comas.
+\n\nLa lista ha de contener nombres de clase (sin las comillas "") y separados por comas.
 \nEjemplo: MiClaseGafasProtec1, MiClaseGafasProtec2, etc
 \n\nLos dispositivos predeterminados son:
 \n  - Gafas de Combate (cualquier versión, incluyendo pasamontañas)
@@ -1068,7 +1068,7 @@
       <Key ID="STR_SQFB_opt_EnemyTrackingGearHelmets_desc">
         <Original>Add here any other helmets you want to be able to use to track known enemies.
 
-\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
 \nExample: MyHelmetClass1, MyHelmetClass2, etc
 \n\nThe pre-defined devices are:
 \n  - Assassin Helmet (any version)
@@ -1077,7 +1077,7 @@
 \n  - Special Purpose Helmet (any version)</Original>
         <English>Add here any other helmets you want to be able to use to track known enemies.
 
-\n\nThe list must be class names (without quotation marks """") and separated by commas.
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
 \nExample: MyHelmetClass1, MyHelmetClass2, etc
 \n\nThe pre-defined devices are:
 \n  - Assassin Helmet (any version)
@@ -1086,7 +1086,7 @@
 \n  - Special Purpose Helmet (any version)</English>
         <Spanish>Añade aquí cualquier otros cascos que quieras usar para rastrear enemigos conocidos.
 
-\n\nLa lista ha de contener nombres de clase (sin las comillas """") y separados por comas.
+\n\nLa lista ha de contener nombres de clase (sin las comillas "") y separados por comas.
 \nEjemplo: MiClaseCasco1, MiClaseCasco2, etc
 \n\nLos dispositivos predeterminados son:
 \n  - Casco de Asesino (cualquier versión)
@@ -1537,19 +1537,19 @@
 \nand purple for CIVILIAN).
 \n  - 'Never' will use the default friendly color.
 \n  - 'Current side' will use the color of the side the unit currently belongs to.
-\n  - 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
+\n  - 'Faction' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
 \nbe red, BLUFOR blue, etc)</Original>
         <English>If enabled, the color for friendly icons will change depending on their side (default is blue for WEST, red for EAST, green for RESISTANCE
 \nand purple for CIVILIAN).
 \n  - 'Never' will use the default friendly color.
 \n  - 'Current side' will use the color of the side the unit currently belongs to.
-\n  - 'Faction side' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
+\n  - 'Faction' will display the original side colors for the unit's faction, ignoring the side of its current leader (so OPFOR factions will always
 \nbe red, BLUFOR blue, etc)</English>
         <Spanish>Si se activa, el color de los iconos de los amistosos cambiará dependiendo de su bando (por defecto es azul para OESTE, rojo para ESTE, verde para RESISTENCIA
 \ny púrpura para CIVILES):
 \n  - 'Nunca' usará el color de amistosos por defecto.
 \n  - 'Bando actual' usará el color del bando al que pertenece la unidad.
-\n  - 'Facción actual' usará el color original del bando de la facción de la unidad, ignorando el bando de su líder actual (así que las facciones OPFOR siempre serán rojas,
+\n  - 'Facción' usará el color original del bando de la facción de la unidad, ignorando el bando de su líder actual (así que las facciones OPFOR siempre serán rojas,
 \nBLUFOR azules, etc)</Spanish>
       </Key>
     </Container>
@@ -1622,8 +1622,8 @@
         <Spanish>HUD IFF sin disp. IFF</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_sounds_noIFF_desc">
-        <Original>Sound to play when activating or deactivating the IFF HUD when you don't have equipped an IFF device.</Original>
-        <English>Sound to play when activating or deactivating the IFF HUD when you don't have equipped an IFF device.</English>
+        <Original>Sound to play when activating or deactivating the IFF HUD if you don't have equipped an IFF device.</Original>
+        <English>Sound to play when activating or deactivating the IFF HUD if you don't have equipped an IFF device.</English>
         <Spanish>Sonido a reproducir cuando se activa o desactiva la HUD de IFF y no tienes equipado un dispositivo IFF.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_sounds_none">
@@ -1652,8 +1652,8 @@
         <Spanish>HUD IFF con disp. IFF</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_sounds_IFF_desc">
-        <Original>Sound to play when activating or deactivating the IFF HUD when you have equipped an IFF device.</Original>
-        <English>Sound to play when activating or deactivating the IFF HUD when you have equipped an IFF device.</English>
+        <Original>Sound to play when activating or deactivating the IFF HUD if you have equipped an IFF device.</Original>
+        <English>Sound to play when activating or deactivating the IFF HUD if you have equipped an IFF device.</English>
         <Spanish>Sonido a reproducir cuando se activa o desactiva la HUD de IFF y tienes equipado un dispositivo IFF.</Spanish>
       </Key>
     </Container>

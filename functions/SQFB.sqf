@@ -136,6 +136,11 @@ SQFB_factionsCiv = [
     "CIV_IDAP_F"
 ];
 
+// Add custom IFF device classes
+[( SQFB_opt_EnemyTrackingGearGoggles splitString ",") apply {_x}, "goggles"] call SQFB_fnc_trackingGearAdd;
+[( SQFB_opt_EnemyTrackingGearHelmets splitString ",") apply {_x}, "headgear"] call SQFB_fnc_trackingGearAdd;
+[( SQFB_opt_EnemyTrackingGearHMD splitString ",") apply {_x}, "hmd"] call SQFB_fnc_trackingGearAdd;
+
 waitUntil { !isNull player };
 
 // Init player group

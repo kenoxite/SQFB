@@ -16,8 +16,8 @@
 
 */
 
-params [["_unit", objNull], ["_distance", 0], ["_maxDist", 800], ["_alpha", 1]];
-if (isNull _unit) exitWith {1};
+params [["_unit", objNull, [objNull]], ["_distance", 0], ["_maxDist", 800], ["_alpha", 1]];
+if (isNull _unit) exitWith {_alpha};
 if (_distance > _maxDist) exitWith { 0 };
 
 if (_distance > _maxDist/8 && _distance <= _maxDist/6) exitWith { _alpha - 0.2 };
