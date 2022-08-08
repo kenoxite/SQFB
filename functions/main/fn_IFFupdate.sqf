@@ -19,7 +19,7 @@ params ["_playerPos"];
 
 private _playerOnFoot = isNull objectParent SQFB_player;
 private _vehPlayer = vehicle SQFB_player;
-private _isPlayerAir = (!_playerOnFoot && {(getPosASL _vehPlayer select 2) > 5});
+private _isPlayerAir = !_playerOnFoot && {(getPosATL _vehPlayer select 2) > 5};
 
 private _allTurrets = allTurrets [_vehPlayer, false];
 private _camDir = -1;
@@ -133,6 +133,11 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
     };
     private _veh = vehicle _unit;
 
+    // Skip if same vehicle as player
+    if (_veh == _vehPlayer) then { _unit setVariable ["SQFB_HUDdata", nil]; continue };
+
+    private _isAir = _veh isKindOf "Air" && {(getPosATL _veh select 2) > 5};
+
     // Skip units outside the max range
     private _dist = _vehPlayer distance _veh;
     private _maxRange = [
@@ -152,7 +157,7 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
         if (count _taggerIndex > 0) then {
             _taggerArr = _SQFB_tagObjArr select (_taggerIndex select 0);
             _tagger = _taggerArr select 0;
-            _tagger setPosWorld _realPos;
+            if (!_isAir) then { _tagger setPosWorld _realPos }; // ### Temporary Hotfix: No last pos tracking for air vehicles
         };
     };
 
@@ -191,7 +196,7 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
         // Move unit tagger to last known position
         private _lastKnownPos = [_dataLastKnownPos, _realPos] select _noUnitData;
         if (!_unitOccluded) then {
-            _tagger setPosWorld _lastKnownPos;
+            if (!_isAir) then { _tagger setPosWorld _lastKnownPos }; // ### Temporary Hotfix: No last pos tracking for air vehicles
             _lastKnownPos = _realPos;
         };
 
@@ -204,7 +209,7 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
                             [_unit, _tagger] select (!isNull _tagger)
                         ] select _unitOccluded;
 
-        private _isRealPos = _IFFunit == _unit;
+        private _isRealPos = _IFFunit == _unit || _isAir; // ### Temporary Hotfix: No last pos tracking for air vehicles
         private _perceivedPos = [_lastKnownPos, _realPos] select _isRealPos;
 
         // Skip if unit not in FOV of the player
