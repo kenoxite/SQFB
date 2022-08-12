@@ -203,13 +203,15 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
         // Skip if only unkonwn positions should be shown
         private _onlyLastPos = [_onlyLastPosFriendly, _onlyLastPosEnemy] select _isEnemy;
         if (!_unitOccluded && _onlyLastPos) then { _unit setVariable ["SQFB_HUDdata", nil]; continue };
+            
+        if (_unitOccluded && _isAir) then { _unit setVariable ["SQFB_HUDdata", nil]; continue }; // ### Temporary Hotfix: No last pos tracking for air vehicles
 
         private _IFFunit = [
                             _unit,
                             [_unit, _tagger] select (!isNull _tagger)
                         ] select _unitOccluded;
 
-        private _isRealPos = _IFFunit == _unit || _isAir; // ### Temporary Hotfix: No last pos tracking for air vehicles
+        private _isRealPos = _IFFunit == _unit;
         private _perceivedPos = [_lastKnownPos, _realPos] select _isRealPos;
 
         // Skip if unit not in FOV of the player
