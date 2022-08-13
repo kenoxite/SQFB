@@ -17,7 +17,7 @@
 
 SQFB_deletingTaggers = true;
 if (count SQFB_tagObjArr > 0) then {
-    if (SQFB_debug) then { diag_log format ["SQFB: cleanTaggers - Current values: %1", count SQFB_tagObjArr] };
+    // if (SQFB_debug) then { diag_log format ["SQFB: cleanTaggers - Current values: %1", count SQFB_tagObjArr] };
     private _tagObjArrTemp = +SQFB_tagObjArr;
     private _delete = false;
     for "_i" from 0 to (count SQFB_tagObjArr) -1 do
@@ -39,7 +39,7 @@ if (count SQFB_tagObjArr > 0) then {
         };
     };
     if (_delete) then {
-        if (SQFB_debug) then { diag_log format ["SQFB: cleanTaggers - %1 ENTRIES DELETED. Current values: %2", (count SQFB_tagObjArr) - (count _tagObjArrTemp), count _tagObjArrTemp] };
+        // if (SQFB_debug) then { diag_log format ["SQFB: cleanTaggers - %1 ENTRIES DELETED. Current values: %2", (count SQFB_tagObjArr) - (count _tagObjArrTemp), count _tagObjArrTemp] };
         SQFB_tagObjArr = +_tagObjArrTemp;
     };
 };
