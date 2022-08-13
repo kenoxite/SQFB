@@ -155,16 +155,16 @@ SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
 SQFB_player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
 
 // Keep track of group status
-SQFB_EH_HUDupdate = [{ if (SQFB_opt_on) then { call SQFB_fnc_HUDupdate }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
+SQFB_EH_HUDupdate = [{ if (SQFB_opt_on && alive SQFB_player) then { call SQFB_fnc_HUDupdate }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
 
 // Update IFF display info
-SQFB_EH_IFFupdate = [{ if (SQFB_opt_on && {(SQFB_showFriendlies || SQFB_showEnemies || SQFB_showIFFHUD)}) then { [getPosWorld vehicle SQFB_player] call SQFB_fnc_IFFupdate }; }, SQFB_opt_HUDrefreshIFF, []] call CBA_fnc_addPerFrameHandler;
+SQFB_EH_IFFupdate = [{ if (SQFB_opt_on && alive SQFB_player && {(SQFB_showFriendlies || SQFB_showEnemies || SQFB_showIFFHUD)}) then { [getPosWorld vehicle SQFB_player] call SQFB_fnc_IFFupdate }; }, SQFB_opt_HUDrefreshIFF, []] call CBA_fnc_addPerFrameHandler;
 
 // HUD display
 SQFB_draw3D_EH = addMissionEventHandler [
 "Draw3D",
 {
-    if (SQFB_opt_on) then {
+    if (SQFB_opt_on && alive SQFB_player) then {
         private _screenPosition = worldToScreen (_x modelToWorldVisual [0,0,0]);
         if (_screenPosition isEqualTo []) exitWith {};
 

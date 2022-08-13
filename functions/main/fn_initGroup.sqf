@@ -18,6 +18,8 @@
 
 params [["_grp", SQFB_group]];
 
+if (!alive SQFB_player) exitWith {true};
+
 if (SQFB_debug) then { diag_log format ["SQFB: initGroup - Initializing new group: %1 (old group: %2)", _grp, SQFB_group] };
 
 private _units = units _grp;
