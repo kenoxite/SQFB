@@ -63,16 +63,24 @@ if (SQFB_showHUD) then {
 
         // Health
         //  - These have preference over the role icons
-        switch (lifeState _unit) do {
-            case "INCAPACITATED": { 
-                _return = "a3\ui_f\data\igui\cfg\revive\overlayicons\u100_ca.paa";
+        private _lifeState = lifeState _unit;
+        private _bleeding = isBleeding _unit;
+        _return = call {
+            //  - Added support for A3 Wounding System
+            if (_unit getVariable ["AIS_unconscious", false]) exitWith {
+                // ""
+                "a3\ui_f\data\igui\cfg\revive\overlayicons\u100_ca.paa"
             };
-            case "INJURED": {
-                _return = [
-                                "a3\ui_f\data\igui\cfg\revive\overlayicons\r100_ca.paa",
-                                "a3\ui_f\data\igui\cfg\cursors\unitbleeding_ca.paa"
-                            ] select (isBleeding _unit);
+            if (_lifeState == "INCAPACITATED") exitWith {
+                "a3\ui_f\data\igui\cfg\revive\overlayicons\u100_ca.paa"
             };
+            if (_lifeState == "INJURED" && _bleeding) exitWith {
+                "a3\ui_f\data\igui\cfg\cursors\unitbleeding_ca.paa"
+            };
+            if (_lifeState == "INJURED" && !_bleeding) exitWith {
+                "a3\ui_f\data\igui\cfg\revive\overlayicons\r100_ca.paa"
+            };
+            _return
         };
     };
 };

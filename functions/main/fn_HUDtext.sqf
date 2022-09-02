@@ -48,13 +48,25 @@ if (SQFB_showHUD) then {
 	if (_alive || (!_alive && (_veh == _unit) && time >= SQFB_showDeadMinTime)) then {
         if (_profile != "crit" && _alive && _showIndex && _index >= 0 && !_isGrpLeader && !_isFormLeader && !_isFormFollower) then { _return = format ["%1%2 ", _return, _index] };
 		if (_alive) then {
-			private _lifeState = lifeState _unit;
-			if (_lifeState != "HEALTHY") then {
-                _return = [
-                                format ["%1[%2] ",_return, _lifeState],
-                                format ["%1[%2] ",_return, localize "STR_SQFB_HUD_bleeding"]
-                            ] select (isBleeding _unit && _lifeState != "INCAPACITATED");
-			};
+            private _lifeState = lifeState _unit;
+            private _bleeding = isBleeding _unit;
+            _return = call {
+                //  - Added support for A3 Wounding System
+                if (_unit getVariable ["AIS_unconscious", false]) exitWith {
+                    // _return
+                    format ["%1[%2] ",_return, localize format ["STR_SQFB_HUD_%1", ["incapacitated", "bleeding"] select _bleeding]]
+                };
+                if (_lifeState == "INCAPACITATED") exitWith {
+                    format ["%1[%2] ",_return, _lifeState]
+                };
+                if (_lifeState == "INJURED" && _bleeding) exitWith {
+                    format ["%1[%2] ",_return, localize "STR_SQFB_HUD_bleeding"]
+                };
+                if (_lifeState == "INJURED" && !_bleeding) exitWith {
+                    format ["%1[%2] ",_return, _lifeState]
+                };
+                _return
+            };
 		};
 		if (_unit getVariable "SQFB_noAmmo") then {
             _return = [
@@ -81,12 +93,26 @@ if (SQFB_showHUD) then {
         private _critical = false;
         if (_informCritical) then {
     		private _lifeState = lifeState _unit;
-    		if (_lifeState != "HEALTHY") then {
+    		if (_lifeState != "HEALTHY" || _unit getVariable ["AIS_unconscious", false]) then {
                 _critical = true;
-                _return = [
-                                format ["%1[%2] ", _return, _lifeState],
-                                format ["%1[%2] ", _return, localize "STR_SQFB_HUD_bleeding"]
-                            ] select (isBleeding _unit && _lifeState != "INCAPACITATED");
+                private _bleeding = isBleeding _unit;
+                _return = call {
+                    //  - Added support for A3 Wounding System
+                    if (_unit getVariable ["AIS_unconscious", false]) exitWith {
+                        // _return
+                        format ["%1[%2] ",_return, localize format ["STR_SQFB_HUD_%1", ["incapacitated", "bleeding"] select _bleeding]]
+                    };
+                    if (_lifeState == "INCAPACITATED") exitWith {
+                        format ["%1[%2] ",_return, _lifeState]
+                    };
+                    if (_lifeState == "INJURED" && _bleeding) exitWith {
+                        format ["%1[%2] ",_return, localize "STR_SQFB_HUD_bleeding"]
+                    };
+                    if (_lifeState == "INJURED" && !_bleeding) exitWith {
+                        format ["%1[%2] ",_return, _lifeState]
+                    };
+                    _return
+                };
     		} else {
     			if (_playerIsLeader && _unit getVariable "SQFB_noAmmo") then {
                     _critical = true;

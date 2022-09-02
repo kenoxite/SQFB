@@ -16,6 +16,11 @@
         <English>BLEEDING</English>
         <Spanish>SANGRANDO</Spanish>
       </Key>
+      <Key ID="STR_SQFB_HUD_incapacitated">
+        <Original>INCAPACITATED</Original>
+        <English>INCAPACITATED</English>
+        <Spanish>INCAPACITADO</Spanish>
+      </Key>
       <Key ID="STR_SQFB_HUD_noAmmoSec">
         <Original>NO AMMO SEC</Original>
         <English>NO AMMO SEC</English>

@@ -32,7 +32,7 @@ if (SQFB_group != _grp || !(SQFB_player in SQFB_units) || SQFB_unitCount != _uni
 // Squad
 if (SQFB_opt_showSquad) then {
 	// Check for wounded units
-	_grp setVariable ["SQFB_wounded", _units findIf {lifeState _x != "HEALTHY"} != -1];
+	_grp setVariable ["SQFB_wounded", _units findIf {lifeState _x != "HEALTHY" || _x getVariable ["AIS_unconscious", false]} != -1];
 };
 
 SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
