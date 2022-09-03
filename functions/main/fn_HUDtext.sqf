@@ -54,7 +54,8 @@ if (SQFB_showHUD) then {
                 //  - Added support for A3 Wounding System
                 if (_unit getVariable ["AIS_unconscious", false]) exitWith {
                     // _return
-                    format ["%1[%2] ",_return, localize format ["STR_SQFB_HUD_%1", ["incapacitated", "bleeding"] select _bleeding]]
+                    // format ["%1[%2] ",_return, localize format ["STR_SQFB_HUD_%1", ["incapacitated", "bleeding"] select _bleeding]]
+                    format ["%1[%2] ",_return, localize "STR_SQFB_HUD_incapacitated"]
                 };
                 if (_lifeState == "INCAPACITATED") exitWith {
                     format ["%1[%2] ",_return, _lifeState]
@@ -100,7 +101,8 @@ if (SQFB_showHUD) then {
                     //  - Added support for A3 Wounding System
                     if (_unit getVariable ["AIS_unconscious", false]) exitWith {
                         // _return
-                        format ["%1[%2] ",_return, localize format ["STR_SQFB_HUD_%1", ["incapacitated", "bleeding"] select _bleeding]]
+                        // format ["%1[%2] ",_return, localize format ["STR_SQFB_HUD_%1", ["incapacitated", "bleeding"] select _bleeding]]
+                        format ["%1[%2] ",_return, localize "STR_SQFB_HUD_incapacitated"]
                     };
                     if (_lifeState == "INCAPACITATED") exitWith {
                         format ["%1[%2] ",_return, _lifeState]

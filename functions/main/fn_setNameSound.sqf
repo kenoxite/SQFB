@@ -18,10 +18,15 @@
 params [["_unit", objNull]];
 if (isNull _unit) exitWith {true};
 
+// Skip units with already set callsigns
 private _originalNameSound = _unit getVariable "SQFB_originalNameSound";
 private _nameSound = nameSound _unit;
 if (isNil "_originalNameSound") then { _unit setVariable ["SQFB_originalNameSound", _nameSound]; _originalNameSound = _nameSound; };
-if (_originalNameSound != "") exitWith { true }; // Skip units with already set callsigns
+if (_originalNameSound != "") exitWith { true };
+
+// Check if callsign has changed by the mission since mission init
+private _newNameSound = _unit getVariable ["SQFB_newNameSound", _originalNameSound];
+if (tolower _newNameSound != tolower _nameSound && _nameSound != "") exitWith { true };
 
 private _mode = SQFB_opt_nameSoundType;
 private _validNames = [
@@ -114,3 +119,4 @@ _nameSound = call {
 };
 
 _unit setNameSound _nameSound;
+_unit setVariable ["SQFB_newNameSound", _nameSound];
