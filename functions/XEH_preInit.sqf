@@ -815,6 +815,16 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
+[
+    "SQFB_opt_nameSoundType", 
+    "LIST",
+    [localize "STR_SQFB_opt_nameSoundType", localize "STR_SQFB_opt_nameSoundType_desc"],
+    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [["none", "role", "name"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_nameSoundType_role", localize "STR_SQFB_opt_nameSoundType_lastName"], 1],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
 
 // COLORS - Squad
 [

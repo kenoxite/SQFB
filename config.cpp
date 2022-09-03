@@ -73,6 +73,8 @@ class CfgFunctions
             class IFFupdate {};
             class IFFactivateDevice {};
             class playSound {};
+
+            class setNameSound {};
         };
 
         class CBA

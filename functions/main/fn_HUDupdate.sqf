@@ -29,6 +29,12 @@ if (SQFB_group != _grp || !(SQFB_player in SQFB_units) || SQFB_unitCount != _uni
     [_grp] call SQFB_fnc_initGroup;
 };
 
+// Name sounds
+if (time > SQFB_lastNameSoundCheck + 2) then {
+    {_x call SQFB_fnc_setNameSound} forEach _units;
+    SQFB_lastNameSoundCheck = time;
+};
+
 // Squad
 if (SQFB_opt_showSquad) then {
 	// Check for wounded units

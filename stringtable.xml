@@ -1661,6 +1661,32 @@
         <English>Sound to play when activating or deactivating the IFF HUD if you have equipped an IFF device.</English>
         <Spanish>Sonido a reproducir cuando se activa o desactiva la HUD de IFF y tienes equipado un dispositivo IFF.</Spanish>
       </Key>
+      <Key ID="STR_SQFB_opt_nameSoundType">
+        <Original>Use Callsigns</Original>
+        <English>Use Callsigns</English>
+        <Spanish>Usar Alias</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_nameSoundType_desc">
+        <Original>Use a custom callsign for each unit in your squad. The type can be that of his role, last name or none.
+\nOnly names that have voice lines recorded will be used. Otherwise it will default to vanilla callsign (numbering).
+\nUnits that have a callsign already set by the mission maker will be excluded.</Original>
+        <English>Use a custom callsign for each unit in your squad. The type can be that of his role, last name or none.
+\nOnly names that have voice lines recorded will be used. Otherwise it will default to vanilla callsign (numbering).
+\nUnits that have a callsign already set by the mission maker will be excluded.</English>
+        <Spanish>Usar un alias personalizado para cada unidad de tu pelotón. Puede ser de los siguientes tipos: rol, apellido o ninguno.
+\nSólo se usarán los nombres que tienen voces grabadas. En caso contrario se usará el sistema del juego base (numeración).
+\nLas unidades que ya tienen un alias asignado por el creador de la misión serán excluidas.</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_nameSoundType_role">
+        <Original>Role</Original>
+        <English>Role</English>
+        <Spanish>Rol</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_nameSoundType_lastName">
+        <Original>Last Name</Original>
+        <English>Last Name</English>
+        <Spanish>Apellido</Spanish>
+      </Key>
     </Container>
     <Container name="SQFB_opt_deprecated">
       <Key ID="STR_SQFB_opt_deprecated">

@@ -25,6 +25,8 @@ SQFB_IFFTimeLastCheck = time;
 SQFB_tagObjArr = [];
 SQFB_deletingTaggers = false;
 
+SQFB_lastNameSoundCheck = time;
+
 SQFB_enemyTrackingGoggles_default = [
     "G_Balaclava_combat",
     "G_Combat",
