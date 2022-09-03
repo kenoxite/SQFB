@@ -92,7 +92,11 @@ _nameSound = call {
     };
     // Name
     if (_mode == "name") exitWith {
-        private _lastName = ([name _unit, " "] call BIS_fnc_splitString) #1;
+        private _nameArr = [name _unit, " "] call BIS_fnc_splitString;
+        private _lastName = [
+                                _nameArr #0,
+                                _nameArr #1
+                            ] select (count _nameArr > 1);
         if (_lastName in _validNames) exitWith { _lastName };
         ""
     };
