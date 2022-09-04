@@ -31,48 +31,27 @@ private _lastName = [
                     ] select (count _nameArr > 1);
 private _nameIsValid = toLower _lastName in SQFB_validNames;
 if (_nameIsValid) exitWith {
-    SQFB_trackNames pushBack toLower _lastName;
+    SQFB_trackNames pushBackUnique toLower _lastName;
     _currentName
 };
 
 // Choose last name based on the player's side and faction
 private _faction = faction player;
-private _factionsEnglish = [
-    "BLU_F",
-    "BLU_T_F",
-    "BLU_CTRG_F",
-    "BLU_W_F"
-];
-private _factionsPersian = [
-    "OPF_F"
-];
-private _factionsGreek = [
-    "BLU_G_F",
-    "OPF_G_F",
-    "IND_F",
-    "IND_G_F"
-];
-private _factionsPolish = [
-    "IND_E_F",
-    "IND_L_F"
-];
-private _factionsRussian = [
-    "OPF_R_F"
-];
+
 private _namesArray = call {
-    if (_faction in _factionsEnglish) exitWith {
+    if (_faction in SQFB_factionsEnglish) exitWith {
         +SQFB_validNames_English
     };
-    if (_faction in _factionsPersian) exitWith {
+    if (_faction in SQFB_factionsPersian) exitWith {
         +SQFB_validNames_Persian
     };
-    if (_faction in _factionsGreek) exitWith {
+    if (_faction in SQFB_factionsGreek) exitWith {
         +SQFB_validNames_Greek
     };
-    if (_faction in _factionsPolish) exitWith {
+    if (_faction in SQFB_factionsPolish) exitWith {
         +SQFB_validNames_Polish
     };
-    if (_faction in _factionsRussian) exitWith {
+    if (_faction in SQFB_factionsRussian) exitWith {
         +SQFB_validNames_Russian
     };
     []
@@ -92,7 +71,7 @@ if (count _namesArray == 0) then {
 
 // Pick the name
 _lastName = selectRandom _namesArray;
-SQFB_trackNames pushBack _lastName;
+SQFB_trackNames pushBackUnique _lastName;
 
 // Capitalize the name
 private _unicodeName = toArray _lastName;

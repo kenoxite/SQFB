@@ -126,7 +126,6 @@ SQFB_validNames_Polish = [
     "smolko",
     "sternik",
     "stolarski",
-    "yakhin",
     "zielinski",
     "burak",
     "gorecki",
@@ -160,6 +159,37 @@ SQFB_validNames append SQFB_validNames_Greek;
 SQFB_validNames append SQFB_validNames_Polish;
 SQFB_validNames append SQFB_validNames_Russian;
 
+SQFB_factionsEnglish = [
+    "BLU_F",
+    "BLU_T_F",
+    "BLU_CTRG_F",
+    "BLU_W_F"
+];
+SQFB_factionsPersian = [
+    "OPF_F"
+];
+SQFB_factionsGreek = [
+    "BLU_G_F",
+    "OPF_G_F",
+    "IND_F",
+    "IND_G_F"
+];
+SQFB_factionsPolish = [
+    "IND_E_F",
+    "IND_L_F"
+];
+SQFB_factionsRussian = [
+    "OPF_R_F"
+];
+
+SQFB_vanillaFactions = [];
+SQFB_vanillaFactions append SQFB_factionsEnglish;
+SQFB_vanillaFactions append SQFB_factionsPersian;
+SQFB_vanillaFactions append SQFB_factionsGreek;
+
+// SQFB_DLCFactions = [];
+// SQFB_DLCFactions append SQFB_factionsPolish;
+// SQFB_DLCFactions append SQFB_factionsRussian;
 
 SQFB_enemyTrackingGoggles_default = [
     "G_Balaclava_combat",
