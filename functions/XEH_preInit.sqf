@@ -378,6 +378,16 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
+    "SQFB_opt_showName", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_showName", localize "STR_SQFB_opt_showName_desc"],
+    [localize "STR_SQFB_opt_Settings_1", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
+    [false],
+    nil,
+    { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
+] call CBA_fnc_addSetting;
+
+[
     "SQFB_opt_showClass", 
     "CHECKBOX",
     [localize "STR_SQFB_opt_showClass", localize "STR_SQFB_opt_showClass_desc"],
@@ -821,6 +831,16 @@ Parameters:
     [localize "STR_SQFB_opt_nameSoundType", localize "STR_SQFB_opt_nameSoundType_desc"],
     [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
     [["none", "role", "name"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_nameSoundType_role", localize "STR_SQFB_opt_nameSoundType_lastName"], 1],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_nameSound_ChangeNames", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_nameSound_ChangeNames", localize "STR_SQFB_opt_nameSound_ChangeNames_desc"],
+    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [false],
     nil,
     {} 
 ] call CBA_fnc_addSetting;

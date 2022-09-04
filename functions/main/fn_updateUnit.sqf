@@ -29,18 +29,24 @@ if !(_unit in SQFB_units) exitWith {false};
 // Reset unit variables
 _unit call SQFB_fnc_resetUnit;
 
+// Name
+private _currentName = name _unit;
+private _nameArr = [_currentName, " "] call BIS_fnc_splitString;
+private _lastName = [
+                        _nameArr #0,
+                        _nameArr #1
+                    ] select (count _nameArr > 1);
+_unit setVariable ["SQFB_name", _lastName];
+
 // Editor class name
-private _displayName = "";
-private _displayNameUnitVar = _unit getVariable "SQFB_displayName";
-if (isNil "_displayNameUnitVar") then {
-    _displayName = getText (configFile >> "CfgVehicles" >> typeOf _unit >> "displayName");
-    _unit setVariable ["SQFB_displayName", _displayName];
+if (isNil {_unit getVariable "SQFB_displayName"}) then {
+    _unit setVariable ["SQFB_displayName", getText (configFile >> "CfgVehicles" >> typeOf _unit >> "displayName")];
 };
 
 if (!alive _unit) exitWith {false};
 
-private _unitIsVanilla = _unit getVariable "SQFB_isVanilla";
-if (isNil "_unitIsVanilla") then {
+private _unitIsVanilla = true;
+if (isNil {_unit getVariable "SQFB_isVanilla"}) then {
     private _unitMod = (unitAddons typeof _unit) select 0;
     if (isNil "_unitMod") then {_unitMod = "unknown"};
     private _vanilla = [

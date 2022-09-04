@@ -25,22 +25,28 @@ if (_unit == SQFB_player) exitWith {_return};
 
 if (SQFB_showHUD) then {
     if (SQFB_opt_profile != "crit") then {
-        // Role - in reverse order of preference (lower is higher priority)
-        if (_unit getVariable "SQFB_unarmed") then { _return = "SQFB\images\none.paa"; };
-        if (_unit getVariable "SQFB_rifle") then { _return = "SQFB\images\rifle.paa"; };
-        if (_unit getVariable "SQFB_shotgun") then { _return = "SQFB\images\shotgun.paa"; };
-        if (_unit getVariable "SQFB_smg") then { _return = "SQFB\images\smg.paa"; };
-        if (_unit getVariable "SQFB_handgun") then { _return = "SQFB\images\handgun.paa"; };
-        if (_unit getVariable "SQFB_ammoBearer" || _unit getVariable "SQFB_assistAT" || _unit getVariable "SQFB_assistAA" || _unit getVariable "SQFB_assistLMG") then { _return = "SQFB\images\backpack.paa"; };
-        if (_unit getVariable "SQFB_hacker") then { _return = "a3\ui_f\data\igui\cfg\holdactions\holdaction_hack_ca.paa"; };
-        if (_unit getVariable "SQFB_GL") then { _return = "a3\ui_f\data\igui\cfg\weaponicons\gl_ca.paa"; };
-        if (_unit getVariable "SQFB_sniper") then { _return = "a3\ui_f\data\igui\cfg\weaponicons\srifle_ca.paa"; };
-        if (_unit getVariable "SQFB_demo") then { _return = "a3\ui_f\data\igui\cfg\cursors\explosive_ca.paa"; };
-        if (_unit getVariable "SQFB_engi") then { _return = "a3\ui_f\data\igui\cfg\cursors\iconrepairat_ca.paa"; };
-        if (_unit getVariable "SQFB_MG") then { _return = "a3\ui_f\data\igui\cfg\weaponicons\mg_ca.paa"; };
-        if (_unit getVariable "SQFB_AT") then { _return = "a3\ui_f\data\igui\cfg\weaponicons\at_ca.paa"; };
-        if (_unit getVariable "SQFB_AA") then { _return = "a3\ui_f\data\igui\cfg\weaponicons\aa_ca.paa"; };
-        if (_unit getVariable "SQFB_medic") then { _return = "a3\ui_f\data\igui\cfg\cursors\unithealer_ca.paa"; };
+        // Role
+        _return = call {
+            if (_unit getVariable "SQFB_medic") exitWith { "a3\ui_f\data\igui\cfg\cursors\unithealer_ca.paa"; };
+            if (_unit getVariable "SQFB_AA") exitWith { "a3\ui_f\data\igui\cfg\weaponicons\aa_ca.paa"; };
+            if (_unit getVariable "SQFB_AT") exitWith { "a3\ui_f\data\igui\cfg\weaponicons\at_ca.paa"; };
+            if (_unit getVariable "SQFB_MG") exitWith { "a3\ui_f\data\igui\cfg\weaponicons\mg_ca.paa"; };
+            if (_unit getVariable "SQFB_engi") exitWith { "a3\ui_f\data\igui\cfg\cursors\iconrepairat_ca.paa"; };
+            if (_unit getVariable "SQFB_demo") exitWith { "a3\ui_f\data\igui\cfg\cursors\explosive_ca.paa"; };
+            if (_unit getVariable "SQFB_sniper") exitWith { "a3\ui_f\data\igui\cfg\weaponicons\srifle_ca.paa"; };
+            if (_unit getVariable "SQFB_GL") exitWith { "a3\ui_f\data\igui\cfg\weaponicons\gl_ca.paa"; };
+            if (_unit getVariable "SQFB_hacker") exitWith { "a3\ui_f\data\igui\cfg\holdactions\holdaction_hack_ca.paa"; };
+            if (_unit getVariable "SQFB_ammoBearer"
+                || _unit getVariable "SQFB_assistAT"
+                || _unit getVariable "SQFB_assistAA"
+                || _unit getVariable "SQFB_assistLMG") exitWith { "SQFB\images\backpack.paa"; };
+            if (_unit getVariable "SQFB_handgun") exitWith { "SQFB\images\handgun.paa"; };
+            if (_unit getVariable "SQFB_smg") exitWith { "SQFB\images\smg.paa"; };
+            if (_unit getVariable "SQFB_shotgun") exitWith { "SQFB\images\shotgun.paa"; };
+            if (_unit getVariable "SQFB_rifle") exitWith { "SQFB\images\rifle.paa"; };
+            if (_unit getVariable "SQFB_unarmed") exitWith { "SQFB\images\none.paa"; };
+            _return
+        };
     };
 
     if (!alive _unit && _showDead && time >= _showDeadMinTime) then { _return = "a3\ui_f\data\igui\cfg\revive\overlayicons\f100_ca.paa" };

@@ -54,6 +54,7 @@ private _SQFB_opt_checkOcclusion = SQFB_opt_checkOcclusion;
 private _SQFB_showHUD = SQFB_showHUD;
 private _SQFB_opt_AlwaysShowCritical = SQFB_opt_AlwaysShowCritical;
 private _SQFB_opt_showDead = SQFB_opt_showDead;
+private _SQFB_opt_showName = SQFB_opt_showName;
 private _SQFB_opt_showClass = SQFB_opt_showClass;
 private _SQFB_opt_showRoles = SQFB_opt_showRoles;
 private _SQFB_opt_ShowCrew = SQFB_opt_ShowCrew;
@@ -156,7 +157,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                 private _text = [
                                     [
                                         "",
-                                        [_unit, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_showDist, _SQFB_opt_outFOVindex, _SQFB_opt_profile] call SQFB_fnc_HUDtext
+                                        [_unit, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_showName, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_showDist, _SQFB_opt_outFOVindex, _SQFB_opt_profile] call SQFB_fnc_HUDtext
                                     ] select (_SQFB_opt_showText && _textSize > 0.02 && (_isOnFoot || (!_isOnFoot && _veh == _vehPlayer && cameraView == "INTERNAL"))),
                                     
                                     [

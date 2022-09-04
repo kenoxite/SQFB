@@ -33,6 +33,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showText = true;
         SQFB_opt_showColor = true;
         SQFB_opt_showIndex = true;
+        SQFB_opt_showName = true;
         SQFB_opt_showClass = true;
         SQFB_opt_showRoles = true;
         SQFB_opt_showRolesIcon = true;
@@ -63,6 +64,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showText = true;
         SQFB_opt_showColor = true;
         SQFB_opt_showIndex = true;
+        SQFB_opt_showName = false;
         SQFB_opt_showClass = false;
         SQFB_opt_showRoles = false;
         SQFB_opt_showRolesIcon = true;
@@ -93,6 +95,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showText = true;
         SQFB_opt_showColor = true;
         SQFB_opt_showIndex = false;
+        SQFB_opt_showName = false;
         SQFB_opt_showClass = false;
         SQFB_opt_showRoles = false;
         SQFB_opt_showRolesIcon = false;
@@ -123,6 +126,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showText = true;
         SQFB_opt_showColor = true;
         SQFB_opt_showIndex = true;
+        SQFB_opt_showName = false;
         SQFB_opt_showClass = true;
         SQFB_opt_showRoles = false;
         SQFB_opt_showRolesIcon = false;
@@ -153,6 +157,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showText = true;
         SQFB_opt_showColor = true;
         SQFB_opt_showIndex = false;
+        SQFB_opt_showName = false;
         SQFB_opt_showClass = false;
         SQFB_opt_showRoles = false;
         SQFB_opt_showRolesIcon = false;
@@ -183,6 +188,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showText = true;
         SQFB_opt_showColor = true;
         SQFB_opt_showIndex = true;
+        SQFB_opt_showName = true;
         SQFB_opt_showClass = false;
         SQFB_opt_showRoles = true;
         SQFB_opt_showRolesIcon = true;
@@ -213,6 +219,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showText = true;
         SQFB_opt_showColor = true;
         SQFB_opt_showIndex = false;
+        SQFB_opt_showName = false;
         SQFB_opt_showClass = false;
         SQFB_opt_showRoles = false;
         SQFB_opt_showRolesIcon = true;
@@ -243,6 +250,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showText = true;
         SQFB_opt_showColor = true;
         SQFB_opt_showIndex = true;
+        SQFB_opt_showName = true;
         SQFB_opt_showClass = false;
         SQFB_opt_showRoles = false;
         SQFB_opt_showRolesIcon = true;
@@ -273,6 +281,7 @@ switch (SQFB_opt_profile) do {
         SQFB_opt_showText = true;
         SQFB_opt_showColor = true;
         SQFB_opt_showIndex = true;
+        SQFB_opt_showName = true;
         SQFB_opt_showClass = false;
         SQFB_opt_showRoles = true;
         SQFB_opt_showRolesIcon = true;
@@ -303,6 +312,7 @@ switch (SQFB_opt_profile) do {
 ["SQFB_opt_showText", SQFB_opt_showText, 0, "server", true] call CBA_settings_fnc_set;
 ["SQFB_opt_showColor", SQFB_opt_showColor, 0, "server", true] call CBA_settings_fnc_set;
 ["SQFB_opt_showIndex", SQFB_opt_showIndex, 0, "server", true] call CBA_settings_fnc_set;
+["SQFB_opt_showName", SQFB_opt_showName, 0, "server", true] call CBA_settings_fnc_set;
 ["SQFB_opt_showClass", SQFB_opt_showClass, 0, "server", true] call CBA_settings_fnc_set;
 ["SQFB_opt_showRoles", SQFB_opt_showRoles, 0, "server", true] call CBA_settings_fnc_set;
 ["SQFB_opt_showRolesIcon", SQFB_opt_showRolesIcon, 0, "server", true] call CBA_settings_fnc_set;

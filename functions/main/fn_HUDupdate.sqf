@@ -31,7 +31,7 @@ if (SQFB_group != _grp || !(SQFB_player in SQFB_units) || SQFB_unitCount != _uni
 
 // Name sounds
 if (time > SQFB_lastNameSoundCheck + 2) then {
-    {_x call SQFB_fnc_setNameSound} forEach _units;
+    {[_x] call SQFB_fnc_setNameSound} forEach _units;
     SQFB_lastNameSoundCheck = time;
 };
 

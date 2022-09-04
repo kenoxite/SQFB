@@ -26,6 +26,140 @@ SQFB_tagObjArr = [];
 SQFB_deletingTaggers = false;
 
 SQFB_lastNameSoundCheck = time;
+SQFB_trackNames = [];
+SQFB_validNames = [];
+SQFB_validNames_English = [
+    "armstrong",
+    "nichols",
+    "tanny",
+    "frost",
+    "lacey",
+    "larkin",
+    "kerry",
+    "jackson",
+    "miller",
+    "mckendrick",
+    "levine",
+    "reynolds",
+    "adams",
+    "bennett",
+    "campbell",
+    "dixon",
+    "everett",
+    "franklin",
+    "givens",
+    "hawkins",
+    "lopez",
+    "martinez",
+    "oconnor",
+    "ryan",
+    "patterson",
+    "sykes",
+    "taylor",
+    "walker",
+
+    "right",
+    // "stype",
+    // "kesson",
+
+    // "stolarski",
+    // "nowak",
+    // "kowalski",
+
+    "costa",
+    "elias",
+    "gekas",
+    "kouris",
+    "markos",
+    "nikas",
+    "panas",
+    "petros",
+    "rosi",
+    "samaras",
+    "thanos",
+    "vega",
+
+    "amin",
+    "masood",
+    "nazari",
+    "yousuf",
+
+    // "adamovich",
+    // "ivanov",
+    // "petrenko",
+
+    "fox"
+];
+SQFB_validNames_Persian = [
+    "amin",
+    "masood",
+    "fahim",
+    "habibi",
+    "kushan",
+    "jawadi",
+    "nazari",
+    "siddiqi",
+    "takhtar",
+    "wardak",
+    "yousuf"
+];
+SQFB_validNames_Greek = [
+    "anthis",
+    "costa",
+    "dimitirou",
+    "elias",
+    "gekas",
+    "kouris",
+    "leventis",
+    "markos",
+    "nikas",
+    "nicolo",
+    "panas",
+    "petros",
+    "rosi",
+    "samaras",
+    "stavrou",
+    "thanos",
+    "vega"    
+];
+SQFB_validNames_Polish = [
+    "smolko",
+    "sternik",
+    "stolarski",
+    "yakhin",
+    "zielinski",
+    "burak",
+    "gorecki",
+    "kowalski",
+    "nowak"
+];
+SQFB_validNames_Russian = [
+    "yakhin",
+    "adamovich",
+    "ivanov",
+    "kruglikov",
+    "krupin",
+    "kushan",
+    "petrenko"
+];
+// SQFB_validCodeNames = [
+//     "ghost",
+//     "stranger",
+//     "fox",
+//     "snake",
+//     "razer",
+//     "jester",
+//     "nomad",
+//     "viper",
+//     "korneedler"
+// ];
+
+SQFB_validNames append SQFB_validNames_English;
+SQFB_validNames append SQFB_validNames_Persian;
+SQFB_validNames append SQFB_validNames_Greek;
+SQFB_validNames append SQFB_validNames_Polish;
+SQFB_validNames append SQFB_validNames_Russian;
+
 
 SQFB_enemyTrackingGoggles_default = [
     "G_Balaclava_combat",
@@ -152,6 +286,16 @@ SQFB_unitCount = count units SQFB_group;
 SQFB_lastPlayerIndex = -1;
 [SQFB_group] call SQFB_fnc_initGroup;
 SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
+
+// Set names and callsigns
+{
+    // Change names
+    if (SQFB_opt_nameSound_ChangeNames) then {
+        [_x] call SQFB_fnc_changeToValidName;
+    };
+    // Set callsign
+    [_x] call SQFB_fnc_setNameSound;
+} forEach (units player - [SQFB_player]);
 
 // Set player position
 SQFB_player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];

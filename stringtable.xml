@@ -137,6 +137,7 @@
 \n  - Display Text
 \n  - Display Team Color
 \n  - Display Index
+\n  - Display Name
 \n  - Display Class
 \n  - Display Roles
 \n  - Display Distance
@@ -161,6 +162,7 @@
 \n  - Display Text
 \n  - Display Team Color
 \n  - Display Index
+\n  - Display Name
 \n  - Display Class
 \n  - Display Roles
 \n  - Display Distance
@@ -185,6 +187,7 @@
 \n  - Mostrar Texto
 \n  - Mostrar Color del Equipo
 \n  - Mostrar Índice
+\n  - Mostrar Nombre
 \n  - Mostrar Clase
 \n  - Mostrar Roles
 \n  - Mostrar Distancia
@@ -595,6 +598,22 @@
 
 \n\nEsta opción no tendrá efecto si Mostrar Texto está desactivado.</Spanish>
       </Key>
+      <Key ID="STR_SQFB_opt_showName">
+        <Original>Display Name</Original>
+        <English>Display Name</English>
+        <Spanish>Mostrar Nombre</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_showName_desc">
+        <Original>Display the unit's last name or alias.
+
+\n\nThis option will have no effect if Show Text is disabled.</Original>
+        <English>Display the unit's last name or alias.
+
+\n\nThis option will have no effect if Show Text is disabled.</English>
+        <Spanish>Mostrar el apellido o alias de la unidad.
+
+\n\nEsta opción no tendrá efecto si Mostrar Texto está desactivado.</Spanish>
+      </Key>
       <Key ID="STR_SQFB_opt_showRoles">
         <Original>Display Roles Text</Original>
         <English>Display Roles Text</English>
@@ -776,9 +795,9 @@
         <Spanish>Visualización del HUD - Avanzado (Pelotón)</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_Arrows">
-        <Original>Display Arrows and Text</Original>
-        <English>Display Arrows and Text</English>
-        <Spanish>Mostrar Flechas y Texto</Spanish>
+        <Original>Display Arrows and Text when Off-Screen</Original>
+        <English>Display Arrows and Text when Off-Screen</English>
+        <Spanish>Mostrar Flechas y Texto Fuera de Pant.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_Arrows_desc">
         <Original>Display arrows and text at the edge of the screen indicating the unit's relative position when it's not in view of the player.</Original>
@@ -786,16 +805,16 @@
         <Spanish>Mostrar flechas y texto en el borde de la pantalla indicando la posición relativa de la unidad cuando no esté a la vista del jugador.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_outFOVindex">
-        <Original>Show Index when Off-Screen</Original>
-        <English>Show Index when Off-Screen</English>
-        <Spanish>Mostrar Índice Fuera de Pantalla</Spanish>
+        <Original>Show Index when HUD Off</Original>
+        <English>Show Index when HUD Off</English>
+        <Spanish>Mostrar Índice si HUD Desact.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_outFOVindex_desc">
-        <Original>Always display the indexes of your units when not in view.
+        <Original>Always display the indexes of your units when not in view, even when the squad HUD isn't active.
 \nIt only works if 'Display Arrows and Text' is active.</Original>
-        <English>Always display the indexes of your units when not in view.
+        <English>Always display the indexes of your units when not in view, even when the squad HUD isn't active.
 \nIt only works if 'Display Arrows and Text' is active.</English>
-        <Spanish>Mostrar siempre los índices de tus unidades cuando no estén a la vista.
+        <Spanish>Mostrar siempre los índices de tus unidades cuando no estén a la vista, incluso cuando la HUD de pelotón no esté activa.
 \nSólo funciona si 'Mostrar Flechas y Texto' está activo.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_checkOcclusion">
@@ -1667,15 +1686,15 @@
         <Spanish>Usar Alias</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_nameSoundType_desc">
-        <Original>Use a custom callsign for each unit in your squad. The type can be that of his role, last name or none.
-\nOnly names that have voice lines recorded will be used. Otherwise it will default to vanilla callsign (numbering).
-\nUnits that have a callsign already set by the mission maker will be excluded.</Original>
-        <English>Use a custom callsign for each unit in your squad. The type can be that of his role, last name or none.
-\nOnly names that have voice lines recorded will be used. Otherwise it will default to vanilla callsign (numbering).
-\nUnits that have a callsign already set by the mission maker will be excluded.</English>
-        <Spanish>Usar un alias personalizado para cada unidad de tu pelotón. Puede ser de los siguientes tipos: rol, apellido o ninguno.
-\nSólo se usarán los nombres que tienen voces grabadas. En caso contrario se usará el sistema del juego base (numeración).
-\nLas unidades que ya tienen un alias asignado por el creador de la misión serán excluidas.</Spanish>
+        <Original>Use a custom callsign for each unit in your squad. The type can be that of his role, last name or none, which will default to the vanilla callsign (numbers).
+\nOnly names that have voice lines recorded will be used. Otherwise, it will default to its role.
+\nUnits that have a callsign already set by the mission will be excluded.</Original>
+        <English>Use a custom callsign for each unit in your squad. The type can be that of his role, last name or none, which will default to the vanilla callsigns (numbers).
+\nOnly names that have voice lines recorded will be used. Otherwise, it will default to its role.
+\nUnits that have a callsign already set by the mission will be excluded.</English>
+        <Spanish>Usar un alias personalizado para cada unidad de tu pelotón. Puede ser de los siguientes tipos: rol, apellido o ninguno, que reverterá a los alias por defecto (números).
+\nSólo se usarán los nombres que tienen voces grabadas. En caso contrario, se usará su rol.
+\nLas unidades que ya tienen un alias asignado por la misión serán excluidas.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_nameSoundType_role">
         <Original>Role</Original>
@@ -1686,6 +1705,25 @@
         <Original>Last Name</Original>
         <English>Last Name</English>
         <Spanish>Apellido</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_nameSound_ChangeNames">
+        <Original>Change Names to Valid</Original>
+        <English>Change Names to Valid</English>
+        <Spanish>Cambiar Nombres a Válidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_nameSound_ChangeNames_desc">
+        <Original>Changes the last names of all the squad units to a random one which has recorded lines.
+\nThe names will be chosen based on the player's faction and only if the faction is recognized to belong to a given language. Units with already valid names will be excluded.
+\nThis will most likely create inconsistencies with some missions and settings. Enable at your own discretion.
+\n\nThis setting will be applied next time you start a mission or whenever your current group changes.</Original>
+        <English>Changes the last names of all the squad units to a random one which has recorded lines.
+\nThe names will be chosen based on the player's faction and only if the faction is recognized to belong to a given language. Units with already valid names will be excluded.
+\nThis will most likely create inconsistencies with some missions and settings. Enable at your own discretion.
+\n\nThis setting will be applied next time you start a mission or whenever your current group changes.</English>
+        <Spanish>Cambia los apellidos de todas las unidades del pelotón a otro aleatorio que tiene líneas de voz grabadas.
+\nLos nombres estarán basados en la facción del jugador y sólo si se reconoce que la facción pertenece a un idioma determinado. Las unidades que ya tengan apellidos válidos serán excluidas.
+\nEsto muy probablemente provocará inconsistencias en algunas misiones y entornos. Actívalo a tu propia discreción.
+\n\nEste ajuste se aplicará en la siguiente misión o en cuanto tu grupo actual cambie.</Spanish>
       </Key>
     </Container>
     <Container name="SQFB_opt_deprecated">

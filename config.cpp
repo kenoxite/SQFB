@@ -5,7 +5,7 @@ class CfgPatches
         name = "Squad Feedback";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "2.0.7.1";
+        version = "2.0.8";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -75,6 +75,7 @@ class CfgFunctions
             class playSound {};
 
             class setNameSound {};
+            class changeToValidName {};
         };
 
         class CBA

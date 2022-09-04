@@ -2,7 +2,7 @@
   Author: kenoxite
 
   Description:
-  Adds custom items to the corresponding enemy tracking gear array 
+  Sets a callsign for each unit in the player's squad
 
 
   Parameter (s):
@@ -15,7 +15,7 @@
 
 */
 
-params [["_unit", objNull]];
+params [["_unit", objNull], ["_forcedType", ""]];
 if (isNull _unit) exitWith {true};
 
 // Skip units with already set callsigns
@@ -28,68 +28,10 @@ if (_originalNameSound != "") exitWith { true };
 private _newNameSound = _unit getVariable ["SQFB_newNameSound", _originalNameSound];
 if (tolower _newNameSound != tolower _nameSound && _nameSound != "") exitWith { true };
 
-private _mode = SQFB_opt_nameSoundType;
-private _validNames = [
-    "Armstrong",
-    "Nichols",
-    "Tanny",
-    "Frost",
-    "Lacey",
-    "Larkin",
-    "Kerry",
-    "Jackson",
-    "Miller",
-    "McKendrick",
-    "Levine",
-    "Reynolds",
-    "Adams",
-    "Bennett",
-    "Campbell",
-    "Dixon",
-    "Everett",
-    "Franklin",
-    "Givens",
-    "Hawkins",
-    "Lopez",
-    "Martinez",
-    "O'Connor",
-    "Ryan",
-    "Patterson",
-    "Sykes",
-    "Taylor",
-    "Walker",
+private _mode = [SQFB_opt_nameSoundType, _forcedType] select (_forcedType != "");
 
-    "Amin",
-    "Masood",
-    "Fahim",
-    "Habibi",
-    "Kushan",
-    "Jawadi",
-    "Nazari",
-    "Siddiqi",
-    "Takhtar",
-    "Wardak",
-    "Yousuf",
-
-    "Anthis",
-    "Costa",
-    "Dimitirou",
-    "Elias",
-    "Gekas",
-    "Kouris",
-    "Leventis",
-    "Markos",
-    "Nikas",
-    "Nicolo",
-    "Panas",
-    "Petros",
-    "Rosi",
-    "Samaras",
-    "Stavrou",
-    "Thanos",
-    "Vega"
-];
-
+private _lastName = "";
+private _nameIsValid = false;
 _nameSound = call {
     // None
     if (_mode == "none") exitWith {
@@ -98,11 +40,12 @@ _nameSound = call {
     // Name
     if (_mode == "name") exitWith {
         private _nameArr = [name _unit, " "] call BIS_fnc_splitString;
-        private _lastName = [
+        _lastName = [
                                 _nameArr #0,
                                 _nameArr #1
                             ] select (count _nameArr > 1);
-        if (_lastName in _validNames) exitWith { _lastName };
+        _nameIsValid = toLower _lastName in SQFB_validNames;
+        if (_nameIsValid) exitWith { _lastName };
         ""
     };
     // Role
@@ -117,6 +60,9 @@ _nameSound = call {
     };
     ""
 };
+
+// Default to role if no valid last name is found
+if (_mode == "name" && {!_nameIsValid}) exitWith { [_unit, "role"] call SQFB_fnc_setNameSound };
 
 _unit setNameSound _nameSound;
 _unit setVariable ["SQFB_newNameSound", _nameSound];

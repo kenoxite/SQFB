@@ -25,8 +25,18 @@ if (SQFB_debug) then { diag_log format ["SQFB: initGroup - Initializing new grou
 private _units = units _grp;
 _grp setVariable ["SQFB_wounded", false];
 
-// Initialize the units group index
-{ private _index = _x call SQFB_fnc_getUnitPositionId; _x setVariable ["SQFB_grpIndex", _index]; _x setVariable ["SQFB_lastGroup", group _x]; if (_x == SQFB_player) then {SQFB_lastPlayerIndex = _index }; } forEach _units;
+{
+    // Initialize the units group index
+    private _index = _x call SQFB_fnc_getUnitPositionId;
+    _x setVariable ["SQFB_grpIndex", _index];
+    _x setVariable ["SQFB_lastGroup", group _x];
+    if (_x == SQFB_player) then {SQFB_lastPlayerIndex = _index };
+
+    // Change names
+    if (_x != SQFB_player && SQFB_opt_nameSound_ChangeNames) then {
+        [_x] call SQFB_fnc_changeToValidName;
+    };
+} forEach _units;
 
 // Update global vars
 SQFB_group = _grp;
