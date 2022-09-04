@@ -30,7 +30,10 @@ private _lastName = [
                         _nameArr #1
                     ] select (count _nameArr > 1);
 private _nameIsValid = toLower _lastName in SQFB_validNames;
-if (_nameIsValid) exitWith {true};
+if (_nameIsValid) exitWith {
+    SQFB_trackNames pushBack toLower _lastName;
+    _currentName
+};
 
 // Choose last name based on the player's side and faction
 private _faction = faction player;
@@ -76,10 +79,12 @@ private _namesArray = call {
 };
 
 // Don't change if faction isn't recognized as valid
-if (count _namesArray == 0) exitWith {true};
+if (count _namesArray == 0) exitWith { "" };
 
 // Try not to repeat names
-_namesArray = _namesArray - SQFB_trackNames;
+{
+    _namesArray = _namesArray - [_x];
+} forEach SQFB_trackNames;
 if (count _namesArray == 0) then {
     _namesArray = +SQFB_trackNames;
     SQFB_trackNames = [];
@@ -99,3 +104,5 @@ _lastName = [_firstLetter, toString _unicodeName] joinString "";
 _nameArr set [(count _nameArr)-1, _lastName];
 private _fullName = trim(_nameArr joinString " ");
 _unit setName [_fullName, _firstName, _lastName];
+
+_fullName

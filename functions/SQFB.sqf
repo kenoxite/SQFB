@@ -142,17 +142,17 @@ SQFB_validNames_Russian = [
     "kushan",
     "petrenko"
 ];
-// SQFB_validCodeNames = [
-//     "ghost",
-//     "stranger",
-//     "fox",
-//     "snake",
-//     "razer",
-//     "jester",
-//     "nomad",
-//     "viper",
-//     "korneedler"
-// ];
+SQFB_validCodeNames = [
+    "ghost",
+    "stranger",
+    "fox",
+    "snake",
+    "razer",
+    "jester",
+    // "nomad", // not available in some voices
+    "viper",
+    "korneedler"
+];
 
 SQFB_validNames append SQFB_validNames_English;
 SQFB_validNames append SQFB_validNames_Persian;
@@ -296,6 +296,7 @@ SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
     // Set callsign
     [_x] call SQFB_fnc_setNameSound;
 } forEach (units player - [SQFB_player]);
+[SQFB_player] call SQFB_fnc_setNameSound;
 
 // Set player position
 SQFB_player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];

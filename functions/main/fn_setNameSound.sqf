@@ -22,11 +22,20 @@ if (isNull _unit) exitWith {true};
 private _originalNameSound = _unit getVariable "SQFB_originalNameSound";
 private _nameSound = nameSound _unit;
 if (isNil "_originalNameSound") then { _unit setVariable ["SQFB_originalNameSound", _nameSound]; _originalNameSound = _nameSound; };
-if (_originalNameSound != "") exitWith { true };
+if (_originalNameSound != "") exitWith { _nameSound };
 
 // Check if callsign has changed by the mission since mission init
 private _newNameSound = _unit getVariable ["SQFB_newNameSound", _originalNameSound];
-if (tolower _newNameSound != tolower _nameSound && _nameSound != "") exitWith { true };
+if (_unit != SQFB_player && {tolower _newNameSound != tolower _nameSound && _nameSound != ""}) exitWith { _nameSound };
+
+// Player
+if (_unit == SQFB_player) exitWith {
+    if (SQFB_opt_playerCallsign > 0) then {
+        _nameSound = SQFB_validCodeNames #(SQFB_opt_playerCallsign - 1);
+        SQFB_player setNameSound _nameSound;
+    };
+    _nameSound
+};
 
 private _mode = [SQFB_opt_nameSoundType, _forcedType] select (_forcedType != "");
 
@@ -66,3 +75,5 @@ if (_mode == "name" && {!_nameIsValid}) exitWith { [_unit, "role"] call SQFB_fnc
 
 _unit setNameSound _nameSound;
 _unit setVariable ["SQFB_newNameSound", _nameSound];
+
+_nameSound

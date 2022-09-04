@@ -836,6 +836,41 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
+    "SQFB_opt_nameSoundType", 
+    "LIST",
+    [localize "STR_SQFB_opt_nameSoundType", localize "STR_SQFB_opt_nameSoundType_desc"],
+    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [["none", "role", "name"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_nameSoundType_role", localize "STR_SQFB_opt_nameSoundType_lastName"], 1],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_playerCallsign", 
+    "LIST",
+    [localize "STR_SQFB_opt_playerCallsign", localize "STR_SQFB_opt_playerCallsign_desc"],
+    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [
+        [0,1,2,3,4,5,6,7,8],
+        [
+            localize "STR_SQFB_opt_sounds_none",
+            "Ghost",
+            "Stranger",
+            "Fox",
+            "Snake",
+            "Razer",
+            "Jester",
+            // "Nomad",
+            "Viper",
+            "Korneedler"
+        ],
+        0
+    ],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
     "SQFB_opt_nameSound_ChangeNames", 
     "CHECKBOX",
     [localize "STR_SQFB_opt_nameSound_ChangeNames", localize "STR_SQFB_opt_nameSound_ChangeNames_desc"],

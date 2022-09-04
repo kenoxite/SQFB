@@ -1706,6 +1706,16 @@
         <English>Last Name</English>
         <Spanish>Apellido</Spanish>
       </Key>
+      <Key ID="STR_SQFB_opt_playerCallsign">
+        <Original>Player Callsign</Original>
+        <English>Player Callsign</English>
+        <Spanish>Alias del Jugador</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_playerCallsign_desc">
+        <Original>Callsign for the player if not set by the mission.</Original>
+        <English>Callsign for the player if not set by the mission.</English>
+        <Spanish>Alias del jugador si no se ha establecido en la misión.</Spanish>
+      </Key>
       <Key ID="STR_SQFB_opt_nameSound_ChangeNames">
         <Original>Change Names to Valid</Original>
         <English>Change Names to Valid</English>
