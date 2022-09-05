@@ -1717,23 +1717,26 @@
         <Spanish>Alias del jugador si no se ha establecido en la misión.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_nameSound_ChangeNames">
-        <Original>Change Names to Valid</Original>
-        <English>Change Names to Valid</English>
-        <Spanish>Cambiar Nombres a Válidos</Spanish>
+        <Original>Change Last Names to Voiced</Original>
+        <English>Change Last Names to Voiced</English>
+        <Spanish>Cambiar Apellidos a con Voz</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_nameSound_ChangeNames_desc">
         <Original>Changes the last names of all the squad units to a random one which has recorded lines.
-\nThe names will be chosen based on the player's faction and only if the faction is recognized to belong to a given language. Units with already valid names will be excluded.
-\nThis will most likely create inconsistencies with some missions and settings. Enable at your own discretion.
-\n\nThis setting will be applied next time you start a mission or whenever your current group changes.</Original>
+\nYou may want this to make sure all your units can be called by name.
+\nThe names will be chosen based on the language used by the unit. Units with already valid names will be excluded.
+\n\nThis will most likely create inconsistencies with some missions and settings. Enable at your own discretion.
+\nThis setting will be applied next time you start a mission or whenever your current group changes.</Original>
         <English>Changes the last names of all the squad units to a random one which has recorded lines.
-\nThe names will be chosen based on the player's faction and only if the faction is recognized to belong to a given language. Units with already valid names will be excluded.
-\nThis will most likely create inconsistencies with some missions and settings. Enable at your own discretion.
-\n\nThis setting will be applied next time you start a mission or whenever your current group changes.</English>
+\nYou may want this to make sure all your units can be called by name.
+\nThe names will be chosen based on the language used by the unit. Units with already valid names will be excluded.
+\n\nThis will most likely create inconsistencies with some missions and settings. Enable at your own discretion.
+\nThis setting will be applied next time you start a mission or whenever your current group changes.</English>
         <Spanish>Cambia los apellidos de todas las unidades del pelotón a otro aleatorio que tiene líneas de voz grabadas.
-\nLos nombres estarán basados en la facción del jugador y sólo si se reconoce que la facción pertenece a un idioma determinado. Las unidades que ya tengan apellidos válidos serán excluidas.
-\nEsto muy probablemente provocará inconsistencias en algunas misiones y entornos. Actívalo a tu propia discreción.
-\n\nEste ajuste se aplicará en la siguiente misión o en cuanto tu grupo actual cambie.</Spanish>
+\nPuedes querer esto para asegurarte de que puedes llamar por su apellido a todas tus unidades.
+\nLos nombres estarán basados en el idioma que use la unidad. Las unidades que ya tengan apellidos válidos serán excluidas.
+\n\nEsto muy probablemente provocará inconsistencias en algunas misiones y entornos. Actívalo a tu propia discreción.
+\nEste ajuste se aplicará en la siguiente misión o en cuanto tu grupo actual cambie.</Spanish>
       </Key>
     </Container>
     <Container name="SQFB_opt_deprecated">

@@ -35,23 +35,23 @@ if (_nameIsValid) exitWith {
     _currentName
 };
 
-// Choose last name based on the player's side and faction
-private _faction = faction player;
+// Choose last name based on the unit's voice
+private _voice = toLower (speaker _unit);
 
 private _namesArray = call {
-    if (_faction in SQFB_factionsEnglish) exitWith {
+    if (_voice in SQFB_voicesEnglish) exitWith {
         +SQFB_validNames_English
     };
-    if (_faction in SQFB_factionsPersian) exitWith {
+    if (_voice in SQFB_voicesPersian) exitWith {
         +SQFB_validNames_Persian
     };
-    if (_faction in SQFB_factionsGreek) exitWith {
+    if (_voice in SQFB_voicesGreek) exitWith {
         +SQFB_validNames_Greek
     };
-    if (_faction in SQFB_factionsPolish) exitWith {
+    if (_voice in SQFB_voicesPolish) exitWith {
         +SQFB_validNames_Polish
     };
-    if (_faction in SQFB_factionsRussian) exitWith {
+    if (_voice in SQFB_voicesRussian) exitWith {
         +SQFB_validNames_Russian
     };
     []

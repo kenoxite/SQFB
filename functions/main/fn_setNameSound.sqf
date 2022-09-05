@@ -74,9 +74,10 @@ _nameSound = call {
 // Default to role if no valid last name is found or if it's valid but there's no voice lines in the faction's voices
 if (_mode == "name"
     && {!_nameIsValid
-        || _nameIsValid
-        && {(faction player in SQFB_vanillaFactions && toLower _lastName in SQFB_validNames_Polish)
-            || (faction player in SQFB_vanillaFactions && toLower _lastName in SQFB_validNames_Russian)}
+        || (_nameIsValid
+            && {toLower (speaker SQFB_player) in SQFB_noEnochVoices
+                && toLower _lastName in SQFB_EnochNames}
+            )
         }
     ) exitWith { [_unit, "role"] call SQFB_fnc_setNameSound };
 

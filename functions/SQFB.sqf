@@ -25,7 +25,6 @@ SQFB_IFFTimeLastCheck = time;
 SQFB_tagObjArr = [];
 SQFB_deletingTaggers = false;
 
-SQFB_lastNameSoundCheck = time;
 SQFB_trackNames = [];
 SQFB_validNames = [];
 SQFB_validNames_English = [
@@ -58,14 +57,6 @@ SQFB_validNames_English = [
     "taylor",
     "walker",
 
-    "right",
-    // "stype",
-    // "kesson",
-
-    // "stolarski",
-    // "nowak",
-    // "kowalski",
-
     "costa",
     "elias",
     "gekas",
@@ -82,13 +73,7 @@ SQFB_validNames_English = [
     "amin",
     "masood",
     "nazari",
-    "yousuf",
-
-    // "adamovich",
-    // "ivanov",
-    // "petrenko",
-
-    "fox"
+    "yousuf"
 ];
 SQFB_validNames_Persian = [
     "amin",
@@ -159,37 +144,81 @@ SQFB_validNames append SQFB_validNames_Greek;
 SQFB_validNames append SQFB_validNames_Polish;
 SQFB_validNames append SQFB_validNames_Russian;
 
-SQFB_factionsEnglish = [
-    "BLU_F",
-    "BLU_T_F",
-    "BLU_CTRG_F",
-    "BLU_W_F"
-];
-SQFB_factionsPersian = [
-    "OPF_F"
-];
-SQFB_factionsGreek = [
-    "BLU_G_F",
-    "OPF_G_F",
-    "IND_F",
-    "IND_G_F"
-];
-SQFB_factionsPolish = [
-    "IND_E_F",
-    "IND_L_F"
-];
-SQFB_factionsRussian = [
-    "OPF_R_F"
-];
+SQFB_EnochNames = [];
+SQFB_EnochNames append SQFB_validNames_Polish;
+SQFB_EnochNames append SQFB_validNames_Russian;
 
-SQFB_vanillaFactions = [];
-SQFB_vanillaFactions append SQFB_factionsEnglish;
-SQFB_vanillaFactions append SQFB_factionsPersian;
-SQFB_vanillaFactions append SQFB_factionsGreek;
+SQFB_voicesEnglish = [
+    "male01eng",
+    "male02eng",
+    "male03eng",
+    "male04eng",
+    "male05eng",
+    "male06eng",
+    "male07eng",
+    "male08eng",
+    "male09eng",
+    "male10eng",
+    "male11eng",
+    "male12eng",
 
-// SQFB_DLCFactions = [];
-// SQFB_DLCFactions append SQFB_factionsPolish;
-// SQFB_DLCFactions append SQFB_factionsRussian;
+    "male01engb",
+    "male02engb",
+    "male03engb",
+    "male04engb",
+    "male05engb",
+
+    "male01engvr"
+];
+SQFB_voicesGreek = [
+    "male01gre",
+    "male02gre",
+    "male03gre",
+    "male04gre",
+    "male05gre",
+    "male06gre",
+
+    "male01grevr"
+];
+SQFB_voicesPersian = [
+    "male01per",
+    "male02per",
+    "male03per",
+
+    "male01pervr"
+];
+SQFB_voicesFrench = [
+    "male01fre",
+    "male02fre",
+    "male03fre"
+];
+SQFB_voicesFrenchEng = [
+    "male01engfre",
+    "male02engfre"
+];
+SQFB_voicesChinese = [
+    "male01chi",
+    "male02chi",
+    "male03chi"
+];
+SQFB_voicesPolish = [
+    "male01pol",
+    "male02pol",
+    "male03pol"
+];
+SQFB_voicesRussian = [
+    "male01rus",
+    "male02rus",
+    "male03rus"
+];
+SQFB_noEnochVoices = [];
+SQFB_noEnochVoices append SQFB_voicesEnglish;
+SQFB_noEnochVoices append SQFB_voicesGreek;
+SQFB_noEnochVoices append SQFB_voicesPersian;
+SQFB_noEnochVoices append SQFB_voicesFrench;
+SQFB_noEnochVoices append SQFB_voicesFrenchEng;
+SQFB_noEnochVoices append SQFB_voicesChinese;
+
 
 SQFB_enemyTrackingGoggles_default = [
     "G_Balaclava_combat",
