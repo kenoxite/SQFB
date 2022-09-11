@@ -802,7 +802,7 @@ Parameters:
     [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_ExcludedEnemyTrackingDevices"]],
     "", // data for this setting: "defaultValue"
     nil,
-    { [( _this splitString ",") apply {_x}, "goggles"] call SQFB_fnc_trackingGearAdd; }
+    { [( _this splitString ",") apply {_x}, "goggles", false] call SQFB_fnc_trackingGearAdd; }
 ] call CBA_fnc_addSetting;
 
 [
@@ -812,7 +812,7 @@ Parameters:
     [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_ExcludedEnemyTrackingDevices"]],
     "", // data for this setting: "defaultValue"
     nil,
-    { [( _this splitString ",") apply {_x}, "headgear"] call SQFB_fnc_trackingGearAdd; }
+    { [( _this splitString ",") apply {_x}, "headgear", false] call SQFB_fnc_trackingGearAdd; }
 ] call CBA_fnc_addSetting;
 
 [
@@ -822,7 +822,7 @@ Parameters:
     [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_ExcludedEnemyTrackingDevices"]],
     "", // data for this setting: "defaultValue"
     nil,
-    { [( _this splitString ",") apply {_x}, "hmd"] call SQFB_fnc_trackingGearAdd; }
+    { [( _this splitString ",") apply {_x}, "hmd", false] call SQFB_fnc_trackingGearAdd; }
 ] call CBA_fnc_addSetting;
 
 
