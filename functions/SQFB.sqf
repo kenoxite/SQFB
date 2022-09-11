@@ -25,6 +25,8 @@ SQFB_IFFTimeLastCheck = time;
 SQFB_tagObjArr = [];
 SQFB_deletingTaggers = false;
 
+// ---------------------------------------
+// Unit names
 SQFB_trackNames = [];
 SQFB_validNames = [];
 SQFB_validNames_English = [
@@ -220,6 +222,8 @@ SQFB_noEnochVoices append SQFB_voicesFrenchEng;
 SQFB_noEnochVoices append SQFB_voicesChinese;
 
 
+// ---------------------------------------
+// Addition lists
 SQFB_enemyTrackingGoggles_default = [
     "G_Balaclava_combat",
     "G_Combat",
@@ -298,6 +302,44 @@ SQFB_oneShotLaunchers_default = [
 ];
 SQFB_oneShotLaunchers = +SQFB_oneShotLaunchers_default;
 
+// Add custom additional IFF device classes
+[(SQFB_opt_EnemyTrackingGearGoggles splitString ",") apply {_x}, "goggles"] call SQFB_fnc_trackingGearAdd;
+[(SQFB_opt_EnemyTrackingGearHelmets splitString ",") apply {_x}, "headgear"] call SQFB_fnc_trackingGearAdd;
+[(SQFB_opt_EnemyTrackingGearHMD splitString ",") apply {_x}, "hmd"] call SQFB_fnc_trackingGearAdd;
+
+// ---------------------------------------
+// Exclusion lists
+SQFB_enemyTrackingGogglesExcluded_default = [
+    // RHS
+    "rhsusf_shemagh_base",
+    "rhsusf_shemagh_gogg_base",
+    "rhsusf_oakley_goggles_base",
+    "rhs_googles_black",
+    "rhs_googles_clear",
+    "rhs_googles_orange",
+    "rhs_googles_yellow",
+    "rhs_ess_black"
+];
+SQFB_enemyTrackingGogglesExcluded = +SQFB_enemyTrackingGogglesExcluded_default;
+
+SQFB_enemyTrackingHeadgearExcluded_default = [
+    //
+];
+SQFB_enemyTrackingHeadgearExcluded = +SQFB_enemyTrackingHeadgearExcluded_default;
+
+SQFB_enemyTrackingHMDExcluded_default = [
+    //
+];
+SQFB_enemyTrackingHMDExcluded = +SQFB_enemyTrackingHMDExcluded_default;
+
+// Add custom excluded IFF device classes
+[(SQFB_opt_EnemyTrackingGearGogglesExcluded splitString ",") apply {_x}, "goggles", false] call SQFB_fnc_trackingGearAdd;
+[(SQFB_opt_EnemyTrackingGearHelmetsExcluded splitString ",") apply {_x}, "headgear", false] call SQFB_fnc_trackingGearAdd;
+[(SQFB_opt_EnemyTrackingGearHMDExcluded splitString ",") apply {_x}, "hmd", false] call SQFB_fnc_trackingGearAdd;
+
+
+// ---------------------------------------
+// Factions for icon colors
 SQFB_factionsWest = [
     // Main + Official DLCs
     "BLU_F",
@@ -331,13 +373,10 @@ SQFB_factionsCiv = [
     "CIV_IDAP_F"
 ];
 
-// Add custom IFF device classes
-[(SQFB_opt_EnemyTrackingGearGoggles splitString ",") apply {_x}, "goggles"] call SQFB_fnc_trackingGearAdd;
-[(SQFB_opt_EnemyTrackingGearHelmets splitString ",") apply {_x}, "headgear"] call SQFB_fnc_trackingGearAdd;
-[(SQFB_opt_EnemyTrackingGearHMD splitString ",") apply {_x}, "hmd"] call SQFB_fnc_trackingGearAdd;
-
+// ---------------------------------------
 waitUntil { !isNull player };
 
+// ---------------------------------------
 // Init player group
 SQFB_player = call SQFB_fnc_playerUnit;
 SQFB_group = group SQFB_player;
@@ -346,6 +385,7 @@ SQFB_lastPlayerIndex = -1;
 [SQFB_group] call SQFB_fnc_initGroup;
 SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
 
+// ---------------------------------------
 // Set names and callsigns
 {
     // Change names
@@ -360,12 +400,15 @@ SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
 // Set player position
 SQFB_player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
 
+// ---------------------------------------
 // Keep track of group status
 SQFB_EH_HUDupdate = [{ if (SQFB_opt_on && alive SQFB_player) then { call SQFB_fnc_HUDupdate }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
 
+// ---------------------------------------
 // Update IFF display info
 SQFB_EH_IFFupdate = [{ if (SQFB_opt_on && alive SQFB_player && {(SQFB_showFriendlies || SQFB_showEnemies || SQFB_showIFFHUD)}) then { [getPosWorld vehicle SQFB_player] call SQFB_fnc_IFFupdate }; }, SQFB_opt_HUDrefreshIFF, []] call CBA_fnc_addPerFrameHandler;
 
+// ---------------------------------------
 // HUD display
 SQFB_draw3D_EH = addMissionEventHandler [
 "Draw3D",

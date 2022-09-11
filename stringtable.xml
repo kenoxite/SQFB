@@ -1144,6 +1144,78 @@
 \n  - Integrated Visual Augmentation System (IVAS) Headsets</Spanish>
       </Key>
     </Container>
+
+    <Container name="ExcludedEnemyTrackingDevices">
+      <Key ID="STR_SQFB_opt_ExcludedEnemyTrackingDevices">
+        <Original>Excluded IFF Devices</Original>
+        <English>Excluded IFF Devices</English>
+        <Spanish>Dispositivos IFF Excluidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearGogglesExcluded">
+        <Original>Excluded Goggles</Original>
+        <English>Excluded Goggles</English>
+        <Spanish>Gafas Excluidas</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearGogglesExcluded_desc">
+        <Original>Add here any goggles you want to exclude from the IFF tracking.
+
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
+\nExample: MyGogglesClass1, MyGogglesClass2, etc
+\n\nThe pre-defined devices are:
+\n  - RHS Goggles and Shemags</Original>
+        <English>Add here any goggles you want to exclude from the IFF tracking.
+
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
+\nExample: MyGogglesClass1, MyGogglesClass2, etc
+\n\nThe pre-defined devices are:
+\n  - RHS Goggles and Shemags</English>
+        <Spanish>Añade aquí cualquier otras gafas de protección que quieras excluir del IFF.
+
+\n\nLa lista ha de contener nombres de clase (sin las comillas "") y separados por comas.
+\nEjemplo: MiClaseGafasProtec1, MiClaseGafasProtec2, etc
+\n\nLos dispositivos predeterminados son:
+\n  - RHS Gafas y Afganos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearHelmetsExcluded">
+        <Original>Excluded Helmets</Original>
+        <English>Excluded Helmets</English>
+        <Spanish>Cascos Excluidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearHelmetsExcluded_desc">
+        <Original>Add here any other helmets you want to exclude from the IFF tracking.
+
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
+\nExample: MyHelmetClass1, MyHelmetClass2, etc</Original>
+        <English>Add here any other helmets you want to exclude from the IFF tracking.
+
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
+\nExample: MyHelmetClass1, MyHelmetClass2, etc</English>
+        <Spanish>Añade aquí cualquier otros cascos que quieras excluir del IFF.
+
+\n\nLa lista ha de contener nombres de clase (sin las comillas "") y separados por comas.
+\nEjemplo: MiClaseCasco1, MiClaseCasco2, etc</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearHMDExcluded">
+        <Original>Excluded HMD</Original>
+        <English>Excluded HMD</English>
+        <Spanish>HMD Excluidos</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_EnemyTrackingGearHMDExcluded_desc">
+        <Original>Add here any other Head Mounted Displays (like NVGs) you want to exclude from the IFF tracking.
+
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
+\nExample: MyHMDClass1, MyHMDClass2, etc</Original>
+        <English>Add here any other Head Mounted Displays (like NVGs) you want to exclude from the IFF tracking.
+
+\n\nThe list must be class names (without quotation marks "") and separated by commas.
+\nExample: MyHMDClass1, MyHMDClass2, etc</English>
+        <Spanish>Añade aquí cualquier otros 'Head Mounted Displays' (como las Gafas de Visión Nocturna) que quieras excluir del IFF.
+
+\n\nLa lista ha de contener nombres de clase (sin las comillas "") y separados por comas.
+\nEjemplo: MiClaseHMD1, MiClaseHMD2, etc</Spanish>
+      </Key>
+    </Container>
+
     <Container name="Colors_squad">
       <Key ID="STR_SQFB_opt_Colors_squad">
         <Original>Colors (Squad)</Original>

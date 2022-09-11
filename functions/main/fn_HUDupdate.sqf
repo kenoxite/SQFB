@@ -32,7 +32,6 @@ if (SQFB_group != _grp || !(SQFB_player in SQFB_units) || SQFB_unitCount != _uni
 // Name sounds
 {[_x] call SQFB_fnc_setNameSound} forEach _units;
 [SQFB_player] call SQFB_fnc_setNameSound;
-SQFB_lastNameSoundCheck = time;
     
 // Squad
 if (SQFB_opt_showSquad) then {

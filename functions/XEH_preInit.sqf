@@ -762,7 +762,7 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 
-// ADVANCED - Custom classnames
+// ADVANCED - Additional classnames
 [
     "SQFB_opt_EnemyTrackingGearGoggles", 
     "EDITBOX",
@@ -794,12 +794,44 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 
+// ADVANCED - Excluded classnames
+[
+    "SQFB_opt_EnemyTrackingGearGogglesExcluded", 
+    "EDITBOX",
+    [localize "STR_SQFB_opt_EnemyTrackingGearGogglesExcluded", localize "STR_SQFB_opt_EnemyTrackingGearGogglesExcluded_desc"],
+    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_ExcludedEnemyTrackingDevices"]],
+    "", // data for this setting: "defaultValue"
+    nil,
+    { [( _this splitString ",") apply {_x}, "goggles"] call SQFB_fnc_trackingGearAdd; }
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_EnemyTrackingGearHelmetsExcluded", 
+    "EDITBOX",
+    [localize "STR_SQFB_opt_EnemyTrackingGearHelmetsExcluded", localize "STR_SQFB_opt_EnemyTrackingGearHelmetsExcluded_desc"],
+    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_ExcludedEnemyTrackingDevices"]],
+    "", // data for this setting: "defaultValue"
+    nil,
+    { [( _this splitString ",") apply {_x}, "headgear"] call SQFB_fnc_trackingGearAdd; }
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_EnemyTrackingGearHMDExcluded", 
+    "EDITBOX",
+    [localize "STR_SQFB_opt_EnemyTrackingGearHMDExcluded", localize "STR_SQFB_opt_EnemyTrackingGearHMDExcluded_desc"],
+    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_ExcludedEnemyTrackingDevices"]],
+    "", // data for this setting: "defaultValue"
+    nil,
+    { [( _this splitString ",") apply {_x}, "hmd"] call SQFB_fnc_trackingGearAdd; }
+] call CBA_fnc_addSetting;
+
+
 // SOUNDS
 [
     "SQFB_opt_sounds_squad", 
     "LIST",
     [localize "STR_SQFB_opt_sounds_squad", localize "STR_SQFB_opt_sounds_squad_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_sounds"]],
     [["none", "beep", "focus", "radio"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus", localize "STR_SQFB_opt_sounds_radio"], 3],
     nil,
     {} 
@@ -809,7 +841,7 @@ Parameters:
     "SQFB_opt_sounds_noIFF", 
     "LIST",
     [localize "STR_SQFB_opt_sounds_noIFF", localize "STR_SQFB_opt_sounds_noIFF_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_sounds"]],
     [["none", "beep", "focus", "radio"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus", localize "STR_SQFB_opt_sounds_radio"], 2],
     nil,
     {} 
@@ -819,7 +851,7 @@ Parameters:
     "SQFB_opt_sounds_IFF", 
     "LIST",
     [localize "STR_SQFB_opt_sounds_IFF", localize "STR_SQFB_opt_sounds_IFF_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_sounds"]],
     [["none", "beep", "focus", "radio"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_sounds_beep", localize "STR_SQFB_opt_sounds_focus", localize "STR_SQFB_opt_sounds_radio"], 1],
     nil,
     {} 
@@ -829,7 +861,7 @@ Parameters:
     "SQFB_opt_nameSoundType", 
     "LIST",
     [localize "STR_SQFB_opt_nameSoundType", localize "STR_SQFB_opt_nameSoundType_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_sounds"]],
     [["none", "role", "name"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_nameSoundType_role", localize "STR_SQFB_opt_nameSoundType_lastName"], 1],
     nil,
     {} 
@@ -839,7 +871,7 @@ Parameters:
     "SQFB_opt_nameSoundType", 
     "LIST",
     [localize "STR_SQFB_opt_nameSoundType", localize "STR_SQFB_opt_nameSoundType_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_sounds"]],
     [["none", "role", "name"], [localize "STR_SQFB_opt_sounds_none", localize "STR_SQFB_opt_nameSoundType_role", localize "STR_SQFB_opt_nameSoundType_lastName"], 1],
     nil,
     {} 
@@ -849,7 +881,7 @@ Parameters:
     "SQFB_opt_playerCallsign", 
     "LIST",
     [localize "STR_SQFB_opt_playerCallsign", localize "STR_SQFB_opt_playerCallsign_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_sounds"]],
     [
         [0,1,2,3,4,5,6,7,8],
         [
@@ -874,7 +906,7 @@ Parameters:
     "SQFB_opt_nameSound_ChangeNames", 
     "CHECKBOX",
     [localize "STR_SQFB_opt_nameSound_ChangeNames", localize "STR_SQFB_opt_nameSound_ChangeNames_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["04 - %1", localize "STR_SQFB_opt_sounds"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_sounds"]],
     [false],
     nil,
     {} 
@@ -886,7 +918,7 @@ Parameters:
     "SQFB_opt_colorDefault", 
     "COLOR",
     [localize "STR_SQFB_opt_colorDefault", localize "STR_SQFB_opt_colorDefault_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_Colors_squad"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["06 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.9,0.9,0.9],
     nil,
     {} 
@@ -896,7 +928,7 @@ Parameters:
     "SQFB_opt_colorRed", 
     "COLOR",
     [localize "STR_SQFB_opt_colorRed", localize "STR_SQFB_opt_colorRed_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_Colors_squad"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["06 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.95,0.33,0.5],
     nil,
     {} 
@@ -906,7 +938,7 @@ Parameters:
     "SQFB_opt_colorGreen", 
     "COLOR",
     [localize "STR_SQFB_opt_colorGreen", localize "STR_SQFB_opt_colorGreen_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_Colors_squad"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["06 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.36,0.95,0.33],
     nil,
     {} 
@@ -916,7 +948,7 @@ Parameters:
     "SQFB_opt_colorBlue", 
     "COLOR",
     [localize "STR_SQFB_opt_colorBlue", localize "STR_SQFB_opt_colorBlue_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_Colors_squad"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["06 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.33,0.65,0.9],
     nil,
     {} 
@@ -926,7 +958,7 @@ Parameters:
     "SQFB_opt_colorYellow", 
     "COLOR",
     [localize "STR_SQFB_opt_colorYellow", localize "STR_SQFB_opt_colorYellow_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["05 - %1", localize "STR_SQFB_opt_Colors_squad"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["06 - %1", localize "STR_SQFB_opt_Colors_squad"]],
     [0.95,0.9,0.3],
     nil,
     {} 
@@ -938,7 +970,7 @@ Parameters:
     "SQFB_opt_colorEnemyTarget", 
     "COLOR",
     [localize "STR_SQFB_opt_colorEnemyTarget", localize "STR_SQFB_opt_colorEnemyTarget_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["06 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["07 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.98,0.796,0.137],
     nil,
     {} 
@@ -948,7 +980,7 @@ Parameters:
     "SQFB_opt_colorEnemy", 
     "COLOR",
     [localize "STR_SQFB_opt_colorEnemy", localize "STR_SQFB_opt_colorEnemy_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["06 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["07 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.9,0.21,0.3],
     nil,
     {} 
@@ -958,7 +990,7 @@ Parameters:
     "SQFB_opt_colorEnemyWest", 
     "COLOR",
     [localize "STR_SQFB_opt_colorEnemyWest", localize "STR_SQFB_opt_colorEnemyWest_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["06 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["07 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.33,0.8,1],
     nil,
     {} 
@@ -968,7 +1000,7 @@ Parameters:
     "SQFB_opt_colorEnemyGuer", 
     "COLOR",
     [localize "STR_SQFB_opt_colorEnemyGuer", localize "STR_SQFB_opt_colorEnemyGuer_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["06 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["07 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.36,0.95,0.33],
     nil,
     {} 
@@ -978,7 +1010,7 @@ Parameters:
     "SQFB_opt_colorEnemyCiv", 
     "COLOR",
     [localize "STR_SQFB_opt_colorEnemyCiv", localize "STR_SQFB_opt_colorEnemyCiv_desc"],
-    [localize "STR_SQFB_opt_Settings_2", format ["06 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["07 - %1", localize "STR_SQFB_opt_Colors_enemy"]],
     [0.7,0.1,0.9],
     nil,
     {} 
@@ -990,7 +1022,7 @@ Parameters:
     "SQFB_opt_colorFriendly", 
     "COLOR",
     [localize "STR_SQFB_opt_colorFriendly", localize "STR_SQFB_opt_colorFriendly_desc"], 
-    [localize "STR_SQFB_opt_Settings_2", format ["07 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["08 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
     [0.33,0.65,0.9],
     nil,
     {} 
@@ -1000,7 +1032,7 @@ Parameters:
     "SQFB_opt_colorFriendlyEast", 
     "COLOR",
     [localize "STR_SQFB_opt_colorFriendlyEast", localize "STR_SQFB_opt_colorFriendlyEast_desc"], 
-    [localize "STR_SQFB_opt_Settings_2", format ["07 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["08 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
     [0.95,0.33,0.5],
     nil,
     {} 
@@ -1010,7 +1042,7 @@ Parameters:
     "SQFB_opt_colorFriendlyGuer", 
     "COLOR",
     [localize "STR_SQFB_opt_colorFriendlyGuer", localize "STR_SQFB_opt_colorFriendlyGuer_desc"], 
-    [localize "STR_SQFB_opt_Settings_2", format ["07 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["08 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
     [0.36,0.95,0.33],
     nil,
     {} 
@@ -1020,7 +1052,7 @@ Parameters:
     "SQFB_opt_colorFriendlyCiv", 
     "COLOR",
     [localize "STR_SQFB_opt_colorFriendlyCiv", localize "STR_SQFB_opt_colorFriendlyCiv_desc"], 
-    [localize "STR_SQFB_opt_Settings_2", format ["07 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
+    [localize "STR_SQFB_opt_Settings_2", format ["08 - %1", localize "STR_SQFB_opt_Colors_friendlies"]],
     [0.7,0.1,0.9],
     nil,
     {} 
