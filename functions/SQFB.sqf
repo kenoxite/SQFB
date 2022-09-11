@@ -289,6 +289,7 @@ SQFB_enemyTrackingHMD = +SQFB_enemyTrackingHMD_default;
 SQFB_enemyTrackingGogglesExcluded_default = [
     // RHS
     "rhsusf_shemagh_base",
+    "rhsusf_shemagh2_base",
     "rhsusf_shemagh_gogg_base",
     "rhsusf_oakley_goggles_base",
     "rhs_googles_black",
