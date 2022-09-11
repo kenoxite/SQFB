@@ -232,7 +232,11 @@ SQFB_enemyTrackingGoggles_default = [
     "G_Balaclava_TI_G_tna_F",
     "G_Tactical_Clear",
     "G_Tactical_Black",
-    "G_Goggles_VR"
+    "G_Goggles_VR",
+
+    // E22
+    "E22_G_Combat_Goggles_base_F",
+    "E22_G_Tactical_base_F"
 ];
 SQFB_enemyTrackingGoggles = +SQFB_enemyTrackingGoggles_default;
 
@@ -275,33 +279,6 @@ SQFB_enemyTrackingHMD_default = [
 ];
 SQFB_enemyTrackingHMD = +SQFB_enemyTrackingHMD_default;
 
-SQFB_oneShotLaunchers_default = [
-    // RHS
-    "rhs_weap_m72a7",
-    "rhs_weap_M136",
-    "rhs_weap_M136_hedp",
-    "rhs_weap_M136_hp",
-    "rhs_weap_rpg26",
-    "rhs_weap_rpg18",
-    "rhs_weap_rshg2",
-    "rhs_weap_m80",
-
-    // CUP
-    "CUP_launch_M136",
-    "CUP_launch_M72A6",
-    "CUP_launch_M72A6_Special",
-    "CUP_launch_RPG26",
-    "CUP_launch_RPG18",
-    "CUP_launch_RShG2",
-
-    // CWR3
-    "cwr3_launch_at4",
-    "cwr3_launch_m72a3",
-    "cwr3_launch_rpg75",
-    "cwr3_launch_rpg75"
-];
-SQFB_oneShotLaunchers = +SQFB_oneShotLaunchers_default;
-
 // Add custom additional IFF device classes
 [(SQFB_opt_EnemyTrackingGearGoggles splitString ",") apply {_x}, "goggles"] call SQFB_fnc_trackingGearAdd;
 [(SQFB_opt_EnemyTrackingGearHelmets splitString ",") apply {_x}, "headgear"] call SQFB_fnc_trackingGearAdd;
@@ -336,6 +313,36 @@ SQFB_enemyTrackingHMDExcluded = +SQFB_enemyTrackingHMDExcluded_default;
 [(SQFB_opt_EnemyTrackingGearGogglesExcluded splitString ",") apply {_x}, "goggles", false] call SQFB_fnc_trackingGearAdd;
 [(SQFB_opt_EnemyTrackingGearHelmetsExcluded splitString ",") apply {_x}, "headgear", false] call SQFB_fnc_trackingGearAdd;
 [(SQFB_opt_EnemyTrackingGearHMDExcluded splitString ",") apply {_x}, "hmd", false] call SQFB_fnc_trackingGearAdd;
+
+
+// ---------------------------------------
+// One shot launchers to disable NO AMMO warning on AI units
+SQFB_oneShotLaunchers_default = [
+    // RHS
+    "rhs_weap_m72a7",
+    "rhs_weap_M136",
+    "rhs_weap_M136_hedp",
+    "rhs_weap_M136_hp",
+    "rhs_weap_rpg26",
+    "rhs_weap_rpg18",
+    "rhs_weap_rshg2",
+    "rhs_weap_m80",
+
+    // CUP
+    "CUP_launch_M136",
+    "CUP_launch_M72A6",
+    "CUP_launch_M72A6_Special",
+    "CUP_launch_RPG26",
+    "CUP_launch_RPG18",
+    "CUP_launch_RShG2",
+
+    // CWR3
+    "cwr3_launch_at4",
+    "cwr3_launch_m72a3",
+    "cwr3_launch_rpg75",
+    "cwr3_launch_rpg75"
+];
+SQFB_oneShotLaunchers = +SQFB_oneShotLaunchers_default;
 
 
 // ---------------------------------------
