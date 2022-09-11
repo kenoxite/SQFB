@@ -291,6 +291,7 @@ SQFB_enemyTrackingGogglesExcluded_default = [
     "rhsusf_shemagh_base",
     "rhsusf_shemagh2_base",
     "rhsusf_shemagh_gogg_base",
+    "rhsusf_shemagh2_gogg_base",
     "rhsusf_oakley_goggles_base",
     "rhs_googles_black",
     "rhs_googles_clear",
