@@ -18,7 +18,12 @@
 private _player = player;
 
 // Check for controlled drones
-{private _UAVrole = (UAVControl _x) select 1; if ((player in UAVControl _x) && (_UAVrole != "")) then {_player = [_x, gunner _x] select (_UAVrole == "GUNNER")}} foreach allUnitsUAV;
+{
+    private _UAVrole = (UAVControl _x) select 1;
+    if ((player in UAVControl _x) && (_UAVrole != "")) then {
+        _player = [_x, gunner _x] select (_UAVrole == "GUNNER");
+    };
+} foreach allUnitsUAV;
 
 // Check for Zeus controlled units
 private _curatorModule = allCurators select 0;
@@ -30,6 +35,6 @@ private _curatorObjects = curatorEditableObjects _curatorModule select { typeOf 
 private _curatorControlledUnit = _curatorObjects select { _x getVariable "bis_fnc_moduleremotecontrol_owner" isEqualTo _curatorUnit };
 
 [
-    [player, _curatorControlledUnit select 0] select (count _curatorControlledUnit > 0),
-    player
+    [_player, _curatorControlledUnit select 0] select (count _curatorControlledUnit > 0),
+    _player
 ] select (isNil "_curatorControlledUnit");

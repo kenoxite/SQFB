@@ -23,13 +23,12 @@ if (_mode == "iff" && !SQFB_showFriendlies && !SQFB_showEnemies) exitWith { _sou
 
 if (isNil "SQFB_trackingGearCheck") then { SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck };
 
-if (_mode == "squad") then {
-    _sound = SQFB_opt_sounds_squad;
-} else {
-    call {
-        if (SQFB_trackingGearCheck) exitWith {_sound = SQFB_opt_sounds_IFF;};
-        if (!SQFB_trackingGearCheck) exitWith {_sound = SQFB_opt_sounds_noIFF;};
-    };
+private _inDrone = call SQFB_fnc_playerInDrone;
+_sound = call {
+    if (_mode == "squad") exitWith { SQFB_opt_sounds_squad };
+    if (SQFB_trackingGearCheck || _inDrone) exitWith { SQFB_opt_sounds_IFF };
+    if (!SQFB_trackingGearCheck && !_inDrone) exitWith { SQFB_opt_sounds_noIFF };
+    ""
 };
 
 if (_sound != "none") then {

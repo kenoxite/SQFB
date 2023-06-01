@@ -45,6 +45,7 @@ class CfgFunctions
             class resetUnit {};
             class updateUnit {};
             class playerUnit {};
+            class playerInDrone {};
 
             class HUDshow {};
             class HUDhide {};

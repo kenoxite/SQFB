@@ -43,7 +43,7 @@ SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
 private _rangeFriendly = 0;
 private _rangeEnemy = 0;
 
-private _showSolo = SQFB_opt_IFFCheckSolo == "always" || _unitCount > 1 || (SQFB_opt_IFFCheckSolo == "device" && SQFB_trackingGearCheck);
+private _showSolo = SQFB_opt_IFFCheckSolo == "always" || _unitCount > 1 || (SQFB_opt_IFFCheckSolo == "device" && (SQFB_trackingGearCheck || call SQFB_fnc_playerInDrone));
 
 // Friendlies
 if (SQFB_opt_showFriendlies != "never") then {

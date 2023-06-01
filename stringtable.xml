@@ -472,8 +472,8 @@
         <Spanish>Máximo Unidades</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_showEnemiesMaxUnits_desc">
-        <Original>How many known enemy unit locations will be displayed.\nSet it to -1 for no unlimited.</Original>
-        <English>How many known enemy unit locations will be displayed.\nSet it to -1 for no unlimited.</English>
+        <Original>How many known enemy unit locations will be displayed.\nSet it to -1 for unlimited.</Original>
+        <English>How many known enemy unit locations will be displayed.\nSet it to -1 for unlimited.</English>
         <Spanish>Cuántas posiciones de enemigos conocidos se mostrarán.\nEstablécelo a -1 para ilimitado.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_showEnemiesMinRange">
@@ -1529,8 +1529,8 @@
         <Spanish>Máximo Unidades</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_showFriendliesMaxUnits_desc">
-        <Original>How many friendly units will be displayed. Set it to -1 for no unlimited.</Original>
-        <English>How many friendly units will be displayed. Set it to -1 for no unlimited.</English>
+        <Original>How many friendly units will be displayed. Set it to -1 for unlimited.</Original>
+        <English>How many friendly units will be displayed. Set it to -1 for unlimited.</English>
         <Spanish>Cuántas unidades amistosas se mostrarán. Establécelo a -1 para ilimitadas.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_showFriendliesMinRange">

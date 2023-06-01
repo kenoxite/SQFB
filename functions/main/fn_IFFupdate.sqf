@@ -68,7 +68,7 @@ private _onlyLastPosEnemy = [
                                 [   
                                     true,
                                     false
-                                ] select SQFB_trackingGearCheck,
+                                ] select (SQFB_trackingGearCheck || call SQFB_fnc_playerInDrone),
                                 true
                             ] select (_SQFB_opt_lastKnownEnemyPositionOnly == "always"),
                             false
@@ -93,7 +93,7 @@ private _onlyLastPosFriendly = [
                                 [   
                                     true,
                                     false
-                                ] select SQFB_trackingGearCheck,
+                                ] select (SQFB_trackingGearCheck || call SQFB_fnc_playerInDrone),
                                 true
                             ] select (_SQFB_opt_lastKnownFriendlyPositionOnly == "always"),
                             false

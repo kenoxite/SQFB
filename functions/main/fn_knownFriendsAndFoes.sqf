@@ -30,11 +30,16 @@ for "_i" from 0 to (count _nearUnits) -1 do
 {
     private _IFFunit = _nearUnits select _i;
     private _distIFFunit = _IFFunit distance _unit;
-    private _alignment = side _IFFunit getFriend side _unit;
+    private _alignment1 = side _IFFunit getFriend side _unit;
+    private _alignment2 = side _unit getFriend side _IFFunit;
+    private _isEnemy = _alignment1 < 0.6 || _alignment2 < 0.6;
     private _addTagger = false;
+
+    // Share target info with the player unit proper, otherwise might be lost when player swtiches units
+    player reveal _IFFunit;
     
     // Friends
-    if (_checkFriendlies && {_alignment >= 0.6}) then {
+    if (_checkFriendlies && {!_isEnemy}) then {
         // Check if unit is still below max count
         if (SQFB_opt_showFriendliesMaxUnits == -1 || {count SQFB_knownFriendlies < SQFB_opt_showFriendliesMaxUnits}) then {
             // Check if within distance
@@ -67,7 +72,7 @@ for "_i" from 0 to (count _nearUnits) -1 do
     };
 
     // Foes
-    if (_checkEnemies && {_alignment < 0.6}) then {
+    if (_checkEnemies && {_isEnemy}) then {
         // Check if unit is still below max count or is the target
         if ((_onlyDisplayTarget && _IFFunit == _playerTarget) || (!_onlyDisplayTarget && {SQFB_opt_showEnemiesMaxUnits == -1 || {count SQFB_knownEnemies < SQFB_opt_showEnemiesMaxUnits}})) then {
             // Check if within distance
