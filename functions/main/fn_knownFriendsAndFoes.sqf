@@ -39,7 +39,7 @@ for "_i" from 0 to (count _nearUnits) -1 do
     player reveal _IFFunit;
     
     // Friends
-    if (_checkFriendlies && {!_isEnemy}) then {
+    if (_checkFriendlies && {!_isEnemy || _IFFunit == vehicle player}) then {
         // Check if unit is still below max count
         if (SQFB_opt_showFriendliesMaxUnits == -1 || {count SQFB_knownFriendlies < SQFB_opt_showFriendliesMaxUnits}) then {
             // Check if within distance
