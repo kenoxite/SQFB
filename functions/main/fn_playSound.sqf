@@ -27,8 +27,7 @@ private _inDrone = call SQFB_fnc_playerInDrone;
 _sound = call {
     if (_mode == "squad") exitWith { SQFB_opt_sounds_squad };
     if (SQFB_trackingGearCheck || _inDrone) exitWith { SQFB_opt_sounds_IFF };
-    if (!SQFB_trackingGearCheck && !_inDrone) exitWith { SQFB_opt_sounds_noIFF };
-    ""
+    SQFB_opt_sounds_noIFF
 };
 
 if (_sound != "none") then {
