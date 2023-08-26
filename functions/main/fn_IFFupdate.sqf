@@ -63,12 +63,13 @@ private _SQFB_opt_colorEnemyCiv = SQFB_opt_colorEnemyCiv;
 private _SQFB_opt_alternateOcclusionCheck = SQFB_opt_alternateOcclusionCheck;
 private _cameraView = cameraView;
 
+private _playerInDrone = call SQFB_fnc_playerInDrone;
 private _onlyLastPosEnemy = [
                             [
                                 [   
                                     true,
                                     false
-                                ] select (SQFB_trackingGearCheck || call SQFB_fnc_playerInDrone),
+                                ] select (SQFB_trackingGearCheck || _playerInDrone),
                                 true
                             ] select (_SQFB_opt_lastKnownEnemyPositionOnly == "always"),
                             false
@@ -93,7 +94,7 @@ private _onlyLastPosFriendly = [
                                 [   
                                     true,
                                     false
-                                ] select (SQFB_trackingGearCheck || call SQFB_fnc_playerInDrone),
+                                ] select (SQFB_trackingGearCheck || _playerInDrone),
                                 true
                             ] select (_SQFB_opt_lastKnownFriendlyPositionOnly == "always"),
                             false
