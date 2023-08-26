@@ -19,6 +19,7 @@ params ["_playerPos"];
 
 private _playerOnFoot = isNull objectParent SQFB_player;
 private _vehPlayer = vehicle SQFB_player;
+private _playerInDrone = call SQFB_fnc_playerInDrone;
 private _isPlayerAir = (!_playerOnFoot && {(getPosASL _vehPlayer select 2) > 5});
 
 private _allTurrets = allTurrets [_vehPlayer, false];
@@ -120,7 +121,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
 
                                             ((linearConversion[ 0, _maxRange min 200, _dist, (0.04 * _adjSize) * _zoom, 0.02, true ])) min 0.04
                                         ] select _isPlayerAir
-                                    ] select (_SQFB_opt_scaleText || _cameraView != "GUNNER");
+                                    ] select (_SQFB_opt_scaleText || (!_SQFB_opt_scaleText && _cameraView == "GUNNER" && !_playerInDrone));
 
                 private _iconSize = _iconSizeBase * _SQFB_opt_iconSize;
                 private _textSize = (_textSizeBase * _SQFB_opt_textSize) max 0.02;
