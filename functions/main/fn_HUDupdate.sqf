@@ -15,7 +15,7 @@
 
 */
 
-if (!SQFB_opt_on || !alive SQFB_player) exitWith { true };
+if (!SQFB_opt_on || (!alive SQFB_player && !alive player)) exitWith { true };
 
 // Check for player and player group consistency
 SQFB_player = call SQFB_fnc_playerUnit;
