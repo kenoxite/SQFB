@@ -105,7 +105,7 @@ if (SQFB_showHUD) then {
             _return = [_return, _unit getVariable "SQFB_name", " "] joinString "";
         };
 		if (_showClass) then {
-            _return = [_return, _unit getVariable "SQFB_displayName", " "] joinString "";
+            _return = [_return, "(", _unit getVariable "SQFB_displayName", ")", " "] joinString "";
 		};
 		if (_profile != "crit"
             && {(_showRoles
