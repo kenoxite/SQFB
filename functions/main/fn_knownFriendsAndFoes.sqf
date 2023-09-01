@@ -29,9 +29,14 @@ private _playerTarget = assignedTarget SQFB_player;
 for "_i" from 0 to (count _nearUnits) -1 do
 {
     private _IFFunit = _nearUnits select _i;
+    private _sideIFFunit = side _IFFunit;
+
+    // Skip if unit doesn't belong to a valid side
+    if (_sideIFFunit == sideLogic || _sideIFFunit == sideAmbientLife || _sideIFFunit == sideEmpty) then { continue };
+
     private _distIFFunit = _IFFunit distance _unit;
-    private _alignment1 = side _IFFunit getFriend side _unit;
-    private _alignment2 = side _unit getFriend side _IFFunit;
+    private _alignment1 = _sideIFFunit getFriend side _unit;
+    private _alignment2 = side _unit getFriend _sideIFFunit;
     private _isEnemy = _alignment1 < 0.6 || _alignment2 < 0.6;
     private _addTagger = false;
 
@@ -47,12 +52,12 @@ for "_i" from 0 to (count _nearUnits) -1 do
                 SQFB_knownFriendlies pushBackUnique _IFFunit;
                 _IFFunit setVariable ["SQFB_side", [
                                                     _IFFunit call SQFB_fnc_factionSide,
-                                                    side _IFFunit
+                                                    _sideIFFunit
                                                     ] select (SQFB_opt_friendlySideColors == "current")
                                     ];
                 private _side = [
                                     _IFFunit call SQFB_fnc_factionSide,
-                                    side _IFFunit
+                                    _sideIFFunit
                                 ] select (SQFB_opt_friendlySideColors == "current");
                 _IFFunit setVariable ["SQFB_side", _side];
                 _IFFunit setVariable ["SQFB_color",[
@@ -80,7 +85,7 @@ for "_i" from 0 to (count _nearUnits) -1 do
                 SQFB_knownEnemies pushBackUnique _IFFunit;
                 private _side = [
                                     _IFFunit call SQFB_fnc_factionSide,
-                                    side _IFFunit
+                                    _sideIFFunit
                                 ] select (SQFB_opt_enemySideColors == "current");
                 _IFFunit setVariable ["SQFB_side", _side];
                 _IFFunit setVariable ["SQFB_color",[
