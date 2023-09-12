@@ -67,31 +67,39 @@ private _secWepType = ["", (_secWep call BIS_fnc_itemType) select 1] select _has
 private _primWepMags = primaryWeaponMagazine _unit;
 private _secWepMags = ["", secondaryWeaponMagazine _unit] select _hasSecWep;
 private _secWepMagName = if (_hasSecWep) then { ["", _secWepMags select 0] select (count _secWepMags > 0) } else { "" };
-private _mags = magazines _unit;
-_mags append [currentMagazine _unit];
+private _items = itemsWithMagazines _unit;
 private _mag = "";
 private _compatPrimMags = [_primWep] call BIS_fnc_compatibleMagazines;
-private _primMagCount = { _mag = _x; _compatPrimMags findIf { _x == _mag } != -1} count _mags;
+private _primMagCount = { _mag = _x; _compatPrimMags findIf { _x == _mag } != -1} count _items;
 private _compatSecMags = [[], [_secWep] call BIS_fnc_compatibleMagazines] select _hasSecWep;
 _mag = "";
 private _secMagCount = [
                             0,
-                            { _mag = _x; _compatSecMags findIf { _x == _mag } != -1} count _mags
+                            { _mag = _x; _compatSecMags findIf { _x == _mag } != -1} count _items
                         ] select _hasSecWep;
+
+private _cfgMags = configfile >> "cfgMagazines";
+
 // Mines check
-private _hasMines = [false, true] select (_mags findIf { ((_x call BIS_fnc_itemType) select 0) == "Mine"} != -1);
+private _hasMines = [false, true] select (_items findIf { ((_x call BIS_fnc_itemType) select 0) == "Mine"} != -1);
 // Second pass for mod check
 if (!_unitIsVanilla) then {
     if (!_hasMines) then {
-        _hasMines = [false, true] select (_mags findIf { "CUP_TimeBomb_M" in ([configfile >> "cfgMagazines" >> _x , true] call BIS_fnc_returnParents) } != -1);
+        _hasMines = [false, true] select (_items findIf { "CUP_TimeBomb_M" in ([_cfgMags >> _x , true] call BIS_fnc_returnParents) } != -1);
     };
     if (!_hasMines) then {
-        _hasMines = [false, true] select (_mags findIf { "rhsusf_m112_mag" in ([configfile >> "cfgMagazines" >> _x , true] call BIS_fnc_returnParents) } != -1);
+        _hasMines = [false, true] select (_items findIf { "rhsusf_m112_mag" in ([_cfgMags >> _x , true] call BIS_fnc_returnParents) } != -1);
     };
 };
+
+// Rifle grenades check
+private _hasRG = false;
+if (!_unitIsVanilla) then {
+    _hasRG = [false, true] select (_items findIf {"rifle grenade" in toLowerAnsi (getText (_cfgMags >> _x >> "displayName"))}!= -1);
+};
+
 private _primWepDes = toLowerAnsi (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
 private _handgunWep = handgunWeapon _unit;
-private _items = items _unit;
 private _backpack = unitBackpack _unit;
 private _backpackStr = toLowerAnsi (typeOf _backpack);
 
@@ -154,7 +162,7 @@ private _isDemo = (_unitTraits select { (_x select 0) == "ExplosiveSpecialist" }
 private _isHacker = (_unitTraits select { (_x select 0) == "UavHacker" } apply { _x select 1 }) select 0;
 
 // Medic
-if (_isMedic && ({"Medikit" in _items || {"vn_b_item_medikit_01" in _items}})) then {_medic = true; _roles pushBack localize "STR_SQFB_HUD_roles_Medic"};
+if (_isMedic && ({"Medikit" in _items || {"vn_b_item_medikit_01" in _items} || {"gm_ge_army_medkit_80" in _items} || {"gm_gc_army_medbox" in _items}})) then {_medic = true; _roles pushBack localize "STR_SQFB_HUD_roles_Medic"};
 _unit setVariable ["SQFB_medic", _medic];
 
 // Demolition specialist
@@ -178,7 +186,7 @@ if ((_secWepType == "Launcher" || {_secWepType == "MissileLauncher" || {_secWepT
 _unit setVariable ["SQFB_AT", _AT];
 
 // Grenade Launcher
-if (_primWepType == "GrenadeLauncher" || {!_unitIsVanilla && ({"gl" in _primWep || {"m203" in _primWep || "gp25" in _primWep || "gp30" in _primWep || "gp34" in _primWep || "m32" in _primWep || "g40" in _primWep || "m79" in _primWep || "_ag" in _primWep || "_ag" in _primWep}})}) then { _GL = true; _roles pushBack localize "STR_SQFB_HUD_roles_GL" };
+if (_primWepType == "GrenadeLauncher" || {!_unitIsVanilla && ({_hasRG || {"gl" in _primWep || {"m203" in _primWep || "gp25" in _primWep || "gp30" in _primWep || "gp34" in _primWep || "m32" in _primWep || "g40" in _primWep || "m79" in _primWep || "_ag" in _primWep || "_ag" in _primWep || _primWep == "gm_hk69a1_blk" || "pallad" in _primWep}}})}) then { _GL = true; _roles pushBack localize "STR_SQFB_HUD_roles_GL" };
 _unit setVariable ["SQFB_GL", _GL];
 
 // Machine Gun/LMG
