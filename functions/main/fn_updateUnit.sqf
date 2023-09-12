@@ -65,7 +65,7 @@ private _hasSecWep = _secWep != "";
 private _primWepType = (_primWep call BIS_fnc_itemType) select 1;
 private _secWepType = ["", (_secWep call BIS_fnc_itemType) select 1] select _hasSecWep;
 private _primWepMags = primaryWeaponMagazine _unit;
-private _secWepMags = ["", secondaryWeaponMagazine _unit] select _hasSecWep;
+private _secWepMags = [[], secondaryWeaponMagazine _unit] select _hasSecWep;
 private _secWepMagName = if (_hasSecWep) then { ["", _secWepMags select 0] select (count _secWepMags > 0) } else { "" };
 private _items = itemsWithMagazines _unit;
 private _mag = "";
@@ -81,21 +81,21 @@ private _secMagCount = [
 private _cfgMags = configfile >> "cfgMagazines";
 
 // Mines check
-private _hasMines = [false, true] select (_items findIf { ((_x call BIS_fnc_itemType) select 0) == "Mine"} != -1);
+private _hasMines = _items findIf { ((_x call BIS_fnc_itemType) select 0) == "Mine"} != -1;
 // Second pass for mod check
 if (!_unitIsVanilla) then {
     if (!_hasMines) then {
-        _hasMines = [false, true] select (_items findIf { "CUP_TimeBomb_M" in ([_cfgMags >> _x , true] call BIS_fnc_returnParents) } != -1);
+        _hasMines = _items findIf { "CUP_TimeBomb_M" in ([_cfgMags >> _x , true] call BIS_fnc_returnParents) } != -1;
     };
     if (!_hasMines) then {
-        _hasMines = [false, true] select (_items findIf { "rhsusf_m112_mag" in ([_cfgMags >> _x , true] call BIS_fnc_returnParents) } != -1);
+        _hasMines = _items findIf { "rhsusf_m112_mag" in ([_cfgMags >> _x , true] call BIS_fnc_returnParents) } != -1;
     };
 };
 
 // Rifle grenades check
 private _hasRG = false;
 if (!_unitIsVanilla) then {
-    _hasRG = [false, true] select (_items findIf {"rifle grenade" in toLowerAnsi (getText (_cfgMags >> _x >> "displayName"))}!= -1);
+    _hasRG = _items findIf {"rifle grenade" in toLowerAnsi (getText (_cfgMags >> _x >> "displayName"))}!= -1;
 };
 
 private _primWepDes = toLowerAnsi (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
@@ -104,27 +104,15 @@ private _backpack = unitBackpack _unit;
 private _backpackStr = toLowerAnsi (typeOf _backpack);
 
 // Ammo check - primary
-private _noAmmoPrim = [
-                        false,
-                        [
-                            true,
-                            [true, false] select (_primMagCount > 0)
-                        ] select (count _primWepMags > 0)
-                    ] select _hasPrimWep;
+private _noAmmoPrim = _hasPrimWep && {(count _primWepMags == 0 && _primMagCount == 0)};
 _unit setVariable ["SQFB_noAmmoPrim", _noAmmoPrim];
 
 // Ammo check - secondary    
-private _noAmmoSec = [
-                        false,
-                        [
-                            [true, false] select (_secWep in SQFB_oneShotLaunchers),
-                            [true, false] select (_secMagCount > 0 || (_unit ammo _secWep) > 0)
-                        ] select (count _secWepMags > 0)
-                    ] select _hasSecWep;
+private _noAmmoSec = _hasSecWep && {!(_secWep in SQFB_oneShotLaunchers) && {count _secWepMags == 0 && _secMagCount == 0 && (_unit ammo _secWep) == 0}};
 _unit setVariable ["SQFB_noAmmoSec", _noAmmoSec];
 
 // Ammo check - global
-private _noAmmo = [false, true] select (_noAmmoPrim || _noAmmoSec);
+private _noAmmo = _noAmmoPrim || _noAmmoSec;
 _unit setVariable ["SQFB_noAmmo", _noAmmo];
 
 private _roles = [];
@@ -196,13 +184,13 @@ if (_anyMG) then { _MG = true };
 _unit setVariable ["SQFB_MG", _MG];
 
 // Sniper/Marksman
-if (!_anySniper && {("sniper" in _primWepDes && _primWepType != "SniperRifle") || {("dms" in _primWep || "mxm" in _primWep) || {!_unitIsVanilla && ({"sr25" in _primWep || "m76" in _primWep || "svd" in _primWep || "srifle" in _primWep || "hk417_20_scope" in _primWep || "mk20_leupoldmk4mrt" in _primWep || "aks74_pso" in _primWep})}}}) then { _anySniper = true; _roles pushBack localize "STR_SQFB_HUD_roles_Marksman" };
+if (!_anySniper && {("sniper" in _primWepDes && _primWepType != "SniperRifle") || {("dms" in _primWep || "mxm" in _primWep) || {!_unitIsVanilla && ({"sr25" in _primWep || "m76" in _primWep || "svd" in _primWep || "srifle" in _primWep || "hk417_20_scope" in _primWep || "mk20_leupoldmk4mrt" in _primWep || "aks74_pso" in _primWep || "marksman" in _primWep})}}}) then { _anySniper = true; _roles pushBack localize "STR_SQFB_HUD_roles_Marksman" };
 if (!_anySniper && {_primWepType == "SniperRifle"}) then { _anySniper = true; _roles pushBack localize "STR_SQFB_HUD_roles_Sniper" };
 if (_anySniper) then { _sniper = true };
 _unit setVariable ["SQFB_sniper", _sniper];
 
 // SMG
-if (_primWepType == "SubmachineGun" || {"submachine" in _primWepDes || {"smg" in _primWepDes}}) then { _SMG = true; _roles pushBack localize "STR_SQFB_HUD_roles_SMG" };
+if (_primWepType == "SubmachineGun" || {"submachine" in _primWepDes || {"smg" in _primWepDes || "smg" in _primWep}}) then { _SMG = true; _roles pushBack localize "STR_SQFB_HUD_roles_SMG" };
 _unit setVariable ["SQFB_smg", _SMG];
 
 // Shotgun

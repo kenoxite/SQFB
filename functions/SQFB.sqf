@@ -337,12 +337,19 @@ SQFB_oneShotLaunchers_default = [
     "CUP_launch_RPG26",
     "CUP_launch_RPG18",
     "CUP_launch_RShG2",
+    "CUP_launch_NLAW",
 
     // CWR3
     "cwr3_launch_at4",
     "cwr3_launch_m72a3",
     "cwr3_launch_rpg75",
-    "cwr3_launch_rpg75"
+
+    // GM
+    "gm_1Rnd_66mm_heat_m72a3",
+    "gm_1Rnd_64mm_heat_pg18",
+
+    // Free World Armory
+    "sp_fwa_m72a1_law_loaded"
 ];
 SQFB_oneShotLaunchers = +SQFB_oneShotLaunchers_default;
 
