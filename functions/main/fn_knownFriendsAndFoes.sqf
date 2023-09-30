@@ -112,8 +112,7 @@ for "_i" from 0 to (count _nearUnits) -1 do
                              ] select (count _taggerFound == 1);
         if (isNull _taggerObj) then {
             if (SQFB_debug) then { diag_log format ["SQFB: nearFriendAndFoes - tagger not found for unit: %1. Creating a new one...", _IFFunit] };
-            private _tagger = createSimpleObject ["RoadCone_F", [0,0,0], false];
-            _tagger hideObject true;
+            _tagger = "camera" camCreate [0,0,0];
             if (count _taggerFound == 0) then {
                 SQFB_tagObjArr pushBack [_tagger, _IFFunit];
             } else {

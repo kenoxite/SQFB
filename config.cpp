@@ -5,7 +5,7 @@ class CfgPatches
         name = "Squad Feedback";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "2.0.8";
+        version = "3.0";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -74,6 +74,8 @@ class CfgFunctions
             class IFFupdate {};
             class IFFactivateDevice {};
             class playSound {};
+            class inValidRange {};
+            class isUnitOccluded {};
 
             class setNameSound {};
             class changeToValidName {};

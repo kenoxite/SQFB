@@ -422,7 +422,7 @@ SQFB_EH_HUDupdate = [{ if (isNull SQFB_player) then { SQFB_player = call SQFB_fn
 
 // ---------------------------------------
 // Update IFF display info
-SQFB_EH_IFFupdate = [{ if (isNull SQFB_player) then { SQFB_player = call SQFB_fnc_playerUnit }; if (SQFB_opt_on && alive SQFB_player && {(SQFB_showFriendlies || SQFB_showEnemies || SQFB_showIFFHUD)}) then { [getPosWorld vehicle SQFB_player] call SQFB_fnc_IFFupdate }; }, SQFB_opt_HUDrefreshIFF, []] call CBA_fnc_addPerFrameHandler;
+SQFB_EH_IFFupdate = [{ if (isNull SQFB_player) then { SQFB_player = call SQFB_fnc_playerUnit }; if (SQFB_opt_on && alive SQFB_player && {(SQFB_showFriendlies || SQFB_showEnemies || SQFB_showIFFHUD)}) then { [getPosWorld vehicle SQFB_player] call SQFB_fnc_IFFupdate }; }, SQFB_opt_updateDelayIFF, []] call CBA_fnc_addPerFrameHandler;
 
 // ---------------------------------------
 // HUD display

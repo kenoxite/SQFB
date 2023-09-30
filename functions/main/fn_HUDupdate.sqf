@@ -35,8 +35,8 @@ if (SQFB_group != _grp || !(SQFB_player in SQFB_units) || SQFB_unitCount != _uni
     
 // Squad
 if (SQFB_opt_showSquad) then {
-	// Check for wounded units
-	_grp setVariable ["SQFB_wounded", _units findIf {lifeState _x != "HEALTHY" || _x getVariable ["AIS_unconscious", false]} != -1];
+    // Check for wounded units
+    _grp setVariable ["SQFB_wounded", _units findIf {lifeState _x != "HEALTHY" || _x getVariable ["AIS_unconscious", false]} != -1];
 };
 
 SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
@@ -50,7 +50,6 @@ if (SQFB_opt_showFriendlies != "never") then {
     SQFB_showFriendlies = SQFB_opt_showFriendlies == "always" || (SQFB_showIFFHUD && _showSolo && SQFB_opt_showFriendlies != "device") ||  (SQFB_opt_showFriendlies == "device" && SQFB_trackingGearCheck && SQFB_showIFFHUD);
     _rangeFriendly = if (((getPosASL vehicle SQFB_player) select 2) > 5 && !(isNull objectParent SQFB_player)) then { SQFB_opt_showFriendliesMaxRangeAir } else { SQFB_opt_showFriendliesMaxRange };
 } else {   
-    SQFB_showIFFHUD = false;
     SQFB_showFriendlies = false;
     SQFB_knownFriendlies = [];
 };
@@ -68,7 +67,6 @@ if (SQFB_opt_showEnemies != "never") then {
         _rangeEnemy = if (((getPosASL vehicle SQFB_player) select 2) > 5 && !(isNull objectParent SQFB_player)) then { SQFB_opt_showEnemiesMaxRangeAir } else { SQFB_opt_showEnemiesMaxRange };
     };
 } else {   
-    SQFB_showIFFHUD = false;
     SQFB_showEnemies = false;
     SQFB_knownEnemies = [];
 };

@@ -33,7 +33,7 @@ if (count SQFB_tagObjArr > 0) then {
             _unit setVariable ["SQFB_color", nil];
             _unit setVariable ["SQFB_isEnemy", nil];
             // if (SQFB_debug) then { diag_log format ["SQFB: cleanTaggers - About to delete entries from SQFB_tagObjArr with units no longer detected. _i: %1. Current values: %2", _i, count _tagObjArrTemp] };
-            deleteVehicle _tagger;
+            camDestroy _tagger;
             _tagObjArrTemp deleteAt _i;
             _delete = true;
         };

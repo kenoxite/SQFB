@@ -382,6 +382,21 @@
         <Spanish>Tiempo de espera entre las comprobaciones del estado del pelotón e IFF, en segundos.
 \nDisminuir este valor mantendrá los HUD más actualizados, pero esto puede afectar al rendimiento del juego.</Spanish>
       </Key>
+
+      <Key ID="STR_SQFB_opt_updateDelayIFF">
+        <Original>Data Update Delay for IFF HUD</Original>
+        <English>Data Update Delay for IFF HUD</English>
+        <Spanish>Retraso de la Actualización de Datos para HUD IFF</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_updateDelayIFF_desc">
+        <Original>Waiting time between IFF HUD data updates, in seconds.
+\nSetting this value lower will keep the HUDs more up to date, but the game performance may be affected.</Original>
+        <English>Waiting time between IFF HUD data updates, in seconds.
+\nSetting this value lower will keep the HUDs more up to date, but the game performance may be affected.</English>
+        <Spanish>Tiempo de espera entre las actualizaciones de los datos del HUD IFF, en segundos.
+\nDisminuir este valor mantendrá los HUD más actualizados, pero esto puede afectar al rendimiento del juego.</Spanish>
+      </Key>
+
     </Container>
     <Container name="HUDdisplay_general">
       <Key ID="STR_SQFB_opt_HUDdisplay_general">

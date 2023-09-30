@@ -9,7 +9,7 @@ Description:
 
 Parameters:
  _modName           Name of the registering mod [String]
- _actionId  	    Id of the key action. [String]
+ _actionId          Id of the key action. [String]
  _displayName       Pretty name, or an array of strings for the pretty name and a tool tip [String]
  _downCode          Code for down event, empty string for no code. [Code]
  _upCode            Code for up event, empty string for no code. [Code]
@@ -26,10 +26,10 @@ Returns:
 
 [
     ["Squad Feedback", ""],
-	"SQFB_opt_showHUD_key",
-	[localize "STR_SQFB_Ctrl_SquadHUDkey", localize "STR_SQFB_Ctrl_SquadHUDkey_desc"],
-	{ _this call SQFB_fnc_showHUD_key_CBA },
-	{ _this call SQFB_fnc_hideHUD_key_CBA },
+    "SQFB_opt_showHUD_key",
+    [localize "STR_SQFB_Ctrl_SquadHUDkey", localize "STR_SQFB_Ctrl_SquadHUDkey_desc"],
+    { _this call SQFB_fnc_showHUD_key_CBA },
+    { _this call SQFB_fnc_hideHUD_key_CBA },
     [ DIK_CAPSLOCK, [false, true, false] ], // [DIK, [shift, ctrl, alt]
     false
 ] call CBA_fnc_addKeybind;
@@ -151,6 +151,16 @@ Parameters:
     [localize "STR_SQFB_opt_updateDelay", localize "STR_SQFB_opt_updateDelay_desc"],
     [localize "STR_SQFB_opt_Settings_1", format ["00 - %1", localize "STR_SQFB_opt_general"]],
     [0.1, 30, 5, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_updateDelayIFF", 
+    "SLIDER",
+    [localize "STR_SQFB_opt_updateDelayIFF", localize "STR_SQFB_opt_updateDelayIFF_desc"],
+    [localize "STR_SQFB_opt_Settings_1", format ["00 - %1", localize "STR_SQFB_opt_general"]],
+    [0, 1, 0.1, 3], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -330,7 +340,7 @@ Parameters:
     "SLIDER",
     [localize "STR_SQFB_opt_showFriendliesMinRange", localize "STR_SQFB_opt_showFriendliesMinRange_desc"], 
     [localize "STR_SQFB_opt_Settings_1", format ["04 - %1", localize "STR_SQFB_opt_HUDdisplay_friendlies"]],
-    [0, 1000, 30, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [0, 1000, 5, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
