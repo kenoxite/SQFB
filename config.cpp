@@ -8,7 +8,7 @@ class CfgPatches
         version = "3.0";
         //url = "";
 
-        requiredVersion = 1.60; 
+        requiredVersion = 2.14; 
         requiredAddons[] = { "A3_Functions_F", "CBA_Main", "cba_settings", "Extended_Eventhandlers" };
         units[] = {};
         weapons[] = {};
