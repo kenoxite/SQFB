@@ -275,7 +275,12 @@ SQFB_enemyTrackingHMD_default = [
     "TIOW_IVAS_TanTI",
     "TIOW_IVAS_BlackTI",
     "TIOW_IVAS_WhiteTI",
-    "TIOW_IVAS_GreenTI"
+    "TIOW_IVAS_GreenTI",
+
+    // Aegis - IVAS
+    "Aegis_NVG_IVAS_01_tan_F",
+    "Aegis_NVG_IVAS_01_blk_F",
+    "Aegis_NVG_IVAS_01_grn_F"
 ];
 SQFB_enemyTrackingHMD = +SQFB_enemyTrackingHMD_default;
 
