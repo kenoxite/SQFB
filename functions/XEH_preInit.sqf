@@ -707,7 +707,20 @@ Parameters:
     "LIST",
     [localize "STR_SQFB_opt_AlwaysShowCritical", localize "STR_SQFB_opt_AlwaysShowCritical_desc"],
     [localize "STR_SQFB_opt_Settings_1", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
-    [["never", "always", "infantry", "vehicles"], [localize "STR_SQFB_opt_enemySideColors_never", localize "STR_SQFB_opt_showEnemies_always", localize "STR_SQFB_opt_AlwaysShowCritical_infantry", localize "STR_SQFB_opt_AlwaysShowCritical_vehicles"], 1],
+    [
+        ["never", "always", "infantry", "vehicles", "infantryText", "infantryIcon", "vehiclesText", "vehiclesIcon"],
+        [
+            localize "STR_SQFB_opt_enemySideColors_never",
+            localize "STR_SQFB_opt_showEnemies_always",
+            localize "STR_SQFB_opt_AlwaysShowCritical_infantry",
+            localize "STR_SQFB_opt_AlwaysShowCritical_vehicles",
+            "Infantry (only text)",
+            "Infantry (only icon)",
+            "Vehicles (only text)",
+            "Vehicles (only icon)"
+        ],
+        1
+    ],
     nil,
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
@@ -749,6 +762,16 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
+[
+    "SQFB_opt_enemyDisplayLastKnownPos", 
+    "LIST", 
+    ["Display last known positions", "Whether display last known enemy positions or not."],
+    [localize "STR_SQFB_opt_Settings_2", format ["01 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_enemies"]],
+    [["never", "always"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_always"], 1],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
 
 // ADVANCED - Friendlies
 [
@@ -765,6 +788,16 @@ Parameters:
     "SQFB_opt_friendlyPreciseVisCheck", 
     "CHECKBOX",
     [localize "STR_SQFB_opt_friendlyPreciseVisCheck", localize "STR_SQFB_opt_friendlyPreciseVisCheck_desc"],
+    [localize "STR_SQFB_opt_Settings_2", format ["02 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_friendlies"]],
+    [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_friendlyExcludeCivs", 
+    "CHECKBOX",
+    ["Exclude civilian side", "If enabled, no icons will be displayed for units currently belonging to the civilian side"],
     [localize "STR_SQFB_opt_Settings_2", format ["02 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_friendlies"]],
     [false],
     nil,
