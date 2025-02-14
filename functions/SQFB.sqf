@@ -302,7 +302,10 @@ SQFB_enemyTrackingGogglesExcluded_default = [
     "rhs_googles_clear",
     "rhs_googles_orange",
     "rhs_googles_yellow",
-    "rhs_ess_black"
+    "rhs_ess_black",
+
+    // CDLC
+    "G_Combat_lxWS"
 ];
 SQFB_enemyTrackingGogglesExcluded = +SQFB_enemyTrackingGogglesExcluded_default;
 
