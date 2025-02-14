@@ -552,7 +552,7 @@
 \n  - Defender Helmet (any version)
 \n  - Fighter Pilot Helmet (any version)
 \n  - Special Purpose Helmet (any version)
-\n  - Integrated Visual Augmentation System (IVAS) Headsets</Original>
+\n  - Integrated Visual Augmentation System (IVAS) Headsets (including Aegis')</Original>
         <English>Enemy and friendly  locations will ALWAYS be displayed as long as the player has an IFF device equipped.
 \nThe pre-defined devices are:
 \n  - Combat Goggles (any version, including balaclavas)
@@ -562,7 +562,7 @@
 \n  - Defender Helmet (any version)
 \n  - Fighter Pilot Helmet (any version)
 \n  - Special Purpose Helmet (any version)
-\n  - Integrated Visual Augmentation System (IVAS) Headsets</English>
+\n  - Integrated Visual Augmentation System (IVAS) Headsets (including Aegis')</English>
         <Spanish>La posición de los enemigos y amistosos se mostrará SIEMPRE si el jugador tiene equipado un Dispositivo IFF.
 \nLos dispositivos predeterminados son:
 \n  - Gafas de Combate (cualquier versión, incluyendo pasamontañas)
@@ -572,7 +572,7 @@
 \n  - Casco Defensor (cualquier versión)
 \n  - Casco de Piloto (cualquier versión)
 \n  - Casco de Operaciones Especiales (cualquier versión)
-\n  - Integrated Visual Augmentation System (IVAS) Headsets</Spanish>
+\n  - Integrated Visual Augmentation System (IVAS) Headset (incluyendo los de Aegis)</Spanish>
       </Key>
     </Container>
     <Container name="HUDdisplay_textOptions">
@@ -915,14 +915,34 @@
 \naunque no se presione la tecla de HUD del pelotón.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_AlwaysShowCritical_infantry">
-        <Original>Only Infantry</Original>
-        <English>Only Infantry</English>
-        <Spanish>Sólo Infantería</Spanish>
+        <Original>Only Infantry (text and icons)</Original>
+        <English>Only Infantry (text and icons)</English>
+        <Spanish>Sólo Infantería (texto e iconos)</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_AlwaysShowCritical_vehicles">
-        <Original>Only Vehicles</Original>
-        <English>Only Vehicles</English>
-        <Spanish>Sólo Vehículos</Spanish>
+        <Original>Only Vehicles (text and icons)</Original>
+        <English>Only Vehicles (text and icons)</English>
+        <Spanish>Sólo Vehículos (texto e iconos)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_AlwaysShowCritical_infantryText">
+        <Original>Infantry (only text)</Original>
+        <English>Infantry (only text)</English>
+        <Spanish>Infantería (sólo texto)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_AlwaysShowCritical_infantryIcon">
+        <Original>Infantry (only icons)</Original>
+        <English>Infantry (only icons)</English>
+        <Spanish>Infantería (sólo iconos)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_AlwaysShowCritical_vehiclesText">
+        <Original>Vehicles (only text)</Original>
+        <English>Vehicles (only text)</English>
+        <Spanish>Vehículos (sólo texto)</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_AlwaysShowCritical_vehiclesIcon">
+        <Original>Vehicles (only icons)</Original>
+        <English>Vehicles (only icons)</English>
+        <Spanish>Vehículos (sólo iconos)</Spanish>
       </Key>
     </Container>
     <Container name="HUDdisplay_advanced_enemies">
@@ -954,6 +974,29 @@
         <English>If enabled, the occlusion checks will probably be a bit more peformance friendly at the cost of precision.</English>
         <Spanish>Si se activa, las comprobaciones de oclusión serán probablemente un poco mejores para el rendimiento, pero serán a su vez menos precisas.</Spanish>
       </Key>
+
+      <Key ID="STR_SQFB_opt_displayLastKnownPos">
+        <Original>Display last known positions</Original>
+        <English>Display last known positions</English>
+        <Spanish>Molstrar última posición conocida</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_displayLastKnownPos_desc">
+        <Original>Whether display last known positions or not.</Original>
+        <English>Whether display last known positions or not.</English>
+        <Spanish>Determina si se muestra o no la última posición conocida.</Spanish>
+      </Key>
+
+      <Key ID="STR_SQFB_opt_friendlyExcludeCivs">
+        <Original>Exclude civilian side</Original>
+        <English>Exclude civilian side</English>
+        <Spanish>Excluir bando civil</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_friendlyExcludeCivs_desc">
+        <Original>If enabled, no icons will be displayed for units currently belonging to the civilian side.</Original>
+        <English>If enabled, no icons will be displayed for units currently belonging to the civilian side.</English>
+        <Spanish>Si se activa, no se mostrarán iconos para las unidades que actualmente pertenezcan al bando civil.</Spanish>
+      </Key>
+
       <Key ID="STR_SQFB_opt_IFFCheckSolo">
         <Original>Show IFF HUD when alone</Original>
         <English>Show IFF HUD when alone</English>
@@ -1002,9 +1045,18 @@
         <Spanish>Sólo Mostrar Última Posición de Enemigos</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_lastKnownEnemyPositionOnly_desc">
-        <Original>If enabled, only the last known enemy positions will be displayed.</Original>
-        <English>If enabled, only the last known enemy positions will be displayed.</English>
-        <Spanish>Si se activa, sólo se mostrará la última posición conocida de los enemigos.</Spanish>
+        <Original>How will enemy position be displayed:
+\n - Always: You won't be able to see the overhead icons of enemies.
+\n - Never: The overhead icon will always be displayed for enemy units, regardless of you having an IFF device equipped or not.
+\n - When not using IFF Device: With an equipped IFF Device you'll be able to see the enemy overhead icons. Otherwise you'll only be able to see their last known position.</Original>
+        <English>How will enemy position be displayed:
+\n - Always: You won't be able to see the overhead icons of enemies.
+\n - Never: The overhead icon will always be displayed for enemy units, regardless of you having an IFF device equipped or not.
+\n - When not using IFF Device: With an equipped IFF Device you'll be able to see the enemy overhead icons. Otherwise you'll only be able to see their last known position.</English>
+        <Spanish>Cómo se mostrarán las posiciones enemigas:
+\n - Siempre: Jamás verás los iconos sobre las cabezas de los enemigos que están a la vista.
+\n - Nunca: Los iconos sobre las cabezas de los enemigos se mostrarán siemrpe, sin importar si llevas equipado un dispositivo IFF.
+\n - Cuando no use Disp. IFF: Cuando lleves un dispositivo IFF equipado podrás ver los iconos sobre las cabezas de los enemigos. Si no lo llevas, sólo podrás ver su última posición conocida.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_lastKnownEnemyPositionOnly_device">
         <Original>When not using IFF Device</Original>
@@ -1144,19 +1196,19 @@
 \n\nThe list must be class names (without quotation marks "") and separated by commas.
 \nExample: MyHMDClass1, MyHMDClass2, etc
 \n\nThe pre-defined devices are:
-\n  - Integrated Visual Augmentation System (IVAS) Headsets</Original>
+\n  - Integrated Visual Augmentation System (IVAS) Headsets (including Aegis')</Original>
         <English>Add here any other Head Mounted Displays (like NVGs) you want to be able to use to track known enemies.
 
 \n\nThe list must be class names (without quotation marks "") and separated by commas.
 \nExample: MyHMDClass1, MyHMDClass2, etc
 \n\nThe pre-defined devices are:
-\n  - Integrated Visual Augmentation System (IVAS) Headsets</English>
+\n  - Integrated Visual Augmentation System (IVAS) Headsets (including Aegis')</English>
         <Spanish>Añade aquí cualquier otros 'Head Mounted Displays' (como las Gafas de Visión Nocturna) que quieras usar para rastrear enemigos conocidos.
 
 \n\nLa lista ha de contener nombres de clase (sin las comillas "") y separados por comas.
 \nEjemplo: MiClaseHMD1, MiClaseHMD2, etc
 \n\nLos dispositivos predeterminados son:
-\n  - Integrated Visual Augmentation System (IVAS) Headsets</Spanish>
+\n  - Integrated Visual Augmentation System (IVAS) Headsets (incluyendo los de Aegis)</Spanish>
       </Key>
     </Container>
 
@@ -1177,19 +1229,22 @@
 \n\nThe list must be class names (without quotation marks "") and separated by commas.
 \nExample: MyGogglesClass1, MyGogglesClass2, etc
 \n\nThe pre-defined devices are:
-\n  - RHS Goggles and Shemags</Original>
+\n  - RHS Goggles and Shemags
+\n  - Western Sahara's Dust Goggles</Original>
         <English>Add here any goggles you want to exclude from the IFF tracking.
 
 \n\nThe list must be class names (without quotation marks "") and separated by commas.
 \nExample: MyGogglesClass1, MyGogglesClass2, etc
 \n\nThe pre-defined devices are:
-\n  - RHS Goggles and Shemags</English>
+\n  - RHS Goggles and Shemags
+\n  - Western Sahara's Dust Goggles</English>
         <Spanish>Añade aquí cualquier otras gafas de protección que quieras excluir del IFF.
 
 \n\nLa lista ha de contener nombres de clase (sin las comillas "") y separados por comas.
 \nEjemplo: MiClaseGafasProtec1, MiClaseGafasProtec2, etc
 \n\nLos dispositivos predeterminados son:
-\n  - RHS Gafas y Afganos</Spanish>
+\n  - RHS Gafas y Afganos
+\n  - Las gafas antipolvo de Western Sahara</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_EnemyTrackingGearHelmetsExcluded">
         <Original>Excluded Helmets</Original>
@@ -1634,9 +1689,18 @@
         <Spanish>Sólo Mostrar Última Posición de Amistosos</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_lastKnownFriendlyPositionOnly_desc">
-        <Original>If enabled, only the last known friendly positions will be displayed.</Original>
-        <English>If enabled, only the last known friendly positions will be displayed.</English>
-        <Spanish>Si se activa, sólo se mostrará la última posición conocida de los amistosos.</Spanish>
+        <Original>How will friendly position be displayed:
+\n - Always: You won't be able to see the overhead icons of friendlies that aren't occluded.
+\n - Never: The overhead icon will always be displayed for friendly units, regardless you having an IFF device equipped or not.
+\n - When not using IFF Device: With an equipped IFF Device you'll be able to see the friendly overhead icons. Otherwise you'll only be able to see their last known position.</Original>
+        <English>How will friendly position be displayed:
+\n - Always: You won't be able to see the overhead icons of friendlies that aren't occluded.
+\n - Never: The overhead icon will always be displayed for friendly units, regardless you having an IFF device equipped or not.
+\n - When not using IFF Device: With an equipped IFF Device you'll be able to see the friendly overhead icons. Otherwise you'll only be able to see their last known position.</English>
+        <Spanish>Cómo se mostrarán las posiciones amistosas:
+\n - Siempre: Jamás verás los iconos sobre las cabezas de los amistosos que están a la vista.
+\n - Nunca: Los iconos sobre las cabezas de los amistosos se mostrarán siemrpe, sin importar si llevas equipado un dispositivo IFF.
+\n - Cuando no use Disp. IFF: Cuando lleves un dispositivo IFF equipado podrás ver los iconos sobre las cabezas de los amistosos. Si no lo llevas, sólo podrás ver su última posición conocida.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_friendlySideColors">
         <Original>Use friendly side colors</Original>

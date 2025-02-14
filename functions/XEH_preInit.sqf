@@ -44,23 +44,6 @@ Returns:
     false
 ] call CBA_fnc_addKeybind;
 
-
-// DEPRECATED
-[
-    ["Squad Feedback", localize "STR_SQFB_opt_deprecated"],
-    "SQFB_opt_showHUD_T_key",
-    [localize "STR_SQFB_Ctrl_SquadHUDkeyToggle", localize "STR_SQFB_Ctrl_SquadHUDkeyToggle_desc"],
-    { _this call SQFB_fnc_showHUD_key_T_CBA },
-    {}
-] call CBA_fnc_addKeybind;
-[
-    ["Squad Feedback", localize "STR_SQFB_opt_deprecated"],
-    "SQFB_opt_showEnemyHUD_T_key",
-    [localize "STR_SQFB_Ctrl_enemyHUDkeyToggle", localize "STR_SQFB_Ctrl_enemyHUDkeyToggle_desc"],
-    { _this call SQFB_fnc_showEnemyHUD_key_T_CBA },
-    {}
-] call CBA_fnc_addKeybind;
-
 /*
 Parameters:
     _setting     - Unique setting name. Matches resulting variable name <STRING>
@@ -620,6 +603,16 @@ Parameters:
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
+[
+    "SQFB_opt_displayLastKnownPos", 
+    "LIST", 
+    [localize "STR_SQFB_opt_displayLastKnownPos", localize "STR_SQFB_opt_displayLastKnownPos_desc"],
+    [localize "STR_SQFB_opt_Settings_1", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [["never", "always"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_always"], 1],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
 
 // ADVANCED - Squad
 [
@@ -714,10 +707,10 @@ Parameters:
             localize "STR_SQFB_opt_showEnemies_always",
             localize "STR_SQFB_opt_AlwaysShowCritical_infantry",
             localize "STR_SQFB_opt_AlwaysShowCritical_vehicles",
-            "Infantry (only text)",
-            "Infantry (only icon)",
-            "Vehicles (only text)",
-            "Vehicles (only icon)"
+            localize "STR_SQFB_opt_AlwaysShowCritical_infantryText",
+            localize "STR_SQFB_opt_AlwaysShowCritical_infantryIcon",
+            localize "STR_SQFB_opt_AlwaysShowCritical_vehiclesText",
+            localize "STR_SQFB_opt_AlwaysShowCritical_vehiclesIcon"
         ],
         1
     ],
@@ -762,16 +755,6 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_enemyDisplayLastKnownPos", 
-    "LIST", 
-    ["Display last known positions", "Whether display last known enemy positions or not."],
-    [localize "STR_SQFB_opt_Settings_2", format ["01 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_enemies"]],
-    [["never", "always"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_always"], 1],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
 
 // ADVANCED - Friendlies
 [
@@ -797,7 +780,7 @@ Parameters:
 [
     "SQFB_opt_friendlyExcludeCivs", 
     "CHECKBOX",
-    ["Exclude civilian side", "If enabled, no icons will be displayed for units currently belonging to the civilian side"],
+    [localize "STR_SQFB_opt_friendlyExcludeCivs", localize "STR_SQFB_opt_friendlyExcludeCivs_desc"],
     [localize "STR_SQFB_opt_Settings_2", format ["02 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_friendlies"]],
     [false],
     nil,
