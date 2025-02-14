@@ -32,7 +32,7 @@ for "_i" from 0 to (count _nearUnits) -1 do
     private _sideIFFunit = side _IFFunit;
 
     // Skip if unit doesn't belong to a valid side
-    if (_sideIFFunit == sideLogic || _sideIFFunit == sideAmbientLife || _sideIFFunit == sideEmpty) then { continue };
+    if (_sideIFFunit == sideLogic || _sideIFFunit == sideAmbientLife || _sideIFFunit == sideEmpty || (SQFB_opt_friendlyExcludeCivs && {_sideIFFunit == civilian})) then { continue };
 
     private _distIFFunit = _IFFunit distance _unit;
     private _alignment1 = _sideIFFunit getFriend side _unit;
