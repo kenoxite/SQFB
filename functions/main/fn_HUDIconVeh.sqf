@@ -27,7 +27,7 @@ private _crew = crew _veh;
 // 	//_return = format["%1", getText (configfile >> "CfgVehicles" >> typeOf _veh >> "picture")];
 // };
 
-private _showCritical = [false, true] select (_alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles");
+private _showCritical = _alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles" || _alwaysShowCritical == "vehiclesIcon";
 private _playerIsLeader = leader _unit == SQFB_player;
 private _playerIsMedic = SQFB_player getVariable "SQFB_medic";
 if (_showCritical && !SQFB_showHUD && {(_playerIsLeader || _playerIsMedic) || {!_showText}}) then {

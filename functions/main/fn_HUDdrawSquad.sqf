@@ -93,7 +93,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
         private _unitOccluded = _unitVisibility < 0.2;
         private _unitVisible = [_playerPos, _camDir, ceil((call CBA_fnc_getFov select 0)*100), _unitPos] call BIS_fnc_inAngleSector;
         
-        private _showCritical = [false, true] select (_SQFB_opt_AlwaysShowCritical == "always" || (_SQFB_opt_AlwaysShowCritical == "infantry" && _isOnFoot) || (_SQFB_opt_AlwaysShowCritical == "vehicles" && _isOnFoot));
+        private _showCritical = _SQFB_opt_AlwaysShowCritical == "always" || ("infantry" in _SQFB_opt_AlwaysShowCritical && _isOnFoot) || ("vehicle" in _SQFB_opt_AlwaysShowCritical && _isOnFoot);
         if (!_unitOccluded && (_SQFB_showHUD || {(!_SQFB_showHUD && _showCritical) || {!_unitVisible && SQFB_opt_outFOVindex}})) then {
             if (_alive || (!_alive && _SQFB_opt_showDead && (_unit getVariable "SQFB_veh") == _unit)) then {
                 private _zoom = call SQFB_fnc_trueZoom;
@@ -147,12 +147,12 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                         [
                                             "",
                                             [_unit, _SQFB_opt_profile, _SQFB_opt_showDead, _SQFB_showDeadMinTime, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_showText] call SQFB_fnc_HUDIcon
-                                        ] select (!_unitOccluded && (_SQFB_opt_showIcon || _textSize <= 0.02) && (_isOnFoot || (!_isOnFoot && _veh == _vehPlayer && cameraView == "INTERNAL"))),
+                                        ] select (!_unitOccluded && (_SQFB_opt_showIcon || "icon" in _SQFB_opt_AlwaysShowCritical || _textSize <= 0.02) && (_isOnFoot || (!_isOnFoot && _veh == _vehPlayer && cameraView == "INTERNAL"))),
 
                                         [
                                             "",
                                             [_veh, _grp, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_showText] call SQFB_fnc_HUDIconVeh
-                                        ] select (!_unitOccluded && (_SQFB_opt_showIcon || _textSize <= 0.02))
+                                        ] select (!_unitOccluded && (_SQFB_opt_showIcon || "icon" in _SQFB_opt_AlwaysShowCritical || _textSize <= 0.02))
                                     ] select _displayAsVehicle;
 
                 private _text = [

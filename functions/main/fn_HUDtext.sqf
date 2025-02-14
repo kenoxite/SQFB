@@ -32,13 +32,11 @@ private _grpLeader = leader (group _unit);
 
 private _playerIsLeader = _grpLeader == SQFB_player;
 private _playerIsMedic = SQFB_player getVariable "SQFB_medic";
-private _informCritical = _playerIsMedic || _playerIsLeader;
+private _informCritical = (_alwaysShowCritical == "always" || _alwaysShowCritical == "infantry" || _alwaysShowCritical == "infantryText") && (_playerIsMedic || _playerIsLeader);
 
 private _isGrpLeader = _grpLeader == _unit;
 private _isFormLeader = formationLeader _vehPlayer == _unit;
 private _isFormFollower = (formationLeader _unit == _vehPlayer) && !_playerIsLeader;
-
-private _showCritical = [false, true] select (_alwaysShowCritical == "always" || _alwaysShowCritical == "infantry");
 
 // Always show leader index
 if (_profile != "crit"
@@ -72,7 +70,7 @@ if (SQFB_showHUD) then {
             ) then {
             _return = [_return, _index, " "] joinString "";
         };
-		if (_alive) then {
+		if (_alive && _informCritical) then {
             private _lifeState = lifeState _unit;
             private _bleeding = isBleeding _unit;
             _return = call {
@@ -110,7 +108,7 @@ if (SQFB_showHUD) then {
 		if (_profile != "crit"
             && {(_showRoles
                 && (_unit getVariable "SQFB_roles") != "")
-                || {!_showRoles && _showCritical
+                || {!_showRoles && _informCritical
                 && !_unitVisible
                     && {_unit getVariable "SQFB_medic"
                     && (group _unit) getVariable "SQFB_wounded"}}
@@ -127,8 +125,7 @@ if (SQFB_showHUD) then {
     if (!_unitVisible
         && _alive
         && {_outFOVindex
-            || {_showCritical
-            && _informCritical}
+            || {_informCritical}
             }
         ) then {
         private _critical = false;

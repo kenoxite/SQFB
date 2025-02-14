@@ -52,7 +52,7 @@ private _isGrpLeader = _grpLeader == _vehLeader;
 private _isFormLeader = formationLeader _vehPlayer == _vehLeader;
 private _isFormFollower = (formationLeader _vehLeader == _vehPlayer) && !_playerIsLeader;
 
-private _showCritical = [false, true] select (_alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles");
+private _showCritical = [false, true] select (_alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles" || _alwaysShowCritical == "vehiclesText");
 
 // Always show leader index
 private _alive = alive _veh || damage _veh < 1;
