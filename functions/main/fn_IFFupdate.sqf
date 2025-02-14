@@ -63,6 +63,7 @@ private _SQFB_opt_colorEnemyGuer = SQFB_opt_colorEnemyGuer;
 private _SQFB_opt_colorEnemyCiv = SQFB_opt_colorEnemyCiv;
 
 private _SQFB_opt_alternateOcclusionCheck = SQFB_opt_alternateOcclusionCheck;
+private _SQFB_opt_enemyDisplayLastKnownPos = SQFB_opt_enemyDisplayLastKnownPos;
 private _cameraView = cameraView;
 
 private _playerInDrone = call SQFB_fnc_playerInDrone;
@@ -334,7 +335,10 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
 
         _unitType = [typeOf _unit] call SQFB_fnc_classType;
         _texture = [
-                        "a3\ui_f\data\map\markers\military\unknown_ca.paa", 
+                        [
+                            "",
+                            "a3\ui_f\data\map\markers\military\unknown_ca.paa"
+                        ] select (_SQFB_opt_enemyDisplayLastKnownPos == "always"), 
                         format ["a3\ui_f\data\map\markers\nato\%1_%2.paa", ["o","n"] select ((!_isEnemy && !_SQFB_opt_changeIconsToBlufor) || {_SQFB_opt_changeIconsToBlufor && {_side == west}}), _unitType]
                     ] select _isRealPos;
 
