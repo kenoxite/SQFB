@@ -715,6 +715,37 @@
 
 \n\nEsta opción no tendrá efecto si Mostrar Texto está desactivado.</Spanish>
       </Key>
+      <Key ID="STR_SQFB_opt_abbreviatedText">
+        <Original>Abbreviated Critical Text</Original>
+        <English>Abbreviated Critical Text</English>
+        <Spanish>Texto Crítico Abreviado</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_abbreviatedText_desc">
+        <Original>Display a symbol instead of full text when a unit has a critical condition (injured, no ammo, etc).
+\nThe symbols are:
+\n  ~  incapacitated
+\n  +  injured
+\n  ,  bleeding
+\n  -| no primary ammo
+\n  |- no secondary ammo
+\n  -- no primary nor secondary ammo</Original>
+        <English>Display a symbol instead of full text when a unit has a critical condition (injured, no ammo, etc).
+\nThe symbols are:
+\n  ~  incapacitated
+\n  +  injured
+\n  ,  bleeding
+\n  -| no primary ammo
+\n  |- no secondary ammo
+\n  -- no primary nor secondary ammo</English>
+        <Spanish>Mostrar un símbolo en vez de todo el texto cuando una unidad tiene una condición crítica (herido, sin munición, etc).
+\nLos símbolos son:
+\n  ~  incapacitado
+\n  +  herido
+\n  ,  sangrando
+\n  -| sin munición de primaria
+\n  |- sin munición de secundaria
+\n  -- sin munición de primaria ni secundaria</Spanish>
+      </Key>
     </Container>
     <Container name="HUDcustomization">
       <Key ID="STR_SQFB_opt_HUDcustomization">

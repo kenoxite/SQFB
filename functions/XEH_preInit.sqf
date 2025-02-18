@@ -440,6 +440,16 @@ Parameters:
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
+[
+    "SQFB_opt_abbreviatedText", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_abbreviatedText", localize "STR_SQFB_opt_abbreviatedText_desc"],
+    [localize "STR_SQFB_opt_Settings_1", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
 
 // HUD CUSTOMIZATION
 [
