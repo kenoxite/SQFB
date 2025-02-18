@@ -76,29 +76,50 @@ if (SQFB_showHUD) then {
             _return = call {
                 //  - Added support for A3 Wounding System
                 if (_unit getVariable ["AIS_unconscious", false]) exitWith {
-                    // _return
-                    [_return, "[", localize "STR_SQFB_HUD_incapacitated", "] "] joinString "";
+                    [
+                        [_return, "[", localize "STR_SQFB_HUD_incapacitated", "] "] joinString "",
+                        [_return, "~ "] joinString ""
+                    ] select SQFB_opt_abbreviatedText;
                 };
-                if (_lifeState == "INCAPACITATED"
-                    || {_lifeState == "INJURED" && !_bleeding}
-                    ) exitWith {
-                    [_return, "[", _lifeState, "] "] joinString "";
+                if (_lifeState == "INCAPACITATED") exitWith {
+                    [
+                        [_return, "[", _lifeState, "] "] joinString "",
+                        [_return, "~ "] joinString ""
+                    ] select SQFB_opt_abbreviatedText;
+                };
+                if (_lifeState == "INJURED" && !_bleeding) exitWith {
+                    [
+                        [_return, "[", _lifeState, "] "] joinString "",
+                        [_return, "+ "] joinString ""
+                    ] select SQFB_opt_abbreviatedText;
                 };
                 if (_lifeState == "INJURED" && _bleeding) exitWith {
-                    [_return, "[", localize "STR_SQFB_HUD_bleeding", "] "] joinString "";
+                    [
+                        [_return, "[", localize "STR_SQFB_HUD_bleeding", "] "] joinString "",
+                        [_return, ", "] joinString ""
+                    ] select SQFB_opt_abbreviatedText;
                 };
                 _return
             };
-		};
-		if (_unit getVariable "SQFB_noAmmo") then {
-            _return = [
+    		if (_playerIsLeader && {_unit getVariable "SQFB_noAmmo"}) then {
+                _return = [
                             [
-                                [_return, "[", localize "STR_SQFB_HUD_noAmmoSec", "] "] joinString "",
-                                [_return, "[", localize "STR_SQFB_HUD_noAmmoPrim", "] "] joinString ""
-                            ] select (_unit getVariable "SQFB_noAmmoPrim"),
-                            [_return, "[", localize "STR_SQFB_HUD_noAmmo", "] "] joinString ""
-                        ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec");
-		};
+                                [
+                                    [_return, "[", localize "STR_SQFB_HUD_noAmmoSec", "] "] joinString "",
+                                    [_return, "[", localize "STR_SQFB_HUD_noAmmoPrim", "] "] joinString ""
+                                ] select (_unit getVariable "SQFB_noAmmoPrim"),
+                                [_return, "[", localize "STR_SQFB_HUD_noAmmo", "] "] joinString ""
+                            ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec"),
+                            [
+                                [
+                                    [_return, "|- "] joinString "",
+                                    [_return, "-| "] joinString ""
+                                ] select (_unit getVariable "SQFB_noAmmoPrim"),
+                                [_return, "-- "] joinString ""
+                            ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec")
+                        ] select SQFB_opt_abbreviatedText;
+    		};
+        };
         if (_showName) then {
             _return = [_return, _unit getVariable "SQFB_name", " "] joinString "";
         };
@@ -121,7 +142,7 @@ if (SQFB_showHUD) then {
 		};
 	};
 } else {
-    // Text shown when not requested by player
+    // Text shown when not requested by player, shown offscreen
     if (!_unitVisible
         && _alive
         && {_outFOVindex
@@ -137,31 +158,52 @@ if (SQFB_showHUD) then {
                 _return = call {
                     //  - Added support for A3 Wounding System
                     if (_unit getVariable ["AIS_unconscious", false]) exitWith {
-                        // _return
-                        [_return, "[", localize "STR_SQFB_HUD_incapacitated", "] "] joinString "";
+                        [
+                            [_return, "[", localize "STR_SQFB_HUD_incapacitated", "] "] joinString "",
+                            [_return, "~ "] joinString ""
+                        ] select SQFB_opt_abbreviatedText;
                     };
-                    if (_lifeState == "INCAPACITATED"
-                        || {_lifeState == "INJURED" && !_bleeding}
-                        ) exitWith {
-                        [_return, "[", _lifeState, "] "] joinString "";
+                    if (_lifeState == "INCAPACITATED") exitWith {
+                        [
+                            [_return, "[", _lifeState, "] "] joinString "",
+                            [_return, "~ "] joinString ""
+                        ] select SQFB_opt_abbreviatedText;
+                    };
+                    if (_lifeState == "INJURED" && !_bleeding) exitWith {
+                        [
+                            [_return, "[", _lifeState, "] "] joinString "",
+                            [_return, "+ "] joinString ""
+                        ] select SQFB_opt_abbreviatedText;
                     };
                     if (_lifeState == "INJURED" && _bleeding) exitWith {
-                        [_return, "[", localize "STR_SQFB_HUD_bleeding", "] "] joinString "";
+                        [
+                            [_return, "[", localize "STR_SQFB_HUD_bleeding", "] "] joinString "",
+                            [_return, ", "] joinString ""
+                        ] select SQFB_opt_abbreviatedText;
                     };
                     _return
                 };
     		} else {
     			if (_playerIsLeader
-                    && _unit getVariable "SQFB_noAmmo"
+                    && {_unit getVariable "SQFB_noAmmo"}
                     ) then {
                     _critical = true;
                     _return = [
+                                [
                                     [
                                         [_return, "[", localize "STR_SQFB_HUD_noAmmoSec", "] "] joinString "",
                                         [_return, "[", localize "STR_SQFB_HUD_noAmmoPrim", "] "] joinString ""
                                     ] select (_unit getVariable "SQFB_noAmmoPrim"),
                                     [_return, "[", localize "STR_SQFB_HUD_noAmmo", "] "] joinString ""
-                                ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec");
+                                ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec"),
+                                [
+                                    [
+                                        [_return, "|- "] joinString "",
+                                        [_return, "-| "] joinString ""
+                                    ] select (_unit getVariable "SQFB_noAmmoPrim"),
+                                    [_return, "-- "] joinString ""
+                                ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec")
+                            ] select SQFB_opt_abbreviatedText;
     			};
     		};
     		if (_unit getVariable "SQFB_medic"
