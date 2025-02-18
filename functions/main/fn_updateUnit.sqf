@@ -64,7 +64,6 @@ private _secWep = secondaryWeapon _unit;
 private _hasSecWep = _secWep != "";
 private _primWepType = (_primWep call BIS_fnc_itemType) select 1;
 private _secWepType = ["", (_secWep call BIS_fnc_itemType) select 1] select _hasSecWep;
-private _primWepMags = primaryWeaponMagazine _unit;
 private _secWepMags = [[], secondaryWeaponMagazine _unit] select _hasSecWep;
 private _secWepMagName = if (_hasSecWep) then { ["", _secWepMags select 0] select (count _secWepMags > 0) } else { "" };
 private _items = itemsWithMagazines _unit;
@@ -104,7 +103,7 @@ private _backpack = unitBackpack _unit;
 private _backpackStr = toLowerAnsi (typeOf _backpack);
 
 // Ammo check - primary
-private _noAmmoPrim = _hasPrimWep && {(count _primWepMags == 0 && _primMagCount == 0)};
+private _noAmmoPrim = _hasPrimWep && {(_unit ammo primaryWeapon _unit == 0 && _primMagCount == 0)};
 _unit setVariable ["SQFB_noAmmoPrim", _noAmmoPrim];
 
 // Ammo check - secondary    
