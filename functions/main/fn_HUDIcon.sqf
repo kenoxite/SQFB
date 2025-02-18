@@ -58,14 +58,14 @@ if (!SQFB_showHUD || !SQFB_opt_showRolesIcon) then {
     private _showCritical = _alwaysShowCritical == "always" || _alwaysShowCritical == "infantry" || _alwaysShowCritical == "infantryIcon";
     if (_showCritical && {(_playerIsMedic || _playerIsLeader) || {!_showText}}) then {
         // Ammo amount
-        if ((vehicle _unit) == _unit) then {
+        if (_playerIsLeader && {(vehicle _unit) == _unit}) then {
             if (_unit getVariable "SQFB_noAmmo") then {
                 _return = "a3\ui_f\data\igui\cfg\actions\gear_ca.paa";
             };
         };
 
-        // Show wounded units in the group to player medic
-        if ((_playerIsMedic && (group _unit) getVariable "SQFB_wounded")) then {
+        // Show medics when there's wounded units in the group
+        if (_playerIsLeader && {((_unit getVariable "SQFB_medic") && (group _unit) getVariable "SQFB_wounded")}) then {
             _return = "a3\ui_f\data\igui\cfg\cursors\unithealer_ca.paa";
         };
 
