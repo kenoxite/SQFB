@@ -304,6 +304,9 @@ SQFB_enemyTrackingGogglesExcluded_default = [
     "rhs_googles_yellow",
     "rhs_ess_black",
 
+    // Russia 2035
+    "min_rf_tactical_goggles",
+
     // CDLC
     "G_Combat_lxWS"
 ];
