@@ -405,7 +405,7 @@ waitUntil { !isNull player };
 
 // ---------------------------------------
 // Init player group
-SQFB_player = call SQFB_fnc_playerUnit;
+SQFB_player = call CBA_fnc_currentUnit;
 SQFB_group = group SQFB_player;
 SQFB_unitCount = count units SQFB_group;
 SQFB_lastPlayerIndex = -1;
@@ -429,11 +429,11 @@ SQFB_player setVariable ["SQFB_pos", getPosWorld vehicle SQFB_player];
 
 // ---------------------------------------
 // Keep track of group status
-SQFB_EH_HUDupdate = [{ if (isNull SQFB_player) then { SQFB_player = call SQFB_fnc_playerUnit }; if (SQFB_opt_on && alive SQFB_player) then { call SQFB_fnc_HUDupdate }; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
+SQFB_EH_HUDupdate = [{ if (isNull SQFB_player) then { SQFB_player = call CBA_fnc_currentUnit }; call SQFB_fnc_HUDupdate; }, SQFB_opt_updateDelay, []] call CBA_fnc_addPerFrameHandler;
 
 // ---------------------------------------
 // Update IFF display info
-SQFB_EH_IFFupdate = [{ if (isNull SQFB_player) then { SQFB_player = call SQFB_fnc_playerUnit }; if (SQFB_opt_on && alive SQFB_player && {(SQFB_showFriendlies || SQFB_showEnemies || SQFB_showIFFHUD)}) then { [getPosWorld vehicle SQFB_player] call SQFB_fnc_IFFupdate }; }, SQFB_opt_updateDelayIFF, []] call CBA_fnc_addPerFrameHandler;
+SQFB_EH_IFFupdate = [{ if (isNull SQFB_player) then { SQFB_player = call CBA_fnc_currentUnit }; if (SQFB_opt_on && alive SQFB_player && {(SQFB_showFriendlies || SQFB_showEnemies || SQFB_showIFFHUD)}) then { [getPosWorld vehicle SQFB_player] call SQFB_fnc_IFFupdate }; }, SQFB_opt_updateDelayIFF, []] call CBA_fnc_addPerFrameHandler;
 
 // ---------------------------------------
 // HUD display

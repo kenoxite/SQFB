@@ -66,6 +66,16 @@ SQFB_tagObjArr = [];
 // Init HUDs
 call SQFB_fnc_IFFactivateDevice;
 
+// Init squad HUD
+if (SQFB_showHUD) then {
+    [] call SQFB_fnc_HUDshow;
+};
+
+// Init IFF HUD
+if (SQFB_showIFFHUD) then {
+    ["iff"] call SQFB_fnc_HUDshow;
+};
+
 // Player traits
 private _unitTraits = getAllUnitTraits SQFB_player;
 SQFB_player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];
