@@ -173,7 +173,7 @@ if ((_secWepType == "Launcher" || {_secWepType == "MissileLauncher" || {_secWepT
 _unit setVariable ["SQFB_AT", _AT];
 
 // Grenade Launcher
-if (_primWepType == "GrenadeLauncher" || {!_unitIsVanilla && ({_hasRG || {"gl" in _primWep || {"m203" in _primWep || "gp25" in _primWep || "gp30" in _primWep || "gp34" in _primWep || "m32" in _primWep || "g40" in _primWep || "m79" in _primWep || "_ag" in _primWep || "_ag" in _primWep || _primWep == "gm_hk69a1_blk" || "pallad" in _primWep}}})}) then { _GL = true; _roles pushBack localize "STR_SQFB_HUD_roles_GL" };
+if (_primWepType == "GrenadeLauncher" || {!_unitIsVanilla && ({_hasRG || {"gl" in _primWep || {"m203" in _primWep || "gp25" in _primWep || "gp30" in _primWep || "gp34" in _primWep || "m32" in _primWep || "g40" in _primWep || "m79" in _primWep || "_ag" in _primWep || "_gp" in _primWep || _primWep == "gm_hk69a1_blk" || "pallad" in _primWep}}})}) then { _GL = true; _roles pushBack localize "STR_SQFB_HUD_roles_GL" };
 _unit setVariable ["SQFB_GL", _GL];
 
 // Machine Gun/LMG
