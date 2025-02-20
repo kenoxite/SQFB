@@ -165,7 +165,7 @@ if (_isHacker) then { _hacker = true; _roles pushBack localize "STR_SQFB_HUD_rol
 _unit setVariable ["SQFB_hacker", _hacker];
 
 // AntiAir
-if (("_aa" in _secWepMagName)) then { _AA = true; _roles pushBack localize "STR_SQFB_HUD_roles_AA" };
+if ("_aa" in _secWepMagName || {"_aa" in _secWepMagName || "_redeye" in _secWepMagName || "_stinger" in _secWepMagName || "_igla" in _secWepMagName || "_strela" in _secWepMagName}) then { _AA = true; _roles pushBack localize "STR_SQFB_HUD_roles_AA" };
 _unit setVariable ["SQFB_AA", _AA];
 
 // AntiTank
