@@ -65,7 +65,7 @@ private _hasSecWep = _secWep != "";
 private _primWepType = (_primWep call BIS_fnc_itemType) select 1;
 private _secWepType = ["", (_secWep call BIS_fnc_itemType) select 1] select _hasSecWep;
 private _secWepMags = [[], secondaryWeaponMagazine _unit] select _hasSecWep;
-private _secWepMagName = if (_hasSecWep) then { ["", _secWepMags select 0] select (count _secWepMags > 0) } else { "" };
+private _secWepMagName = if (_hasSecWep) then { ["", toLowerAnsi (_secWepMags select 0)] select (count _secWepMags > 0) } else { "" };
 private _items = itemsWithMagazines _unit;
 private _mag = "";
 private _compatPrimMags = [_primWep] call BIS_fnc_compatibleMagazines;
