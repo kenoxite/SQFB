@@ -80,6 +80,8 @@ for "_i" from 0 to (count _SQFB_units) -1 do
 
         // Skip units outside the max
         if (_dist > _maxRange) then { continue };
+
+        private _isFormLeader = formationLeader _vehPlayer == _unit;
         
         private _isOnFoot = isNull objectParent _unit;
         private _unitPos = getPosWorld _veh;
@@ -141,7 +143,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                         _isFirstCrew = true;
                     };
                 };
-                private _displayAsVehicle = _displayIndividualCrew && _isFirstCrew;
+                private _displayAsVehicle = (_displayIndividualCrew && _isFirstCrew) || (!_isOnFoot && _isFormLeader);
 
                 private _texture = [
                                         [
@@ -159,7 +161,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                                     [
                                         "",
                                         [_unit, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_showName, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_showDist, _SQFB_opt_outFOVindex, _SQFB_opt_profile] call SQFB_fnc_HUDtext
-                                    ] select (_SQFB_opt_showText && _textSize > 0.02 && (_isOnFoot || (!_isOnFoot && _veh == _vehPlayer && cameraView == "INTERNAL"))),
+                                    ] select (_SQFB_opt_showText && _textSize > 0.02 && (_isOnFoot || (!_isOnFoot && (_veh == _vehPlayer && cameraView == "INTERNAL")))),
                                     
                                     [
                                         "",
