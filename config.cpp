@@ -81,6 +81,30 @@ class CfgFunctions
             class changeToValidName {};
         };
 
+        class Roles
+        {
+            file = "SQFB\functions\roles";
+
+            class roleMedic {};
+            class roleDemo {};
+            class roleEngi {};
+            class roleAA {};
+            class roleAT {};
+            class roleGL {};
+            class roleLMG {};
+            class roleMG {};
+            class roleSniper {};
+            class roleMarksman {};
+            class roleSMG {};
+            class roleShotgun {};
+            class roleHandgun {};
+            class roleAssistAT {};
+            class roleAssistAA {};
+            class roleAssistMG {};
+            class roleAssistLMG {};
+            class roleAmmo {};
+        };
+
         class CBA
         {
             file = "SQFB\functions\cba";
