@@ -58,6 +58,18 @@ if (isNil {_unit getVariable "SQFB_isVanilla"}) then {
     _unit setVariable ["SQFB_isVanilla", _unitIsVanilla];
 };
 
+// SOG check
+private _SOGunit = _unit getVariable "SQFB_SOGunit";
+
+if (isNil {_unit getVariable "SQFB_SOGunit"}) then {
+    _SOGunit = call {
+        if (_unitIsVanilla) exitwith {false};
+        if ((getAssetDLCInfo _unit)#4 == "1227700") exitWith {true};
+        false;
+    };
+    _unit setVariable ["SQFB_SOGunit", _SOGunit];
+};
+
 private _primWep = toLowerAnsi (primaryWeapon _unit);
 private _hasPrimWep = _primWep != "";
 private _secWep = secondaryWeapon _unit;
@@ -96,6 +108,14 @@ private _hasRG = false;
 if (!_unitIsVanilla) then {
     _hasRG = _items findIf {"rifle grenade" in toLowerAnsi (getText (_cfgMags >> _x >> "displayName"))}!= -1;
 };
+
+// Primary weapon muzzles
+private _primMuzzles = [_primWep] call CBA_fnc_getMuzzles;
+private _primSecMuzzle = ["", toLowerAnsi (_primMuzzles#1)] select (count _primMuzzles > 1);
+
+private _primWepMaxRange = getNumber (configFile >> "CfgWeapons" >> _primWep >> "maxRange");
+
+private _primHasOptic = ((primaryWeaponItems _unit)#2) != "";
 
 private _primWepDes = toLowerAnsi (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
 private _handgunWep = handgunWeapon _unit;
@@ -173,7 +193,9 @@ if ((_secWepType == "Launcher" || {_secWepType == "MissileLauncher" || {_secWepT
 _unit setVariable ["SQFB_AT", _AT];
 
 // Grenade Launcher
-if (_primWepType == "GrenadeLauncher" || {!_unitIsVanilla && ({_hasRG || {"gl" in _primWep || {"m203" in _primWep || "gp25" in _primWep || "gp30" in _primWep || "gp34" in _primWep || "m32" in _primWep || "g40" in _primWep || "m79" in _primWep || "_ag" in _primWep || "_gp" in _primWep || _primWep == "gm_hk69a1_blk" || "pallad" in _primWep}}})}) then { _GL = true; _roles pushBack localize "STR_SQFB_HUD_roles_GL" };
+// if (_primWepType == "GrenadeLauncher" || {!_unitIsVanilla && ({_hasRG || {"gl" in _primWep || {"m203" in _primWep || "gp25" in _primWep || "gp30" in _primWep || "gp34" in _primWep || "m32" in _primWep || "g40" in _primWep || "m79" in _primWep || "_ag" in _primWep || "_gp" in _primWep || _primWep == "gm_hk69a1_blk" || "pallad" in _primWep}}})}) then { _GL = true; _roles pushBack localize "STR_SQFB_HUD_roles_GL" };
+// _unit setVariable ["SQFB_GL", _GL];
+if (_hasRG || (_primSecMuzzle == "" && ("m79" in _primWep || "gl" in _primWep)) || (_primSecMuzzle != "" && ("gl" in _primSecMuzzle || {"gp" in _primSecMuzzle || "pallad" in _primSecMuzzle || "m79" in _primSecMuzzle})) || (_handgunWep != "" && {"gl" in _handgunWep})) then { _GL = true; _roles pushBack localize "STR_SQFB_HUD_roles_GL" };
 _unit setVariable ["SQFB_GL", _GL];
 
 // Machine Gun/LMG
@@ -183,8 +205,28 @@ if (_anyMG) then { _MG = true };
 _unit setVariable ["SQFB_MG", _MG];
 
 // Sniper/Marksman
-if (!_anySniper && {("sniper" in _primWepDes && _primWepType != "SniperRifle") || {("dms" in _primWep || "mxm" in _primWep) || {!_unitIsVanilla && ({"sr25" in _primWep || "m76" in _primWep || "svd" in _primWep || "srifle" in _primWep || "hk417_20_scope" in _primWep || "mk20_leupoldmk4mrt" in _primWep || "aks74_pso" in _primWep || "marksman" in _primWep})}}}) then { _anySniper = true; _roles pushBack localize "STR_SQFB_HUD_roles_Marksman" };
-if (!_anySniper && {_primWepType == "SniperRifle"}) then { _anySniper = true; _roles pushBack localize "STR_SQFB_HUD_roles_Sniper" };
+if (!_anySniper && {
+    ("sniper" in _primWepDes && _primWepType != "SniperRifle") || 
+    {("dms" in _primWep || "mxm" in _primWep) || 
+        {!_unitIsVanilla && (
+            {"sr25" in _primWep || 
+            "m76" in _primWep || 
+            "svd" in _primWep || 
+            "srifle" in _primWep || 
+            "hk417_20_scope" in _primWep || 
+            "mk20_leupoldmk4mrt" in _primWep || 
+            "aks74_pso" in _primWep || 
+            "marksman" in _primWep || 
+                {_SOGunit && {
+                    _primWepType == "SniperRifle" && 
+                    _primWepMaxRange <= 500 && 
+                    _primHasOptic
+                }}
+            }
+        )}
+    }
+}) then { _anySniper = true; _roles pushBack localize "STR_SQFB_HUD_roles_Marksman" };
+if (!_anySniper && {_primWepType == "SniperRifle" && {_primWepMaxRange > 500}}) then { _anySniper = true; _roles pushBack localize "STR_SQFB_HUD_roles_Sniper" };
 if (_anySniper) then { _sniper = true };
 _unit setVariable ["SQFB_sniper", _sniper];
 
@@ -218,7 +260,7 @@ if (_backpackStr != "" && {!_anyAmmoBearer && !_anyMG && !_AT && !_AA && {"ammo"
 _unit setVariable ["SQFB_ammoBearer", _ammoBearer];
 
 // Rifle
-if (count _roles == 0 && _primWepType == "AssaultRifle") then { _rifle = true; _roles pushBack localize "STR_SQFB_HUD_roles_Rifle" };
+if (count _roles == 0 && (_primWepType == "AssaultRifle" || {(_SOGunit && {_primWepType == "SniperRifle" && {_primWepMaxRange <= 500}})})) then { _rifle = true; _roles pushBack localize "STR_SQFB_HUD_roles_Rifle" };
 _unit setVariable ["SQFB_rifle", _rifle];
 
 // Other
