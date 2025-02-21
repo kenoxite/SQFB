@@ -143,7 +143,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                         _isFirstCrew = true;
                     };
                 };
-                private _displayAsVehicle = (_displayIndividualCrew && _isFirstCrew) || (!_isOnFoot && _isFormLeader);
+                private _displayAsVehicle = (_displayIndividualCrew && _isFirstCrew) || !_isOnFoot;
 
                 private _texture = [
                                         [
