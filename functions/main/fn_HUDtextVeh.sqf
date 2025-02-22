@@ -25,36 +25,38 @@ if (_veh == vehicle SQFB_player) exitWith {_return};
 
 private _index = -1;
 private _crew = fullCrew [vehicle _veh,"",true];
-private _vehLeader = objNull;
-if (isNull _vehLeader) then {_vehLeader = effectiveCommander _veh};
-if (isNull _vehLeader) then {_vehLeader = driver _veh};
-if (isNull _vehLeader) then {_vehLeader = gunner _veh};
-if (isNull _vehLeader) then {_vehLeader = _crew select 0};
+private _vehCommander = objNull;
+if (isNull _vehCommander) then {_vehCommander = effectiveCommander _veh};
+if (isNull _vehCommander) then {_vehCommander = driver _veh};
+if (isNull _vehCommander) then {_vehCommander = gunner _veh};
+if (isNull _vehCommander) then {_vehCommander = _crew select 0};
 
-if (!isNull _vehLeader) then {_index = _vehLeader getVariable "SQFB_grpIndex";};
+if (isNil "_vehCommander") exitWith { _return };
+if (isNull _vehCommander) exitWith { _return };
 
-if (isNil "_vehLeader") exitWith { _return };
-if (isNull _vehLeader) exitWith { _return };
+_index = _vehCommander getVariable "SQFB_grpIndex";
 
-private _vehName = "";
-private _vehPlayer = vehicle SQFB_player;
-if (_showClass) then {
-    _vehName = toUpperANSI (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"));
+private _vehName = call {
+    if (_showClass) exitWith {
+        toUpperANSI (getText (configFile >> "CfgVehicles" >> typeOf _veh >> "displayName"))
+    };
+    ""
 };
-
-private _grpLeader = leader (group _vehLeader);
+private _vehPlayer = vehicle SQFB_player;
+private _grpLeader = leader (group _vehCommander);
 
 private _playerIsLeader = _grpLeader == SQFB_player;
 private _playerIsMedic = SQFB_player getVariable "SQFB_medic";
-private _informCritical = _playerIsMedic || _playerIsLeader;
+private _playerCanRepair = SQFB_player getVariable "SQFB_engi";
 
-private _isGrpLeader = _grpLeader == _vehLeader;
+private _isGrpLeader = _grpLeader == _vehCommander;
 private _formleader = formationLeader SQFB_player;
-private _isFormLeader = formationLeader _vehPlayer == _vehLeader || (vehicle _formleader == _veh && _vehLeader == effectiveCommander vehicle _formleader);
-private _isFormFollower = (formationLeader _vehLeader == _vehPlayer) && !_playerIsLeader;
+private _isFormLeader = formationLeader _vehPlayer == _vehCommander || (vehicle _formleader == _veh && _vehCommander == effectiveCommander vehicle _formleader);
+private _isFormFollower = (formationLeader _vehCommander == effectiveCommander _vehPlayer) && !_playerIsLeader;
 
-private _showCritical = _alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles" || _alwaysShowCritical == "vehiclesText";
+private _informCritical = (_alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles" || _alwaysShowCritical == "vehiclesText") && (_playerIsMedic || _playerIsLeader || _playerCanRepair);
 private _alive = alive _veh || damage _veh < 1;
+needService _veh params ["_needRepair", "_needRefuel", "_needRearm"];
 
 // Always show leader index
 if (_profile != "crit"
@@ -81,18 +83,39 @@ if (SQFB_showHUD) then {
 	if (_showClass) then {
         _return = [_return, _vehName, " "] joinString "";
     };
-	// Vehicle status
-	if ((fuel _veh) == 0) then {
-		_return = [_return, "[", localize "STR_SQFB_HUD_noFuel", "] "] joinString "";
-	};
-	if ((damage _veh) >= 0.5) then {
-		_return = [_return, "[", localize "STR_SQFB_HUD_damaged", "] "] joinString "";
-	};
-	if (!(canMove _veh) && (fuel _veh) > 0) then {
-		_return = [_return, "[", localize "STR_SQFB_HUD_cantMove", "] "] joinString "";
-	};
+    // Vehicle status
+    if ((fuel _veh) == 0) then {
+        _return =[
+                    [_return, "[", localize "STR_SQFB_HUD_noFuel", "] "] joinString "",
+                    [_return, "!F "] joinString ""
+                ] select SQFB_opt_abbreviatedText;
+    };
+    if (_playerIsLeader || _playerCanRepair) then {
+        call {
+            if ((damage _veh) >= 0.5) then {
+                _return =[
+                            [_return, "[", localize "STR_SQFB_HUD_damaged", "] "] joinString "",
+                            [_return, if ((damage _veh) >= 0.7) then {"!!! "}else{"!! "}] joinString ""
+                        ] select SQFB_opt_abbreviatedText;
+            };
+        };
+        if (!(canMove _veh) && (fuel _veh) > 0) then {
+            _return =[
+                        [_return, "[", localize "STR_SQFB_HUD_cantMove", "] "] joinString "",
+                        [_return, "!>> "] joinString ""
+                    ] select SQFB_opt_abbreviatedText;
+        };
+    };
+    if (_playerIsLeader) then {
+        if (_needRearm >= 0.8) then {
+            _return =[
+                        [_return, "[", localize "STR_SQFB_HUD_noAmmo", "] "] joinString "",
+                        [_return, "!A "] joinString ""
+                    ] select SQFB_opt_abbreviatedText;
+        };
+    };
 	if (_showRoles) then {
-        _return = [_return, "[", ((_veh call BIS_fnc_objectType) select 1), ": "] joinString "";
+        _return = [_return, "[", ((_veh call BIS_fnc_objectType) select 1), "] "] joinString "";
     };
 	// Crew
 	if (_showCrew) then {
@@ -135,43 +158,69 @@ if (SQFB_showHUD) then {
 		_return = [_return, "(", str round (_veh distance _vehPlayer), "m) "] joinString "";
 	};
 } else {
-    // Text when always show critical is enabled
-    if (count _crew > 0 && !_unitVisible && _alive && {_outFOVindex || {_showCritical && _informCritical}}) then {
-		private _critical = false;
+    // Text when off screen or always show critical is enabled
+    if (count _crew > 0 && !_unitVisible && _alive && {_outFOVindex || {_informCritical}}) then {
+		private _critical = _needRepair > 0.5 || _needRefuel > 0.5 || _needRearm > 0.5;
         if (_informCritical) then {
-            if (_playerIsLeader) then {
-    			// Vehicle status
-    			if ((fuel _veh) == 0) then {
-    				_return = [_return, "[", localize "STR_SQFB_HUD_noFuel", "] "] joinString "";
-    				_critical = true;
+			// Vehicle status
+			if ((fuel _veh) == 0) then {
+                _return =[
+                            [_return, "[", localize "STR_SQFB_HUD_noFuel", "] "] joinString "",
+                            [_return, "!F "] joinString ""
+                        ] select SQFB_opt_abbreviatedText;
+			};
+			if (_playerIsLeader || _playerCanRepair) then {
+                call {
+                if ((damage _veh) >= 0.5) then {
+                    _return =[
+                                [_return, "[", localize "STR_SQFB_HUD_damaged", "] "] joinString "",
+                                [_return, if ((damage _veh) >= 0.7) then {"!!! "}else{"!! "}] joinString ""
+                            ] select SQFB_opt_abbreviatedText;
     			};
-    			if ((damage _veh) >= 0.5) then {
-    				_return = [_return, "[", localize "STR_SQFB_HUD_damaged", "] "] joinString "";
-    				_critical = true;
-    			};
+            };
     			if (!(canMove _veh) && (fuel _veh) > 0) then {
-    				_return = [_return, "[", localize "STR_SQFB_HUD_cantMove", "] "] joinString "";
+                    _return =[
+                                [_return, "[", localize "STR_SQFB_HUD_cantMove", "] "] joinString "",
+                                [_return, "!>> "] joinString ""
+                            ] select SQFB_opt_abbreviatedText;
+    			};
+            };
+            if (_playerIsLeader) then {
+                if (_needRearm >= 0.8) then {
+                    _return =[
+                                [_return, "[", localize "STR_SQFB_HUD_noAmmo", "] "] joinString "",
+                                [_return, "!A "] joinString ""
+                            ] select SQFB_opt_abbreviatedText;
+                };
+            };
+			// Display if wounded units in crew
+            if (_playerIsLeader || _playerIsMedic) then {
+    			private _crew = crew _veh;
+    			private _wounded = { lifeState _x != "HEALTHY" && alive _x} count _crew;
+    			if (_wounded > 0) then {
+    				_return = [_return, "[", _wounded, " ", localize "STR_SQFB_HUD_wounded", "] "] joinString "";
     				_critical = true;
     			};
             };
-			// Display if wounded units in crew
-			private _crew = crew _veh;
-			private _wounded = { lifeState _x != "HEALTHY" && alive _x} count _crew;
-			if (_wounded > 0) then {
-				_return = [_return, "[", _wounded, " ", localize "STR_SQFB_HUD_wounded", "] "] joinString "";
-				_critical = true;
-			};
 			// Show medics in the vehicle when there's wounded units in the group
-			private _medic = _crew findIf {(_x getVariable "SQFB_medic")};
-			if (_medic != -1) then {
-				if (_grp getVariable "SQFB_wounded") then {
-					_return = [_return, "[", localize "STR_SQFB_HUD_medicIs", " ", (_crew select _medic) getVariable "SQFB_grpIndex", "] "] joinString "";
-					_critical = true;
-				};
-			};
+            if (_playerIsLeader) then {
+    			private _medic = _crew findIf {(_x getVariable "SQFB_medic")};
+    			if (_medic != -1) then {
+    				if (_grp getVariable "SQFB_wounded") then {
+    					_return = [_return, "[", localize "STR_SQFB_HUD_medicIs", " ", (_crew select _medic) getVariable "SQFB_grpIndex", "] "] joinString "";
+    					_critical = true;
+    				};
+    			};
+            };
         };
-        if ((_outFOVindex || _critical) && _showIndex && _index >= 0 && !_isGrpLeader && !_isFormLeader && !_isFormFollower) then {
-            _return = [_index, if (_return != "") then { ":" } else { "" }, " ", _return] joinString "";
+        if ((_outFOVindex || _critical)
+            && _showIndex
+            && _index >= 0
+            && !_isGrpLeader
+            && !_isFormLeader
+            && !_isFormFollower
+        ) then {
+            _return = [_index, if (_return != "") then { ":" } else { "" }, " ", _return, " "] joinString "";
         };
 	};
 };
