@@ -21,7 +21,10 @@ params [["_unit", objNull, [objNull]]];
 if (!SQFB_opt_on) exitWith {false};
 
 // Exclude players
-if (_unit == SQFB_player) exitWith {false};
+// if (_unit == SQFB_player) exitWith {false};
+
+// Exclude non humanoids
+if !(_unit call SQFB_fnc_isHuman) exitWith {false};
 
 // Exclude units no longer in group
 if !(_unit in SQFB_units) exitWith {false};
@@ -32,11 +35,14 @@ _unit call SQFB_fnc_resetUnit;
 // Name
 private _currentName = name _unit;
 private _nameArr = [_currentName, " "] call BIS_fnc_splitString;
-private _lastName = [
-                        _nameArr #0,
-                        _nameArr #1
-                    ] select (count _nameArr > 1);
-_unit setVariable ["SQFB_name", _lastName];
+private _lastName = call {
+    if (count _nameArr == 0) exitWith {
+        if (_currentName != "") exitWith {_currentName};
+        typeof _unit
+    };
+    if (count _nameArr > 1) exitWith {_nameArr#1};
+    _nameArr#0  
+};
 
 // Editor class name
 if (isNil {_unit getVariable "SQFB_displayName"}) then {
@@ -159,29 +165,24 @@ private _anyAmmoBearer = false;
 _grpIndex = _unit call SQFB_fnc_getUnitPositionId;
 _unit setVariable ["SQFB_grpIndex", _grpIndex];
 
-private _unitTraits = getAllUnitTraits _unit;
-private _isMedic = (_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0;
-private _isEngi = (_unitTraits select { (_x select 0) == "Engineer" } apply { _x select 1 }) select 0;
-private _isDemo = (_unitTraits select { (_x select 0) == "ExplosiveSpecialist" } apply { _x select 1 }) select 0;
-private _isHacker = (_unitTraits select { (_x select 0) == "UavHacker" } apply { _x select 1 }) select 0;
-
 // Medic
-_medic = [_isMedic, _items] call SQFB_fnc_roleMedic;
+_medic = [_unit getUnitTrait "Medic", _items] call SQFB_fnc_roleMedic;
 if (_medic) then { _roles pushBack localize "STR_SQFB_HUD_roles_Medic" };
 _unit setVariable ["SQFB_medic", _medic];
 
 // Demolition specialist
-_demo = [_hasMines, _isDemo, _items] call SQFB_fnc_roleDemo;
+_demo = [_hasMines, _unit getUnitTrait "ExplosiveSpecialist", _items] call SQFB_fnc_roleDemo;
 if (_demo) then { _roles pushBack localize "STR_SQFB_HUD_roles_Demolition" };
 _unit setVariable ["SQFB_demo", _demo];
 
 // Engineer
-_engi = [_isEngi, _items] call SQFB_fnc_roleEngi;
+_engi = [_unit getUnitTrait "Engineer", _items] call SQFB_fnc_roleEngi;
 if (_engi) then { _roles pushBack localize "STR_SQFB_HUD_roles_Engineer" };
 _unit setVariable ["SQFB_engi", _engi];
 
 // Hacker
-if (_isHacker) then { _hacker = true; _roles pushBack localize "STR_SQFB_HUD_roles_Hacker" };
+_hacker = _unit getUnitTrait "UavHacker";
+if (_hacker) then { _roles pushBack localize "STR_SQFB_HUD_roles_Hacker" };
 _unit setVariable ["SQFB_hacker", _hacker];
 
 // AntiAir
