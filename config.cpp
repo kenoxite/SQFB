@@ -79,6 +79,9 @@ class CfgFunctions
 
             class setNameSound {};
             class changeToValidName {};
+            class isHuman {};
+            class isAnimal {};
+            class isZombie {};
         };
 
         class Roles
