@@ -95,8 +95,7 @@ for "_i" from 0 to (count _SQFB_units) -1 do
         private _unitOccluded = _unitVisibility < 0.2;
         private _unitVisible = [_playerPos, _camDir, ceil((call CBA_fnc_getFov select 0)*100), _unitPos] call BIS_fnc_inAngleSector;
         
-        private _showCritical = _SQFB_opt_AlwaysShowCritical == "always" || ("infantry" in _SQFB_opt_AlwaysShowCritical && _isOnFoot) || ("vehicle" in _SQFB_opt_AlwaysShowCritical && _isOnFoot);
-        if (!_unitOccluded && (_SQFB_showHUD || {(!_SQFB_showHUD && _showCritical) || {!_unitVisible && SQFB_opt_outFOVindex}})) then {
+        if (!_unitOccluded) then {
             if (_alive || (!_alive && _SQFB_opt_showDead && (_unit getVariable "SQFB_veh") == _unit)) then {
                 private _zoom = call SQFB_fnc_trueZoom;
                 private _adjSize = 2; // TBH no idea why this is needed, but it's needed
