@@ -82,6 +82,7 @@ class CfgFunctions
             class isHuman {};
             class isAnimal {};
             class isZombie {};
+            class roundDist {};
         };
 
         class Roles
