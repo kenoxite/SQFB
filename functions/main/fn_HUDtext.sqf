@@ -16,7 +16,7 @@
 
 */
 
-params [["_unit", objNull], ["_unitVisible", true], ["_showIndex", true], ["_alwaysShowCritical", true], ["_showName", true], ["_showClass", true], ["_showRoles", true], ["_showDist", false], ["_outFOVindex", true], ["_profile", "default"]];
+params [["_unit", objNull], ["_unitVisible", true], ["_showIndex", true], ["_alwaysShowCritical", true], ["_showName", true], ["_showClass", true], ["_showRoles", true], ["_showDist", false], ["_outFOVindex", true], ["_profile", "default"], ["_preciseDist", false]];
 
 private _return = "";
 
@@ -37,6 +37,16 @@ private _informCritical = (_alwaysShowCritical == "always" || _alwaysShowCritica
 private _isGrpLeader = _grpLeader == _unit;
 private _isFormLeader = formationLeader _vehPlayer == _unit;
 private _isFormFollower = (formationLeader _unit == _vehPlayer) && !_playerIsLeader;
+
+private _dist = call {
+    if (_showDist) exitwith {
+        if (_preciseDist) exitwith {
+            round (_veh distance _vehPlayer)
+        };
+        [round (_veh distance _vehPlayer)] call SQFB_fnc_roundDist;
+    };
+    0
+};
 
 // Always show leader index
 if (_profile != "crit"
@@ -138,7 +148,7 @@ if (SQFB_showHUD) then {
             _return = [_return, "[", _unit getVariable "SQFB_roles", "] "] joinString "";
 		};
 		if (_profile != "crit" && _showDist && _veh != _vehPlayer) then {
-			_return = [_return, "(", round (_veh distance _vehPlayer), "m)"] joinString "";
+			_return = [_return, "(", str _dist, "m)"] joinString "";
 		};
 	};
 } else {

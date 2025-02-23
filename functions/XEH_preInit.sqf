@@ -440,16 +440,6 @@ Parameters:
     { if (time > 0.1 && SQFB_opt_profile_old == SQFB_opt_profile) then { ["SQFB_opt_profile", "custom", 0, "server", true] call CBA_settings_fnc_set }; } 
 ] call CBA_fnc_addSetting;
 
-[
-    "SQFB_opt_abbreviatedText", 
-    "CHECKBOX",
-    [localize "STR_SQFB_opt_abbreviatedText", localize "STR_SQFB_opt_abbreviatedText_desc"],
-    [localize "STR_SQFB_opt_Settings_1", format ["05 - %1", localize "STR_SQFB_opt_HUDdisplay_textOptions"]],
-    [true],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
 
 // HUD CUSTOMIZATION
 [
@@ -619,6 +609,26 @@ Parameters:
     [localize "STR_SQFB_opt_displayLastKnownPos", localize "STR_SQFB_opt_displayLastKnownPos_desc"],
     [localize "STR_SQFB_opt_Settings_1", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
     [["never", "always"], [localize "STR_SQFB_opt_showEnemies_never", localize "STR_SQFB_opt_showEnemies_always"], 1],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_abbreviatedText", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_abbreviatedText", localize "STR_SQFB_opt_abbreviatedText_desc"],
+    [localize "STR_SQFB_opt_Settings_1", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "SQFB_opt_preciseDist", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_preciseDist", localize "STR_SQFB_opt_preciseDist_desc"],
+    [localize "STR_SQFB_opt_Settings_1", format ["07 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced"]],
+    [false],
     nil,
     {} 
 ] call CBA_fnc_addSetting;

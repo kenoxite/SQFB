@@ -62,6 +62,7 @@ private _SQFB_opt_ShowCrew = SQFB_opt_ShowCrew;
 private _SQFB_opt_showDist = SQFB_opt_showDist;
 private _SQFB_opt_profile = SQFB_opt_profile;
 private _SQFB_opt_outFOVindex = SQFB_opt_outFOVindex;
+private _SQFB_opt_preciseDist = SQFB_opt_preciseDist;
 
 private _SQFB_showDeadMinTime = SQFB_showDeadMinTime;
 
@@ -159,12 +160,12 @@ for "_i" from 0 to (count _SQFB_units) -1 do
                 private _text = [
                                     [
                                         "",
-                                        [_unit, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_showName, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_showDist, _SQFB_opt_outFOVindex, _SQFB_opt_profile] call SQFB_fnc_HUDtext
+                                        [_unit, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_showName, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_showDist, _SQFB_opt_outFOVindex, _SQFB_opt_profile, _SQFB_opt_preciseDist] call SQFB_fnc_HUDtext
                                     ] select (_SQFB_opt_showText && _textSize > 0.02 && (_isOnFoot || (!_isOnFoot && (_veh == _vehPlayer && cameraView == "INTERNAL")))),
                                     
                                     [
                                         "",
-                                        [_veh, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_ShowCrew, _SQFB_opt_showDist, _SQFB_opt_profile, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_outFOVindex] call SQFB_fnc_HUDtextVeh
+                                        [_veh, _unitVisible, _SQFB_opt_showIndex, _SQFB_opt_showClass, _SQFB_opt_showRoles, _SQFB_opt_ShowCrew, _SQFB_opt_showDist, _SQFB_opt_profile, _SQFB_opt_AlwaysShowCritical, _SQFB_opt_outFOVindex, _SQFB_opt_preciseDist] call SQFB_fnc_HUDtextVeh
                                     ] select (_SQFB_opt_showText && _textSize > 0.02)
                                 ] select _displayAsVehicle;
 

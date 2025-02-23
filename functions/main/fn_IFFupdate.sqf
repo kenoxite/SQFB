@@ -91,6 +91,7 @@ private _SQFB_opt_friendlySideColors = SQFB_opt_friendlySideColors;
 private _SQFB_opt_colorFriendlyEast = SQFB_opt_colorFriendlyEast;
 private _SQFB_opt_colorFriendlyGuer = SQFB_opt_colorFriendlyGuer;
 private _SQFB_opt_colorFriendlyCiv = SQFB_opt_colorFriendlyCiv;
+private _SQFB_opt_preciseDist = SQFB_opt_preciseDist;
 
 private _onlyLastPosFriendly = [
                             [
@@ -328,7 +329,10 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
                     "",
                     [
                         "",
-                        format ["%1m", round _distPerceived]
+                        [
+                            [str ([round _distPerceived] call sqfb_fnc_roundDist), "m"] joinString "",
+                            [str (round _distPerceived), "m"] joinString ""
+                        ] select _SQFB_opt_preciseDist
                     ] select ((_SQFB_opt_showDistEnemy && _isEnemy) || (_SQFB_opt_showDistFriendly && !_isEnemy))
                 ] select (!_isPlayerAir && _SQFB_opt_showText && _textSize > 0.02);
 
@@ -339,7 +343,7 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
                             "",
                             "a3\ui_f\data\map\markers\military\unknown_ca.paa"
                         ] select (_SQFB_opt_displayLastKnownPos == "always"), 
-                        format ["a3\ui_f\data\map\markers\nato\%1_%2.paa", ["o","n"] select ((!_isEnemy && !_SQFB_opt_changeIconsToBlufor) || {_SQFB_opt_changeIconsToBlufor && {_side == west}}), _unitType]
+                        ["a3\ui_f\data\map\markers\nato\", (["o", "n"] select ((!_isEnemy && !_SQFB_opt_changeIconsToBlufor) || {_SQFB_opt_changeIconsToBlufor && {_side == west}})), "_", _unitType, ".paa"] joinString ""
                     ] select _isRealPos;
 
         _iconHeightMod = [

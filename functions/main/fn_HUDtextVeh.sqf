@@ -16,7 +16,7 @@
 
 */
 
-params ["_veh", "_unitVisible", ["_showIndex", true], ["_showClass", false], ["_showRoles", false], ["_showCrew", true], ["_showDist", true], ["_profile", "default"], ["_alwaysShowCritical", true], ["_outFOVindex", true]];
+params ["_veh", "_unitVisible", ["_showIndex", true], ["_showClass", false], ["_showRoles", false], ["_showCrew", true], ["_showDist", true], ["_profile", "default"], ["_alwaysShowCritical", true], ["_outFOVindex", true], ["_preciseDist", false]];
 
 private _return = "";
 
@@ -57,6 +57,16 @@ private _isFormFollower = (formationLeader _vehCommander == effectiveCommander _
 private _informCritical = (_alwaysShowCritical == "always" || _alwaysShowCritical == "vehicles" || _alwaysShowCritical == "vehiclesText") && (_playerIsMedic || _playerIsLeader || _playerCanRepair);
 private _alive = alive _veh || damage _veh < 1;
 needService _veh params ["_needRepair", "_needRefuel", "_needRearm"];
+
+private _dist = call {
+    if (_showDist) exitwith {
+        if (_preciseDist) exitwith {
+            round (_veh distance _vehPlayer)
+        };
+        [round (_veh distance _vehPlayer)] call SQFB_fnc_roundDist;
+    };
+    0
+};
 
 // Always show leader index
 if (_profile != "crit"
@@ -155,7 +165,7 @@ if (SQFB_showHUD) then {
                 ] joinString "";
 	};
 	if (_showDist && _veh != _vehPlayer) then {
-		_return = [_return, "(", str round (_veh distance _vehPlayer), "m) "] joinString "";
+		_return = [_return, "(", str _dist, "m) "] joinString "";
 	};
 } else {
     // Text when off screen or always show critical is enabled

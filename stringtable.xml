@@ -746,6 +746,16 @@
 \n  |- sin munición de secundaria
 \n  -- sin munición de primaria ni secundaria</Spanish>
       </Key>
+      <Key ID="STR_SQFB_opt_preciseDist">
+        <Original>Precise distance</Original>
+        <English>Precise distance</English>
+        <Spanish>Distancia precisa</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_preciseDist_desc">
+        <Original>If enabled, the displayed distance will be very close to the real distance. If disabled, it'll be the closest number in increments of 50m.</Original>
+        <English>If enabled, the displayed distance will be very close to the real distance. If disabled, it'll be the closest number in increments of 50m.</English>
+        <Spanish>Si activo,  la distancia mostrada será muy cercana a la distancia real. Si desactivado, se mostrará el número más próximo en incrementos de 50m.</Spanish>
+      </Key>
     </Container>
     <Container name="HUDcustomization">
       <Key ID="STR_SQFB_opt_HUDcustomization">
