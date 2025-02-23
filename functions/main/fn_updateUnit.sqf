@@ -116,9 +116,14 @@ if (!_unitIsVanilla) then {
 };
 
 // Primary weapon muzzles
-private _primMuzzles = [_primWep] call CBA_fnc_getMuzzles;
-private _primSecMuzzle = ["", toLowerAnsi (_primMuzzles#1)] select (count _primMuzzles > 1);
-
+private _primMuzzles = call {
+    if (_hasPrimWep) exitWith { [_primWep] call CBA_fnc_getMuzzles };
+    []
+};
+private _primSecMuzzle = call {
+    if (_hasPrimWep) exitWith { ["", toLowerAnsi (_primMuzzles#1)] select (count _primMuzzles > 1) };
+    ""
+};
 private _primWepDes = toLowerAnsi (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
 private _handgunWep = handgunWeapon _unit;
 private _backpack = unitBackpack _unit;
