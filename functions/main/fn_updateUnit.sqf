@@ -258,7 +258,7 @@ if (_assistMG) then { _anyAmmoBearer = true; _roles pushBack localize "STR_SQFB_
 _unit setVariable ["SQFB_assistLMG", _assistLMG || _assistMG];
 
 // Ammo bearer
-_ammoBearer = [_backpackStr, _anyAmmoBearer, _LMG, _MG, _AT, _AA] call SQFB_fnc_roleAmmo; 
+_ammoBearer = [_backpackStr, _anyAmmoBearer] call SQFB_fnc_roleAmmo; 
 if (_ammoBearer) then { _anyAmmoBearer = true; _roles pushBack localize "STR_SQFB_HUD_roles_ammoBearer" };
 _unit setVariable ["SQFB_ammoBearer", _ammoBearer];
 
