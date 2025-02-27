@@ -1,4 +1,4 @@
-params ["_hasRG", "_primSecMuzzle", "_primWep", "_handgunWep"];
+params ["_hasRG", "_primSecMuzzle", "_primWep"];
 
 if (_hasRG) exitWith {true};
 
@@ -10,11 +10,8 @@ if (_primSecMuzzle != "") exitWith {
     "gl" in _primSecMuzzle || 
     "gp" in _primSecMuzzle || 
     "pallad" in _primSecMuzzle || 
+    "m203" in _primSecMuzzle || 
     "m79" in _primSecMuzzle
-};
-
-if (_handgunWep != "") exitWith {
-    "gl" in _handgunWep
 };
 
 false

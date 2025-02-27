@@ -1,6 +1,5 @@
-params ["_marksman", "_primWepType", "_SOGunit"];
+params ["_primWepType"];
 
-if (_marksman) exitWith {false};
 if (_primWepType != "SniperRifle") exitWith {false};
-if (_SOGunit) exitWith {false};
+
 true

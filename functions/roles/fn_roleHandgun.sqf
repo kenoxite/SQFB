@@ -1,3 +1,3 @@
-params ["_primWepType"];
+params ["_handgunWep"];
 
-_primWepType == "Shotgun"
+if (_primWepType == "Handgun") exitWith {true};

@@ -1,5 +1,5 @@
-params ["_backpackStr", "_anyAmmoBearer"];
+params ["_backpackStr"];
 
-if (_backpackStr == "") exitWith {false};
-if (_anyAmmoBearer) exitWith {false};
-"ammo" in _backpackStr
+if ("ammo" in _backpackStr) exitWith {true};
+
+false
