@@ -16,9 +16,11 @@
 
 */
 
-params [["_grp", SQFB_group]];
+params [["_grp", SQFB_group, [grpNull]]];
 
-if (!alive SQFB_player) exitWith {true};
+if (isNull _grp) exitWith {false};
+if (isNil "_grp") exitWith {false};
+if (!alive SQFB_player) exitWith {false};
 
 if (SQFB_debug) then { diag_log format ["SQFB: initGroup - Initializing new group: %1 (old group: %2)", _grp, SQFB_group] };
 
@@ -77,5 +79,5 @@ if (SQFB_showIFFHUD) then {
 };
 
 // Player traits
-private _unitTraits = getAllUnitTraits SQFB_player;
-SQFB_player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];
+// private _unitTraits = getAllUnitTraits SQFB_player;
+// SQFB_player setVariable ["SQFB_medic",(_unitTraits select { (_x select 0) == "Medic" } apply { _x select 1 }) select 0];

@@ -16,7 +16,8 @@
 
 */
 
-params ["_unit"];
+params [["_unit", objNull, [objNull]]];
+
 _unit setVariable ["SQFB_noAmmoPrim",false];
 _unit setVariable ["SQFB_noAmmoSec",false];
 _unit setVariable ["SQFB_noAmmo",false];
