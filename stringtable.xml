@@ -16,6 +16,11 @@
         <English>BLEEDING</English>
         <Spanish>SANGRANDO</Spanish>
       </Key>
+      <Key ID="STR_SQFB_HUD_bandaged">
+        <Original>BRUISED</Original>
+        <English>BRUISED</English>
+        <Spanish>MAGULLADO</Spanish>
+      </Key>
       <Key ID="STR_SQFB_HUD_incapacitated">
         <Original>INCAPACITATED</Original>
         <English>INCAPACITATED</English>
@@ -724,24 +729,27 @@
         <Original>Display a symbol instead of full text when a unit has a critical condition (injured, no ammo, etc).
 \nThe symbols are:
 \n  ~  incapacitated
-\n  +  injured
 \n  ,  bleeding
+\n  !+ injured
+\n  +  bruised
 \n  -| no primary ammo
 \n  |- no secondary ammo
 \n  -- no primary nor secondary ammo</Original>
         <English>Display a symbol instead of full text when a unit has a critical condition (injured, no ammo, etc).
 \nThe symbols are:
 \n  ~  incapacitated
-\n  +  injured
 \n  ,  bleeding
+\n  !+ injured
+\n  +  bruised
 \n  -| no primary ammo
 \n  |- no secondary ammo
 \n  -- no primary nor secondary ammo</English>
         <Spanish>Mostrar un símbolo en vez de todo el texto cuando una unidad tiene una condición crítica (herido, sin munición, etc).
 \nLos símbolos son:
 \n  ~  incapacitado
-\n  +  herido
 \n  ,  sangrando
+\n  !+ herido
+\n  +  magullado
 \n  -| sin munición de primaria
 \n  |- sin munición de secundaria
 \n  -- sin munición de primaria ni secundaria</Spanish>
@@ -1547,6 +1555,16 @@
         <Original>Rifle</Original>
         <English>Rifle</English>
         <Spanish>Fusil</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_RifleSG">
+        <Original>Rifle-SG</Original>
+        <English>Rifle-SG</English>
+        <Spanish>Fusil-ESC</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_HUD_roles_Rifle50cal">
+        <Original>Rifle-50</Original>
+        <English>Rifle-50</English>
+        <Spanish>Fusil-50</Spanish>
       </Key>
       <Key ID="STR_SQFB_HUD_roles_assistAT">
         <Original>Ammo AT</Original>
