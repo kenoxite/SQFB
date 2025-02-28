@@ -215,6 +215,24 @@ if (_hasPrimWep) then {
         };
     };
 
+    // - SMG
+    if (!_primWepRole) then {
+        if ([_primWepType, _primWepDes, _primWep] call SQFB_fnc_roleSMG) then {
+            _roles pushBack localize "STR_SQFB_HUD_roles_SMG";
+            _unit setVariable ["SQFB_smg", true];
+            _primWepRole = true;
+        };
+    };
+
+    // - Shotgun
+    if (!_primWepRole) then {
+        if ([_primWepType] call SQFB_fnc_roleShotgun) then {
+            _roles pushBack localize "STR_SQFB_HUD_roles_Shotgun";
+            _unit setVariable ["SQFB_shotgun", true];
+            _primWepRole = true;
+        };
+    };
+
     // - Machine Gun/LMG
     if (!_primWepRole) then {
         _LMG = [_primWepDes, _primWep, _unitIsVanilla, _primMagsRounds] call SQFB_fnc_roleLMG;
@@ -250,24 +268,6 @@ if (_hasPrimWep) then {
         };
     };
     _unit setVariable ["SQFB_sniper", _sniper || _marksman];
-
-    // - SMG
-    if (!_primWepRole) then {
-        if ([_primWepType, _primWepDes, _primWep] call SQFB_fnc_roleSMG) then {
-            _roles pushBack localize "STR_SQFB_HUD_roles_SMG";
-            _unit setVariable ["SQFB_smg", true];
-            _primWepRole = true;
-        };
-    };
-
-    // - Shotgun
-    if (!_primWepRole) then {
-        if ([_primWepType] call SQFB_fnc_roleShotgun) then {
-            _roles pushBack localize "STR_SQFB_HUD_roles_Shotgun";
-            _unit setVariable ["SQFB_shotgun", true];
-            _primWepRole = true;
-        };
-    };
 };
 
 // Ammo check - global
