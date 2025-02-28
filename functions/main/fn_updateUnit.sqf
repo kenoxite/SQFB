@@ -190,10 +190,27 @@ if (_hasPrimWep) then {
     // Roles
     // - Grenade Launcher
     if (!_primWepRole) then {
-        private _GL = [_hasRG, _primSecMuzzle, _primWep] call SQFB_fnc_roleGL;
-        if (_GL) then {
+        if ([_hasRG, _primSecMuzzle, _primWep] call SQFB_fnc_roleGL) then {
             _roles pushBack localize "STR_SQFB_HUD_roles_GL";
             _unit setVariable ["SQFB_GL", true];
+            _primWepRole = true;
+        };
+    };
+
+    // - Rifle - shotgun
+    if (!_primWepRole) then {
+        if ([_primSecMuzzle] call SQFB_fnc_roleRifleSG) then {
+            _roles pushBack localize "STR_SQFB_HUD_roles_RifleSG";
+            _unit setVariable ["SQFB_rifle", true];
+            _primWepRole = true;
+        };
+    };
+
+    // - Rifle - 50 cal
+    if (!_primWepRole) then {
+        if ([_primSecMuzzle] call SQFB_fnc_roleRifle50cal) then {
+            _roles pushBack localize "STR_SQFB_HUD_roles_Rifle50cal";
+            _unit setVariable ["SQFB_rifle", true];
             _primWepRole = true;
         };
     };
@@ -236,8 +253,7 @@ if (_hasPrimWep) then {
 
     // - SMG
     if (!_primWepRole) then {
-        private _SMG = [_primWepType, _primWepDes, _primWep] call SQFB_fnc_roleSMG;
-        if (_SMG) then {
+        if ([_primWepType, _primWepDes, _primWep] call SQFB_fnc_roleSMG) then {
             _roles pushBack localize "STR_SQFB_HUD_roles_SMG";
             _unit setVariable ["SQFB_smg", true];
             _primWepRole = true;
@@ -246,8 +262,7 @@ if (_hasPrimWep) then {
 
     // - Shotgun
     if (!_primWepRole) then {
-        private _shotgun = [_primWepType] call SQFB_fnc_roleShotgun;
-        if (_shotgun) then {
+        if ([_primWepType] call SQFB_fnc_roleShotgun) then {
             _roles pushBack localize "STR_SQFB_HUD_roles_Shotgun";
             _unit setVariable ["SQFB_shotgun", true];
             _primWepRole = true;
@@ -276,55 +291,44 @@ private _hasBackpack = _backpack != "";
 private _anyAmmoBearer = false;
 
 if (_hasBackpack && {!_LMG && !_MG}) then {
-
     // - Asistant AT
     if (!_AT && !_anyAmmoBearer) then {
-        private _assistAT = [_backpack, _unitIsVanilla] call SQFB_fnc_roleAssistAT;
-        if (_assistAT) then {
+        if ([_backpack, _unitIsVanilla] call SQFB_fnc_roleAssistAT) then {
             _anyAmmoBearer = true;
             _roles pushBack localize "STR_SQFB_HUD_roles_assistAT";
-            _unit setVariable ["SQFB_assistAT", true];
         };
     };
 
     // - Asistant AA
     if (!_AA && !_anyAmmoBearer) then {
-        private _assistAA = [_backpack, _unitIsVanilla] call SQFB_fnc_roleAssistAA;
-        if (_assistAA) then {
+        if ([_backpack, _unitIsVanilla] call SQFB_fnc_roleAssistAA) then {
             _anyAmmoBearer = true;
             _roles pushBack localize "STR_SQFB_HUD_roles_assistAA";
-            _unit setVariable ["SQFB_assistAA", true];
         };
     };
 
     // - Asistant LMG/MG
-    private _assistLMG = false;
-    private _assistMG = false;
     if (!_anyAmmoBearer) then {
-        _assistLMG = [_backpack, _unitIsVanilla] call SQFB_fnc_roleAssistLMG;
-        if (_assistLMG) then {
+        if ([_backpack, _unitIsVanilla] call SQFB_fnc_roleAssistLMG) then {
             _anyAmmoBearer = true;
             _roles pushBack localize "STR_SQFB_HUD_roles_assistLMG";
         };
     };
     if (!_anyAmmoBearer && !_unitIsVanilla) then {
-        _assistMG = [_backpack] call SQFB_fnc_roleAssistMG;
-        if (_assistMG) then {
+        if ([_backpack] call SQFB_fnc_roleAssistMG) then {
             _anyAmmoBearer = true;
             _roles pushBack localize "STR_SQFB_HUD_roles_assistMG";
         };
     };
-    _unit setVariable ["SQFB_assistLMG", _assistLMG || _assistMG];
 
     // - Ammo bearer
     if (!_anyAmmoBearer) then {
-        private _ammoBearer = [_backpack] call SQFB_fnc_roleAmmo;
-        if (_ammoBearer) then {
+        if ([_backpack] call SQFB_fnc_roleAmmo) then {
             _anyAmmoBearer = true;
             _roles pushBack localize "STR_SQFB_HUD_roles_ammoBearer";
-            _unit setVariable ["SQFB_ammoBearer", true];
         };
     };
+    _unit setVariable ["SQFB_ammoBearer", _anyAmmoBearer];
 };
 
 // - Rifle
