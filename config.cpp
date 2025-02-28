@@ -107,6 +107,8 @@ class CfgFunctions
             class roleAssistMG {};
             class roleAssistLMG {};
             class roleAmmo {};
+            class roleRifleSG {};
+            class roleRifle50cal {};
         };
 
         class CBA
