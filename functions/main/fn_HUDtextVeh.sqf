@@ -204,8 +204,8 @@ if (SQFB_showHUD) then {
                 };
             };
 			// Display if wounded units in crew
+            private _crew = crew _veh;
             if (_playerIsLeader || _playerIsMedic) then {
-    			private _crew = crew _veh;
     			private _wounded = { lifeState _x != "HEALTHY" && alive _x} count _crew;
     			if (_wounded > 0) then {
     				_return = [_return, "[", _wounded, " ", localize "STR_SQFB_HUD_wounded", "] "] joinString "";
