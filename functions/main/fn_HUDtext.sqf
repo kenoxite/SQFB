@@ -98,8 +98,16 @@ if (SQFB_showHUD) then {
                     ] select SQFB_opt_abbreviatedText;
                 };
                 if (_lifeState == "INJURED" && !_bleeding) exitWith {
+                    // Injured and not healed yet
+                    if (damage _unit > 0.25) exitwith {
+                        [
+                            [_return, "[", _lifeState, "] "] joinString "",
+                            [_return, "!+ "] joinString ""
+                        ] select SQFB_opt_abbreviatedText;
+                    };
+                    // Injured but FAK applied
                     [
-                        [_return, "[", _lifeState, "] "] joinString "",
+                        [_return, "[", localize "STR_SQFB_HUD_bandaged", "] "] joinString "",
                         [_return, "+ "] joinString ""
                     ] select SQFB_opt_abbreviatedText;
                 };
@@ -180,8 +188,16 @@ if (SQFB_showHUD) then {
                         ] select SQFB_opt_abbreviatedText;
                     };
                     if (_lifeState == "INJURED" && !_bleeding) exitWith {
+                        // Injured and not healed yet
+                        if (damage _unit > 0.25) exitwith {
+                            [
+                                [_return, "[", _lifeState, "] "] joinString "",
+                                [_return, "!+ "] joinString ""
+                            ] select SQFB_opt_abbreviatedText;
+                        };
+                        // Injured but FAK applied
                         [
-                            [_return, "[", _lifeState, "] "] joinString "",
+                            [_return, "[", localize "STR_SQFB_HUD_bandaged", "] "] joinString "",
                             [_return, "+ "] joinString ""
                         ] select SQFB_opt_abbreviatedText;
                     };
