@@ -24,19 +24,17 @@ private _units = units _grp;
 private _unitCount = count _units;
 private _indexData = SQFB_player getVariable "SQFB_grpIndex";
 if (isNil "_indexData") then {_indexData = SQFB_lastPlayerIndex};
-if (SQFB_group != _grp || !(SQFB_player in SQFB_units) || {SQFB_unitCount != _unitCount || _indexData != SQFB_lastPlayerIndex}) then {
-    // Rebuild units array
-    [_grp] call SQFB_fnc_initGroup;
-};
 
-// Name sounds
-{[_x] call SQFB_fnc_setNameSound} forEach _units;
-[SQFB_player] call SQFB_fnc_setNameSound;
-    
 // Squad
 if (SQFB_opt_showSquad) then {
+    // Recheck player group units and roles
+    [_grp] call SQFB_fnc_initGroup;
+
+    // Name sounds
+    {[_x] call SQFB_fnc_setNameSound} forEach _units;
+    [SQFB_player] call SQFB_fnc_setNameSound;
+        
     // Check for wounded units
-    // _grp setVariable ["SQFB_wounded", ({lifeState _x != "HEALTHY" || _x getVariable ["AIS_unconscious", false]} count _units) > 0];
     _grp setVariable ["SQFB_wounded", ({damage _x > 0.25} count _units) > 0];
 };
 
