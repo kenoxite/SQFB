@@ -109,6 +109,7 @@ class CfgFunctions
             class roleAmmo {};
             class roleRifleSG {};
             class roleRifle50cal {};
+            class roleRadio {};
         };
 
         class CBA

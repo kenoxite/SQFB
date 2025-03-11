@@ -65,7 +65,8 @@ if (!SQFB_showHUD || !SQFB_opt_showRolesIcon) then {
         // Ammo amount
         if (_return != "" && {_playerIsLeader && {(vehicle _unit) == _unit}}) then {
             if (_unit getVariable "SQFB_noAmmo") then {
-                _return = "a3\ui_f\data\igui\cfg\actions\gear_ca.paa";
+                // _return = "a3\ui_f\data\igui\cfg\actions\gear_ca.paa";
+                _return = "a3\ui_f\data\igui\cfg\actions\reammo_ca.paa";
             };
         };
     };
@@ -87,6 +88,7 @@ if (SQFB_showHUD && {SQFB_opt_showRolesIcon}) then {
         if (_unit getVariable "SQFB_GL") exitWith { "a3\ui_f\data\igui\cfg\weaponicons\gl_ca.paa"; };
         if (_unit getVariable "SQFB_hacker") exitWith { "a3\ui_f\data\igui\cfg\holdactions\holdaction_hack_ca.paa"; };
         if (_unit getVariable "SQFB_ammoBearer") exitWith { "SQFB\images\backpack.paa"; };
+        if (_unit getVariable "SQFB_radioOperator") exitWith { "a3\ui_f\data\igui\cfg\holdactions\holdaction_connect_ca.paa"; };
         if (_unit getVariable "SQFB_handgun") exitWith { "SQFB\images\handgun.paa"; };
         if (_unit getVariable "SQFB_smg") exitWith { "SQFB\images\smg.paa"; };
         if (_unit getVariable "SQFB_shotgun") exitWith { "SQFB\images\shotgun.paa"; };

@@ -299,14 +299,6 @@ if (_hasBackpack && {!_LMG && !_MG}) then {
         };
     };
 
-    // - Asistant AA
-    if (!_AA && !_anyAmmoBearer) then {
-        if ([_backpack, _unitIsVanilla] call SQFB_fnc_roleAssistAA) then {
-            _anyAmmoBearer = true;
-            _roles pushBack localize "STR_SQFB_HUD_roles_assistAA";
-        };
-    };
-
     // - Asistant LMG/MG
     if (!_anyAmmoBearer) then {
         if ([_backpack, _unitIsVanilla] call SQFB_fnc_roleAssistLMG) then {
@@ -321,6 +313,14 @@ if (_hasBackpack && {!_LMG && !_MG}) then {
         };
     };
 
+    // - Asistant AA
+    if (!_AA && !_anyAmmoBearer) then {
+        if ([_backpack, _unitIsVanilla] call SQFB_fnc_roleAssistAA) then {
+            _anyAmmoBearer = true;
+            _roles pushBack localize "STR_SQFB_HUD_roles_assistAA";
+        };
+    };
+
     // - Ammo bearer
     if (!_anyAmmoBearer) then {
         if ([_backpack] call SQFB_fnc_roleAmmo) then {
@@ -329,6 +329,14 @@ if (_hasBackpack && {!_LMG && !_MG}) then {
         };
     };
     _unit setVariable ["SQFB_ammoBearer", _anyAmmoBearer];
+
+    // - Radio Operator
+    if (!_anyAmmoBearer) then {
+        if ([_backpack] call SQFB_fnc_roleRadio) then {
+            _roles pushBack localize "STR_SQFB_HUD_roles_radioOperator";
+            _unit setVariable ["SQFB_radioOperator", true];
+        };
+    };
 };
 
 // - Rifle

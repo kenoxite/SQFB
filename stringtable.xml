@@ -1501,6 +1501,11 @@
         <English>Ammo</English>
         <Spanish>Muni</Spanish>
       </Key>
+      <Key ID="STR_SQFB_HUD_roles_radioOperator">
+        <Original>Radio</Original>
+        <English>Radio</English>
+        <Spanish>Radio</Spanish>
+      </Key>
       <Key ID="STR_SQFB_HUD_roles_AA">
         <Original>AA</Original>
         <English>AA</English>

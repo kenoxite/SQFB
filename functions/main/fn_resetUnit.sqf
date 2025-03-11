@@ -37,6 +37,7 @@ _unit setVariable ["SQFB_handgun",false];
 _unit setVariable ["SQFB_rifle",false];
 _unit setVariable ["SQFB_hacker",false];
 _unit setVariable ["SQFB_ammoBearer",false];
+_unit setVariable ["SQFB_radioOperator",false];
 _unit setVariable ["SQFB_unarmed",false];
 _unit setVariable ["SQFB_veh",_unit];
 _unit setVariable ["SQFB_roles",""];
