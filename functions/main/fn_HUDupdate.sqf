@@ -35,7 +35,7 @@ if (SQFB_opt_showSquad) then {
     [SQFB_player] call SQFB_fnc_setNameSound;
         
     // Check for wounded units
-    _grp setVariable ["SQFB_wounded", ({damage _x > 0.25} count _units) > 0];
+    _grp setVariable ["SQFB_wounded", ({alive _x && {damage _x > 0.25}} count _units) > 0];
 };
 
 SQFB_trackingGearCheck = call SQFB_fnc_trackingGearCheck;
