@@ -34,11 +34,9 @@ if (!SQFB_showHUD || !SQFB_opt_showRolesIcon) then {
     private _playerIsLeader = leader _unit == SQFB_player;
     private _playerIsMedic = SQFB_player getVariable "SQFB_medic";
     private _showCritical = _alwaysShowCritical == "always" || _alwaysShowCritical == "infantry" || _alwaysShowCritical == "infantryIcon";
-    if (_showCritical && {(_playerIsMedic || _playerIsLeader) || {!_showText}}) then {
-        // Health
-        //  - These have preference over the role icons
-        private _lifeState = lifeState _unit;
-        private _bleeding = isBleeding _unit;
+    // Show unconscious even if not leader or medic
+    private _lifeState = lifeState _unit;
+    if ((_showCritical || !_showText) && {_lifeState == "INCAPACITATED" || _unit getVariable ["AIS_unconscious", false]}) then {
         _return = call {
             //  - Added support for A3 Wounding System
             if (_unit getVariable ["AIS_unconscious", false]) exitWith {
@@ -48,10 +46,18 @@ if (!SQFB_showHUD || !SQFB_opt_showRolesIcon) then {
             if (_lifeState == "INCAPACITATED") exitWith {
                 "a3\ui_f\data\igui\cfg\revive\overlayicons\u100_ca.paa"
             };
-            if (_lifeState == "INJURED" && _bleeding) exitWith {
+            _return
+        };
+    };
+    if (_showCritical && {(_playerIsMedic || _playerIsLeader) || {!_showText}}) then {
+        // Health
+        //  - These have preference over the role icons
+        private _bleeding = isBleeding _unit;
+        _return = call {
+            if (_lifeState == "INJURED" && _bleeding && !SQFB_aceMedical) exitWith {
                 "a3\ui_f\data\igui\cfg\cursors\unitbleeding_ca.paa"
             };
-            if (_lifeState == "INJURED" && !_bleeding && damage _unit > 0.25) exitWith {
+            if (_lifeState == "INJURED" && !_bleeding && damage _unit > 0.25 && !SQFB_aceMedical) exitWith {
                 // Unit injured and not healed
                 "a3\ui_f\data\igui\cfg\revive\overlayicons\r100_ca.paa"
             };
