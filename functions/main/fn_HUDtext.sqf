@@ -64,6 +64,90 @@ if (_profile != "crit"
                     ] joinString "";
     };
 
+// Get health state
+private _lifeState = lifeState _unit;
+private _bleeding = isBleeding _unit;
+private _healthStatus = call {
+    if (_alive) exitWith {
+        if (_unit getVariable ["AIS_unconscious", false]) exitWith {0}; // A3 Wounding System
+        if (_lifeState == "INCAPACITATED") exitWith {1};
+        if (_lifeState == "INJURED" && !_bleeding && !SQFB_aceMedical) exitWith {
+            if (damage _unit > 0.25) exitwith {2};  // Injured and not healed yet
+            3;  // Injured but FAK applied or under wounded threshold
+        };
+        if (_lifeState == "INJURED" && _bleeding && !SQFB_aceMedical) exitWith {4};
+    };
+    -1
+};
+
+private _fnc_returnHealthStatus = {
+    params ["_healthStatus", "_lifeState", "_abbreviated"];
+    if (_healthStatus == 0) exitWith {
+        [
+            ["[", localize "STR_SQFB_HUD_incapacitated", "] "] joinString "",
+            "X "
+        ] select _abbreviated;
+    };
+    if (_healthStatus == 1) exitWith {
+        [
+            ["[", _lifeState, "] "] joinString "",
+            "X "
+        ] select _abbreviated;
+    };
+    if (_healthStatus == 2) exitWith {
+        [
+            ["[", _lifeState, "] "] joinString "",
+            "!+ "
+        ] select _abbreviated;
+    };
+    if (_healthStatus == 3) exitWith {
+        [
+            ["[", localize "STR_SQFB_HUD_bandaged", "] "] joinString "",
+            "+ "
+        ] select _abbreviated;
+    };
+    if (_healthStatus == 4) exitWith {
+        [
+            ["[", localize "STR_SQFB_HUD_bleeding", "] "] joinString "",
+            ", "
+        ] select _abbreviated;
+    };
+    ""
+};
+
+
+// Get ammo status
+private _noAmmo = _unit getVariable "SQFB_noAmmo";
+private _noAmmoPrim = _unit getVariable "SQFB_noAmmoPrim";
+private _noAmmoSec = _unit getVariable "SQFB_noAmmoSec";
+
+private _fnc_returnAmmoStatus = {
+    params ["_noAmmoPrim", "_noAmmoSec", "_abbreviated"];
+    if (_noAmmoPrim && _noAmmoSec) exitwith {
+        [
+            ["[", localize "STR_SQFB_HUD_noAmmo", "] "] joinString "",
+            "-- "
+        ] select _abbreviated;
+    };
+    if (_noAmmoPrim && !_noAmmoSec) exitwith {
+        [
+            ["[", localize "STR_SQFB_HUD_noAmmoPrim", "] "] joinString "",
+            "-| "
+        ] select _abbreviated;
+    };
+    if (!_noAmmoPrim && _noAmmoSec) exitwith {
+        [
+            ["[", localize "STR_SQFB_HUD_noAmmoSec", "] "] joinString "",
+            "|- "
+        ] select _abbreviated;
+    };
+    ""
+};
+
+// Medic related
+private _isMedic = _unit getVariable "SQFB_medic";
+private _wounded = (group _unit) getVariable "SQFB_wounded";
+
 // Default text when requested by player
 if (SQFB_showHUD) then {
 	if (_alive
@@ -81,62 +165,14 @@ if (SQFB_showHUD) then {
             _return = [_return, _index, " "] joinString "";
         };
 		if (_alive && _informCritical) then {
-            private _lifeState = lifeState _unit;
-            private _bleeding = isBleeding _unit;
-            _return = call {
-                //  - Added support for A3 Wounding System
-                if (_unit getVariable ["AIS_unconscious", false]) exitWith {
-                    [
-                        [_return, "[", localize "STR_SQFB_HUD_incapacitated", "] "] joinString "",
-                        [_return, "~ "] joinString ""
-                    ] select SQFB_opt_abbreviatedText;
-                };
-                if (_lifeState == "INCAPACITATED") exitWith {
-                    [
-                        [_return, "[", _lifeState, "] "] joinString "",
-                        [_return, "~ "] joinString ""
-                    ] select SQFB_opt_abbreviatedText;
-                };
-                if (_lifeState == "INJURED" && !_bleeding) exitWith {
-                    // Injured and not healed yet
-                    if (damage _unit > 0.25) exitwith {
-                        [
-                            [_return, "[", _lifeState, "] "] joinString "",
-                            [_return, "!+ "] joinString ""
-                        ] select SQFB_opt_abbreviatedText;
-                    };
-                    // Injured but FAK applied
-                    [
-                        [_return, "[", localize "STR_SQFB_HUD_bandaged", "] "] joinString "",
-                        [_return, "+ "] joinString ""
-                    ] select SQFB_opt_abbreviatedText;
-                };
-                if (_lifeState == "INJURED" && _bleeding) exitWith {
-                    [
-                        [_return, "[", localize "STR_SQFB_HUD_bleeding", "] "] joinString "",
-                        [_return, ", "] joinString ""
-                    ] select SQFB_opt_abbreviatedText;
-                };
-                _return
-            };
-    		if (_playerIsLeader && {_unit getVariable "SQFB_noAmmo"}) then {
-                _return = [
-                            [
-                                [
-                                    [_return, "[", localize "STR_SQFB_HUD_noAmmoSec", "] "] joinString "",
-                                    [_return, "[", localize "STR_SQFB_HUD_noAmmoPrim", "] "] joinString ""
-                                ] select (_unit getVariable "SQFB_noAmmoPrim"),
-                                [_return, "[", localize "STR_SQFB_HUD_noAmmo", "] "] joinString ""
-                            ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec"),
-                            [
-                                [
-                                    [_return, "|- "] joinString "",
-                                    [_return, "-| "] joinString ""
-                                ] select (_unit getVariable "SQFB_noAmmoPrim"),
-                                [_return, "-- "] joinString ""
-                            ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec")
-                        ] select SQFB_opt_abbreviatedText;
+            _return = [_return, [_healthStatus, _lifeState, SQFB_opt_abbreviatedText] call _fnc_returnHealthStatus] joinString "";
+    		if (_playerIsLeader && {_noAmmo}) then {
+                _return = [_return, [_noAmmoPrim, _noAmmoSec, SQFB_opt_abbreviatedText] call _fnc_returnAmmoStatus] joinString "";
     		};
+        };
+        // Display unconscious even if not leader or medic
+        if (_alive && !_informCritical && _healthStatus < 2) then {
+            _return = [_return, [_healthStatus, _lifeState, SQFB_opt_abbreviatedText] call _fnc_returnHealthStatus] joinString "";
         };
         if (_showName) then {
             _return = [_return, _unit getVariable "SQFB_name", " "] joinString "";
@@ -149,8 +185,8 @@ if (SQFB_showHUD) then {
                 && (_unit getVariable "SQFB_roles") != "")
                 || {!_showRoles && _informCritical
                 && !_unitVisible
-                    && {_unit getVariable "SQFB_medic"
-                    && (group _unit) getVariable "SQFB_wounded"}}
+                    && {_isMedic
+                    && _wounded}}
                 }
             ) then {
             _return = [_return, "[", _unit getVariable "SQFB_roles", "] "] joinString "";
@@ -172,72 +208,27 @@ if (SQFB_showHUD) then {
     		private _lifeState = lifeState _unit;
     		if (_lifeState != "HEALTHY" || _unit getVariable ["AIS_unconscious", false]) then {
                 _critical = true;
-                private _bleeding = isBleeding _unit;
-                _return = call {
-                    //  - Added support for A3 Wounding System
-                    if (_unit getVariable ["AIS_unconscious", false]) exitWith {
-                        [
-                            [_return, "[", localize "STR_SQFB_HUD_incapacitated", "] "] joinString "",
-                            [_return, "~ "] joinString ""
-                        ] select SQFB_opt_abbreviatedText;
-                    };
-                    if (_lifeState == "INCAPACITATED") exitWith {
-                        [
-                            [_return, "[", _lifeState, "] "] joinString "",
-                            [_return, "~ "] joinString ""
-                        ] select SQFB_opt_abbreviatedText;
-                    };
-                    if (_lifeState == "INJURED" && !_bleeding) exitWith {
-                        // Injured and not healed yet
-                        if (damage _unit > 0.25) exitwith {
-                            [
-                                [_return, "[", _lifeState, "] "] joinString "",
-                                [_return, "!+ "] joinString ""
-                            ] select SQFB_opt_abbreviatedText;
-                        };
-                        // Injured but FAK applied
-                        [
-                            [_return, "[", localize "STR_SQFB_HUD_bandaged", "] "] joinString "",
-                            [_return, "+ "] joinString ""
-                        ] select SQFB_opt_abbreviatedText;
-                    };
-                    if (_lifeState == "INJURED" && _bleeding) exitWith {
-                        [
-                            [_return, "[", localize "STR_SQFB_HUD_bleeding", "] "] joinString "",
-                            [_return, ", "] joinString ""
-                        ] select SQFB_opt_abbreviatedText;
-                    };
-                    _return
-                };
+                _return = [_return, [_healthStatus, _lifeState, SQFB_opt_abbreviatedText] call _fnc_returnHealthStatus] joinString "";
     		} else {
     			if (_playerIsLeader
-                    && {_unit getVariable "SQFB_noAmmo"}
+                    && {_noAmmo}
                     ) then {
                     _critical = true;
-                    _return = [
-                                [
-                                    [
-                                        [_return, "[", localize "STR_SQFB_HUD_noAmmoSec", "] "] joinString "",
-                                        [_return, "[", localize "STR_SQFB_HUD_noAmmoPrim", "] "] joinString ""
-                                    ] select (_unit getVariable "SQFB_noAmmoPrim"),
-                                    [_return, "[", localize "STR_SQFB_HUD_noAmmo", "] "] joinString ""
-                                ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec"),
-                                [
-                                    [
-                                        [_return, "|- "] joinString "",
-                                        [_return, "-| "] joinString ""
-                                    ] select (_unit getVariable "SQFB_noAmmoPrim"),
-                                    [_return, "-- "] joinString ""
-                                ] select (_unit getVariable "SQFB_noAmmoPrim" && _unit getVariable "SQFB_noAmmoSec")
-                            ] select SQFB_opt_abbreviatedText;
+                    _return = [_return, [_noAmmoPrim, _noAmmoSec, SQFB_opt_abbreviatedText] call _fnc_returnAmmoStatus] joinString "";
     			};
     		};
-    		if (_unit getVariable "SQFB_medic"
-                && (group _unit) getVariable "SQFB_wounded"
+    		if (_isMedic
+                && _wounded
                 ) then {
     			_return = [_return, "[", localize "STR_SQFB_HUD_medic", "] "] joinString "";
                 _critical = true;
     		};
+        } else {
+            // Display unconscious even if not leader or medic
+            if (_healthStatus < 2) then {
+                _critical = true;
+                _return = [_return, [_healthStatus, _lifeState, SQFB_opt_abbreviatedText] call _fnc_returnHealthStatus] joinString "";
+            };
         };
 		if ((_outFOVindex || _critical)
             && _showIndex
