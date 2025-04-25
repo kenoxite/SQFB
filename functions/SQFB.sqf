@@ -25,6 +25,11 @@ SQFB_IFFTimeLastCheck = time;
 SQFB_tagObjArr = [];
 SQFB_deletingTaggers = false;
 
+
+private _cftPatches = configFile >> "CfgPatches";
+SQFB_aceMedical = isClass(_cftPatches >> "ace_medical_engine");
+publicVariable "SQFB_aceMedical";
+
 // ---------------------------------------
 // Unit names
 SQFB_trackNames = [];
