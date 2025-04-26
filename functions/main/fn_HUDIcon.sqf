@@ -34,8 +34,37 @@ if (!SQFB_showHUD || !SQFB_opt_showRolesIcon) then {
     private _playerIsLeader = leader _unit == SQFB_player;
     private _playerIsMedic = SQFB_player getVariable "SQFB_medic";
     private _showCritical = _alwaysShowCritical == "always" || _alwaysShowCritical == "infantry" || _alwaysShowCritical == "infantryIcon";
-    // Show unconscious even if not leader or medic
     private _lifeState = lifeState _unit;
+    private _bleeding = isBleeding _unit;
+    if (_showCritical && {(_playerIsMedic || _playerIsLeader) || {!_showText}}) then {
+        //  - These have preference over the role icons
+
+        // Show medics when there's wounded units in the group
+        if (_playerIsLeader && {((_unit getVariable "SQFB_medic") && (group _unit) getVariable "SQFB_wounded")}) then {
+            _return = "a3\ui_f\data\igui\cfg\cursors\unithealer_ca.paa";
+        };
+
+        // Health status
+        _return = call {
+            if (_lifeState == "INJURED" && !_bleeding && damage _unit > 0.25 && !SQFB_aceMedical) exitWith {
+                // Unit injured and not healed
+                "a3\ui_f\data\igui\cfg\revive\overlayicons\r100_ca.paa"
+            };
+            if (_lifeState == "INJURED" && _bleeding && !SQFB_aceMedical) exitWith {
+                "a3\ui_f\data\igui\cfg\cursors\unitbleeding_ca.paa"
+            };
+            _return
+        };
+        // Ammo amount
+        if (_return != "" && {_playerIsLeader && {(vehicle _unit) == _unit}}) then {
+            if (_unit getVariable "SQFB_noAmmo") then {
+                // _return = "a3\ui_f\data\igui\cfg\actions\gear_ca.paa";
+                _return = "a3\ui_f\data\igui\cfg\actions\reammo_ca.paa";
+            };
+        };
+    };
+
+    // Show unconscious even if not leader or medic
     if ((_showCritical || !_showText) && {_lifeState == "INCAPACITATED" || _unit getVariable ["AIS_unconscious", false]}) then {
         _return = call {
             //  - Added support for A3 Wounding System
@@ -47,33 +76,6 @@ if (!SQFB_showHUD || !SQFB_opt_showRolesIcon) then {
                 "a3\ui_f\data\igui\cfg\revive\overlayicons\u100_ca.paa"
             };
             _return
-        };
-    };
-    if (_showCritical && {(_playerIsMedic || _playerIsLeader) || {!_showText}}) then {
-        // Health
-        //  - These have preference over the role icons
-        private _bleeding = isBleeding _unit;
-        _return = call {
-            if (_lifeState == "INJURED" && _bleeding && !SQFB_aceMedical) exitWith {
-                "a3\ui_f\data\igui\cfg\cursors\unitbleeding_ca.paa"
-            };
-            if (_lifeState == "INJURED" && !_bleeding && damage _unit > 0.25 && !SQFB_aceMedical) exitWith {
-                // Unit injured and not healed
-                "a3\ui_f\data\igui\cfg\revive\overlayicons\r100_ca.paa"
-            };
-            _return
-        };
-
-        // Show medics when there's wounded units in the group
-        if (_playerIsLeader && {((_unit getVariable "SQFB_medic") && (group _unit) getVariable "SQFB_wounded")}) then {
-            _return = "a3\ui_f\data\igui\cfg\cursors\unithealer_ca.paa";
-        };
-        // Ammo amount
-        if (_return != "" && {_playerIsLeader && {(vehicle _unit) == _unit}}) then {
-            if (_unit getVariable "SQFB_noAmmo") then {
-                // _return = "a3\ui_f\data\igui\cfg\actions\gear_ca.paa";
-                _return = "a3\ui_f\data\igui\cfg\actions\reammo_ca.paa";
-            };
         };
     };
 };

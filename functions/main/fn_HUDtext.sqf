@@ -71,11 +71,13 @@ private _healthStatus = call {
     if (_alive) exitWith {
         if (_unit getVariable ["AIS_unconscious", false]) exitWith {0}; // A3 Wounding System
         if (_lifeState == "INCAPACITATED") exitWith {1};
-        if (_lifeState == "INJURED" && !_bleeding && !SQFB_aceMedical) exitWith {
-            if (damage _unit > 0.25) exitwith {2};  // Injured and not healed yet
-            3;  // Injured but FAK applied or under wounded threshold
+        if (_lifeState == "INJURED" && !SQFB_aceMedical) exitWith { // Exclude ace medical
+            if (!_bleeding) exitWith {
+                if (damage _unit > 0.25) exitwith {2};  // Injured and not healed yet
+                3;  // Injured but FAK applied or damage is under wounded threshold
+            };
+            4
         };
-        if (_lifeState == "INJURED" && _bleeding && !SQFB_aceMedical) exitWith {4};
     };
     -1
 };
