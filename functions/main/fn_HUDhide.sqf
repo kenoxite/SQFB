@@ -29,7 +29,7 @@ if (_type == "squad") then {
     if (SQFB_opt_showEnemies == "always" || SQFB_opt_showFriendlies == "always") exitWith { call SQFB_fnc_HUDupdate; };
 
     // Clean taggers
-    SQFB_knownIFF = [];
+    SQFB_knownIFF = if (isNull (assignedTarget SQFB_player)) then { [] } else {[assignedTarget SQFB_player]};
     call SQFB_fnc_cleanTaggers;
     SQFB_tagObjArr = [];
 };

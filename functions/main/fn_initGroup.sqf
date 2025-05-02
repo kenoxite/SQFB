@@ -61,7 +61,7 @@ SQFB_showEnemies = false;
 SQFB_showFriendlies = false;
 
 // Clean enemy taggers
-SQFB_knownIFF = [];
+SQFB_knownIFF = if (isNull (assignedTarget SQFB_player)) then { [] } else {[assignedTarget SQFB_player]};
 call SQFB_fnc_cleanTaggers;
 SQFB_tagObjArr = [];
 
