@@ -210,7 +210,6 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
         _dataStance = _unitData select 11;
         _dataZoom = _unitData select 12;
         _dataCamDir = _unitData select 13;
-        _dataOccluded = _unitData select 14;
     };
     _veh = vehicle _unit;
 
@@ -221,13 +220,13 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
     _sameUnitPos = [false, true] select (!_noUnitData && {(_dataRealPos distance _pos) <= 0});
     _realPos = [_dataRealPos, _pos] select (_noUnitData || !_sameUnitPos);
     _tagger = [_dataTagger, objNull] select _noUnitData;
-    if (_noUnitData) then {
+    if (_noUnitData || {isNull _tagger}) then {
         _taggerIndex = [_SQFB_tagObjArr, _unit] call BIS_fnc_findNestedElement;
         _taggerArr = [];
         if (count _taggerIndex > 0) then {
             _taggerArr = _SQFB_tagObjArr select (_taggerIndex select 0);
             _tagger = _taggerArr select 0;
-            _tagger setPosWorld _realPos;
+            _tagger setPosWorld (if (!_noUnitData) then { _dataLastKnownPos} else {_realPos});
         };
     };
 
