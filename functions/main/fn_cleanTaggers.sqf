@@ -27,7 +27,7 @@ if (count SQFB_tagObjArr > 0) then {
         private _unit = _tagArr select 1;
         if (!(_unit in SQFB_knownIFF)) then {
             // Remove unit vars
-            _unit setVariable ["SQFB_unitData", nil];
+            // _unit setVariable ["SQFB_unitData", nil];    // Keep last known info so it doesn't reset when toggling the IFF HUD (and updates last known pos to current pos, defeating its whole purpose)
             _unit setVariable ["SQFB_HUDdata", nil];
             _unit setVariable ["SQFB_side", nil];
             _unit setVariable ["SQFB_color", nil];
