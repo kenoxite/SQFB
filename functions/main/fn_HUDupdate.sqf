@@ -28,7 +28,9 @@ if (isNil "_indexData") then {_indexData = SQFB_lastPlayerIndex};
 // Squad
 if (SQFB_opt_showSquad) then {
     // Recheck player group units and roles
-    [_grp] call SQFB_fnc_initGroup;
+    if (SQFB_group != _grp || !(SQFB_player in SQFB_units) || SQFB_unitCount != _unitCount || _indexData != SQFB_lastPlayerIndex || !(SQFB_units isEqualTo _units)) then {
+        [_grp] call SQFB_fnc_initGroup;
+    };
 
     // Name sounds
     {[_x] call SQFB_fnc_setNameSound} forEach _units;
@@ -96,7 +98,7 @@ if ((SQFB_showFriendlies || SQFB_showEnemies) && !SQFB_deletingTaggers) then {
     };
  
     // Clean taggers
-    call SQFB_fnc_cleanTaggers;
+    // call SQFB_fnc_cleanTaggers;
     SQFB_knownIFF = [];
 
     // Rebuild known IFF list and create taggers
