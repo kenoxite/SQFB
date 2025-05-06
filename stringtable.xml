@@ -746,7 +746,7 @@
 \n  -- no primary nor secondary ammo</English>
         <Spanish>Mostrar un símbolo en vez de todo el texto cuando una unidad tiene una condición crítica (herido, sin munición, etc).
 \nLos símbolos son:
-\n  ~  incapacitado
+\n  x  incapacitado
 \n  ,  sangrando
 \n  !+ herido
 \n  +  magullado
