@@ -728,7 +728,7 @@
       <Key ID="STR_SQFB_opt_abbreviatedText_desc">
         <Original>Display a symbol instead of full text when a unit has a critical condition (injured, no ammo, etc).
 \nThe symbols are:
-\n  ~  incapacitated
+\n  x  incapacitated
 \n  ,  bleeding
 \n  !+ injured
 \n  +  bruised
@@ -737,7 +737,7 @@
 \n  -- no primary nor secondary ammo</Original>
         <English>Display a symbol instead of full text when a unit has a critical condition (injured, no ammo, etc).
 \nThe symbols are:
-\n  ~  incapacitated
+\n  x  incapacitated
 \n  ,  bleeding
 \n  !+ injured
 \n  +  bruised
@@ -753,6 +753,16 @@
 \n  -| sin munición de primaria
 \n  |- sin munición de secundaria
 \n  -- sin munición de primaria ni secundaria</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_abbreviatedRolesText">
+        <Original>Abbreviated Roles</Original>
+        <English>Abbreviated Roles</English>
+        <Spanish>Roles Abreviados</Spanish>
+      </Key>
+      <Key ID="STR_SQFB_opt_abbreviatedRolesText_desc">
+        <Original>Only display the first role unless directly aiming at the unit or when the unit is selected.</Original>
+        <English>Only display the first role unless directly aiming at the unit or when the unit is selected.</English>
+        <Spanish>Mostrar sólo el primer rol a no ser que estés apuntando a la unidad directamente o la unidad esté seleccionada.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_preciseDist">
         <Original>Precise distance</Original>

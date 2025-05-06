@@ -23,6 +23,7 @@ private _return = "";
 // Exclude players
 if (_unit == SQFB_player) exitWith {_return};
 
+private _abbreviated = SQFB_opt_abbreviatedText;
 private _alive = alive _unit;
 private _index = -1;
 private _vehPlayer = vehicle SQFB_player;
@@ -167,14 +168,14 @@ if (SQFB_showHUD) then {
             _return = [_return, _index, " "] joinString "";
         };
 		if (_alive && _informCritical) then {
-            _return = [_return, [_healthStatus, _lifeState, SQFB_opt_abbreviatedText] call _fnc_returnHealthStatus] joinString "";
+            _return = [_return, [_healthStatus, _lifeState, _abbreviated] call _fnc_returnHealthStatus] joinString "";
     		if (_playerIsLeader && {_noAmmo}) then {
-                _return = [_return, [_noAmmoPrim, _noAmmoSec, SQFB_opt_abbreviatedText] call _fnc_returnAmmoStatus] joinString "";
+                _return = [_return, [_noAmmoPrim, _noAmmoSec, _abbreviated] call _fnc_returnAmmoStatus] joinString "";
     		};
         };
         // Display unconscious even if not leader or medic
         if (_alive && !_informCritical && _healthStatus < 2) then {
-            _return = [_return, [_healthStatus, _lifeState, SQFB_opt_abbreviatedText] call _fnc_returnHealthStatus] joinString "";
+            _return = [_return, [_healthStatus, _lifeState, _abbreviated] call _fnc_returnHealthStatus] joinString "";
         };
         if (_showName) then {
             _return = [_return, _unit getVariable "SQFB_name", " "] joinString "";
@@ -191,7 +192,16 @@ if (SQFB_showHUD) then {
                     && _wounded}}
                 }
             ) then {
-            _return = [_return, "[", _unit getVariable "SQFB_roles", "] "] joinString "";
+            private _roles = _unit getVariable "SQFB_roles";
+            // Display abbreviated roles text unless directly aiming at unit
+            private _rolesStr = call {
+                if (SQFB_opt_abbreviatedRolesText) exitWith {
+                    if (cursorObject == _unit || _unit in (groupSelectedUnits SQFB_player)) exitWith {_roles};
+                    (_roles splitString " ")#0;
+                };
+                _roles
+            };
+            _return = [_return, "[", _rolesStr, "] "] joinString "";
 		};
 		if (_profile != "crit" && _showDist && _veh != _vehPlayer) then {
 			_return = [_return, "(", str _dist, "m)"] joinString "";
@@ -210,13 +220,13 @@ if (SQFB_showHUD) then {
     		private _lifeState = lifeState _unit;
     		if (_lifeState != "HEALTHY" || _unit getVariable ["AIS_unconscious", false]) then {
                 _critical = true;
-                _return = [_return, [_healthStatus, _lifeState, SQFB_opt_abbreviatedText] call _fnc_returnHealthStatus] joinString "";
+                _return = [_return, [_healthStatus, _lifeState, _abbreviated] call _fnc_returnHealthStatus] joinString "";
     		} else {
     			if (_playerIsLeader
                     && {_noAmmo}
                     ) then {
                     _critical = true;
-                    _return = [_return, [_noAmmoPrim, _noAmmoSec, SQFB_opt_abbreviatedText] call _fnc_returnAmmoStatus] joinString "";
+                    _return = [_return, [_noAmmoPrim, _noAmmoSec, _abbreviated] call _fnc_returnAmmoStatus] joinString "";
     			};
     		};
     		if (_isMedic
@@ -229,7 +239,7 @@ if (SQFB_showHUD) then {
             // Display unconscious even if not leader or medic
             if (_healthStatus < 2) then {
                 _critical = true;
-                _return = [_return, [_healthStatus, _lifeState, SQFB_opt_abbreviatedText] call _fnc_returnHealthStatus] joinString "";
+                _return = [_return, [_healthStatus, _lifeState, _abbreviated] call _fnc_returnHealthStatus] joinString "";
             };
         };
 		if ((_outFOVindex || _critical)

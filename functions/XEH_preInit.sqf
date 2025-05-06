@@ -738,6 +738,16 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
+[
+    "SQFB_opt_abbreviatedRolesText", 
+    "CHECKBOX",
+    [localize "STR_SQFB_opt_abbreviatedRolesText", localize "STR_SQFB_opt_abbreviatedRolesText_desc"],
+    [localize "STR_SQFB_opt_Settings_1", format ["08 - %1", localize "STR_SQFB_opt_HUDdisplay_advanced_squad"]],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
 
 
 
