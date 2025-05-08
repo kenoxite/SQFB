@@ -331,7 +331,7 @@ for "_i" from 0 to (count _SQFB_knownIFF) -1 do
                         [
                             [str ([round _distPerceived] call sqfb_fnc_roundDist), "m"] joinString "",
                             [str (round _distPerceived), "m"] joinString ""
-                        ] select _SQFB_opt_preciseDist
+                        ] select (_SQFB_opt_preciseDist && _isEnemy)
                     ] select ((_SQFB_opt_showDistEnemy && _isEnemy) || (_SQFB_opt_showDistFriendly && !_isEnemy))
                 ] select (!_isPlayerAir && _SQFB_opt_showText && _textSize > 0.02);
 

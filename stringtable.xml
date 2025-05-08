@@ -765,9 +765,9 @@
         <Spanish>Mostrar sólo el primer rol a no ser que estés apuntando a la unidad directamente o la unidad esté seleccionada.</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_preciseDist">
-        <Original>Precise distance</Original>
-        <English>Precise distance</English>
-        <Spanish>Distancia precisa</Spanish>
+        <Original>Precise enemy distance</Original>
+        <English>Precise enemy distance</English>
+        <Spanish>Distancia precisa de enemigos</Spanish>
       </Key>
       <Key ID="STR_SQFB_opt_preciseDist_desc">
         <Original>If enabled, the displayed distance will be very close to the real distance. If disabled, it'll be the closest number in increments of 50m.</Original>
