@@ -90,27 +90,6 @@ if (_medic) then {
     _unit setVariable ["SQFB_medic", true];
 };
 
-// - Demolition specialist
-private _demo = [_hasMines, _unit getUnitTrait "ExplosiveSpecialist", _items] call SQFB_fnc_roleDemo;
-if (_demo) then {
-    _roles pushBack localize "STR_SQFB_HUD_roles_Demolition";
-    _unit setVariable ["SQFB_demo", true];
-};
-
-// - Engineer
-private _engi = [_unit getUnitTrait "Engineer", _items] call SQFB_fnc_roleEngi;
-if (_engi) then {
-    _roles pushBack localize "STR_SQFB_HUD_roles_Engineer";
-    _unit setVariable ["SQFB_engi", true];
-};
-
-// - Hacker
-private _hacker = _unit getUnitTrait "UavHacker" && !_SOGunit; // Don't report SOG units as hackers. Because for some reason all of them are. In Nam.
-if (_hacker) then {
-    _roles pushBack localize "STR_SQFB_HUD_roles_Hacker";
-    _unit setVariable ["SQFB_hacker", true];
-};
-
 private _noAmmoPrim = false;
 private _noAmmoSec = false;
 private _noAmmo = false;
@@ -154,6 +133,27 @@ if (_hasSecWep) then {
             _unit setVariable ["SQFB_AT", true];
         };
     };
+};
+
+// - Demolition specialist
+private _demo = [_hasMines, _unit getUnitTrait "ExplosiveSpecialist", _items] call SQFB_fnc_roleDemo;
+if (_demo) then {
+    _roles pushBack localize "STR_SQFB_HUD_roles_Demolition";
+    _unit setVariable ["SQFB_demo", true];
+};
+
+// - Engineer
+private _engi = [_unit getUnitTrait "Engineer", _items] call SQFB_fnc_roleEngi;
+if (_engi) then {
+    _roles pushBack localize "STR_SQFB_HUD_roles_Engineer";
+    _unit setVariable ["SQFB_engi", true];
+};
+
+// - Hacker
+private _hacker = _unit getUnitTrait "UavHacker" && !_SOGunit; // Don't report SOG units as hackers. Because for some reason all of them are. In Nam.
+if (_hacker) then {
+    _roles pushBack localize "STR_SQFB_HUD_roles_Hacker";
+    _unit setVariable ["SQFB_hacker", true];
 };
 
 // Primary weapon check
