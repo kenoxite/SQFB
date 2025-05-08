@@ -105,7 +105,7 @@ if (_engi) then {
 };
 
 // - Hacker
-private _hacker = _unit getUnitTrait "UavHacker";
+private _hacker = _unit getUnitTrait "UavHacker" && !_SOGunit; // Don't report SOG units as hackers. Because for some reason all of them are. In Nam.
 if (_hacker) then {
     _roles pushBack localize "STR_SQFB_HUD_roles_Hacker";
     _unit setVariable ["SQFB_hacker", true];
