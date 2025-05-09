@@ -405,6 +405,16 @@ SQFB_factionsCiv = [
     "CIV_IDAP_F"
 ];
 
+
+// --------------------------------
+// EH - Game loaded from save
+addMissionEventHandler ["Loaded", {
+    params ["_saveType"];
+    diag_log format[ "SQFB: Mission loaded from %1", _saveType ];
+
+    [group SQFB_player] call SQFB_fnc_initGroup;    
+}];
+
 // ---------------------------------------
 waitUntil { !isNull player };
 
