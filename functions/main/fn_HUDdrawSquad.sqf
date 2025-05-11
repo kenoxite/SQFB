@@ -2,7 +2,7 @@
   Author: kenoxite
 
   Description:
-  Draws the known enemies HUD
+  Draws the squad HUD
 
 
   Parameter (s):
