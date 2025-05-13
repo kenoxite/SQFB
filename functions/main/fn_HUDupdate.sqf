@@ -32,6 +32,8 @@ if (SQFB_opt_showSquad) then {
         [_grp] call SQFB_fnc_initGroup;
     };
 
+    call SQFB_fnc_updateAllUnits;
+
     // Name sounds
     {[_x] call SQFB_fnc_setNameSound} forEach _units;
     [SQFB_player] call SQFB_fnc_setNameSound;
