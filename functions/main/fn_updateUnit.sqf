@@ -149,13 +149,6 @@ if (_engi) then {
     _unit setVariable ["SQFB_engi", true];
 };
 
-// - Hacker
-private _hacker = _unit getUnitTrait "UavHacker" && !_SOGunit; // Don't report SOG units as hackers. Because for some reason all of them are. In Nam.
-if (_hacker) then {
-    _roles pushBack localize "STR_SQFB_HUD_roles_Hacker";
-    _unit setVariable ["SQFB_hacker", true];
-};
-
 // Primary weapon check
 private _primWep = toLowerAnsi (primaryWeapon _unit);
 private _hasPrimWep = _primWep != "";
@@ -347,6 +340,13 @@ if (count _roles == 0 && _hasPrimWep) then {
         _unit setVariable ["SQFB_rifle", true];
         _primWepRole = true;
     };
+};
+
+// - Hacker
+private _hacker = _unit getUnitTrait "UavHacker" && !_SOGunit; // Don't report SOG units as hackers. Because for some reason all of them are. In Nam.
+if (_hacker) then {
+    _roles pushBack localize "STR_SQFB_HUD_roles_Hacker";
+    _unit setVariable ["SQFB_hacker", true];
 };
 
 // Other
